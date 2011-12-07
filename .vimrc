@@ -9,7 +9,9 @@ augroup MyVimrcCmd
     autocmd!
 augroup END
 
-if has('win32') || has('win64')
+let s:MSWindows = has('win95') + has('win16') + has('win32') + has('win64')
+
+if s:MSWindows
     let $DOTVIM = expand($VIM . '/vimfiles')
 else
     let $DOTVIM = expand('~/.vim')
@@ -30,6 +32,98 @@ nnoremap <Space>o/ :<C-u>setlocal shellslash!\|setlocal shellslash?<CR>
 set noautochdir
 nnoremap <Space>oc :<C-u>setlocal autochdir!\|setlocal autochdir?<CR>
 
+"---------------------------------------------------------------------------
+" Encoding:"{{{
+"
+if !has('gui_running') && s:MSWindows
+    set termencoding=cp932
+    set encoding=cp932
+else
+    set encoding=utf-8
+endif
+
+"fileencodingsをデフォルトに戻す。
+if &encoding == 'utf-8'
+    set fileencodings=ucs-bom,utf-8,default,latin1
+elseif &encoding == 'cp932'
+    set fileencodings=ucs-bom
+endif
+
+" 文字コード自動認識のためにfileencodingsを設定する
+if &encoding !=# 'utf-8'
+    set encoding=japan
+    set fileencoding=japan
+endif
+if has('iconv')
+    let s:enc_euc = 'euc-jp'
+    let s:enc_jis = 'iso-2022-jp'
+    " iconvがeucJP-msに対応しているかをチェック
+    if iconv("\x87\x64\x87\x6a", 'cp932', 'eucjp-ms') ==# "\xad\xc5\xad\xcb"
+        let s:enc_euc = 'eucjp-ms'
+        let s:enc_jis = 'iso-2022-jp-3'
+    " iconvがJISX0213に対応しているかをチェック
+    elseif iconv("\x87\x64\x87\x6a", 'cp932', 'euc-jisx0213') ==# "\xad\xc5\xad\xcb"
+        let s:enc_euc = 'euc-jisx0213'
+        let s:enc_jis = 'iso-2022-jp-3'
+    endif
+    " fileencodingsを構築
+    if &encoding ==# 'utf-8'
+        let s:fileencodings_default = &fileencodings
+        let &fileencodings = s:enc_jis .','. s:enc_euc .',cp932'
+        let &fileencodings = &fileencodings .','. s:fileencodings_default
+        unlet s:fileencodings_default
+    else
+        let &fileencodings = &fileencodings .','. s:enc_jis
+        set fileencodings+=utf-8,ucs-2le,ucs-2
+        if &encoding =~# '^\(euc-jp\|euc-jisx0213\|eucjp-ms\)$'
+            set fileencodings+=cp932
+            set fileencodings-=euc-jp
+            set fileencodings-=euc-jisx0213
+            set fileencodings-=eucjp-ms
+            let &encoding = s:enc_euc
+            let &fileencoding = s:enc_euc
+        else
+            let &fileencodings = &fileencodings .','. s:enc_euc
+        endif
+    endif
+    "utf-8優先にする
+    if &encoding == 'utf-8'
+        set fileencodings-=utf-8
+        let &fileencodings = substitute(&fileencodings, s:enc_jis, s:enc_jis.',utf-8','')
+    endif
+    " 定数を処分
+    unlet s:enc_euc
+    unlet s:enc_jis
+endif
+
+" 改行コードの自動認識
+set fileformats=dos,unix,mac
+
+" 日本語を含まない場合は fileencoding に encoding を使うようにする
+if has('autocmd')
+    function! AU_ReCheck_FENC()
+        if &fileencoding =~# 'iso-2022-jp' && search("[^\x01-\x7e]", 'n') == 0
+            let &fileencoding=&encoding
+            if s:MSWindows
+                let &fileencoding='cp932'
+            endif
+        endif
+    endfunction
+    autocmd BufReadPost MyVimrcCmd * call AU_ReCheck_FENC()
+endif
+
+" Windowsで内部エンコーディングを cp932以外にしていて、
+" 環境変数に日本語を含む値を設定したい場合に使用する
+command! -nargs=+ Let call Let__EnvVar__(<q-args>)
+function! Let__EnvVar__(cmd)
+    let cmd = 'let ' . a:cmd
+    if has('win32') + has('win64') && has('iconv') && &enc != 'cp932'
+        let cmd = iconv(cmd, &enc, 'cp932')
+    endif
+    exec cmd
+endfunction
+"}}}
+"
 "---------------------------------------------------------------------------
 " Kaoriya:"{{{
 "
@@ -407,6 +501,12 @@ set grepprg=grep\ -nH
 au MyVimrcCmd QuickfixCmdPost make,grep,grepadd,vimgrep,helpgrep copen
 au MyVimrcCmd QuickfixCmdPost l* lopen
 "}}}
+" あらゆる言語に対してキーワードの補完を有効にする{{{
+autocmd MyVimrcCmd FileType *
+\   if &l:omnifunc == ''
+\ |   setlocal omnifunc=syntaxcomplete#Complete
+\ | endif
+"}}}
 "}}}
 
 "---------------------------------------------------------------------------
@@ -697,12 +797,12 @@ let g:ref_pydoc_cmd = "python -m pydoc"
 
 " ALC
 "let g:ref_alc_cmd = 'w3m -dump %s'
-"let g:ref_alc_use_cache = 1
+let g:ref_alc_use_cache = 0
 let g:ref_alc_start_linenumber = 39 " 余計な行を読み飛ばす
-"let g:ref_alc_encoding = 'UTF-8'    " イマイチよく分かってない
-"let g:ref_cache_dir = 'g:\cache\'   " ローカルにキャッシュ
+if s:MSWindows
+    let g:ref_alc_encoding = 'cp932'
+endif
 if exists('*ref#register_detection')
-	" filetypeが分からんならalc
 	call ref#register_detection('_', 'alc')
 endif
 "}}}
@@ -989,6 +1089,28 @@ nnoremap <Space>gv :<C-u>Gitv<CR>
 "---------------------------------------------------------------------------
 " Functions:"{{{
 "
+" TabpageCD"{{{
+command! -bar -complete=dir -nargs=?
+      \   CD
+      \   TabpageCD <args>
+command! -bar -complete=dir -nargs=?
+      \   TabpageCD
+      \   execute 'cd' fnameescape(expand(<q-args>))
+      \   | let t:cwd = getcwd()
+
+autocmd MyVimrcCmd TabEnter *
+      \   if exists('t:cwd') && !isdirectory(t:cwd)
+      \ |     unlet t:cwd
+      \ | endif
+      \ | if !exists('t:cwd')
+      \ |   let t:cwd = getcwd()
+      \ | endif
+      \ | execute 'cd' fnameescape(expand(t:cwd))
+
+" Exchange ':cd' to ':TabpageCD'.
+cnoreabbrev <expr> cd (getcmdtype() == ':' && getcmdline() ==# 'cd') ? 'TabpageCD' : 'cd'
+"}}}
+
 " 開いているファイルのディレクトリに移動する{{{
 command! -nargs=? -complete=dir -bang CD  call s:ChangeCurrentDir('<args>', '<bang>') 
 function! s:ChangeCurrentDir(directory, bang)
