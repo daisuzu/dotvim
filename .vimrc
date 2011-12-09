@@ -172,8 +172,6 @@ try
 
     NeoBundle 'vim-jp/vimdoc-ja'
 
-    NeoBundle 'gmarik/vundle'
-
     NeoBundle 'tpope/vim-surround'
     NeoBundle 'tpope/vim-fugitive'
 
@@ -297,155 +295,6 @@ try
     NeoBundle 'thermometer'
 
     NeoBundle 'Color-Sampler-Pack'
-catch /E117/
-    
-endtry
-"}}}
-"---------------------------------------------------------------------------
-" vundle:"{{{
-"
-if has('vim_starting')
-    set runtimepath+=$DOTVIM/Bundle/vundle/
-endif
-
-try
-    call vundle#rc($DOTVIM . '/Bundle')    
-    Bundle 'Shougo/neobundle.vim'
-    Bundle 'Shougo/neocomplcache'
-    Bundle 'Shougo/clang_complete'
-    Bundle 'Shougo/vimfiler'
-    Bundle 'Shougo/unite.vim'
-    Bundle 'Shougo/unite-build'
-    Bundle 'Shougo/vimproc'
-    Bundle 'Shougo/vimshell'
-
-    Bundle 'vim-jp/vimdoc-ja'
-
-    Bundle 'gmarik/vundle'
-
-    Bundle 'tpope/vim-surround'
-    Bundle 'tpope/vim-fugitive'
-
-    Bundle 'gregsexton/gitv'
-
-    Bundle 'thinca/vim-visualstar'
-    Bundle 'thinca/vim-qfreplace'
-    Bundle 'thinca/vim-ref'
-    Bundle 'thinca/vim-logcat'
-    Bundle 'thinca/vim-quickrun'
-    Bundle 'thinca/vim-prettyprint'
-    Bundle 'thinca/vim-editvar'
-
-    Bundle 'dannyob/quickfixstatus'
-
-    Bundle 'jceb/vim-hier'
-
-    "Bundle 't9md/vim-quickhl'
-    Bundle 't9md/vim-textmanip'
-
-    Bundle 'fuenor/qfixhowm'
-
-    Bundle 'hsitz/VimOrganizer'
-
-    Bundle 'scrooloose/nerdtree'
-
-    Bundle 'abudden/TagHighlight'
-
-    Bundle 'tomtom/tcommand_vim'
-
-    Bundle 'alfredodeza/pytest.vim'
-
-    Bundle 'sjl/gundo.vim'
-
-    Bundle 'ujihisa/neco-ghc'
-    Bundle 'ujihisa/unite-colorscheme'
-
-    Bundle 'sgur/unite-qf'
-
-    Bundle 'h1mesuke/unite-outline'
-
-    Bundle 'tsukkee/unite-help'
-    Bundle 'tsukkee/unite-tag'
-
-    Bundle 'tacroe/unite-mark'
-
-    Bundle 'pangloss/vim-javascript'
-
-    Bundle 'tyru/operator-camelize.vim'
-
-    Bundle 'klen/python-mode'
-
-    Bundle 'Takazudo/outline.vim'
-
-    Bundle 'nathanaelkane/vim-indent-guides'
-
-    Bundle 'gregsexton/VimCalc'
-
-    Bundle 'kien/rainbow_parentheses.vim'
-
-    Bundle 'Lokaltog/vim-easymotion'
-
-    Bundle 'h1mesuke/vim-alignta'
-
-    Bundle 'altercation/vim-colors-solarized'
-
-    Bundle 'git://repo.or.cz/vcscommand'
-
-    Bundle 'a.vim'
-    "Bundle 'ACScope'
-    Bundle 'Align'
-    Bundle 'AnsiEsc.vim'
-    Bundle 'BlockDiff'
-    Bundle 'c.vim'
-    Bundle 'CCTree'
-    Bundle 'cecutil'
-    Bundle 'copypath.vim'
-    "Bundle 'CRefVim'
-    Bundle 'cscope-menu'
-    "Bundle 'cscope-quickfix'
-    Bundle 'diffchanges.vim'
-    Bundle 'DirDiff.vim'
-    Bundle 'DoxygenToolkit.vim'
-    Bundle 'DrawIt'
-    Bundle 'errormarker.vim'
-    Bundle 'foldsearch'
-    Bundle 'format.vim'
-    Bundle 'multvals.vim'
-    Bundle 'MultipleSearch'
-    "Bundle 'MultipleSearch2.vim'
-    Bundle 'matchparenpp'
-    Bundle 'matchit.zip'
-    Bundle 'Marks-Browser'
-    Bundle 'gtags.vim'
-    Bundle 'occur.vim'
-    Bundle 'operator-user'
-    Bundle 'perl-support.vim'
-    Bundle 'project.tar.gz'
-    Bundle 'RST-Tables'
-    Bundle 'histwin.vim'
-    Bundle 'pydoc.vim'
-    Bundle 'XPstatusline'
-    Bundle 'Source-Explorer-srcexpl.vim'
-    Bundle 'trinity.vim'
-    Bundle 'ShowMultiBase'
-    Bundle 'ttoc'
-    Bundle 'tlib'
-    Bundle 'taglist.vim'
-    Bundle 'tagexplorer.vim'
-    "Bundle 'Vim-JDE'
-    Bundle 'VOoM'
-    Bundle 'wokmarks.vim'
-    Bundle 'L9'
-    "Bundle 'QuickBuf'
-    Bundle 'sequence'
-    Bundle 'Tabbi'
-    Bundle 'ttags'
-    Bundle 'csv.vim'
-    "Bundle 'highlight.vim'
-    Bundle 'Search-unFold'
-    Bundle 'thermometer'
-
-    Bundle 'Color-Sampler-Pack'
 catch /E117/
     
 endtry
@@ -1112,19 +961,19 @@ cnoreabbrev <expr> cd (getcmdtype() == ':' && getcmdline() ==# 'cd') ? 'TabpageC
 "}}}
 
 " 開いているファイルのディレクトリに移動する{{{
-command! -nargs=? -complete=dir -bang CD  call s:ChangeCurrentDir('<args>', '<bang>') 
+command! -nargs=? -complete=dir -bang TCD  call s:ChangeCurrentDir('<args>', '<bang>') 
 function! s:ChangeCurrentDir(directory, bang)
     if a:directory == ''
-        lcd %:p:h
+        TabpageCD %:p:h
     else
-        execute 'lcd' . a:directory
+        execute 'TabpageCD' . a:directory
     endif
 
     if a:bang == ''
         pwd
     endif
 endfunction}}}
-nnoremap <silent> <Space>cd :<C-u>CD<CR>
+nnoremap <silent> <Space>cd :<C-u>TCD<CR>
 
 " LoadRope() "ropevim{{{
 let loaded_ropevim = 0
