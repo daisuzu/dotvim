@@ -148,7 +148,7 @@ noremap <M-i> <C-X>
 "}}}
 
 "---------------------------------------------------------------------------
-" LoadPlugin:"{{{
+" Load Plugins:"{{{
 "
 filetype plugin indent off
 
@@ -500,513 +500,7 @@ nmap <ESC><ESC> :nohlsearch<CR><ESC>
 "}}}
 
 "---------------------------------------------------------------------------
-" KeyMap:"{{{
-"
-"ファイラー呼び出し
-map <F8> :NERDTreeToggle<CR>
-map <S-F8> :VimFilerSimple -no-quit -winwidth=32<CR>
-
-"マーク一覧呼び出し
-map <F7> :MarksBrowser<CR>
-
-"Taglist呼び出し
-map <F6> :TagExplorer<CR>
-
-"バッファ一覧呼び出し
-map <F5> :Unite buffer<CR>
-
-map <F4> :NeoComplCacheEnable<CR>
-map <S-F4> :NeoComplCacheDisable<CR>
-
-" 最後に編集された位置に移動
-nnoremap gb '[
-nnoremap gp ']
-
-" 最後に変更されたテキストを選択する
-nnoremap gc  `[v`]
-vnoremap gc ;<C-u>normal gc<Enter>
-onoremap gc ;<C-u>normal gc<Enter>
-
-" コメント/コメントアウト設定{{{
-" lhs comments
-vmap ,# :s/^/#/<CR>:nohlsearch<CR>
-vmap ,/ :s/^/\/\//<CR>:nohlsearch<CR>
-vmap ,> :s/^/> /<CR>:nohlsearch<CR>
-vmap ," :s/^/\"/<CR>:nohlsearch<CR>
-vmap ,% :s/^/%/<CR>:nohlsearch<CR>
-vmap ,! :s/^/!/<CR>:nohlsearch<CR>
-vmap ,; :s/^/;/<CR>:nohlsearch<CR>
-vmap ,- :s/^/--/<CR>:nohlsearch<CR>
-vmap ,c :s/^\/\/\\|^--\\|^> \\|^[#"%!;]//<CR>:nohlsearch<CR>
-
-" wrapping comments
-vmap ,* :s/^\(.*\)$/\/\* \1 \*\//<CR>:nohlsearch<CR>
-vmap ,( :s/^\(.*\)$/\(\* \1 \*\)/<CR>:nohlsearch<CR>
-vmap ,< :s/^\(.*\)$/<!-- \1 -->/<CR>:nohlsearch<CR>
-vmap ,d :s/^\([/(]\*\\|<!--\) \(.*\) \(\*[/)]\\|-->\)$/\2/<CR>:nohlsearch<CR>
-
-" block comments
-vmap ,b v`<I<CR><esc>k0i/*<ESC>`>j0i*/<CR><esc><ESC>
-vmap ,h v`<I<CR><esc>k0i<!--<ESC>`>j0i--><CR><esc><ESC>
-"}}}
-"}}}
-
-"---------------------------------------------------------------------------
-" Plugins:"{{{
-"
-"---------------------------------------------------------------------------
-" 2html.vim:"{{{
-"
-let g:html_number_lines = 0
-let g:html_dynamic_folds = 1
-"let g:html_hover_unfold = 1
-"}}}
-"---------------------------------------------------------------------------
-" qfixhown.vim:"{{{
-"
-"キーマップリーダー
-let QFixHowm_Key = 'g'
-let QFixHowm_KeyB = ','
-"howm_dirはファイルを保存したいディレクトリを設定。
-let howm_dir             = $DOTVIM.'/howm'
-let howm_filename        = '%Y/%m/%Y-%m-%d-%H%M%S.howm'
-let howm_fileencoding    = 'utf-8'
-let howm_fileformat      = 'dos'
-"}}}
-"---------------------------------------------------------------------------
-" qfixgrep.vim:"{{{
-"
-"Quickfixウィンドウでプレビューを有効にする。
-let QFix_PreviewEnable    = 0
-"ハイスピードプレビューを有効にする
-let QFix_HighSpeedPreview = 0
-"プレビューをQFixGrep、QFixHowm以外でも有効にする
-let QFix_DefaultPreview   = 0
-"プレビュー対象外ファイルの指定
-let QFix_PreviewExclude = '\.pdf$\|\.mp3$\|\.jpg$\|\.bmp$\|\.png$\|\.zip$\|\.rar$\|\.exe$\|\.dll$\|\.lnk$'
-
-"Quickfixウィンドウの開き方指定
-let QFix_CopenCmd = ''
-"Quickfixウィンドウの高さ
-let QFix_Height = 10
-"Quickfixウィンドウの幅
-let QFix_Width = 0
-"プレビューウィンドウの高さ
-set previewheight=12
-"プレビューウィンドウの高さ(previewheightを使用したくない場合)
-let QFix_PreviewHeight = 12
-"カレントウィンドウの最低幅
-set winwidth=20
-"ファイルを開いたウィンドウの最低高さ。
-let QFix_WindowHeightMin = 0
-"プレビューウィンドウの開き方指定
-let QFix_PreviewOpenCmd = ''
-" プレビューウィンドウの横幅指定
-let QFix_PreviewWidth  = 0
-
-"QuickfixウィンドウサイズをQFix_HeightDefaultに固定する/しない。
-"QFix_HeightDefaultは無指定なら、起動時にQFix_Heightに設定される。
-let QFix_HeightFixMode         = 0
-
-"Quickfixウィンドウから開いた後ウィンドウを閉じる/閉じない。
-let QFix_CloseOnJump           = 0
-"Quickfixウィンドウの <S-CR> は分割ではなくタブで開くには 'tab'に設定する。
-let QFix_Edit = ''
-
-"Quickfixウィンドウのプレビューでfiletypeのハイライトを有効にする。
-"環境やファイルサイズによっては重くなるので、その場合はOFFにしてください。
-let QFix_PreviewFtypeHighlight = 1
-"カーソルラインを表示する
-let QFix_CursorLine            = 1
-"プレビュー画面のカーソルラインを表示する
-let QFix_PreviewCursorLine     = 1
-"アンダーラインにしたい場合は次のようにハイライトを設定する。
-"hi CursorLine guifg=NONE guibg=NONE gui=underline
-
-"Quickfixウィンドウの属性
-let QFix_Copen_winfixheight = 1
-let QFix_Copen_winfixwidth  = 1
-"previewウィンドウの属性
-let QFix_Preview_winfixheight = 1
-let QFix_Preview_winfixwidth  = 1
-
-"grepの対象にしたくないファイル名の正規表現
-let MyGrep_ExcludeReg = '[~#]$\|\.bak$\|\.o$\|\.obj$\|\.exe$\|[/\\]tags$\|[/\\]svn[/\\]\|[/\\]\.git[/\\]\|[/\\]\.hg[/\\]'
-"使用するgrepの指定。
-let mygrepprg = 'grep'
-"外部grep(shell)のエンコードを指定する。
-let MyGrep_ShellEncoding      = 'cp932'
-"「だめ文字」対策を有効/無効
-let MyGrep_Damemoji           = 2
-"「だめ文字」を置き換える正規表現
-let MyGrep_DamemojiReplaceReg = '(..)'
-"「だめ文字」を自分で追加指定したい場合は正規表現で指定する。
-let MyGrep_DamemojiReplace    = '[]'
-"yagrepのマルチバイトオプション
-let MyGrep_yagrep_opt = 0
-
-"ユーザ定義可能な追加オプション
-let MyGrepcmd_useropt = ''
-
-"Grepコマンドのキーマップ
-"let MyGrep_Key  = 'g'
-"Grepコマンドの2ストローク目キーマップ
-"let MyGrep_KeyB = ','
-
-"QFixGrepの検索時にカーソル位置の単語を拾う/拾わない
-let MyGrep_DefaultSearchWord = 1
-
-"gvimのメニューバーに登録する/しない
-let MyGrep_MenuBar = 3
-"}}}
-"---------------------------------------------------------------------------
-" indent-guides.vim:"{{{
-"
-"let g:indent_guides_indent_levels = 30
-let g:indent_guides_auto_colors = 1
-"let g:indent_guides_color_change_percent = 10
-let g:indent_guides_guide_size = 1
-let g:indent_guides_start_level = 2
-"let g:indent_guides_space_guides = 0
-let g:indent_guides_enable_on_vim_startup = 0
-"}}}
-"---------------------------------------------------------------------------
-" textmanip.vim:"{{{
-"
-"" 選択したテキストの移動
-xmap <C-j> <Plug>(textmanip-move-down)
-xmap <C-k> <Plug>(textmanip-move-up)
-xmap <C-h> <Plug>(textmanip-move-left)
-xmap <C-l> <Plug>(textmanip-move-right)
-"" 行の複製
-xmap <M-d> <Plug>(textmanip-duplicate-down)
-nmap <M-d> <Plug>(textmanip-duplicate-down)
-xmap <M-D> <Plug>(textmanip-duplicate-up)
-nmap <M-D> <Plug>(textmanip-duplicate-up)
-"}}}
-"---------------------------------------------------------------------------
-" tcommand.vim:"{{{
-"
-noremap <Leader>: :TCommand<CR>
-"}}}
-"---------------------------------------------------------------------------
-" marksbrowser.vim:"{{{
-"
-let marksCloseWhenSelected = 0
-"}}}
-"---------------------------------------------------------------------------
-" align.vim:"{{{
-"
-let g:Align_xstrlen = 3
-"}}}
-"---------------------------------------------------------------------------
-" multiplesearch.vim:"{{{
-"
-let g:MultipleSearchMaxColors=13
-let g:MultipleSearchColorSequence="red,yellow,blue,green,magenta,lightred,cyan,lightyellow,gray,brown,lightblue,darkmagenta,darkcyan"
-let g:MultipleSearchTextColorSequence="white,black,white,black,white,black,black,black,black,white,black,white,white"
-"}}}
-"---------------------------------------------------------------------------
-" vim-ref.vim:"{{{
-"
-let g:ref_cache_dir = $DOTVIM.'/.vim_ref_cache'
-
-" Python
-let g:ref_pydoc_cmd = "python -m pydoc"
-
-" ALC
-"let g:ref_alc_cmd = 'w3m -dump %s'
-let g:ref_alc_use_cache = 0
-let g:ref_alc_start_linenumber = 39 " 余計な行を読み飛ばす
-if s:MSWindows
-    let g:ref_alc_encoding = 'cp932'
-endif
-if exists('*ref#register_detection')
-	call ref#register_detection('_', 'alc')
-endif
-"}}}
-"---------------------------------------------------------------------------
-" neocomplcache.vim:"{{{
-"
-" Disable AutoComplPop.
-let g:acp_enableAtStartup = 0
-" Use neocomplcache.
-let g:neocomplcache_enable_at_startup = 1
-" Use smartcase.
-let g:neocomplcache_enable_smart_case = 1
-" Use camel case completion.
-let g:neocomplcache_enable_camel_case_completion = 1
-" Use underbar completion.
-let g:neocomplcache_enable_underbar_completion = 1
-" Set minimum syntax keyword length.
-let g:neocomplcache_min_syntax_length = 3
-let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
-
-" Disable caching buffer name
-let g:neocomplcache_disable_caching_file_path_pattern = '\.ref\|\.txt'
-let g:neocomplcache_temporary_dir = $DOTVIM.'/.neocon'
-
-" Define dictionary.
-let g:neocomplcache_dictionary_filetype_lists = {
-  \ 'default' : $DOTVIM.'/.neo_default',
-  \ 'vimshell' : $DOTVIM.'/.vimshell_hist',
-  \ 'scheme' : $DOTVIM.'/.gosh_completions'
-        \ }
-
-" Define keyword.
-if !exists('g:neocomplcache_keyword_patterns')
-    let g:neocomplcache_keyword_patterns = {}
-endif
-let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
-
-try
-    call neocomplcache#is_enabled()
-    " Plugin key-mappings.
-    imap <C-k>     <Plug>(neocomplcache_snippets_expand)
-    smap <C-k>     <Plug>(neocomplcache_snippets_expand)
-    inoremap <expr><C-g>     neocomplcache#undo_completion()
-    inoremap <expr><C-l>     neocomplcache#complete_common_string()
-
-    " SuperTab like snippets behavior.
-    "imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
-
-    " Recommended key-mappings.
-    " <CR>: close popup and save indent.
-    inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
-    " <TAB>: completion.
-    inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-    " <C-h>, <BS>: close popup and delete backword char.
-    inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
-    inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-    inoremap <expr><C-y>  neocomplcache#close_popup()
-    inoremap <expr><C-e>  neocomplcache#cancel_popup()
-
-    " For cursor moving in insert mode(Not recommended)
-    "inoremap <expr><Left> neocomplcache#close_popup() . "\<Left>"
-    "inoremap <expr><Right> neocomplcache#close_popup() . "\<Right>"
-    "inoremap <expr><Up> neocomplcache#close_popup() . "\<Up>"
-    "inoremap <expr><Down> neocomplcache#close_popup() . "\<Down>"
-
-    " AutoComplPop like behavior.
-    "let g:neocomplcache_enable_auto_select = 1
-
-    " Shell like behavior(not recommended).
-    "set completeopt&
-    "set completeopt+=longest
-    "let g:neocomplcache_enable_auto_select = 1
-    "let g:neocomplcache_disable_auto_complete = 1
-    "inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<TAB>"
-    "inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
-catch /E117/
-    
-endtry
-
-" Enable omni completion.
-autocmd MyVimrcCmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd MyVimrcCmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd MyVimrcCmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd MyVimrcCmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd MyVimrcCmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-
-" Enable heavy omni completion.
-if !exists('g:neocomplcache_omni_patterns')
-    let g:neocomplcache_omni_patterns = {}
-endif
-let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
-"autocmd MyVimrcCmd FileType ruby setlocal omnifunc=rubycomplete#Complete
-let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
-let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
-
-if !exists('g:neocomplcache_include_paths')
-    let g:neocomplcache_include_paths = {}
-endif
-let g:neocomplcache_include_paths.c = "C:/MinGW/lib/gcc/mingw32/4.5.2/include"
-let g:neocomplcache_include_paths.cpp = "C:/MinGW/lib/gcc/mingw32/4.5.2/include/c++,C:/boost_1_47_0"
-"}}}
-"---------------------------------------------------------------------------
-" clang_complete.vim:"{{{
-"
-" Use clang dll.
-let g:neocomplcache_clang_use_library = 1
-"let g:neocomplcache_clang_library_path='C:/GnuWin32/bin'
-" More user include path.
-let g:neocomplcache_clang_user_options =
-\ '-I C:/MinGW/lib/gcc/mingw32/4.5.2/include '.
-\ '-I C:/MinGW/lib/gcc/mingw32/4.5.2/include/c++ '.
-\ '-I C:/Program\ Files/Microsoft\ Visual\ Studio\ 9.0/VC/include '.
-\ '-I C:/Program\ Files/Microsoft\ SDKs/Windows/v6.0A/Include '.
-\ '-I C:/boost_1_47_0 '.
-\ '-fms-extensions -fgnu-runtime '.
-\ '-include malloc.h '
-" More neocomplcache candidates.
-let g:neocomplcache_max_list = 1000
-"}}}
-"---------------------------------------------------------------------------
-" unite.vim:"{{{
-"
-" The prefix key.
-nnoremap    [unite]   <Nop>
-nmap    f [unite]
-
-nnoremap <silent> [unite]a  :<C-u>Unite -prompt=#\  buffer bookmark file_mru file<CR>
-nnoremap <silent> [unite]b  :<C-u>UniteWithBufferDir -buffer-name=files -prompt=%\  buffer bookmark file_mru file<CR>
-nnoremap <silent> [unite]c  :<C-u>UniteWithCurrentDir -buffer-name=files buffer bookmark file_mru file<CR>
-nnoremap <silent> [unite]r  :<C-u>Unite -buffer-name=register register<CR>
-nnoremap <silent> [unite]o  :<C-u>Unite outline<CR>
-nnoremap <silent> [unite]h  :<C-u>UniteWithCursorWord help<CR>
-nnoremap  [unite]f  :<C-u>Unite source<CR>
-
-" Start insert.
-let g:unite_enable_start_insert = 1
-
-autocmd MyVimrcCmd FileType unite call s:unite_my_settings()
-function! s:unite_my_settings()"{{{
-  " Overwrite settings.
-
-  nmap <buffer> <ESC>      <Plug>(unite_exit)
-  imap <buffer> jj      <Plug>(unite_insert_leave)
-  "imap <buffer> <C-w>     <Plug>(unite_delete_backward_path)
-
-  " <C-l>: manual neocomplcache completion.
-  inoremap <buffer> <C-l>  <C-x><C-u><C-p><Down>
-
-endfunction"}}}
-
-let g:unite_source_file_mru_limit = 200
-
-" For optimize.
-let g:unite_source_file_mru_filename_format = ''
-
-let g:unite_data_directory = $DOTVIM.'/.unite'
-"}}}
-"---------------------------------------------------------------------------
-" vimfiler.vim:"{{{
-"
-" Edit file by tabedit.
-let g:vimfiler_edit_action = 'tabopen'
-
-let g:vimfiler_as_default_explorer = 0
-
-" Enable file operation commands.
-let g:vimfiler_safe_mode_by_default = 0
-
-let g:vimfiler_data_directory = $DOTVIM.'/.vimfiler'
-
-let g:vimfiler_execute_file_list={'txt': 'vim',
-            \'vim': 'vim'}
-"}}}
-"---------------------------------------------------------------------------
-" vimshell.vim:"{{{
-"
-"let g:vimshell_interactive_encodings = {'gosh': 'cp932'}
-let g:vimshell_temporary_directory = $DOTVIM.'/.vimshell'
-let g:vimshell_vimshrc_path = $DOTVIM.'/.vimshell/.vimshrc'
-"}}}
-"---------------------------------------------------------------------------
-" vimproc.vim:"{{{
-"
-map <S-F6> <ESC>:call vimproc#system("ctags -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q")<CR>
-"}}}
-"---------------------------------------------------------------------------
-" errormarker.vim:"{{{
-"
-let errormarker_disablemappings = 1
-"}}}
-"---------------------------------------------------------------------------
-" python-mode.vim:"{{{
-"
-let g:pymode_lint_write = 0
-let g:pydoc = "python -m pydoc"
-"}}}
-"---------------------------------------------------------------------------
-" srcexpl.vim:"{{{
-"
-" // The switch of the Source Explorer                                         "
-" nmap <F8> :SrcExplToggle<CR>
-"                                                                              "
-" // Set the height of Source Explorer window                                  "
- let g:SrcExpl_winHeight = 8
-"                                                                              "
-" // Set 100 ms for refreshing the Source Explorer                             "
- let g:SrcExpl_refreshTime = 100
-"                                                                              "
-" // Set "Enter" key to jump into the exact definition context                 "
- let g:SrcExpl_jumpKey = "<ENTER>"
-"                                                                              "
-" // Set "Space" key for back from the definition context                      "
- let g:SrcExpl_gobackKey = "<SPACE>"
-"                                                                              "
-" // In order to Avoid conflicts, the Source Explorer should know what plugins "
-" // are using buffers. And you need add their bufname into the list below     "
-" // according to the command ":buffers!"                                      "
- let g:SrcExpl_pluginList = [
-         \ "__Tag_List__",
-         \ "_NERD_tree_",
-         \ "Source_Explorer"
-     \ ]
-"                                                                              "
-" // Enable/Disable the local definition searching, and note that this is not  "
-" // guaranteed to work, the Source Explorer doesn't check the syntax for now. "
-" // It only searches for a match with the keyword according to command 'gd'   "
- let g:SrcExpl_searchLocalDef = 1
-"                                                                              "
-" // Do not let the Source Explorer update the tags file when opening          "
- let g:SrcExpl_isUpdateTags = 0
-"                                                                              "
-" // Use 'Exuberant Ctags' with '--sort=foldcase -R .' or '-L cscope.files' to "
-" //  create/update a tags file                                                "
- let g:SrcExpl_updateTagsCmd = "ctags --sort=foldcase -R ."
-"                                                                              "
-" // Set "<F12>" key for updating the tags file artificially                   "
-" let g:SrcExpl_updateTagsKey = "<F12>"
-"}}}
-"---------------------------------------------------------------------------
-" gtags.vim:"{{{
-"
-nmap <Leader>gs :Gtags -s <C-R>=expand("<cword>")<CR><CR>	
-nmap <Leader>gg :Gtags -g <C-R>=expand("<cword>")<CR><CR>	
-nmap <Leader>gf :Gtags -f <C-R>=expand("<cfile>")<CR><CR>	
-nmap <Leader>gr :Gtags -r <C-R>=expand("<cword>")<CR><CR>	
-"}}}
-"---------------------------------------------------------------------------
-" qfreplace.vim:"{{{
-"
-"if !exists('b:undo_ftplugin')
-"    let b:undo_ftplugin = ''
-"endif
-"let b:undo_ftplugin .= '| execute "delcommand Qfreplace"'
-
-command! -nargs=? -buffer Qfreplace call qfreplace#start(<q-args>)
-au MyVimrcCmd Bufenter * command! -nargs=? -buffer Qfreplace call qfreplace#start(<q-args>)
-"}}}
-"---------------------------------------------------------------------------
-" perl-support.vim:"{{{
-"
-let g:Perl_Debugger = "ptkdb"
-"}}}
-"---------------------------------------------------------------------------
-" project.vim:"{{{
-"
-let g:proj_flags = "imstc"
-nmap <silent> <Leader>P <Plug>ToggleProject
-"}}}
-"---------------------------------------------------------------------------
-" fugitive.vim:"{{{
-"
-nnoremap <Space>gd :<C-u>Gdiff<CR>
-nnoremap <Space>gs :<C-u>Gstatus<CR>
-nnoremap <Space>gl :<C-u>Glog<CR>
-nnoremap <Space>ga :<C-u>Gwrite<CR>
-nnoremap <Space>gc :<C-u>Gcommit<CR>
-nnoremap <Space>gC :<C-u>Git commit --amend<CR>
-nnoremap <Space>gb :<C-u>Gblame<CR>
-nnoremap <Space>gv :<C-u>Gitv<CR>
-"}}}
-"}}}
-
-"---------------------------------------------------------------------------
-" Functions:"{{{
+"  Utilities:"{{{
 "
 " TabpageCD"{{{
 command! -bar -complete=dir -nargs=?
@@ -1044,6 +538,37 @@ function! s:ChangeCurrentDir(directory, bang)
     endif
 endfunction}}}
 nnoremap <silent> <Space>cd :<C-u>TCD<CR>
+
+" WinMerge keybind in vimdiff "{{{
+nnoremap <A-Up> [c
+nnoremap <A-Down> ]c
+function! DiffGet() "{{{
+    try
+        execute 'diffget'
+    catch/E101/
+        execute 'diffget //2'
+    endtry
+    call SetDiffupdateMap()
+endfunction "}}}
+nnoremap <A-Right> :<C-u>call DiffGet()<CR>
+function! DiffPut() "{{{
+    try
+        execute 'diffput'
+    catch/E101/
+        execute 'diffget //3'
+    endtry
+    call SetDiffupdateMap()
+endfunction "}}}
+nnoremap <A-Left> :<C-u>call DiffPut()<CR>
+function! SetDiffupdateMap() "{{{
+    if &diff
+        nnoremap <F5> :<C-u>diffupdate<CR>
+    else
+        nnoremap <F5> :<C-u>Unite buffer<CR>
+    endif
+endfunction "}}}
+au MyVimrcCmd BufEnter * call SetDiffupdateMap()
+"}}}
 
 " LoadRope() "ropevim{{{
 let loaded_ropevim = 0
@@ -1403,6 +928,549 @@ if has("cscope")
     "set ttimeoutlen=100
 
 endif
+"}}}
+"}}}
+
+"---------------------------------------------------------------------------
+" Plugins:"{{{
+"
+"---------------------------------------------------------------------------
+" 2html.vim:"{{{
+"
+let g:html_number_lines = 0
+let g:html_dynamic_folds = 1
+"let g:html_hover_unfold = 1
+"}}}
+"---------------------------------------------------------------------------
+" qfixhown.vim:"{{{
+"
+"キーマップリーダー
+let QFixHowm_Key = 'g'
+let QFixHowm_KeyB = ','
+"howm_dirはファイルを保存したいディレクトリを設定。
+let howm_dir             = $DOTVIM.'/howm'
+let howm_filename        = '%Y/%m/%Y-%m-%d-%H%M%S.howm'
+let howm_fileencoding    = 'utf-8'
+let howm_fileformat      = 'dos'
+"}}}
+"---------------------------------------------------------------------------
+" qfixgrep.vim:"{{{
+"
+"Quickfixウィンドウでプレビューを有効にする。
+let QFix_PreviewEnable    = 0
+"ハイスピードプレビューを有効にする
+let QFix_HighSpeedPreview = 0
+"プレビューをQFixGrep、QFixHowm以外でも有効にする
+let QFix_DefaultPreview   = 0
+"プレビュー対象外ファイルの指定
+let QFix_PreviewExclude = '\.pdf$\|\.mp3$\|\.jpg$\|\.bmp$\|\.png$\|\.zip$\|\.rar$\|\.exe$\|\.dll$\|\.lnk$'
+
+"Quickfixウィンドウの開き方指定
+let QFix_CopenCmd = ''
+"Quickfixウィンドウの高さ
+let QFix_Height = 10
+"Quickfixウィンドウの幅
+let QFix_Width = 0
+"プレビューウィンドウの高さ
+set previewheight=12
+"プレビューウィンドウの高さ(previewheightを使用したくない場合)
+let QFix_PreviewHeight = 12
+"カレントウィンドウの最低幅
+set winwidth=20
+"ファイルを開いたウィンドウの最低高さ。
+let QFix_WindowHeightMin = 0
+"プレビューウィンドウの開き方指定
+let QFix_PreviewOpenCmd = ''
+" プレビューウィンドウの横幅指定
+let QFix_PreviewWidth  = 0
+
+"QuickfixウィンドウサイズをQFix_HeightDefaultに固定する/しない。
+"QFix_HeightDefaultは無指定なら、起動時にQFix_Heightに設定される。
+let QFix_HeightFixMode         = 0
+
+"Quickfixウィンドウから開いた後ウィンドウを閉じる/閉じない。
+let QFix_CloseOnJump           = 0
+"Quickfixウィンドウの <S-CR> は分割ではなくタブで開くには 'tab'に設定する。
+let QFix_Edit = ''
+
+"Quickfixウィンドウのプレビューでfiletypeのハイライトを有効にする。
+"環境やファイルサイズによっては重くなるので、その場合はOFFにしてください。
+let QFix_PreviewFtypeHighlight = 1
+"カーソルラインを表示する
+let QFix_CursorLine            = 1
+"プレビュー画面のカーソルラインを表示する
+let QFix_PreviewCursorLine     = 1
+"アンダーラインにしたい場合は次のようにハイライトを設定する。
+"hi CursorLine guifg=NONE guibg=NONE gui=underline
+
+"Quickfixウィンドウの属性
+let QFix_Copen_winfixheight = 1
+let QFix_Copen_winfixwidth  = 1
+"previewウィンドウの属性
+let QFix_Preview_winfixheight = 1
+let QFix_Preview_winfixwidth  = 1
+
+"grepの対象にしたくないファイル名の正規表現
+let MyGrep_ExcludeReg = '[~#]$\|\.bak$\|\.o$\|\.obj$\|\.exe$\|[/\\]tags$\|[/\\]svn[/\\]\|[/\\]\.git[/\\]\|[/\\]\.hg[/\\]'
+"使用するgrepの指定。
+let mygrepprg = 'grep'
+"外部grep(shell)のエンコードを指定する。
+let MyGrep_ShellEncoding      = 'cp932'
+"「だめ文字」対策を有効/無効
+let MyGrep_Damemoji           = 2
+"「だめ文字」を置き換える正規表現
+let MyGrep_DamemojiReplaceReg = '(..)'
+"「だめ文字」を自分で追加指定したい場合は正規表現で指定する。
+let MyGrep_DamemojiReplace    = '[]'
+"yagrepのマルチバイトオプション
+let MyGrep_yagrep_opt = 0
+
+"ユーザ定義可能な追加オプション
+let MyGrepcmd_useropt = ''
+
+"Grepコマンドのキーマップ
+"let MyGrep_Key  = 'g'
+"Grepコマンドの2ストローク目キーマップ
+"let MyGrep_KeyB = ','
+
+"QFixGrepの検索時にカーソル位置の単語を拾う/拾わない
+let MyGrep_DefaultSearchWord = 1
+
+"gvimのメニューバーに登録する/しない
+let MyGrep_MenuBar = 3
+"}}}
+"---------------------------------------------------------------------------
+" indent-guides.vim:"{{{
+"
+"let g:indent_guides_indent_levels = 30
+let g:indent_guides_auto_colors = 1
+"let g:indent_guides_color_change_percent = 10
+let g:indent_guides_guide_size = 1
+let g:indent_guides_start_level = 2
+"let g:indent_guides_space_guides = 0
+let g:indent_guides_enable_on_vim_startup = 0
+"}}}
+"---------------------------------------------------------------------------
+" textmanip.vim:"{{{
+"
+"" 選択したテキストの移動
+xmap <C-j> <Plug>(textmanip-move-down)
+xmap <C-k> <Plug>(textmanip-move-up)
+xmap <C-h> <Plug>(textmanip-move-left)
+xmap <C-l> <Plug>(textmanip-move-right)
+"" 行の複製
+xmap <M-d> <Plug>(textmanip-duplicate-down)
+nmap <M-d> <Plug>(textmanip-duplicate-down)
+xmap <M-D> <Plug>(textmanip-duplicate-up)
+nmap <M-D> <Plug>(textmanip-duplicate-up)
+"}}}
+"---------------------------------------------------------------------------
+" tcommand.vim:"{{{
+"
+noremap <Leader>: :TCommand<CR>
+"}}}
+"---------------------------------------------------------------------------
+" marksbrowser.vim:"{{{
+"
+let marksCloseWhenSelected = 0
+"}}}
+"---------------------------------------------------------------------------
+" align.vim:"{{{
+"
+let g:Align_xstrlen = 3
+"}}}
+"---------------------------------------------------------------------------
+" multiplesearch.vim:"{{{
+"
+let g:MultipleSearchMaxColors=13
+let g:MultipleSearchColorSequence="red,yellow,blue,green,magenta,lightred,cyan,lightyellow,gray,brown,lightblue,darkmagenta,darkcyan"
+let g:MultipleSearchTextColorSequence="white,black,white,black,white,black,black,black,black,white,black,white,white"
+"}}}
+"---------------------------------------------------------------------------
+" vim-ref.vim:"{{{
+"
+let g:ref_cache_dir = $DOTVIM.'/.vim_ref_cache'
+
+" Python
+let g:ref_pydoc_cmd = "python -m pydoc"
+
+" ALC
+"let g:ref_alc_cmd = 'w3m -dump %s'
+let g:ref_alc_use_cache = 0
+let g:ref_alc_start_linenumber = 39 " 余計な行を読み飛ばす
+if s:MSWindows
+    let g:ref_alc_encoding = 'cp932'
+endif
+if exists('*ref#register_detection')
+	call ref#register_detection('_', 'alc')
+endif
+"}}}
+"---------------------------------------------------------------------------
+" neocomplcache.vim:"{{{
+"
+" Disable AutoComplPop.
+let g:acp_enableAtStartup = 0
+" Use neocomplcache.
+let g:neocomplcache_enable_at_startup = 1
+" Use smartcase.
+let g:neocomplcache_enable_smart_case = 1
+" Use camel case completion.
+let g:neocomplcache_enable_camel_case_completion = 1
+" Use underbar completion.
+let g:neocomplcache_enable_underbar_completion = 1
+" Set minimum syntax keyword length.
+let g:neocomplcache_min_syntax_length = 3
+let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
+
+" Disable caching buffer name
+let g:neocomplcache_disable_caching_file_path_pattern = '\.ref\|\.txt'
+let g:neocomplcache_temporary_dir = $DOTVIM.'/.neocon'
+
+" Define dictionary.
+let g:neocomplcache_dictionary_filetype_lists = {
+  \ 'default' : $DOTVIM.'/.neo_default',
+  \ 'vimshell' : $DOTVIM.'/.vimshell_hist',
+  \ 'scheme' : $DOTVIM.'/.gosh_completions'
+        \ }
+
+" Define keyword.
+if !exists('g:neocomplcache_keyword_patterns')
+    let g:neocomplcache_keyword_patterns = {}
+endif
+let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
+
+try
+    call neocomplcache#is_enabled()
+    " Plugin key-mappings.
+    imap <C-k>     <Plug>(neocomplcache_snippets_expand)
+    smap <C-k>     <Plug>(neocomplcache_snippets_expand)
+    inoremap <expr><C-g>     neocomplcache#undo_completion()
+    inoremap <expr><C-l>     neocomplcache#complete_common_string()
+
+    " SuperTab like snippets behavior.
+    "imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+
+    " Recommended key-mappings.
+    " <CR>: close popup and save indent.
+    inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
+    " <TAB>: completion.
+    inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+    " <C-h>, <BS>: close popup and delete backword char.
+    inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
+    inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
+    inoremap <expr><C-y>  neocomplcache#close_popup()
+    inoremap <expr><C-e>  neocomplcache#cancel_popup()
+
+    " For cursor moving in insert mode(Not recommended)
+    "inoremap <expr><Left> neocomplcache#close_popup() . "\<Left>"
+    "inoremap <expr><Right> neocomplcache#close_popup() . "\<Right>"
+    "inoremap <expr><Up> neocomplcache#close_popup() . "\<Up>"
+    "inoremap <expr><Down> neocomplcache#close_popup() . "\<Down>"
+
+    " AutoComplPop like behavior.
+    "let g:neocomplcache_enable_auto_select = 1
+
+    " Shell like behavior(not recommended).
+    "set completeopt&
+    "set completeopt+=longest
+    "let g:neocomplcache_enable_auto_select = 1
+    "let g:neocomplcache_disable_auto_complete = 1
+    "inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<TAB>"
+    "inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
+catch /E117/
+    
+endtry
+
+" Enable omni completion.
+autocmd MyVimrcCmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd MyVimrcCmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd MyVimrcCmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd MyVimrcCmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd MyVimrcCmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+" Enable heavy omni completion.
+if !exists('g:neocomplcache_omni_patterns')
+    let g:neocomplcache_omni_patterns = {}
+endif
+let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
+"autocmd MyVimrcCmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
+let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
+
+if !exists('g:neocomplcache_include_paths')
+    let g:neocomplcache_include_paths = {}
+endif
+let g:neocomplcache_include_paths.c = "C:/MinGW/lib/gcc/mingw32/4.5.2/include"
+let g:neocomplcache_include_paths.cpp = "C:/MinGW/lib/gcc/mingw32/4.5.2/include/c++,C:/boost_1_47_0"
+"}}}
+"---------------------------------------------------------------------------
+" clang_complete.vim:"{{{
+"
+" Use clang dll.
+let g:neocomplcache_clang_use_library = 1
+"let g:neocomplcache_clang_library_path='C:/GnuWin32/bin'
+" More user include path.
+let g:neocomplcache_clang_user_options =
+\ '-I C:/MinGW/lib/gcc/mingw32/4.5.2/include '.
+\ '-I C:/MinGW/lib/gcc/mingw32/4.5.2/include/c++ '.
+\ '-I C:/Program\ Files/Microsoft\ Visual\ Studio\ 9.0/VC/include '.
+\ '-I C:/Program\ Files/Microsoft\ SDKs/Windows/v6.0A/Include '.
+\ '-I C:/boost_1_47_0 '.
+\ '-fms-extensions -fgnu-runtime '.
+\ '-include malloc.h '
+" More neocomplcache candidates.
+let g:neocomplcache_max_list = 1000
+"}}}
+"---------------------------------------------------------------------------
+" unite.vim:"{{{
+"
+" The prefix key.
+nnoremap    [unite]   <Nop>
+nmap    f [unite]
+
+nnoremap <silent> [unite]a  :<C-u>Unite -prompt=#\  buffer bookmark file_mru file<CR>
+nnoremap <silent> [unite]b  :<C-u>UniteWithBufferDir -buffer-name=files -prompt=%\  buffer bookmark file_mru file<CR>
+nnoremap <silent> [unite]c  :<C-u>UniteWithCurrentDir -buffer-name=files buffer bookmark file_mru file<CR>
+nnoremap <silent> [unite]r  :<C-u>Unite -buffer-name=register register<CR>
+nnoremap <silent> [unite]o  :<C-u>Unite outline<CR>
+nnoremap <silent> [unite]h  :<C-u>UniteWithCursorWord help<CR>
+nnoremap  [unite]f  :<C-u>Unite source<CR>
+
+" Start insert.
+let g:unite_enable_start_insert = 1
+
+autocmd MyVimrcCmd FileType unite call s:unite_my_settings()
+function! s:unite_my_settings()"{{{
+  " Overwrite settings.
+
+  nmap <buffer> <ESC>      <Plug>(unite_exit)
+  imap <buffer> jj      <Plug>(unite_insert_leave)
+  "imap <buffer> <C-w>     <Plug>(unite_delete_backward_path)
+
+  " <C-l>: manual neocomplcache completion.
+  inoremap <buffer> <C-l>  <C-x><C-u><C-p><Down>
+
+endfunction"}}}
+
+let g:unite_source_file_mru_limit = 200
+
+" For optimize.
+let g:unite_source_file_mru_filename_format = ''
+
+let g:unite_data_directory = $DOTVIM.'/.unite'
+"}}}
+"---------------------------------------------------------------------------
+" vimfiler.vim:"{{{
+"
+" Edit file by tabedit.
+let g:vimfiler_edit_action = 'tabopen'
+
+let g:vimfiler_as_default_explorer = 0
+
+" Enable file operation commands.
+let g:vimfiler_safe_mode_by_default = 0
+
+let g:vimfiler_data_directory = $DOTVIM.'/.vimfiler'
+
+let g:vimfiler_execute_file_list={'txt': 'vim',
+            \'vim': 'vim'}
+"}}}
+"---------------------------------------------------------------------------
+" vimshell.vim:"{{{
+"
+"let g:vimshell_interactive_encodings = {'gosh': 'cp932'}
+let g:vimshell_temporary_directory = $DOTVIM.'/.vimshell'
+let g:vimshell_vimshrc_path = $DOTVIM.'/.vimshell/.vimshrc'
+"}}}
+"---------------------------------------------------------------------------
+" vimproc.vim:"{{{
+"
+nmap <S-F6> <ESC>:<C-u>call vimproc#system("ctags -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q")<CR>
+"}}}
+"---------------------------------------------------------------------------
+" errormarker.vim:"{{{
+"
+let errormarker_disablemappings = 1
+"}}}
+"---------------------------------------------------------------------------
+" python-mode.vim:"{{{
+"
+let g:pymode_lint_write = 0
+let g:pydoc = "python -m pydoc"
+let g:pymode_rope = 0
+"}}}
+"---------------------------------------------------------------------------
+" srcexpl.vim:"{{{
+"
+" // The switch of the Source Explorer                                         "
+" nmap <F8> :SrcExplToggle<CR>
+"                                                                              "
+" // Set the height of Source Explorer window                                  "
+ let g:SrcExpl_winHeight = 8
+"                                                                              "
+" // Set 100 ms for refreshing the Source Explorer                             "
+ let g:SrcExpl_refreshTime = 100
+"                                                                              "
+" // Set "Enter" key to jump into the exact definition context                 "
+ let g:SrcExpl_jumpKey = "<ENTER>"
+"                                                                              "
+" // Set "Space" key for back from the definition context                      "
+ let g:SrcExpl_gobackKey = "<SPACE>"
+"                                                                              "
+" // In order to Avoid conflicts, the Source Explorer should know what plugins "
+" // are using buffers. And you need add their bufname into the list below     "
+" // according to the command ":buffers!"                                      "
+ let g:SrcExpl_pluginList = [
+         \ "__Tag_List__",
+         \ "_NERD_tree_",
+         \ "Source_Explorer"
+     \ ]
+"                                                                              "
+" // Enable/Disable the local definition searching, and note that this is not  "
+" // guaranteed to work, the Source Explorer doesn't check the syntax for now. "
+" // It only searches for a match with the keyword according to command 'gd'   "
+ let g:SrcExpl_searchLocalDef = 1
+"                                                                              "
+" // Do not let the Source Explorer update the tags file when opening          "
+ let g:SrcExpl_isUpdateTags = 0
+"                                                                              "
+" // Use 'Exuberant Ctags' with '--sort=foldcase -R .' or '-L cscope.files' to "
+" //  create/update a tags file                                                "
+ let g:SrcExpl_updateTagsCmd = "ctags --sort=foldcase -R ."
+"                                                                              "
+" // Set "<F12>" key for updating the tags file artificially                   "
+" let g:SrcExpl_updateTagsKey = "<F12>"
+"}}}
+"---------------------------------------------------------------------------
+" gtags.vim:"{{{
+"
+nmap <Leader>gs :<C-u>Gtags -s <C-R>=expand("<cword>")<CR><CR>	
+nmap <Leader>gg :<C-u>Gtags -g <C-R>=expand("<cword>")<CR><CR>	
+nmap <Leader>gf :<C-u>Gtags -f <C-R>=expand("<cfile>")<CR><CR>	
+nmap <Leader>gr :<C-u>Gtags -r <C-R>=expand("<cword>")<CR><CR>	
+"}}}
+"---------------------------------------------------------------------------
+" qfreplace.vim:"{{{
+"
+"if !exists('b:undo_ftplugin')
+"    let b:undo_ftplugin = ''
+"endif
+"let b:undo_ftplugin .= '| execute "delcommand Qfreplace"'
+
+command! -nargs=? -buffer Qfreplace call qfreplace#start(<q-args>)
+au MyVimrcCmd Bufenter * command! -nargs=? -buffer Qfreplace call qfreplace#start(<q-args>)
+"}}}
+"---------------------------------------------------------------------------
+" perl-support.vim:"{{{
+"
+let g:Perl_Debugger = "ptkdb"
+"}}}
+"---------------------------------------------------------------------------
+" project.vim:"{{{
+"
+let g:proj_flags = "imstc"
+nmap <silent> <Leader>P <Plug>ToggleProject
+"}}}
+"---------------------------------------------------------------------------
+" fugitive.vim:"{{{
+"
+nnoremap <Space>gd :<C-u>Gdiff<CR>
+nnoremap <Space>gs :<C-u>Gstatus<CR>
+nnoremap <Space>gl :<C-u>Glog<CR>
+nnoremap <Space>ga :<C-u>Gwrite<CR>
+nnoremap <Space>gc :<C-u>Gcommit<CR>
+nnoremap <Space>gC :<C-u>Git commit --amend<CR>
+nnoremap <Space>gb :<C-u>Gblame<CR>
+nnoremap <Space>gv :<C-u>Gitv<CR>
+"}}}
+"}}}
+
+"---------------------------------------------------------------------------
+" Key Mappings:"{{{
+"
+"ファイラー呼び出し
+nnoremap <F8> :<C-u>NERDTreeToggle<CR>
+nnoremap <S-F8> :<C-u>VimFilerSimple -no-quit -winwidth=32<CR>
+
+"マーク一覧呼び出し
+nnoremap <F7> :<C-u>MarksBrowser<CR>
+
+"Taglist呼び出し
+nnoremap <F6> :<C-u>TagExplorer<CR>
+
+"バッファ一覧呼び出し
+nnoremap <F5> :<C-u>Unite buffer<CR>
+
+nnoremap <F4> :<C-u>NeoComplCacheEnable<CR>
+nnoremap <S-F4> :<C-u>NeoComplCacheDisable<CR>
+
+" 最後に編集された位置に移動
+nnoremap gb '[
+nnoremap gp ']
+
+" 最後に変更されたテキストを選択する
+nnoremap gc  `[v`]
+vnoremap gc ;<C-u>normal gc<Enter>
+onoremap gc ;<C-u>normal gc<Enter>
+
+" 'Quote'
+onoremap aq  a'
+xnoremap aq  a'
+onoremap iq  i'
+xnoremap iq  i'
+
+" "Double quote"
+onoremap ad  a"
+xnoremap ad  a"
+onoremap id  i"
+xnoremap id  i"
+
+" (Round bracket)
+onoremap ar  a)
+xnoremap ar  a)
+onoremap ir  i)
+xnoremap ir  i)
+
+" {Curly bracket}
+onoremap ac  a}
+xnoremap ac  a}
+onoremap ic  i}
+xnoremap ic  i}
+
+" <Angle bracket>
+onoremap aa  a>
+xnoremap aa  a>
+onoremap ia  i>
+xnoremap ia  i>
+
+" [sqUare bracket]
+onoremap au  a]
+xnoremap au  a]
+onoremap iu  i]
+xnoremap iu  i]
+
+" コメント/コメントアウト設定{{{
+" lhs comments
+vmap ,# :s/^/#/<CR>:nohlsearch<CR>
+vmap ,/ :s/^/\/\//<CR>:nohlsearch<CR>
+vmap ,> :s/^/> /<CR>:nohlsearch<CR>
+vmap ," :s/^/\"/<CR>:nohlsearch<CR>
+vmap ,% :s/^/%/<CR>:nohlsearch<CR>
+vmap ,! :s/^/!/<CR>:nohlsearch<CR>
+vmap ,; :s/^/;/<CR>:nohlsearch<CR>
+vmap ,- :s/^/--/<CR>:nohlsearch<CR>
+vmap ,c :s/^\/\/\\|^--\\|^> \\|^[#"%!;]//<CR>:nohlsearch<CR>
+
+" wrapping comments
+vmap ,* :s/^\(.*\)$/\/\* \1 \*\//<CR>:nohlsearch<CR>
+vmap ,( :s/^\(.*\)$/\(\* \1 \*\)/<CR>:nohlsearch<CR>
+vmap ,< :s/^\(.*\)$/<!-- \1 -->/<CR>:nohlsearch<CR>
+vmap ,d :s/^\([/(]\*\\|<!--\) \(.*\) \(\*[/)]\\|-->\)$/\2/<CR>:nohlsearch<CR>
+
+" block comments
+vmap ,b v`<I<CR><esc>k0i/*<ESC>`>j0i*/<CR><esc><ESC>
+vmap ,h v`<I<CR><esc>k0i<!--<ESC>`>j0i--><CR><esc><ESC>
 "}}}
 "}}}
 
