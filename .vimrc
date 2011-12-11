@@ -172,6 +172,10 @@ try
 
     NeoBundle 'vim-jp/vimdoc-ja'
 
+    NeoBundle 'kana/vim-textobj-user'
+    NeoBundle 'kana/vim-textobj-indent'
+    NeoBundle 'kana/vim-textobj-syntax'
+
     NeoBundle 'tpope/vim-surround'
     NeoBundle 'tpope/vim-fugitive'
 
@@ -184,6 +188,7 @@ try
     NeoBundle 'thinca/vim-quickrun'
     NeoBundle 'thinca/vim-prettyprint'
     NeoBundle 'thinca/vim-editvar'
+    NeoBundle 'thinca/vim-textobj-between'
 
     NeoBundle 'dannyob/quickfixstatus'
 
@@ -1475,7 +1480,7 @@ vmap ,h v`<I<CR><esc>k0i<!--<ESC>`>j0i--><CR><esc><ESC>
 "}}}
 
 "---------------------------------------------------------------------------
-" ExternalSettings:"{{{
+" External Settings:"{{{
 "
 if 1 && filereadable($DOTVIM . '/.local.vimrc')
     source $DOTVIM/.local.vimrc
