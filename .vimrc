@@ -1269,7 +1269,8 @@ let g:unite_data_directory = $DOTVIM.'/.unite'
 " vimfiler.vim:"{{{
 "
 " Edit file by tabedit.
-let g:vimfiler_edit_action = 'tabopen'
+let g:vimfiler_edit_action = 'open'
+let g:vimfiler_split_action = 'tabopen'
 
 let g:vimfiler_as_default_explorer = 0
 
@@ -1395,8 +1396,8 @@ nnoremap <Space>gv :<C-u>Gitv<CR>
 " Key Mappings:"{{{
 "
 "ファイラー呼び出し
-nnoremap <F8> :<C-u>NERDTreeToggle<CR>
-nnoremap <S-F8> :<C-u>VimFilerSimple -no-quit -winwidth=32<CR>
+nnoremap <F8> :<C-u>VimFilerSimple -no-quit -winwidth=32<CR>
+nnoremap <S-F8> :<C-u>NERDTreeToggle<CR>
 
 "マーク一覧呼び出し
 nnoremap <F7> :<C-u>MarksBrowser<CR>
