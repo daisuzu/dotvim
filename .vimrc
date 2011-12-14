@@ -175,6 +175,7 @@ try
     NeoBundle 'kana/vim-textobj-user'
     NeoBundle 'kana/vim-textobj-indent'
     NeoBundle 'kana/vim-textobj-syntax'
+    NeoBundle 'kana/vim-filetype-haskell'
 
     NeoBundle 'tpope/vim-surround'
     NeoBundle 'tpope/vim-fugitive'
@@ -206,10 +207,13 @@ try
     NeoBundle 'abudden/TagHighlight'
 
     NeoBundle 'tomtom/tcommand_vim'
+    NeoBundle 'tomtom/tcomment_vim'
 
     NeoBundle 'alfredodeza/pytest.vim'
 
     NeoBundle 'sjl/gundo.vim'
+
+    NeoBundle 'lukerandall/haskellmode-vim'
 
     NeoBundle 'ujihisa/neco-ghc'
     NeoBundle 'ujihisa/unite-colorscheme'
@@ -421,8 +425,7 @@ let g:statusline_max_path = 20
 fun! StatusLineGetPath() "{{{
     let p = expand('%:.:h') "relative to current path, and head path only
     let p = substitute(p,'\','/','g')
-    let p = substitute(p, '^\V' . $HOME, '~', '')
-    if len(p) > g:statusline_max_path 
+    if len(p) > g:statusline_max_path
         let p = simplify(p)
         let p = pathshorten(p)
     endif
@@ -457,9 +460,10 @@ fun! s:SetFullStatusline() "{{{
     setlocal statusline+=%#StatuslineFileName#\/%t\                       " file name
 
     try
+        call fugitive#statusline()
         setlocal statusline+=%{fugitive#statusline()}  " Git branch name
     catch /E117/
-        
+
     endtry
 
     setlocal statusline+=%#StatuslineChar#\ \ 0x%-2B                 " current char
@@ -860,14 +864,14 @@ if has("cscope")
     " go back to where you were before the search.  
     "
 
-    nmap <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>	
-    nmap <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR>	
-    nmap <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR>	
-    nmap <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR>	
-    nmap <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR>	
-    nmap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR>	
+    nmap <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>
+    nmap <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR>
+    nmap <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR>
+    nmap <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR>
+    nmap <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR>
+    nmap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
     nmap <C-\>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
-    nmap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>	
+    nmap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>
 
 
     " Using 'CTRL-spacebar' (intepreted as CTRL-@ by vim) then a search type
@@ -876,16 +880,16 @@ if has("cscope")
     "
     " (Note: earlier versions of vim may not have the :scs command, but it
     " can be simulated roughly via:
-    "    nmap <C-@>s <C-W><C-S> :cs find s <C-R>=expand("<cword>")<CR><CR>	
+    "    nmap <C-@>s <C-W><C-S> :cs find s <C-R>=expand("<cword>")<CR><CR>
 
-    nmap <C-@>s :scs find s <C-R>=expand("<cword>")<CR><CR>	
-    nmap <C-@>g :scs find g <C-R>=expand("<cword>")<CR><CR>	
-    nmap <C-@>c :scs find c <C-R>=expand("<cword>")<CR><CR>	
-    nmap <C-@>t :scs find t <C-R>=expand("<cword>")<CR><CR>	
-    nmap <C-@>e :scs find e <C-R>=expand("<cword>")<CR><CR>	
-    nmap <C-@>f :scs find f <C-R>=expand("<cfile>")<CR><CR>	
-    nmap <C-@>i :scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>	
-    nmap <C-@>d :scs find d <C-R>=expand("<cword>")<CR><CR>	
+    nmap <C-@>s :scs find s <C-R>=expand("<cword>")<CR><CR>
+    nmap <C-@>g :scs find g <C-R>=expand("<cword>")<CR><CR>
+    nmap <C-@>c :scs find c <C-R>=expand("<cword>")<CR><CR>
+    nmap <C-@>t :scs find t <C-R>=expand("<cword>")<CR><CR>
+    nmap <C-@>e :scs find e <C-R>=expand("<cword>")<CR><CR>
+    nmap <C-@>f :scs find f <C-R>=expand("<cfile>")<CR><CR>
+    nmap <C-@>i :scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
+    nmap <C-@>d :scs find d <C-R>=expand("<cword>")<CR><CR>
 
 
     " Hitting CTRL-space *twice* before the search type does a vertical 
@@ -899,8 +903,8 @@ if has("cscope")
     nmap <C-@><C-@>c :vert scs find c <C-R>=expand("<cword>")<CR><CR>
     nmap <C-@><C-@>t :vert scs find t <C-R>=expand("<cword>")<CR><CR>
     nmap <C-@><C-@>e :vert scs find e <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-@><C-@>f :vert scs find f <C-R>=expand("<cfile>")<CR><CR>	
-    nmap <C-@><C-@>i :vert scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>	
+    nmap <C-@><C-@>f :vert scs find f <C-R>=expand("<cfile>")<CR><CR>
+    nmap <C-@><C-@>i :vert scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
     nmap <C-@><C-@>d :vert scs find d <C-R>=expand("<cword>")<CR><CR>
 
 
@@ -1107,7 +1111,7 @@ if s:MSWindows
     let g:ref_alc_encoding = 'cp932'
 endif
 if exists('*ref#register_detection')
-	call ref#register_detection('_', 'alc')
+    call ref#register_detection('_', 'alc')
 endif
 "}}}
 "---------------------------------------------------------------------------
@@ -1351,10 +1355,10 @@ let g:pymode_rope = 0
 "---------------------------------------------------------------------------
 " gtags.vim:"{{{
 "
-nmap <Leader>gs :<C-u>Gtags -s <C-R>=expand("<cword>")<CR><CR>	
-nmap <Leader>gg :<C-u>Gtags -g <C-R>=expand("<cword>")<CR><CR>	
-nmap <Leader>gf :<C-u>Gtags -f <C-R>=expand("<cfile>")<CR><CR>	
-nmap <Leader>gr :<C-u>Gtags -r <C-R>=expand("<cword>")<CR><CR>	
+nmap <Leader>gs :<C-u>Gtags -s <C-R>=expand("<cword>")<CR><CR>
+nmap <Leader>gg :<C-u>Gtags -g <C-R>=expand("<cword>")<CR><CR>
+nmap <Leader>gf :<C-u>Gtags -f <C-R>=expand("<cfile>")<CR><CR>
+nmap <Leader>gr :<C-u>Gtags -r <C-R>=expand("<cword>")<CR><CR>
 "}}}
 "---------------------------------------------------------------------------
 " qfreplace.vim:"{{{
@@ -1390,6 +1394,15 @@ nnoremap <Space>gC :<C-u>Git commit --amend<CR>
 nnoremap <Space>gb :<C-u>Gblame<CR>
 nnoremap <Space>gv :<C-u>Gitv<CR>
 "}}}
+"---------------------------------------------------------------------------
+" haskellmode-vim:"{{{
+"
+if s:MSWindows
+    let g:haddock_browser="C:/Program\ Files/Mozilla\ Firefox/firefox.exe"
+else
+    let g:haddock_browser="/usr/bin/firefox"
+endif
+"}}}
 "}}}
 
 "---------------------------------------------------------------------------
@@ -1414,11 +1427,6 @@ nnoremap <S-F4> :<C-u>NeoComplCacheDisable<CR>
 " 最後に編集された位置に移動
 nnoremap gb '[
 nnoremap gp ']
-
-" 最後に変更されたテキストを選択する
-nnoremap gc  `[v`]
-vnoremap gc ;<C-u>normal gc<Enter>
-onoremap gc ;<C-u>normal gc<Enter>
 
 " 'Quote'
 onoremap aq  a'
