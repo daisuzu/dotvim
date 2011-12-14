@@ -178,6 +178,7 @@ try
     NeoBundle 'kana/vim-filetype-haskell'
 
     NeoBundle 'tpope/vim-surround'
+    NeoBundle 'tpope/vim-markdown'
     NeoBundle 'tpope/vim-fugitive'
 
     NeoBundle 'gregsexton/gitv'
@@ -659,60 +660,6 @@ onoremap <silent> [l :call NextIndent(0, 0, 0, 1)<cr>
 onoremap <silent> ]l :call NextIndent(0, 1, 0, 1)<cr>
 onoremap <silent> [L :call NextIndent(1, 0, 1, 1)<cr>
 onoremap <silent> ]L :call NextIndent(1, 1, 1, 1)<cr>
-"}}}
-" flymake for C/C++{{{
-try
-    if !exists('g:quickrun_config')
-        let g:quickrun_config = {}
-    endif
-
-    "" quickfix のエラー箇所を波線でハイライト
-    "" 以下の2行は   _gvimrcに記載
-    "execute "highlight qf_error_ucurl gui=undercurl guisp=Red"
-    "let g:hier_highlight_group_qf  = "qf_error_ucurl"
-
-    " quickfix に出力して、ポッポアップはしない outputter/quickfix
-    " すでに quickfix ウィンドウが開いている場合は閉じるので注意
-    let s:silent_quickfix = quickrun#outputter#quickfix#new()
-    function! s:silent_quickfix.finish(session)
-        call call(quickrun#outputter#quickfix#new().finish, [a:session], self)
-        :cclose
-        " vim-hier の更新
-        :HierUpdate
-        " quickfix への出力後に quickfixstatus を有効に
-        :QuickfixStatusEnable
-    endfunction
-    " quickrun に登録
-    call quickrun#register_outputter("silent_quickfix", s:silent_quickfix)
-
-    " シンタックスチェック用の quickrun.vim のコンフィグ
-    " gcc 版
-    let g:quickrun_config["CppSyntaxCheck_gcc"] = {
-        \ "type"  : "cpp",
-        \ "exec"      : "%c %o %s:p ",
-        \ "command"   : "g++",
-        \ "cmdopt"    : "-fsyntax-only -std=gnu++0x ",
-        \ "outputter" : "silent_quickfix",
-        \ "runner"    : "vimproc"
-    \ }
-
-    " msvc 版
-    " .h ファイルの場合はうまく動かない
-    let g:quickrun_config["CppSyntaxCheck_msvc"] = {
-        \ "type"  : "cpp",
-        \ "exec"      : "%c %o %s:p ",
-        \ "command"   : "cl.exe",
-        \ "cmdopt"    : "/Zs ",
-        \ "outputter" : "silent_quickfix",
-        \ "runner"    : "vimproc",
-        \ "output_encode" : "sjis"
-    \ }
-
-    " ファイルの保存後に quickrun.vim が実行するように設定する
-    "autocmd MyVimrcCmd BufWritePost *.cpp,*.h,*.hpp :QuickRun CppSyntaxCheck_msvc
-catch /E117/
-    
-endtry
 "}}}
 " flymake for python, perl{{{
 augroup FlyQuickfixMakeCmd
@@ -1402,6 +1349,71 @@ if s:MSWindows
 else
     let g:haddock_browser="/usr/bin/firefox"
 endif
+"}}}
+"---------------------------------------------------------------------------
+" quickrun.vim:"{{{
+"
+" flymake for C/C++{{{
+try
+    if !exists('g:quickrun_config')
+        let g:quickrun_config = {}
+    endif
+
+    "" quickfix のエラー箇所を波線でハイライト
+    "" 以下の2行は   _gvimrcに記載
+    "execute "highlight qf_error_ucurl gui=undercurl guisp=Red"
+    "let g:hier_highlight_group_qf  = "qf_error_ucurl"
+
+    " quickfix に出力して、ポッポアップはしない outputter/quickfix
+    " すでに quickfix ウィンドウが開いている場合は閉じるので注意
+    let s:silent_quickfix = quickrun#outputter#quickfix#new()
+    function! s:silent_quickfix.finish(session)
+        call call(quickrun#outputter#quickfix#new().finish, [a:session], self)
+        :cclose
+        " vim-hier の更新
+        :HierUpdate
+        " quickfix への出力後に quickfixstatus を有効に
+        :QuickfixStatusEnable
+    endfunction
+    " quickrun に登録
+    call quickrun#register_outputter("silent_quickfix", s:silent_quickfix)
+
+    " シンタックスチェック用の quickrun.vim のコンフィグ
+    " gcc 版
+    let g:quickrun_config["CppSyntaxCheck_gcc"] = {
+        \ "type"  : "cpp",
+        \ "exec"      : "%c %o %s:p ",
+        \ "command"   : "g++",
+        \ "cmdopt"    : "-fsyntax-only -std=gnu++0x ",
+        \ "outputter" : "silent_quickfix",
+        \ "runner"    : "vimproc"
+    \ }
+
+    " msvc 版
+    " .h ファイルの場合はうまく動かない
+    let g:quickrun_config["CppSyntaxCheck_msvc"] = {
+        \ "type"  : "cpp",
+        \ "exec"      : "%c %o %s:p ",
+        \ "command"   : "cl.exe",
+        \ "cmdopt"    : "/Zs ",
+        \ "outputter" : "silent_quickfix",
+        \ "runner"    : "vimproc",
+        \ "output_encode" : "sjis"
+    \ }
+
+    " ファイルの保存後に quickrun.vim が実行するように設定する
+    "autocmd MyVimrcCmd BufWritePost *.cpp,*.h,*.hpp :QuickRun CppSyntaxCheck_msvc
+catch /E117/
+    
+endtry
+"}}}
+" settings for pandpc{{{
+let g:quickrun_config['markdown'] = {
+      \ 'type': 'markdown/pandoc',
+      \ 'outputter': 'browser',
+      \ 'cmdopt': '-s'
+      \ }
+"}}}
 "}}}
 "}}}
 
