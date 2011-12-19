@@ -228,6 +228,8 @@ try
 
     NeoBundle 'tacroe/unite-mark'
 
+    NeoBundle 'sgur/unite-everything'
+
     NeoBundle 'pangloss/vim-javascript'
 
     NeoBundle 'tyru/operator-camelize.vim'
@@ -426,6 +428,7 @@ let g:statusline_max_path = 20
 fun! StatusLineGetPath() "{{{
     let p = expand('%:.:h') "relative to current path, and head path only
     let p = substitute(p,'\','/','g')
+    let p = substitute(p, substitute(expand('$HOME'),'^\S:','',''), '~', '')
     if len(p) > g:statusline_max_path
         let p = simplify(p)
         let p = pathshorten(p)
@@ -581,17 +584,22 @@ au MyVimrcCmd BufEnter * call SetDiffupdateMap()
 "}}}
 
 " LoadRope() "ropevim{{{
+if has('python')
 let loaded_ropevim = 0
 
 function! LoadRope()
 python << EOF
-import ropevim
+try:
+    import ropevim
+except :
+    pass
 EOF
 endfunction
 
 if !exists("loaded_alternateFile")
     call LoadRope()
     let loaded_ropevim = 1
+endif
 endif
 "}}}
 " DiffClip() "クリップボードと選択行でdiff{{{
@@ -1188,9 +1196,13 @@ nmap    f [unite]
 nnoremap <silent> [unite]a  :<C-u>Unite -prompt=#\  buffer bookmark file_mru file<CR>
 nnoremap <silent> [unite]b  :<C-u>UniteWithBufferDir -buffer-name=files -prompt=%\  buffer bookmark file_mru file<CR>
 nnoremap <silent> [unite]c  :<C-u>UniteWithCurrentDir -buffer-name=files buffer bookmark file_mru file<CR>
+nnoremap <silent> [unite]e  :<C-u>Unite -buffer-name=files everything<CR>
 nnoremap <silent> [unite]r  :<C-u>Unite -buffer-name=register register<CR>
 nnoremap <silent> [unite]o  :<C-u>Unite outline<CR>
 nnoremap <silent> [unite]h  :<C-u>UniteWithCursorWord help<CR>
+nnoremap <silent> [unite]pi  :<C-u>Unite neobundle/install<CR>
+nnoremap <silent> [unite]pu  :<C-u>Unite neobundle/install:!<CR>
+nnoremap <silent> [unite]pl  :<C-u>Unite neobundle<CR>
 nnoremap  [unite]f  :<C-u>Unite source<CR>
 
 " Start insert.
@@ -1407,7 +1419,7 @@ catch /E117/
     
 endtry
 "}}}
-" settings for pandpc{{{
+" settings for pandoc{{{
 let g:quickrun_config['markdown'] = {
       \ 'type': 'markdown/pandoc',
       \ 'outputter': 'browser',
