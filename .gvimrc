@@ -113,7 +113,7 @@ endif
 " Plugins:"{{{
 "
 "---------------------------------------------------------------------------
-" Unite:"{{{
+" unite.vim:"{{{
 "
 highlight UniteAbbr     guifg=#80a0ff    gui=underline
 highlight UniteCursor   guifg=black     guibg=lightblue  gui=bold
@@ -123,7 +123,7 @@ let g:unite_abbr_highlight = 'UniteAbbr'
 "}}}
 
 "---------------------------------------------------------------------------
-" IndentGuides:"{{{
+" vim-indent-guides:"{{{
 "
 let g:indent_guides_enable_on_vim_startup = 1
 try
@@ -146,7 +146,7 @@ endtry
 "}}}
 
 "---------------------------------------------------------------------------
-" Hier:"{{{
+" vim-hier:"{{{
 "
 " quickfix のエラー箇所を波線でハイライト
 execute "highlight qf_error_ucurl gui=undercurl guisp=Red"

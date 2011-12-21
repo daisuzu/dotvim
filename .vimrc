@@ -130,7 +130,7 @@ endfunction
 "vimrc_local.vimが存在し、g:no_vimrc_example=1になっていたら
 "vimrc_example.vimを読込む
 if exists('g:no_vimrc_example') && g:no_vimrc_example == 1
-  silent! source $VIMRUNTIME/vimrc_example.vim
+    silent! source $VIMRUNTIME/vimrc_example.vim
 endif
 "}}}
 
@@ -1004,7 +1004,7 @@ let MyGrep_DefaultSearchWord = 1
 let MyGrep_MenuBar = 3
 "}}}
 "---------------------------------------------------------------------------
-" indent-guides.vim:"{{{
+" vim-indent-guides:"{{{
 "
 "let g:indent_guides_indent_levels = 30
 let g:indent_guides_auto_colors = 1
@@ -1015,7 +1015,7 @@ let g:indent_guides_start_level = 2
 let g:indent_guides_enable_on_vim_startup = 0
 "}}}
 "---------------------------------------------------------------------------
-" textmanip.vim:"{{{
+" vim-textmanip:"{{{
 "
 "" 選択したテキストの移動
 xmap <C-j> <Plug>(textmanip-move-down)
@@ -1029,29 +1029,29 @@ xmap <M-D> <Plug>(textmanip-duplicate-up)
 nmap <M-D> <Plug>(textmanip-duplicate-up)
 "}}}
 "---------------------------------------------------------------------------
-" tcommand.vim:"{{{
+" tcommand_vim:"{{{
 "
 noremap <Leader>: :TCommand<CR>
 "}}}
 "---------------------------------------------------------------------------
-" marksbrowser.vim:"{{{
+" Marks-Browser:"{{{
 "
 let marksCloseWhenSelected = 0
 "}}}
 "---------------------------------------------------------------------------
-" align.vim:"{{{
+" Align:"{{{
 "
 let g:Align_xstrlen = 3
 "}}}
 "---------------------------------------------------------------------------
-" multiplesearch.vim:"{{{
+" MultipleSearch:"{{{
 "
 let g:MultipleSearchMaxColors=13
 let g:MultipleSearchColorSequence="red,yellow,blue,green,magenta,lightred,cyan,lightyellow,gray,brown,lightblue,darkmagenta,darkcyan"
 let g:MultipleSearchTextColorSequence="white,black,white,black,white,black,black,black,black,white,black,white,white"
 "}}}
 "---------------------------------------------------------------------------
-" vim-ref.vim:"{{{
+" vim-ref:"{{{
 "
 let g:ref_cache_dir = $DOTVIM.'/.vim_ref_cache'
 
@@ -1070,7 +1070,7 @@ if exists('*ref#register_detection')
 endif
 "}}}
 "---------------------------------------------------------------------------
-" neocomplcache.vim:"{{{
+" neocomplcache:"{{{
 "
 " Disable AutoComplPop.
 let g:acp_enableAtStartup = 0
@@ -1169,7 +1169,7 @@ let g:neocomplcache_include_paths.c = "C:/MinGW/lib/gcc/mingw32/4.5.2/include"
 let g:neocomplcache_include_paths.cpp = "C:/MinGW/lib/gcc/mingw32/4.5.2/include/c++,C:/boost_1_47_0"
 "}}}
 "---------------------------------------------------------------------------
-" clang_complete.vim:"{{{
+" Shougo/clang_complete:"{{{
 "
 " Use clang dll.
 let g:neocomplcache_clang_use_library = 1
@@ -1210,14 +1210,14 @@ let g:unite_enable_start_insert = 1
 
 autocmd MyVimrcCmd FileType unite call s:unite_my_settings()
 function! s:unite_my_settings()"{{{
-  " Overwrite settings.
+    " Overwrite settings.
 
-  nmap <buffer> <ESC>      <Plug>(unite_exit)
-  imap <buffer> jj      <Plug>(unite_insert_leave)
-  "imap <buffer> <C-w>     <Plug>(unite_delete_backward_path)
+    nmap <buffer> <ESC>      <Plug>(unite_exit)
+    imap <buffer> jj      <Plug>(unite_insert_leave)
+    "imap <buffer> <C-w>     <Plug>(unite_delete_backward_path)
 
-  " <C-l>: manual neocomplcache completion.
-  inoremap <buffer> <C-l>  <C-x><C-u><C-p><Down>
+    " <C-l>: manual neocomplcache completion.
+    inoremap <buffer> <C-l>  <C-x><C-u><C-p><Down>
 
 endfunction"}}}
 
@@ -1229,7 +1229,7 @@ let g:unite_source_file_mru_filename_format = ''
 let g:unite_data_directory = $DOTVIM.'/.unite'
 "}}}
 "---------------------------------------------------------------------------
-" vimfiler.vim:"{{{
+" vimfiler:"{{{
 "
 " Edit file by tabedit.
 let g:vimfiler_edit_action = 'open'
@@ -1246,14 +1246,14 @@ let g:vimfiler_execute_file_list={'txt': 'vim',
             \'vim': 'vim'}
 "}}}
 "---------------------------------------------------------------------------
-" vimshell.vim:"{{{
+" vimshell:"{{{
 "
 "let g:vimshell_interactive_encodings = {'gosh': 'cp932'}
 let g:vimshell_temporary_directory = $DOTVIM.'/.vimshell'
 let g:vimshell_vimshrc_path = $DOTVIM.'/.vimshell/.vimshrc'
 "}}}
 "---------------------------------------------------------------------------
-" vimproc.vim:"{{{
+" vimproc:"{{{
 "
 nmap <S-F6> <ESC>:<C-u>call vimproc#system("ctags -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q")<CR>
 "}}}
@@ -1263,14 +1263,14 @@ nmap <S-F6> <ESC>:<C-u>call vimproc#system("ctags -R --sort=yes --c++-kinds=+p -
 let errormarker_disablemappings = 1
 "}}}
 "---------------------------------------------------------------------------
-" python-mode.vim:"{{{
+" python-mode:"{{{
 "
 let g:pymode_lint_write = 0
 let g:pydoc = "python -m pydoc"
 let g:pymode_rope = 0
 "}}}
 "---------------------------------------------------------------------------
-" srcexpl.vim:"{{{
+" Source-Explorer-srcexpl.vim:"{{{
 "
 " // The switch of the Source Explorer                                         "
 " nmap <F8> :SrcExplToggle<CR>
@@ -1320,7 +1320,7 @@ nmap <Leader>gf :<C-u>Gtags -f <C-R>=expand("<cfile>")<CR><CR>
 nmap <Leader>gr :<C-u>Gtags -r <C-R>=expand("<cword>")<CR><CR>
 "}}}
 "---------------------------------------------------------------------------
-" qfreplace.vim:"{{{
+" vim-qfreplace:"{{{
 "
 "if !exists('b:undo_ftplugin')
 "    let b:undo_ftplugin = ''
@@ -1336,13 +1336,13 @@ au MyVimrcCmd Bufenter * command! -nargs=? -buffer Qfreplace call qfreplace#star
 let g:Perl_Debugger = "ptkdb"
 "}}}
 "---------------------------------------------------------------------------
-" project.vim:"{{{
+" project.tar.gz:"{{{
 "
 let g:proj_flags = "imstc"
 nmap <silent> <Leader>P <Plug>ToggleProject
 "}}}
 "---------------------------------------------------------------------------
-" fugitive.vim:"{{{
+" vim-fugitive:"{{{
 "
 nnoremap <Space>gd :<C-u>Gdiff<CR>
 nnoremap <Space>gs :<C-u>Gstatus<CR>
@@ -1363,7 +1363,7 @@ else
 endif
 "}}}
 "---------------------------------------------------------------------------
-" quickrun.vim:"{{{
+" vim-quickrun:"{{{
 "
 " flymake for C/C++{{{
 try
