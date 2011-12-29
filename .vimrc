@@ -38,6 +38,9 @@ nnoremap <Space>oc :<C-u>setlocal autochdir!\|setlocal autochdir?<CR>
 if !has('gui_running') && s:MSWindows
     set termencoding=cp932
     set encoding=cp932
+elseif s:MSWindows
+    set termencoding=cp932
+    set encoding=utf-8
 else
     set encoding=utf-8
 endif
@@ -229,6 +232,8 @@ try
     NeoBundle 'tacroe/unite-mark'
 
     NeoBundle 'sgur/unite-everything'
+
+    NeoBundle 'zhaocai/unite-scriptnames'
 
     NeoBundle 'pangloss/vim-javascript'
 
@@ -426,9 +431,8 @@ match WhitespaceEOL /\s\+$/
 " XPstatusline + fugitive#statusline {{{
 let g:statusline_max_path = 20
 fun! StatusLineGetPath() "{{{
-    let p = expand('%:.:h') "relative to current path, and head path only
-    let p = substitute(p,'\','/','g')
-    let p = substitute(p, substitute(expand('$HOME'),'^\S:','',''), '~', '')
+    let p = expand('%:.:h') 
+    let p = substitute(p, expand('$HOME'), '~', '')
     if len(p) > g:statusline_max_path
         let p = simplify(p)
         let p = pathshorten(p)
@@ -472,9 +476,9 @@ fun! s:SetFullStatusline() "{{{
 
     setlocal statusline+=%#StatuslineChar#\ \ 0x%-2B                 " current char
 "    setlocal statusline+=%#StatuslineChar#\ \ 0x%-2B\ %0*                 " current char
-    setlocal statusline+=%#StatuslineTermEnc#(%{&termencoding}\           " encoding
-    setlocal statusline+=%#StatuslineFileEnc#\ %{&fileencoding},\         " file encoding
-    setlocal statusline+=%#StatuslineFileType#%{&fileformat}\ )\              " file format
+    setlocal statusline+=%#StatuslineTermEnc#(%{&termencoding},\           " encoding
+    setlocal statusline+=%#StatuslineFileEnc#%{&fileencoding},\         " file encoding
+    setlocal statusline+=%#StatuslineFileType#%{&fileformat}\)\              " file format
 
     setlocal statusline+=%#StatuslineFileType#\ %{strlen(&ft)?&ft:'**'}\ . " filetype
     setlocal statusline+=%#StatuslineSyn#\ %{synIDattr(synID(line('.'),col('.'),1),'name')}\ %0*           "syntax name
@@ -918,6 +922,36 @@ let howm_fileencoding    = 'utf-8'
 let howm_fileformat      = 'dos'
 "}}}
 "---------------------------------------------------------------------------
+" qfixmemo.vim:"{{{
+"
+" メモファイルの保存先
+let qfixmemo_dir           = $DOTVIM.'/qfixmemo'
+" メモファイルのファイル名
+let qfixmemo_filename      = '%Y/%m/%Y-%m-%d-%H%M%S.txt'
+" メモファイルのファイルエンコーディング
+let qfixmemo_fileencoding  = 'cp932'
+" メモファイルのファイルフォーマット(改行コード)
+let qfixmemo_fileformat    = 'dos'
+" メモのファイルタイプ
+let qfixmemo_filetype      = 'qfix_memo'
+"}}}
+"---------------------------------------------------------------------------
+" qfixmru.vim:"{{{
+"
+" MRUの保存ファイル名
+let QFixMRU_Filename     = $DOTVIM.'/.qfixmru'
+" MRUに登録しないファイル名(正規表現)
+let QFixMRU_IgnoreFile   = ''
+" MRUに登録するファイルの正規表現(設定すると指定ファイル以外登録されない)
+let QFixMRU_RegisterFile = ''
+" MRUに登録しないタイトル(正規表現)
+let QFixMRU_IgnoreTitle  = ''
+" MRU表示数
+let g:QFixMRU_Entries    = 20
+" MRU内部のエントリ最大保持数
+let QFixMRU_EntryMax     = 300
+"}}}
+"---------------------------------------------------------------------------
 " qfixgrep.vim:"{{{
 "
 "Quickfixウィンドウでプレビューを有効にする。
@@ -1178,6 +1212,8 @@ let g:neocomplcache_clang_use_library = 1
 let g:neocomplcache_clang_user_options =
 \ '-I C:/MinGW/lib/gcc/mingw32/4.5.2/include '.
 \ '-I C:/MinGW/lib/gcc/mingw32/4.5.2/include/c++ '.
+\ '-I C:/MinGW/lib/gcc/mingw32/4.6.2/include '.
+\ '-I C:/MinGW/lib/gcc/mingw32/4.6.2/include/c++ '.
 \ '-I C:/Program\ Files/Microsoft\ Visual\ Studio\ 9.0/VC/include '.
 \ '-I C:/Program\ Files/Microsoft\ SDKs/Windows/v6.0A/Include '.
 \ '-I C:/boost_1_47_0 '.
@@ -1222,6 +1258,7 @@ function! s:unite_my_settings()"{{{
 endfunction"}}}
 
 let g:unite_source_file_mru_limit = 200
+let g:unite_source_grep_max_candidates = 5000
 
 " For optimize.
 let g:unite_source_file_mru_filename_format = ''
@@ -1248,7 +1285,7 @@ let g:vimfiler_execute_file_list={'txt': 'vim',
 "---------------------------------------------------------------------------
 " vimshell:"{{{
 "
-"let g:vimshell_interactive_encodings = {'gosh': 'cp932'}
+let g:vimshell_interactive_encodings = {'git': 'utf-8'}
 let g:vimshell_temporary_directory = $DOTVIM.'/.vimshell'
 let g:vimshell_vimshrc_path = $DOTVIM.'/.vimshell/.vimshrc'
 "}}}
