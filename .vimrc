@@ -897,6 +897,53 @@ if has("cscope")
 
 endif
 "}}}
+" unite-quickgrep "{{{
+if !exists('g:quickrun_config')
+    let g:quickrun_config = {}
+endif
+
+let g:quickrun_config["Grep"] = {
+    \ "exec"      : "%c %o '%a' %s:p ",
+    \ "command"   : "grep",
+    \ "cmdopt"   : "-Hn ",
+    \ "outputter" : "quickfix",
+    \ "runner"    : "vimproc"
+\ }
+
+let g:quickgrep = {}
+" let g:quickgrep['keyword1'] = {
+"       \ 'words': 'a grep word'}
+" let g:quickgrep['keyword2'] = {
+"       \ 'words': 'grep word 1\\|grep word 2'}
+
+if !exists('g:unite_source_grep_max_candidates')
+    let g:unite_source_grep_max_candidates = 5000
+endif
+
+let s:source_quickgrep = {
+      \ 'name': 'quickgrep',
+      \ 'max_candidates': g:unite_source_grep_max_candidates,
+      \ }
+call unite#define_source(s:source_quickgrep)
+
+function! s:source_quickgrep.gather_candidates(args, context)
+    for k in keys(g:quickgrep)
+        let v = g:quickgrep[k]
+        let g:quickgrep[k].quickrun_command = printf(
+              \ 'QuickRun Grep -args %s',
+              \ v.words)
+    endfor
+
+    let configs = copy(g:quickgrep)
+
+    return values(map(configs, '{
+          \ "word": v:key,
+          \ "source": s:source_quickgrep.name,
+          \ "kind": ["command"],
+          \ "action__command": v:val.quickrun_command,
+          \ }'))
+endfunction
+"}}}
 "}}}
 
 "---------------------------------------------------------------------------
