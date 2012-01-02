@@ -166,7 +166,7 @@ try
     call neobundle#rc($DOTVIM . '/Bundle/')
     NeoBundle 'Shougo/neobundle.vim'
     NeoBundle 'Shougo/neocomplcache'
-    NeoBundle 'Shougo/clang_complete'
+    NeoBundle 'Shougo/neocomplcache-clang'
     NeoBundle 'Shougo/vimfiler'
     NeoBundle 'Shougo/unite.vim'
     NeoBundle 'Shougo/unite-build'
@@ -1250,7 +1250,7 @@ let g:neocomplcache_include_paths.c = "C:/MinGW/lib/gcc/mingw32/4.5.2/include"
 let g:neocomplcache_include_paths.cpp = "C:/MinGW/lib/gcc/mingw32/4.5.2/include/c++,C:/boost_1_47_0"
 "}}}
 "---------------------------------------------------------------------------
-" Shougo/clang_complete:"{{{
+" neocomplcache-clang:"{{{
 "
 " Use clang dll.
 let g:neocomplcache_clang_use_library = 1
