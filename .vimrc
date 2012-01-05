@@ -17,11 +17,19 @@ else
     let $DOTVIM = expand('~/.vim')
 endif
 
+let $MYLOCALVIMRC = $DOTVIM.'/.local.vimrc'
+
 nnoremap <silent> <Space>ev  :<C-u>edit $MYVIMRC<CR>
 nnoremap <silent> <Space>eg  :<C-u>edit $MYGVIMRC<CR>
+nnoremap <silent> <Space>el  :<C-u>edit $MYLOCALVIMRC<CR>
+
+nnoremap <silent> <Space>tv  :<C-u>tabedit $MYVIMRC<CR>
+nnoremap <silent> <Space>tg  :<C-u>tabedit $MYGVIMRC<CR>
+nnoremap <silent> <Space>tl  :<C-u>tabedit $MYLOCALVIMRC<CR>
 
 nnoremap <silent> <Space>rv :<C-u>source $MYVIMRC \| if has('gui_running') \| source $MYGVIMRC \| endif <CR>
 nnoremap <silent> <Space>rg :<C-u>source $MYGVIMRC<CR>
+nnoremap <silent> <Space>rl :<C-u>if 1 && filereadable($MYLOCALVIMRC) \| source $MYLOCALVIMRC \| endif <CR>
 
 if has('win32') || has('win64')
     set shellslash
@@ -898,50 +906,30 @@ if has("cscope")
 endif
 "}}}
 " unite-quickgrep "{{{
-if !exists('g:quickrun_config')
-    let g:quickrun_config = {}
-endif
-
-let g:quickrun_config["Grep"] = {
-    \ "exec"      : "%c %o '%a' %s:p ",
-    \ "command"   : "grep",
-    \ "cmdopt"   : "-Hn ",
-    \ "outputter" : "quickfix",
-    \ "runner"    : "vimproc"
-\ }
-
-let g:quickgrep = {}
-" let g:quickgrep['keyword1'] = {
-"       \ 'words': 'a grep word'}
-" let g:quickgrep['keyword2'] = {
-"       \ 'words': 'grep word 1\\|grep word 2'}
-
-if !exists('g:unite_source_grep_max_candidates')
-    let g:unite_source_grep_max_candidates = 5000
-endif
+let g:quickgrep_words = {}
+" let g:quickgrep_words['keyword1'] = 'a grep word'
+" let g:quickgrep_words['keyword2'] = 'grep word 1\|grep word 2'
 
 let s:source_quickgrep = {
       \ 'name': 'quickgrep',
-      \ 'max_candidates': g:unite_source_grep_max_candidates,
+      \ 'hooks' : {},
       \ }
 call unite#define_source(s:source_quickgrep)
 
-function! s:source_quickgrep.gather_candidates(args, context)
-    for k in keys(g:quickgrep)
-        let v = g:quickgrep[k]
-        let g:quickgrep[k].quickrun_command = printf(
-              \ 'QuickRun Grep -args %s',
-              \ v.words)
+let s:quickgrep_list = []
+function! s:source_quickgrep.hooks.on_init(args, context)
+    let s:quickgrep_list = []    
+    for key in keys(g:quickgrep_words)
+        call add(s:quickgrep_list, {
+              \ 'word' : key,
+              \ 'kind' : 'command',
+              \ 'action__command' : 'vimgrep /' . g:quickgrep_words[key] . '/ %',
+              \ })
     endfor
+endfunc
 
-    let configs = copy(g:quickgrep)
-
-    return values(map(configs, '{
-          \ "word": v:key,
-          \ "source": s:source_quickgrep.name,
-          \ "kind": ["command"],
-          \ "action__command": v:val.quickrun_command,
-          \ }'))
+function! s:source_quickgrep.gather_candidates(args, context)
+    return s:quickgrep_list
 endfunction
 "}}}
 "}}}
@@ -1305,7 +1293,7 @@ function! s:unite_my_settings()"{{{
 endfunction"}}}
 
 let g:unite_source_file_mru_limit = 200
-let g:unite_source_grep_max_candidates = 5000
+let g:unite_source_grep_max_candidates = 50000
 
 " For optimize.
 let g:unite_source_file_mru_filename_format = ''
@@ -1599,8 +1587,8 @@ vmap ,h v`<I<CR><esc>k0i<!--<ESC>`>j0i--><CR><esc><ESC>
 "---------------------------------------------------------------------------
 " External Settings:"{{{
 "
-if 1 && filereadable($DOTVIM . '/.local.vimrc')
-    source $DOTVIM/.local.vimrc
+if 1 && filereadable($MYLOCALVIMRC)
+    source $MYLOCALVIMRC
 endif
 "}}}
 
