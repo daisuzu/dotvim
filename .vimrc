@@ -202,6 +202,7 @@ try
     NeoBundle 'thinca/vim-prettyprint'
     NeoBundle 'thinca/vim-editvar'
     NeoBundle 'thinca/vim-textobj-between'
+    NeoBundle 'thinca/vim-fontzoom'
 
     NeoBundle 'dannyob/quickfixstatus'
 
@@ -229,6 +230,7 @@ try
 
     NeoBundle 'ujihisa/neco-ghc'
     NeoBundle 'ujihisa/unite-colorscheme'
+    NeoBundle 'ujihisa/unite-font'
 
     NeoBundle 'sgur/unite-qf'
 
@@ -242,6 +244,8 @@ try
     NeoBundle 'sgur/unite-everything'
 
     NeoBundle 'zhaocai/unite-scriptnames'
+
+    NeoBundle 'pasela/unite-webcolorname'
 
     NeoBundle 'pangloss/vim-javascript'
 
