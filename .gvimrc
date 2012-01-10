@@ -4,16 +4,16 @@
 " Fonts:"{{{
 "
 if has('xfontset')
-  set guifontset=a14,r14,k14
+    set guifontset=a14,r14,k14
 elseif has('unix')
 
 elseif has('mac')
-  set guifont=Osaka-mono:h14
+    set guifont=Osaka-mono:h14
 elseif has('win32') || has('win64')
-"  set guifont=MS_Gothic:h12:cSHIFTJIS
-"  set guifontwide=MS_Gothic:h12:cSHIFTJIS
-  set guifont=MS_Gothic:h10:cSHIFTJIS
-  set linespace=1
+"    set guifont=MS_Gothic:h12:cSHIFTJIS
+"    set guifontwide=MS_Gothic:h12:cSHIFTJIS
+    set guifont=MS_Gothic:h10:cSHIFTJIS
+    set linespace=1
 endif
 
 " 印刷に関する設定:
@@ -30,10 +30,10 @@ endif
 "   :help printing
 "印刷用フォント
 if has('printer')
-  if has('win32') || has('win64')
-    set printfont=MS_Mincho:h12:cSHIFTJIS
-"    set printfont=MS_Gothic:h12:cSHIFTJIS
-  endif
+    if has('win32') || has('win64')
+        set printfont=MS_Mincho:h12:cSHIFTJIS
+"       set printfont=MS_Gothic:h12:cSHIFTJIS
+    endif
 endif
 "}}}
 
@@ -94,18 +94,18 @@ set cmdheight=2
 " IME:"{{{
 "
 if has('multi_byte_ime') || has('xim')
-  " IME ON時のカーソルの色を設定(設定例:紫)
-  highlight CursorIM guibg=Purple guifg=NONE
-  " 挿入モード・検索モードでのデフォルトのIME状態設定
-  set iminsert=0 imsearch=0
-  if has('xim') && has('GUI_GTK')
-    "set imactivatekey=C-Space
-  endif
+    " IME ON時のカーソルの色を設定(設定例:紫)
+    highlight CursorIM guibg=Purple guifg=NONE
+    " 挿入モード・検索モードでのデフォルトのIME状態設定
+    set iminsert=0 imsearch=0
+    if has('xim') && has('GUI_GTK')
+        "set imactivatekey=C-Space
+    endif
 endif
 
 if has('multi_byte_ime')
-"  highlight Cursor guifg=NONE guibg=Green
-  highlight CursorIM guifg=NONE guibg=Purple
+"    highlight Cursor guifg=NONE guibg=Green
+    highlight CursorIM guifg=NONE guibg=Purple
 endif
 "}}}
 
@@ -157,6 +157,16 @@ augroup Hier
     au QuickFixCmdPost,BufEnter,WinEnter QuickRun :HierUpdate
 augroup END
 "}}}
+"}}}
+
+"---------------------------------------------------------------------------
+" External Settings:"{{{
+"
+let $MYLOCALGVIMRC = $DOTVIM.'/.local.gvimrc'
+
+if 1 && filereadable($MYLOCALGVIMRC)
+    source $MYLOCALGVIMRC
+endif
 "}}}
 
 " vim: foldmethod=marker
