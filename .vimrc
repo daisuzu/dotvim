@@ -203,6 +203,7 @@ try
     NeoBundle 'thinca/vim-editvar'
     NeoBundle 'thinca/vim-textobj-between'
     NeoBundle 'thinca/vim-fontzoom'
+    NeoBundle 'thinca/vim-ambicmd'
 
     NeoBundle 'dannyob/quickfixstatus'
 
@@ -231,6 +232,7 @@ try
     NeoBundle 'ujihisa/neco-ghc'
     NeoBundle 'ujihisa/unite-colorscheme'
     NeoBundle 'ujihisa/unite-font'
+    NeoBundle 'ujihisa/quicklearn'
 
     NeoBundle 'sgur/unite-qf'
 
@@ -1102,6 +1104,20 @@ xmap <M-D> <Plug>(textmanip-duplicate-up)
 nmap <M-D> <Plug>(textmanip-duplicate-up)
 "}}}
 "---------------------------------------------------------------------------
+" vim-ambicmd:"{{{
+"
+cnoremap <expr> <Space> ambicmd#expand("\<Space>")
+cnoremap <expr> <CR> ambicmd#expand("\<CR>")
+cnoremap <expr> <C-f> ambicmd#expand("\<Right>")
+autocmd MyVimrcCmd CmdwinEnter * call s:init_cmdwin()
+function! s:init_cmdwin()
+    inoremap <buffer> <expr> <Space> ambicmd#expand("\<Space>")
+    inoremap <buffer> <expr> <CR> ambicmd#expand("\<CR>")
+
+    startinsert!
+endfunction
+"}}}
+"---------------------------------------------------------------------------
 " tcommand_vim:"{{{
 "
 noremap <Leader>: :TCommand<CR>
@@ -1394,6 +1410,7 @@ nmap <Leader>gs :<C-u>Gtags -s <C-R>=expand("<cword>")<CR><CR>
 nmap <Leader>gg :<C-u>Gtags -g <C-R>=expand("<cword>")<CR><CR>
 nmap <Leader>gf :<C-u>Gtags -f <C-R>=expand("<cfile>")<CR><CR>
 nmap <Leader>gr :<C-u>Gtags -r <C-R>=expand("<cword>")<CR><CR>
+nmap <Leader>gd :<C-u>Gtags -d <C-R>=expand("<cword>")<CR><CR>
 "}}}
 "---------------------------------------------------------------------------
 " vim-qfreplace:"{{{
