@@ -1114,6 +1114,14 @@ function! s:init_cmdwin()
     inoremap <buffer> <expr> <Space> ambicmd#expand("\<Space>")
     inoremap <buffer> <expr> <CR> ambicmd#expand("\<CR>")
 
+    nnoremap <buffer> q :<C-u>quit<CR>
+    nnoremap <buffer> <TAB> :<C-u>quit<CR>
+
+    inoremap <buffer><expr><C-h> pumvisible() ? "\<C-y>\<C-h>" : "\<C-h>"
+    inoremap <buffer><expr><BS> pumvisible() ? "\<C-y>\<C-h>" : "\<C-h>"
+
+    inoremap <buffer><expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+
     startinsert!
 endfunction
 "}}}
