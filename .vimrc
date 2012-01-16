@@ -1106,24 +1106,40 @@ nmap <M-D> <Plug>(textmanip-duplicate-up)
 "---------------------------------------------------------------------------
 " vim-ambicmd:"{{{
 "
-cnoremap <expr> <Space> ambicmd#expand("\<Space>")
-cnoremap <expr> <CR> ambicmd#expand("\<CR>")
-cnoremap <expr> <C-f> ambicmd#expand("\<Right>")
-autocmd MyVimrcCmd CmdwinEnter * call s:init_cmdwin()
-function! s:init_cmdwin()
-    inoremap <buffer> <expr> <Space> ambicmd#expand("\<Space>")
-    inoremap <buffer> <expr> <CR> ambicmd#expand("\<CR>")
+try
+    call ambicmd#expand("\<Space>")
+    cnoremap <expr> <Space> ambicmd#expand("\<Space>")
+    cnoremap <expr> <CR> ambicmd#expand("\<CR>")
+    cnoremap <expr> <C-f> ambicmd#expand("\<Right>")
+    autocmd MyVimrcCmd CmdwinEnter * call s:init_cmdwin()
+    function! s:init_cmdwin()
+        inoremap <buffer> <expr> <Space> ambicmd#expand("\<Space>")
+        inoremap <buffer> <expr> <CR> ambicmd#expand("\<CR>")
 
-    nnoremap <buffer> q :<C-u>quit<CR>
-    nnoremap <buffer> <TAB> :<C-u>quit<CR>
+        nnoremap <buffer> q :<C-u>quit<CR>
+        nnoremap <buffer> <TAB> :<C-u>quit<CR>
 
-    inoremap <buffer><expr><C-h> pumvisible() ? "\<C-y>\<C-h>" : "\<C-h>"
-    inoremap <buffer><expr><BS> pumvisible() ? "\<C-y>\<C-h>" : "\<C-h>"
+        inoremap <buffer><expr><C-h> pumvisible() ? "\<C-y>\<C-h>" : "\<C-h>"
+        inoremap <buffer><expr><BS> pumvisible() ? "\<C-y>\<C-h>" : "\<C-h>"
 
-    inoremap <buffer><expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+        inoremap <buffer><expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
-    startinsert!
-endfunction
+        startinsert!
+    endfunction
+catch /E117/
+    autocmd MyVimrcCmd CmdwinEnter * call s:init_cmdwin()
+    function! s:init_cmdwin()
+        nnoremap <buffer> q :<C-u>quit<CR>
+        nnoremap <buffer> <TAB> :<C-u>quit<CR>
+
+        inoremap <buffer><expr><C-h> pumvisible() ? "\<C-y>\<C-h>" : "\<C-h>"
+        inoremap <buffer><expr><BS> pumvisible() ? "\<C-y>\<C-h>" : "\<C-h>"
+
+        inoremap <buffer><expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+
+        startinsert!
+    endfunction
+endtry
 "}}}
 "---------------------------------------------------------------------------
 " tcommand_vim:"{{{
@@ -1201,7 +1217,7 @@ endif
 let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
 
 try
-    call neocomplcache#is_enabled()
+    NeoComplCacheEnable
     " Plugin key-mappings.
     imap <C-k>     <Plug>(neocomplcache_snippets_expand)
     smap <C-k>     <Plug>(neocomplcache_snippets_expand)
@@ -1238,7 +1254,7 @@ try
     "let g:neocomplcache_disable_auto_complete = 1
     "inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<TAB>"
     "inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
-catch /E117/
+catch /E492/
     
 endtry
 
