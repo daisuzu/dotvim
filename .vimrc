@@ -1217,7 +1217,7 @@ endif
 let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
 
 try
-    NeoComplCacheEnable
+    call neocomplcache#is_enabled()
     " Plugin key-mappings.
     imap <C-k>     <Plug>(neocomplcache_snippets_expand)
     smap <C-k>     <Plug>(neocomplcache_snippets_expand)
@@ -1254,7 +1254,7 @@ try
     "let g:neocomplcache_disable_auto_complete = 1
     "inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<TAB>"
     "inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
-catch /E492/
+catch /E117/
     
 endtry
 
