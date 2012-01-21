@@ -601,25 +601,6 @@ endfunction "}}}
 au MyVimrcCmd BufEnter * call SetDiffupdateMap()
 "}}}
 
-" LoadRope() "ropevim{{{
-if has('python')
-let loaded_ropevim = 0
-
-function! LoadRope()
-python << EOF
-try:
-    import ropevim
-except :
-    pass
-EOF
-endfunction
-
-if !exists("loaded_alternateFile")
-    call LoadRope()
-    let loaded_ropevim = 1
-endif
-endif
-"}}}
 " DiffClip() "クリップボードと選択行でdiff{{{
 command! -nargs=0 -range DiffClip <line1>, <line2>:call DiffClip('0')
 "レジスタ reg とdiffをとる
@@ -1030,7 +1011,7 @@ let QFix_HeightFixMode         = 0
 "Quickfixウィンドウから開いた後ウィンドウを閉じる/閉じない。
 let QFix_CloseOnJump           = 0
 "Quickfixウィンドウの <S-CR> は分割ではなくタブで開くには 'tab'に設定する。
-let QFix_Edit = ''
+let QFix_Edit = 'tab'
 
 "Quickfixウィンドウのプレビューでfiletypeのハイライトを有効にする。
 "環境やファイルサイズによっては重くなるので、その場合はOFFにしてください。
@@ -1329,7 +1310,7 @@ function! s:unite_my_settings()"{{{
 
     nmap <buffer> <ESC>      <Plug>(unite_exit)
     imap <buffer> jj      <Plug>(unite_insert_leave)
-    "imap <buffer> <C-w>     <Plug>(unite_delete_backward_path)
+    imap <buffer> <C-w>     <Plug>(unite_delete_backward_path)
 
     " <C-l>: manual neocomplcache completion.
     inoremap <buffer> <C-l>  <C-x><C-u><C-p><Down>
@@ -1383,7 +1364,7 @@ let errormarker_disablemappings = 1
 "
 let g:pymode_lint_write = 0
 let g:pydoc = "python -m pydoc"
-let g:pymode_rope = 0
+let g:pymode_rope = 1
 "}}}
 "---------------------------------------------------------------------------
 " Source-Explorer-srcexpl.vim:"{{{
