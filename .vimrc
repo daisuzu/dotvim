@@ -120,7 +120,7 @@ if has('autocmd')
             endif
         endif
     endfunction
-    autocmd BufReadPost MyVimrcCmd * call AU_ReCheck_FENC()
+    autocmd MyVimrcCmd BufReadPost * call AU_ReCheck_FENC()
 endif
 
 " Windowsで内部エンコーディングを cp932以外にしていて、
@@ -186,10 +186,10 @@ try
     NeoBundle 'kana/vim-textobj-user'
     NeoBundle 'kana/vim-textobj-indent'
     NeoBundle 'kana/vim-textobj-syntax'
+    NeoBundle 'kana/vim-operator-user'
     NeoBundle 'kana/vim-filetype-haskell'
 
     NeoBundle 'tpope/vim-surround'
-    NeoBundle 'tpope/vim-markdown'
     NeoBundle 'tpope/vim-fugitive'
 
     NeoBundle 'gregsexton/gitv'
@@ -209,14 +209,9 @@ try
 
     NeoBundle 'jceb/vim-hier'
 
-    "NeoBundle 't9md/vim-quickhl'
     NeoBundle 't9md/vim-textmanip'
 
     NeoBundle 'fuenor/qfixhowm'
-
-    NeoBundle 'hsitz/VimOrganizer'
-
-    NeoBundle 'scrooloose/nerdtree'
 
     NeoBundle 'abudden/TagHighlight'
 
@@ -255,75 +250,41 @@ try
 
     NeoBundle 'klen/python-mode'
 
-    NeoBundle 'Takazudo/outline.vim'
-
     NeoBundle 'nathanaelkane/vim-indent-guides'
-
-    NeoBundle 'gregsexton/VimCalc'
-
-    NeoBundle 'kien/rainbow_parentheses.vim'
 
     NeoBundle 'Lokaltog/vim-easymotion'
 
     NeoBundle 'h1mesuke/vim-alignta'
 
-    NeoBundle 'altercation/vim-colors-solarized'
-
-    NeoBundle 'git://repo.or.cz/vcscommand'
-
     NeoBundle 'a.vim'
-    "NeoBundle 'ACScope'
-    NeoBundle 'Align'
-    NeoBundle 'AnsiEsc.vim'
-    NeoBundle 'BlockDiff'
     NeoBundle 'c.vim'
     NeoBundle 'CCTree'
     NeoBundle 'cecutil'
     NeoBundle 'copypath.vim'
-    "NeoBundle 'CRefVim'
     NeoBundle 'cscope-menu'
-    "NeoBundle 'cscope-quickfix'
-    NeoBundle 'diffchanges.vim'
     NeoBundle 'DirDiff.vim'
     NeoBundle 'DoxygenToolkit.vim'
     NeoBundle 'DrawIt'
     NeoBundle 'errormarker.vim'
-    NeoBundle 'foldsearch'
-    NeoBundle 'format.vim'
     NeoBundle 'multvals.vim'
     NeoBundle 'MultipleSearch'
-    "NeoBundle 'MultipleSearch2.vim'
     NeoBundle 'matchparenpp'
     NeoBundle 'matchit.zip'
-    NeoBundle 'Marks-Browser'
     NeoBundle 'gtags.vim'
     NeoBundle 'occur.vim'
-    NeoBundle 'operator-user'
     NeoBundle 'perl-support.vim'
     NeoBundle 'project.tar.gz'
     NeoBundle 'RST-Tables'
-    NeoBundle 'histwin.vim'
-    NeoBundle 'pydoc.vim'
-"    NeoBundle 'XPstatusline'
     NeoBundle 'Source-Explorer-srcexpl.vim'
     NeoBundle 'trinity.vim'
     NeoBundle 'ShowMultiBase'
     NeoBundle 'ttoc'
     NeoBundle 'tlib'
     NeoBundle 'taglist.vim'
-    NeoBundle 'tagexplorer.vim'
-    "NeoBundle 'Vim-JDE'
-    NeoBundle 'VOoM'
     NeoBundle 'wokmarks.vim'
     NeoBundle 'L9'
-    "NeoBundle 'QuickBuf'
     NeoBundle 'sequence'
-    NeoBundle 'Tabbi'
-    NeoBundle 'ttags'
     NeoBundle 'csv.vim'
-    "NeoBundle 'highlight.vim'
-    NeoBundle 'Search-unFold'
-    NeoBundle 'thermometer'
 
     NeoBundle 'Color-Sampler-Pack'
 catch /E117/
@@ -571,34 +532,32 @@ endfunction}}}
 nnoremap <silent> <Space>cd :<C-u>TCD<CR>
 
 " WinMerge keybind in vimdiff "{{{
-nnoremap <A-Up> [c
-nnoremap <A-Down> ]c
 function! DiffGet() "{{{
     try
         execute 'diffget'
     catch/E101/
         execute 'diffget //2'
     endtry
-    call SetDiffupdateMap()
+    call SetDiffMap()
 endfunction "}}}
-nnoremap <A-Right> :<C-u>call DiffGet()<CR>
 function! DiffPut() "{{{
     try
         execute 'diffput'
     catch/E101/
         execute 'diffget //3'
     endtry
-    call SetDiffupdateMap()
+    call SetDiffMap()
 endfunction "}}}
+nnoremap <A-Up> [c
+nnoremap <A-Down> ]c
+nnoremap <A-Right> :<C-u>call DiffGet()<CR>
 nnoremap <A-Left> :<C-u>call DiffPut()<CR>
-function! SetDiffupdateMap() "{{{
+function! SetDiffMap() "{{{
     if &diff
         nnoremap <F5> :<C-u>diffupdate<CR>
-    else
-        nnoremap <F5> :<C-u>Unite buffer<CR>
     endif
 endfunction "}}}
-au MyVimrcCmd BufEnter * call SetDiffupdateMap()
+au MyVimrcCmd BufEnter * call SetDiffMap()
 "}}}
 
 " DiffClip() "クリップボードと選択行でdiff{{{
@@ -1128,16 +1087,6 @@ endtry
 noremap <Leader>: :TCommand<CR>
 "}}}
 "---------------------------------------------------------------------------
-" Marks-Browser:"{{{
-"
-let marksCloseWhenSelected = 0
-"}}}
-"---------------------------------------------------------------------------
-" Align:"{{{
-"
-let g:Align_xstrlen = 3
-"}}}
-"---------------------------------------------------------------------------
 " MultipleSearch:"{{{
 "
 let g:MultipleSearchMaxColors=13
@@ -1293,13 +1242,18 @@ nnoremap <silent> [unite]a  :<C-u>Unite -prompt=#\  buffer bookmark file_mru fil
 nnoremap <silent> [unite]b  :<C-u>UniteWithBufferDir -buffer-name=files -prompt=%\  buffer bookmark file_mru file<CR>
 nnoremap <silent> [unite]c  :<C-u>UniteWithCurrentDir -buffer-name=files buffer bookmark file_mru file<CR>
 nnoremap <silent> [unite]e  :<C-u>Unite -buffer-name=files everything<CR>
-nnoremap <silent> [unite]r  :<C-u>Unite -buffer-name=register register<CR>
-nnoremap <silent> [unite]o  :<C-u>Unite outline<CR>
+nnoremap <silent> [unite]f  :<C-u>Unite source<CR>
 nnoremap <silent> [unite]h  :<C-u>UniteWithCursorWord help<CR>
-nnoremap <silent> [unite]pi  :<C-u>Unite neobundle/install<CR>
-nnoremap <silent> [unite]pu  :<C-u>Unite neobundle/install:!<CR>
-nnoremap <silent> [unite]pl  :<C-u>Unite neobundle<CR>
-nnoremap  [unite]f  :<C-u>Unite source<CR>
+nnoremap <silent> [unite]m  :<C-u>Unite mark -no-quit<CR>
+nnoremap <silent> [unite]o  :<C-u>Unite outline<CR>
+nnoremap <silent> [unite]pi :<C-u>Unite neobundle/install<CR>
+nnoremap <silent> [unite]pu :<C-u>Unite neobundle/install:!<CR>
+nnoremap <silent> [unite]pl :<C-u>Unite neobundle<CR>
+nnoremap <silent> [unite]r  :<C-u>Unite -buffer-name=register register<CR>
+nnoremap <silent> [unite]t  :<C-u>Unite buffer_tab tab buffer<CR>
+
+let g:unite_kind_file_cd_command = 'TabpageCD'
+let g:unite_kind_file_lcd_command = 'TabpageCD'
 
 " Start insert.
 let g:unite_enable_start_insert = 1
@@ -1328,11 +1282,23 @@ let g:unite_data_directory = $DOTVIM.'/.unite'
 "---------------------------------------------------------------------------
 " vimfiler:"{{{
 "
+nnoremap    [vimfiler]   <Nop>
+nmap    v [vimfiler]
+
+nnoremap <silent> [vimfiler]b  :<C-u>VimFilerBufferDir<CR>
+nnoremap <silent> [vimfiler]c  :<C-u>VimFilerCurrentDir<CR>
+nnoremap <silent> [vimfiler]d  :<C-u>VimFilerDouble<CR>
+nnoremap <silent> [vimfiler]s  :<C-u>VimFilerSimple -no-quit -winwidth=32<CR>
+
 " Edit file by tabedit.
 let g:vimfiler_edit_action = 'open'
 let g:vimfiler_split_action = 'tabopen'
 
-let g:vimfiler_as_default_explorer = 0
+let g:vimfiler_as_default_explorer = 1
+
+if s:MSWindows
+    let g:unite_kind_file_use_trashbox = 1
+endif
 
 " Enable file operation commands.
 let g:vimfiler_safe_mode_by_default = 0
@@ -1348,6 +1314,7 @@ let g:vimfiler_execute_file_list={'txt': 'vim',
 let g:vimshell_interactive_encodings = {'git': 'utf-8'}
 let g:vimshell_temporary_directory = $DOTVIM.'/.vimshell'
 let g:vimshell_vimshrc_path = $DOTVIM.'/.vimshell/.vimshrc'
+let g:vimshell_cd_command = 'TabpageCD'
 "}}}
 "---------------------------------------------------------------------------
 " vimproc:"{{{
@@ -1530,22 +1497,6 @@ let g:quickrun_config['markdown'] = {
 "---------------------------------------------------------------------------
 " Key Mappings:"{{{
 "
-"ファイラー呼び出し
-nnoremap <F8> :<C-u>VimFilerSimple -no-quit -winwidth=32<CR>
-nnoremap <S-F8> :<C-u>NERDTreeToggle<CR>
-
-"マーク一覧呼び出し
-nnoremap <F7> :<C-u>MarksBrowser<CR>
-
-"Taglist呼び出し
-nnoremap <F6> :<C-u>TagExplorer<CR>
-
-"バッファ一覧呼び出し
-nnoremap <F5> :<C-u>Unite buffer<CR>
-
-nnoremap <F4> :<C-u>NeoComplCacheEnable<CR>
-nnoremap <S-F4> :<C-u>NeoComplCacheDisable<CR>
-
 " 最後に編集された位置に移動
 nnoremap gb '[
 nnoremap gp ']
