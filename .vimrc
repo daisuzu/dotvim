@@ -538,7 +538,6 @@ function! DiffGet() "{{{
     catch/E101/
         execute 'diffget //2'
     endtry
-    call SetDiffMap()
 endfunction "}}}
 function! DiffPut() "{{{
     try
@@ -546,18 +545,15 @@ function! DiffPut() "{{{
     catch/E101/
         execute 'diffget //3'
     endtry
-    call SetDiffMap()
 endfunction "}}}
-nnoremap <A-Up> [c
-nnoremap <A-Down> ]c
-nnoremap <A-Right> :<C-u>call DiffGet()<CR>
-nnoremap <A-Left> :<C-u>call DiffPut()<CR>
 function! SetDiffMap() "{{{
-    if &diff
-        nnoremap <F5> :<C-u>diffupdate<CR>
-    endif
+        nnoremap <buffer> <F5> :<C-u>diffupdate<CR>
+        nnoremap <buffer> <A-Up> [c
+        nnoremap <buffer> <A-Down> ]c
+        nnoremap <buffer> <A-Right> :<C-u>call DiffGet()<CR>
+        nnoremap <buffer> <A-Left> :<C-u>call DiffPut()<CR>
 endfunction "}}}
-au MyVimrcCmd BufEnter * call SetDiffMap()
+au MyVimrcCmd FilterWritePost * call SetDiffMap()
 "}}}
 
 " DiffClip() "クリップボードと選択行でdiff{{{
@@ -1288,7 +1284,8 @@ nmap    v [vimfiler]
 nnoremap <silent> [vimfiler]b  :<C-u>VimFilerBufferDir<CR>
 nnoremap <silent> [vimfiler]c  :<C-u>VimFilerCurrentDir<CR>
 nnoremap <silent> [vimfiler]d  :<C-u>VimFilerDouble<CR>
-nnoremap <silent> [vimfiler]s  :<C-u>VimFilerSimple -no-quit -winwidth=32<CR>
+nnoremap <silent> [vimfiler]f  :<C-u>VimFilerSimple -no-quit -winwidth=32<CR>
+nnoremap <silent> [vimfiler]s  :<C-u>VimShell<CR>
 
 " Edit file by tabedit.
 let g:vimfiler_edit_action = 'open'
