@@ -1279,7 +1279,7 @@ let g:unite_data_directory = $DOTVIM.'/.unite'
 " vimfiler:"{{{
 "
 nnoremap    [vimfiler]   <Nop>
-nmap    v [vimfiler]
+nmap    <Space>v [vimfiler]
 
 nnoremap <silent> [vimfiler]b  :<C-u>VimFilerBufferDir<CR>
 nnoremap <silent> [vimfiler]c  :<C-u>VimFilerCurrentDir<CR>
