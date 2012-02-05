@@ -172,126 +172,170 @@ endif
 
 try
     call neobundle#rc($DOTVIM . '/Bundle/')
+
+    " plugin management
     NeoBundle 'Shougo/neobundle.vim'
+    NeoBundle 'tpope/vim-pathogen'
+    NeoBundle 'jceb/vim-ipi'
+
+    " doc
+    NeoBundle 'vim-jp/vimdoc-ja'
+    NeoExternalBundle 'thinca/vim-ref'
+
+    " completion
     NeoBundle 'Shougo/neocomplcache'
     NeoBundle 'Shougo/neocomplcache-clang'
-    NeoBundle 'Shougo/vimfiler'
+    NeoBundle 'ujihisa/neco-ghc'
+
+    " ctags
+    NeoExternalBundle 'taglist.vim'
+    NeoExternalBundle 'abudden/TagHighlight'
+    
+    " vcs
+    NeoBundle 'tpope/vim-fugitive'
+    NeoBundle 'gregsexton/gitv'
+
+    " unite
     NeoBundle 'Shougo/unite.vim'
     NeoBundle 'Shougo/unite-build'
-    NeoBundle 'Shougo/vimproc'
-    NeoBundle 'Shougo/vimshell'
+    NeoBundle 'ujihisa/unite-colorscheme'
+    NeoExternalBundle 'ujihisa/quicklearn'
+    NeoBundle 'sgur/unite-qf'
+    NeoBundle 'h1mesuke/unite-outline'
+    NeoBundle 'h1mesuke/vim-alignta'
+    NeoBundle 'tsukkee/unite-help'
+    NeoBundle 'tsukkee/unite-tag'
+    NeoBundle 'tacroe/unite-mark'
+    NeoBundle 'sgur/unite-everything'
+    NeoBundle 'zhaocai/unite-scriptnames'
+    NeoBundle 'pasela/unite-webcolorname'
 
-    NeoBundle 'vim-jp/vimdoc-ja'
-
+    " textobj
     NeoBundle 'kana/vim-textobj-user'
     NeoBundle 'kana/vim-textobj-indent'
     NeoBundle 'kana/vim-textobj-syntax'
-    NeoBundle 'kana/vim-operator-user'
-    NeoBundle 'kana/vim-filetype-haskell'
-
-    NeoBundle 'tpope/vim-surround'
-    NeoBundle 'tpope/vim-fugitive'
-
-    NeoBundle 'gregsexton/gitv'
-
-    NeoBundle 'thinca/vim-visualstar'
-    NeoBundle 'thinca/vim-qfreplace'
-    NeoBundle 'thinca/vim-ref'
-    NeoBundle 'thinca/vim-logcat'
-    NeoBundle 'thinca/vim-quickrun'
-    NeoBundle 'thinca/vim-prettyprint'
-    NeoBundle 'thinca/vim-editvar'
+    NeoBundle 'kana/vim-textobj-datetime'
+    NeoBundle 'kana/vim-textobj-line'
+    NeoBundle 'kana/vim-textobj-fold'
+    NeoBundle 'kana/vim-textobj-jabraces'
+    NeoBundle 'kana/vim-textobj-entire'
+    NeoBundle 'kana/vim-textobj-lastpat'
     NeoBundle 'thinca/vim-textobj-between'
-    NeoBundle 'thinca/vim-fontzoom'
-    NeoBundle 'thinca/vim-ambicmd'
+    NeoBundle 'thinca/vim-textobj-comment'
+    NeoBundle 'h1mesuke/textobj-wiw'
+    NeoBundle 'vimtaku/vim-textobj-sigil'
+    NeoBundle 'anyakichi/vim-textobj-xbrackets'
 
-    NeoBundle 'dannyob/quickfixstatus'
-
-    NeoBundle 'jceb/vim-hier'
-
-    NeoBundle 't9md/vim-textmanip'
-
-    NeoBundle 'fuenor/qfixhowm'
-
-    NeoBundle 'abudden/TagHighlight'
-
-    NeoBundle 'tomtom/tcommand_vim'
-    NeoBundle 'tomtom/tcomment_vim'
-
-    NeoBundle 'alfredodeza/pytest.vim'
-
-    NeoBundle 'sjl/gundo.vim'
-
-    NeoBundle 'lukerandall/haskellmode-vim'
-
-    NeoBundle 'ujihisa/neco-ghc'
-    NeoBundle 'ujihisa/unite-colorscheme'
-    NeoBundle 'ujihisa/unite-font'
-    NeoBundle 'ujihisa/quicklearn'
-
-    NeoBundle 'sgur/unite-qf'
-
-    NeoBundle 'h1mesuke/unite-outline'
-
-    NeoBundle 'tsukkee/unite-help'
-    NeoBundle 'tsukkee/unite-tag'
-
-    NeoBundle 'tacroe/unite-mark'
-
-    NeoBundle 'sgur/unite-everything'
-
-    NeoBundle 'zhaocai/unite-scriptnames'
-
-    NeoBundle 'pasela/unite-webcolorname'
-
-    NeoBundle 'pangloss/vim-javascript'
-
+    " operator
+    NeoBundle 'kana/vim-operator-user'
+    NeoBundle 'kana/vim-operator-replace'
     NeoBundle 'tyru/operator-camelize.vim'
+    NeoBundle 'tyru/operator-reverse.vim'
+    NeoBundle 'emonkak/vim-operator-comment'
+    NeoBundle 'emonkak/vim-operator-sort'
 
-    NeoBundle 'klen/python-mode'
-
-    NeoBundle 'nathanaelkane/vim-indent-guides'
-
-    NeoBundle 'Lokaltog/vim-easymotion'
-
-    NeoBundle 'h1mesuke/vim-alignta'
-
-    NeoBundle 'a.vim'
-    NeoBundle 'c.vim'
-    NeoBundle 'CCTree'
-    NeoBundle 'cecutil'
-    NeoBundle 'copypath.vim'
-    NeoBundle 'cscope-menu'
-    NeoBundle 'DirDiff.vim'
-    NeoBundle 'DoxygenToolkit.vim'
-    NeoBundle 'DrawIt'
+    " quickfix
+    NeoBundle 'thinca/vim-qfreplace'
+    NeoBundle 'dannyob/quickfixstatus'
+    NeoBundle 'jceb/vim-hier'
+    NeoBundle 'fuenor/qfixhowm'
     NeoBundle 'errormarker.vim'
-    NeoBundle 'multvals.vim'
+
+    " appearance
+    NeoBundle 'thinca/vim-fontzoom'
+    NeoBundle 'nathanaelkane/vim-indent-guides'
     NeoBundle 'MultipleSearch'
+
+    " cursor movement
+    NeoBundle 'Lokaltog/vim-easymotion'
     NeoBundle 'matchparenpp'
     NeoBundle 'matchit.zip'
-    NeoBundle 'gtags.vim'
-    NeoBundle 'occur.vim'
-    NeoBundle 'perl-support.vim'
-    NeoBundle 'project.tar.gz'
+
+    " editing
+    NeoBundle 'tpope/vim-surround'
+    NeoBundle 't9md/vim-textmanip'
+    NeoBundle 'tomtom/tcomment_vim'
+    NeoBundle 'DrawIt'
     NeoBundle 'RST-Tables'
-    NeoBundle 'Source-Explorer-srcexpl.vim'
-    NeoBundle 'trinity.vim'
+    NeoBundle 'sequence'
+
+    " search
+    NeoBundle 'thinca/vim-visualstar'
+    NeoBundle 'occur.vim'
+
+    " utility
+    NeoBundle 'project.tar.gz'
+    NeoBundle 'Shougo/vimproc'
+    NeoExternalBundle 'Shougo/vimfiler'
+    NeoBundle 'Shougo/vimshell'
+    NeoBundle 'thinca/vim-logcat'
+    NeoExternalBundle 'thinca/vim-quickrun'
+    NeoBundle 'thinca/vim-prettyprint'
+    NeoBundle 'thinca/vim-editvar'
+    NeoBundle 'sjl/gundo.vim'
+    NeoBundle 'copypath.vim'
+    NeoBundle 'DirDiff.vim'
     NeoBundle 'ShowMultiBase'
     NeoBundle 'ttoc'
-    NeoBundle 'tlib'
-    NeoBundle 'taglist.vim'
     NeoBundle 'wokmarks.vim'
-    NeoBundle 'L9'
-    NeoBundle 'sequence'
+
+    " command extension
+    NeoBundle 'thinca/vim-ambicmd'
+    NeoBundle 'tyru/vim-altercmd'
+    NeoBundle 'tomtom/tcommand_vim'
+    NeoExternalBundle 'mbadran/headlights'
+
+    " C/C++
+    NeoExternalBundle 'a.vim'
+    NeoExternalBundle 'c.vim'
+    NeoExternalBundle 'CCTree'
+    NeoExternalBundle 'Source-Explorer-srcexpl.vim'
+    NeoExternalBundle 'trinity.vim'
+    NeoExternalBundle 'cscope-menu'
+    NeoExternalBundle 'gtags.vim'
+    NeoExternalBundle 'DoxygenToolkit.vim'
+
+    " Python
+    NeoExternalBundle 'alfredodeza/pytest.vim'
+    NeoExternalBundle 'klen/python-mode'
+
+    " Perl
+    NeoExternalBundle 'perl-support.vim'
+
+    " Javascript
+    NeoExternalBundle 'pangloss/vim-javascript'
+
+    " Haskell
+    NeoExternalBundle 'kana/vim-filetype-haskell'
+    NeoExternalBundle 'lukerandall/haskellmode-vim'
+
+    " CSV
     NeoBundle 'csv.vim'
 
+    " colorscheme
     NeoBundle 'Color-Sampler-Pack'
+
+    " runtime
+    NeoBundle 'cecutil'
+    NeoBundle 'multvals.vim'
+    NeoBundle 'tlib'
+    NeoBundle 'L9'
 catch /E117/
     
 endtry
 "}}}
 
+"---------------------------------------------------------------------------
+" vim-ipi:"{{{
+"
+let s:ipi_loaded = 0
+try
+    call ipi#inspect("Bundle")
+    let s:ipi_loaded = 1
+catch /E117/
+    
+endtry
+"}}}
 filetype plugin indent on
 
 "---------------------------------------------------------------------------
@@ -339,8 +383,7 @@ set tags+=./**/tags
 " grep設定{{{
 set grepprg=grep\ -nH
 "set grepprg=ack.pl\ -a
-au MyVimrcCmd QuickfixCmdPost make,grep,grepadd,vimgrep,helpgrep copen
-au MyVimrcCmd QuickfixCmdPost l* lopen
+" autocmd MyVimrcCmd QuickfixCmdPost make,grep,grepadd,vimgrep,helpgrep copen
 "}}}
 " あらゆる言語に対してキーワードの補完を有効にする{{{
 autocmd MyVimrcCmd FileType *
@@ -405,7 +448,7 @@ match WhitespaceEOL /\s\+$/
 
 " XPstatusline + fugitive#statusline {{{
 let g:statusline_max_path = 20
-fun! StatusLineGetPath() "{{{
+function! StatusLineGetPath() "{{{
     let p = expand('%:.:h') 
     let p = substitute(p, expand('$HOME'), '~', '')
     if len(p) > g:statusline_max_path
@@ -419,13 +462,13 @@ nmap <Plug>view:switch_status_path_length :let g:statusline_max_path = 200 - g:s
 nmap ,t <Plug>view:switch_status_path_length
 
 augroup Statusline
-    au! Statusline
+    autocmd! Statusline
 
-    au BufEnter * call <SID>SetFullStatusline()
-    au BufLeave,BufNew,BufRead,BufNewFile * call <SID>SetSimpleStatusline()
+    autocmd BufEnter * call <SID>SetFullStatusline()
+    autocmd BufLeave,BufNew,BufRead,BufNewFile * call <SID>SetSimpleStatusline()
 augroup END
 
-fun! StatusLineRealSyn()
+function! StatusLineRealSyn()
     let synId = synID(line('.'),col('.'),1)
     let realSynId = synIDtrans(synId)
     if synId == realSynId
@@ -435,7 +478,7 @@ fun! StatusLineRealSyn()
     endif
 endfunction
 
-fun! s:SetFullStatusline() "{{{
+function! s:SetFullStatusline() "{{{
     setlocal statusline=
     setlocal statusline+=%#StatuslineBufNr#%-1.2n\                   " buffer number
     setlocal statusline+=%h%#StatuslineFlag#%m%r%w                 " flags
@@ -466,7 +509,7 @@ fun! s:SetFullStatusline() "{{{
 
 endfunction "}}}
 
-fun! s:SetSimpleStatusline() "{{{
+function! s:SetSimpleStatusline() "{{{
     setlocal statusline=
     setlocal statusline+=%#StatuslineNC#%-0.20{StatusLineGetPath()}%0* " path
     setlocal statusline+=\/%t\                       " file name
@@ -494,6 +537,12 @@ nmap <ESC><ESC> :nohlsearch<CR><ESC>
 "---------------------------------------------------------------------------
 "  Utilities:"{{{
 "
+try
+    call altercmd#load()
+catch /E117/
+
+endtry
+
 " TabpageCD"{{{
 command! -bar -complete=dir -nargs=?
       \   CD
@@ -513,7 +562,11 @@ autocmd MyVimrcCmd TabEnter *
       \ | execute 'cd' fnameescape(expand(t:cwd))
 
 " Exchange ':cd' to ':TabpageCD'.
-cnoreabbrev <expr> cd (getcmdtype() == ':' && getcmdline() ==# 'cd') ? 'TabpageCD' : 'cd'
+try
+    AlterCommand cd CD
+catch /E492/
+
+endtry
 "}}}
 
 " 開いているファイルのディレクトリに移動する{{{
@@ -553,9 +606,22 @@ function! SetDiffMap() "{{{
         nnoremap <buffer> <A-Right> :<C-u>call DiffGet()<CR>
         nnoremap <buffer> <A-Left> :<C-u>call DiffPut()<CR>
 endfunction "}}}
-au MyVimrcCmd FilterWritePost * call SetDiffMap()
+autocmd MyVimrcCmd FilterWritePost * call SetDiffMap()
 "}}}
+" Command-line window{{{
+autocmd MyVimrcCmd CmdwinEnter * call s:init_cmdwin()
+function! s:init_cmdwin()
+    nnoremap <buffer> q :<C-u>quit<CR>
+    nnoremap <buffer> <TAB> :<C-u>quit<CR>
 
+    inoremap <buffer><expr><C-h> pumvisible() ? "\<C-y>\<C-h>" : "\<C-h>"
+    inoremap <buffer><expr><BS> pumvisible() ? "\<C-y>\<C-h>" : "\<C-h>"
+
+    inoremap <buffer><expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+
+    startinsert!
+endfunction
+"}}}
 " DiffClip() "クリップボードと選択行でdiff{{{
 command! -nargs=0 -range DiffClip <line1>, <line2>:call DiffClip('0')
 "レジスタ reg とdiffをとる
@@ -661,14 +727,14 @@ endfunction
 
 function! FlyquickfixToggleSet()
     if g:python_flyquickfixmake == 1
-        au! FlyQuickfixMakeCmd
+        autocmd! FlyQuickfixMakeCmd
         echo "not-used flymake"
         let g:python_flyquickfixmake = 0
     else
         echo "used flymake"
         let g:python_flyquickfixmake = 1
-        au FlyQuickfixMakeCmd BufWritePost *.py make
-        au FlyQuickfixMakeCmd BufWritePost *.pm,*.pl,*.t make
+        autocmd FlyQuickfixMakeCmd BufWritePost *.py make
+        autocmd FlyQuickfixMakeCmd BufWritePost *.pm,*.pl,*.t make
     endif
 endfunction
 
@@ -676,9 +742,9 @@ if !exists("g:python_flyquickfixmake")
     let g:python_flyquickfixmake = 1
     call FlyquickfixPrgSet(8)
 
-    "au BufWritePost *.py silent make
-    au FlyQuickfixMakeCmd BufWritePost *.py make
-    au FlyQuickfixMakeCmd BufWritePost *.pm,*.pl,*.t make
+    "autocmd BufWritePost *.py silent make
+    autocmd FlyQuickfixMakeCmd BufWritePost *.py make
+    autocmd FlyQuickfixMakeCmd BufWritePost *.pm,*.pl,*.t make
 endif
 
 if !exists("g:flyquickfixmake_mode")
@@ -697,10 +763,10 @@ function! FlyquickfixReSet()
     endif
 endfunction
 
-au MyVimrcCmd BufEnter *.py call FlyquickfixReSet()
-au MyVimrcCmd BufEnter *.pm,*.pl,*.t call FlyquickfixPrgSet(10)
+autocmd MyVimrcCmd BufEnter *.py call FlyquickfixReSet()
+autocmd MyVimrcCmd BufEnter *.pm,*.pl,*.t call FlyquickfixPrgSet(10)
 " 新規ファイルからperlファイルを作成するときにmakeprgをperl用に変更する
-au MyVimrcCmd FileType perl call FlyquickfixPrgSet(10)
+autocmd MyVimrcCmd FileType perl call FlyquickfixPrgSet(10)
 
 noremap fs :call FlyquickfixToggleSet()<CR>
 noremap pl :call FlyquickfixPrgSet(0)<CR>
@@ -712,9 +778,6 @@ noremap p8 :call FlyquickfixPrgSet(8)<CR>
 " This tests to see if vim was configured with the '--enable-cscope' option
 " when it was compiled.  If it wasn't, time to recompile vim... 
 if has("cscope")
-
-    """"""""""""" Standard cscope/vim boilerplate
-
     " use both cscope and ctag for 'ctrl-]', ':ta', and 'vim -t'
     set cscopetag
 
@@ -733,11 +796,7 @@ if has("cscope")
     " show msg when any other cscope db added
     set cscopeverbose  
 
-
-    """"""""""""" My cscope/vim key mappings
-    "
-    " The following maps all invoke one of the following cscope search types:
-    "
+    " cscope key mappings
     "   's'   symbol: find all references to the token under cursor
     "   'g'   global: find global definition(s) of the token under cursor
     "   'c'   calls:  find all calls to the function name under cursor
@@ -746,32 +805,6 @@ if has("cscope")
     "   'f'   file:   open the filename under cursor
     "   'i'   includes: find files that include the filename under cursor
     "   'd'   called: find functions that function under cursor calls
-    "
-    " Below are three sets of the maps: one set that just jumps to your
-    " search result, one that splits the existing vim window horizontally and
-    " diplays your search result in the new window, and one that does the same
-    " thing, but does a vertical split instead (vim 6 only).
-    "
-    " I've used CTRL-\ and CTRL-@ as the starting keys for these maps, as it's
-    " unlikely that you need their default mappings (CTRL-\'s default use is
-    " as part of CTRL-\ CTRL-N typemap, which basically just does the same
-    " thing as hitting 'escape': CTRL-@ doesn't seem to have any default use).
-    " If you don't like using 'CTRL-@' or CTRL-\, , you can change some or all
-    " of these maps to use other keys.  One likely candidate is 'CTRL-_'
-    " (which also maps to CTRL-/, which is easier to type).  By default it is
-    " used to switch between Hebrew and English keyboard mode.
-    "
-    " All of the maps involving the <cfile> macro use '^<cfile>$': this is so
-    " that searches over '#include <time.h>" return only references to
-    " 'time.h', and not 'sys/time.h', etc. (by default cscope will return all
-    " files that contain 'time.h' as part of their name).
-
-
-    " To do the first type of search, hit 'CTRL-\', followed by one of the
-    " cscope search types above (s,g,c,t,e,f,i,d).  The result of your cscope
-    " search will be displayed in the current window.  You can use CTRL-T to
-    " go back to where you were before the search.  
-    "
 
     nmap <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>
     nmap <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR>
@@ -782,15 +815,6 @@ if has("cscope")
     nmap <C-\>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
     nmap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>
 
-
-    " Using 'CTRL-spacebar' (intepreted as CTRL-@ by vim) then a search type
-    " makes the vim window split horizontally, with search result displayed in
-    " the new window.
-    "
-    " (Note: earlier versions of vim may not have the :scs command, but it
-    " can be simulated roughly via:
-    "    nmap <C-@>s <C-W><C-S> :cs find s <C-R>=expand("<cword>")<CR><CR>
-
     nmap <C-@>s :scs find s <C-R>=expand("<cword>")<CR><CR>
     nmap <C-@>g :scs find g <C-R>=expand("<cword>")<CR><CR>
     nmap <C-@>c :scs find c <C-R>=expand("<cword>")<CR><CR>
@@ -800,13 +824,6 @@ if has("cscope")
     nmap <C-@>i :scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
     nmap <C-@>d :scs find d <C-R>=expand("<cword>")<CR><CR>
 
-
-    " Hitting CTRL-space *twice* before the search type does a vertical 
-    " split instead of a horizontal one (vim 6 and up only)
-    "
-    " (Note: you may wish to put a 'set splitright' in your .vimrc
-    " if you prefer the new window on the right instead of the left
-
     nmap <C-@><C-@>s :vert scs find s <C-R>=expand("<cword>")<CR><CR>
     nmap <C-@><C-@>g :vert scs find g <C-R>=expand("<cword>")<CR><CR>
     nmap <C-@><C-@>c :vert scs find c <C-R>=expand("<cword>")<CR><CR>
@@ -815,36 +832,6 @@ if has("cscope")
     nmap <C-@><C-@>f :vert scs find f <C-R>=expand("<cfile>")<CR><CR>
     nmap <C-@><C-@>i :vert scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
     nmap <C-@><C-@>d :vert scs find d <C-R>=expand("<cword>")<CR><CR>
-
-
-    """"""""""""" key map timeouts
-    "
-    " By default Vim will only wait 1 second for each keystroke in a mapping.
-    " You may find that too short with the above typemaps.  If so, you should
-    " either turn off mapping timeouts via 'notimeout'.
-    "
-    "set notimeout 
-    "
-    " Or, you can keep timeouts, by uncommenting the timeoutlen line below,
-    " with your own personal favorite value (in milliseconds):
-    "
-    "set timeoutlen=4000
-    "
-    " Either way, since mapping timeout settings by default also set the
-    " timeouts for multicharacter 'keys codes' (like <F1>), you should also
-    " set ttimeout and ttimeoutlen: otherwise, you will experience strange
-    " delays as vim waits for a keystroke after you hit ESC (it will be
-    " waiting to see if the ESC is actually part of a key code like <F1>).
-    "
-    "set ttimeout 
-    "
-    " personally, I find a tenth of a second to work well for key code
-    " timeouts. If you experience problems and have a slow terminal or network
-    " connection, set it higher.  If you don't set ttimeoutlen, the value for
-    " timeoutlent (default: 1000 = 1 second, which is sluggish) is used.
-    "
-    "set ttimeoutlen=100
-
 endif
 "}}}
 " unite-quickgrep "{{{
@@ -885,6 +872,252 @@ endfunction
 let g:html_number_lines = 0
 let g:html_dynamic_folds = 1
 "let g:html_hover_unfold = 1
+"}}}
+"---------------------------------------------------------------------------
+" vim-ref:"{{{
+"
+let g:ref_cache_dir = $DOTVIM.'/.vim_ref_cache'
+
+" Python
+let g:ref_pydoc_cmd = "python -m pydoc"
+
+" ALC
+"let g:ref_alc_cmd = 'w3m -dump %s'
+let g:ref_alc_use_cache = 0
+let g:ref_alc_start_linenumber = 39 " 余計な行を読み飛ばす
+if s:MSWindows
+    let g:ref_alc_encoding = 'cp932'
+endif
+if exists('*ref#register_detection')
+    call ref#register_detection('_', 'alc')
+endif
+"}}}
+"---------------------------------------------------------------------------
+" neocomplcache:"{{{
+"
+function! Init_neocomplecache()"{{{
+    NeoComplCacheEnable
+    imap <C-k>     <Plug>(neocomplcache_snippets_expand)
+    smap <C-k>     <Plug>(neocomplcache_snippets_expand)
+    inoremap <expr><C-g>     neocomplcache#undo_completion()
+    inoremap <expr><C-l>     neocomplcache#complete_common_string()
+    imap <C-q>  <Plug>(neocomplcache_start_unite_quick_match)
+
+    " SuperTab like snippets behavior.
+    "imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+
+    " Recommended key-mappings.
+    " <CR>: close popup and save indent.
+    inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
+    " <TAB>: completion.
+    inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+    " <C-h>, <BS>: close popup and delete backword char.
+    inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
+    inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
+    inoremap <expr><C-y>  neocomplcache#close_popup()
+    inoremap <expr><C-e>  neocomplcache#cancel_popup()
+
+    " For cursor moving in insert mode(Not recommended)
+    "inoremap <expr><Left> neocomplcache#close_popup() . "\<Left>"
+    "inoremap <expr><Right> neocomplcache#close_popup() . "\<Right>"
+    "inoremap <expr><Up> neocomplcache#close_popup() . "\<Up>"
+    "inoremap <expr><Down> neocomplcache#close_popup() . "\<Down>"
+
+    " AutoComplPop like behavior.
+    "let g:neocomplcache_enable_auto_select = 1
+
+    " Shell like behavior(not recommended).
+    "set completeopt&
+    "set completeopt+=longest
+    "let g:neocomplcache_enable_auto_select = 1
+    "let g:neocomplcache_disable_auto_complete = 1
+    "inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<TAB>"
+    "inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
+endfunction"}}}
+function! Term_neocomplecache()"{{{
+    NeoComplCacheDisable
+    iunmap <C-k>
+    sunmap <C-k>
+    iunmap <C-g>
+    iunmap <C-l>
+    iunmap <C-q>
+    iunmap <CR>
+    iunmap <TAB>
+    iunmap <C-h>
+    iunmap <BS>
+    iunmap <C-y>
+    iunmap <C-e>
+endfunction"}}}
+command! InitNeoComplCache call Init_neocomplecache()
+command! TermNeoComplCache call Term_neocomplecache()
+
+" Disable AutoComplPop.
+let g:acp_enableAtStartup = 0
+" Use neocomplcache.
+let g:neocomplcache_enable_at_startup = 0
+" Use smartcase.
+let g:neocomplcache_enable_smart_case = 1
+" Use camel case completion.
+let g:neocomplcache_enable_camel_case_completion = 1
+" Use underbar completion.
+let g:neocomplcache_enable_underbar_completion = 1
+" Set minimum syntax keyword length.
+let g:neocomplcache_min_syntax_length = 3
+let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
+
+" Disable caching buffer name
+let g:neocomplcache_disable_caching_file_path_pattern = '\.ref\|\.txt'
+let g:neocomplcache_temporary_dir = $DOTVIM.'/.neocon'
+
+" Define dictionary.
+let g:neocomplcache_dictionary_filetype_lists = {
+  \ 'default' : $DOTVIM.'/.neo_default',
+  \ 'vimshell' : $DOTVIM.'/.vimshell_hist',
+  \ 'scheme' : $DOTVIM.'/.gosh_completions'
+        \ }
+
+" Define keyword.
+if !exists('g:neocomplcache_keyword_patterns')
+    let g:neocomplcache_keyword_patterns = {}
+endif
+let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
+
+try
+    if neocomplcache#is_enabled()
+        InitNeoComplCache
+    endif
+catch /E117/
+    
+endtry
+
+" Enable omni completion.
+autocmd MyVimrcCmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd MyVimrcCmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd MyVimrcCmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd MyVimrcCmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd MyVimrcCmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+" Enable heavy omni completion.
+if !exists('g:neocomplcache_omni_patterns')
+    let g:neocomplcache_omni_patterns = {}
+endif
+let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
+"autocmd MyVimrcCmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
+let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
+
+if !exists('g:neocomplcache_include_paths')
+    let g:neocomplcache_include_paths = {}
+endif
+let g:neocomplcache_include_paths.c = "C:/MinGW/lib/gcc/mingw32/4.5.2/include"
+let g:neocomplcache_include_paths.cpp = "C:/MinGW/lib/gcc/mingw32/4.5.2/include/c++,C:/boost_1_47_0"
+"}}}
+"---------------------------------------------------------------------------
+" neocomplcache-clang:"{{{
+"
+" Use clang dll.
+let g:neocomplcache_clang_use_library = 1
+"let g:neocomplcache_clang_library_path='C:/GnuWin32/bin'
+" More user include path.
+let g:neocomplcache_clang_user_options =
+\ '-I C:/MinGW/lib/gcc/mingw32/4.5.2/include '.
+\ '-I C:/MinGW/lib/gcc/mingw32/4.5.2/include/c++ '.
+\ '-I C:/MinGW/lib/gcc/mingw32/4.6.2/include '.
+\ '-I C:/MinGW/lib/gcc/mingw32/4.6.2/include/c++ '.
+\ '-I C:/Program\ Files/Microsoft\ Visual\ Studio\ 9.0/VC/include '.
+\ '-I C:/Program\ Files/Microsoft\ SDKs/Windows/v6.0A/Include '.
+\ '-I C:/boost_1_47_0 '.
+\ '-fms-extensions -fgnu-runtime '.
+\ '-include malloc.h '
+" More neocomplcache candidates.
+let g:neocomplcache_max_list = 1000
+"}}}
+"---------------------------------------------------------------------------
+" vim-fugitive:"{{{
+"
+nnoremap <Space>gd :<C-u>Gdiff<CR>
+nnoremap <Space>gs :<C-u>Gstatus<CR>
+nnoremap <Space>gl :<C-u>Glog<CR>
+nnoremap <Space>ga :<C-u>Gwrite<CR>
+nnoremap <Space>gc :<C-u>Gcommit<CR>
+nnoremap <Space>gC :<C-u>Git commit --amend<CR>
+nnoremap <Space>gb :<C-u>Gblame<CR>
+nnoremap <Space>gv :<C-u>Gitv<CR>
+nnoremap <Space>gV :<C-u>Gitv!<CR>
+"}}}
+"---------------------------------------------------------------------------
+" unite.vim:"{{{
+"
+" The prefix key.
+nnoremap    [unite]   <Nop>
+nmap    f [unite]
+
+nnoremap <silent> [unite]a  :<C-u>Unite -prompt=#\  buffer bookmark file_mru file<CR>
+nnoremap <silent> [unite]b  :<C-u>UniteWithBufferDir -buffer-name=files -prompt=%\  buffer bookmark file_mru file<CR>
+nnoremap <silent> [unite]c  :<C-u>UniteWithCurrentDir -buffer-name=files buffer bookmark file_mru file<CR>
+nnoremap <silent> [unite]e  :<C-u>Unite -buffer-name=files everything<CR>
+nnoremap <silent> [unite]f  :<C-u>Unite source<CR>
+nnoremap <silent> [unite]h  :<C-u>UniteWithCursorWord help<CR>
+nnoremap <silent> [unite]m  :<C-u>Unite mark -no-quit<CR>
+nnoremap <silent> [unite]o  :<C-u>Unite outline<CR>
+nnoremap <silent> [unite]pi :<C-u>Unite neobundle/install<CR>
+nnoremap <silent> [unite]pu :<C-u>Unite neobundle/install:!<CR>
+nnoremap <silent> [unite]pl :<C-u>Unite neobundle<CR>
+nnoremap <silent> [unite]r  :<C-u>Unite -buffer-name=register register<CR>
+nnoremap <silent> [unite]t  :<C-u>Unite buffer_tab tab buffer<CR>
+
+let g:unite_kind_file_cd_command = 'TabpageCD'
+let g:unite_kind_file_lcd_command = 'TabpageCD'
+
+" Start insert.
+let g:unite_enable_start_insert = 1
+
+autocmd MyVimrcCmd FileType unite call s:unite_my_settings()
+function! s:unite_my_settings()"{{{
+    " Overwrite settings.
+
+    nmap <buffer> <ESC>      <Plug>(unite_exit)
+    imap <buffer> jj      <Plug>(unite_insert_leave)
+    imap <buffer> <C-w>     <Plug>(unite_delete_backward_path)
+
+    " <C-l>: manual neocomplcache completion.
+    inoremap <buffer> <C-l>  <C-x><C-u><C-p><Down>
+
+endfunction"}}}
+
+let g:unite_source_file_mru_limit = 200
+let g:unite_source_grep_max_candidates = 50000
+
+" For optimize.
+let g:unite_source_file_mru_filename_format = ''
+
+let g:unite_data_directory = $DOTVIM.'/.unite'
+"}}}
+"---------------------------------------------------------------------------
+" textobj-comment:"{{{
+"
+let g:textobj_comment_no_default_key_mappings = 1
+omap ao	<Plug>(textobj-comment-a)
+xmap ao	<Plug>(textobj-comment-a)
+omap io	<Plug>(textobj-comment-i)
+xmap io	<Plug>(textobj-comment-i)
+"}}}
+"---------------------------------------------------------------------------
+" operator-replace:"{{{
+"
+map _  <Plug>(operator-replace)
+"}}}
+"---------------------------------------------------------------------------
+" operator-camelize:"{{{
+"
+map <Leader>c <Plug>(operator-camelize)
+map <Leader>C <Plug>(operator-decamelize)
+"}}}
+"---------------------------------------------------------------------------
+" operator-sort:"{{{
+"
+map <Leader>s <Plug>(operator-sort)
 "}}}
 "---------------------------------------------------------------------------
 " qfixhown.vim:"{{{
@@ -1013,6 +1246,21 @@ let MyGrep_DefaultSearchWord = 1
 
 "gvimのメニューバーに登録する/しない
 let MyGrep_MenuBar = 3
+
+function! OpenQuickfix()
+    try
+        OpenQFixWin
+    catch /E492/
+        copen
+    endtry
+endfunction
+
+autocmd MyVimrcCmd QuickfixCmdPost make,grep,grepadd,vimgrep,helpgrep call OpenQuickfix()
+"}}}
+"---------------------------------------------------------------------------
+" errormarker.vim:"{{{
+"
+let errormarker_disablemappings = 1
 "}}}
 "---------------------------------------------------------------------------
 " vim-indent-guides:"{{{
@@ -1024,6 +1272,13 @@ let g:indent_guides_guide_size = 1
 let g:indent_guides_start_level = 2
 "let g:indent_guides_space_guides = 0
 let g:indent_guides_enable_on_vim_startup = 0
+"}}}
+"---------------------------------------------------------------------------
+" MultipleSearch:"{{{
+"
+let g:MultipleSearchMaxColors=13
+let g:MultipleSearchColorSequence="red,yellow,blue,green,magenta,lightred,cyan,lightyellow,gray,brown,lightblue,darkmagenta,darkcyan"
+let g:MultipleSearchTextColorSequence="white,black,white,black,white,black,black,black,black,white,black,white,white"
 "}}}
 "---------------------------------------------------------------------------
 " vim-textmanip:"{{{
@@ -1040,240 +1295,21 @@ xmap <M-D> <Plug>(textmanip-duplicate-up)
 nmap <M-D> <Plug>(textmanip-duplicate-up)
 "}}}
 "---------------------------------------------------------------------------
-" vim-ambicmd:"{{{
+" tcomment_vim:"{{{
 "
-try
-    call ambicmd#expand("\<Space>")
-    cnoremap <expr> <Space> ambicmd#expand("\<Space>")
-    cnoremap <expr> <CR> ambicmd#expand("\<CR>")
-    cnoremap <expr> <C-f> ambicmd#expand("\<Right>")
-    autocmd MyVimrcCmd CmdwinEnter * call s:init_cmdwin()
-    function! s:init_cmdwin()
-        inoremap <buffer> <expr> <Space> ambicmd#expand("\<Space>")
-        inoremap <buffer> <expr> <CR> ambicmd#expand("\<CR>")
-
-        nnoremap <buffer> q :<C-u>quit<CR>
-        nnoremap <buffer> <TAB> :<C-u>quit<CR>
-
-        inoremap <buffer><expr><C-h> pumvisible() ? "\<C-y>\<C-h>" : "\<C-h>"
-        inoremap <buffer><expr><BS> pumvisible() ? "\<C-y>\<C-h>" : "\<C-h>"
-
-        inoremap <buffer><expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-
-        startinsert!
-    endfunction
-catch /E117/
-    autocmd MyVimrcCmd CmdwinEnter * call s:init_cmdwin()
-    function! s:init_cmdwin()
-        nnoremap <buffer> q :<C-u>quit<CR>
-        nnoremap <buffer> <TAB> :<C-u>quit<CR>
-
-        inoremap <buffer><expr><C-h> pumvisible() ? "\<C-y>\<C-h>" : "\<C-h>"
-        inoremap <buffer><expr><BS> pumvisible() ? "\<C-y>\<C-h>" : "\<C-h>"
-
-        inoremap <buffer><expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-
-        startinsert!
-    endfunction
-endtry
+let g:tcommentMapLeaderOp1 = ',c'
+let g:tcommentMapLeaderOp2 = ',C'
 "}}}
 "---------------------------------------------------------------------------
-" tcommand_vim:"{{{
+" project.tar.gz:"{{{
 "
-noremap <Leader>: :TCommand<CR>
+let g:proj_flags = "imstc"
+nmap <silent> <Leader>P <Plug>ToggleProject
 "}}}
 "---------------------------------------------------------------------------
-" MultipleSearch:"{{{
+" vimproc:"{{{
 "
-let g:MultipleSearchMaxColors=13
-let g:MultipleSearchColorSequence="red,yellow,blue,green,magenta,lightred,cyan,lightyellow,gray,brown,lightblue,darkmagenta,darkcyan"
-let g:MultipleSearchTextColorSequence="white,black,white,black,white,black,black,black,black,white,black,white,white"
-"}}}
-"---------------------------------------------------------------------------
-" vim-ref:"{{{
-"
-let g:ref_cache_dir = $DOTVIM.'/.vim_ref_cache'
-
-" Python
-let g:ref_pydoc_cmd = "python -m pydoc"
-
-" ALC
-"let g:ref_alc_cmd = 'w3m -dump %s'
-let g:ref_alc_use_cache = 0
-let g:ref_alc_start_linenumber = 39 " 余計な行を読み飛ばす
-if s:MSWindows
-    let g:ref_alc_encoding = 'cp932'
-endif
-if exists('*ref#register_detection')
-    call ref#register_detection('_', 'alc')
-endif
-"}}}
-"---------------------------------------------------------------------------
-" neocomplcache:"{{{
-"
-" Disable AutoComplPop.
-let g:acp_enableAtStartup = 0
-" Use neocomplcache.
-let g:neocomplcache_enable_at_startup = 1
-" Use smartcase.
-let g:neocomplcache_enable_smart_case = 1
-" Use camel case completion.
-let g:neocomplcache_enable_camel_case_completion = 1
-" Use underbar completion.
-let g:neocomplcache_enable_underbar_completion = 1
-" Set minimum syntax keyword length.
-let g:neocomplcache_min_syntax_length = 3
-let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
-
-" Disable caching buffer name
-let g:neocomplcache_disable_caching_file_path_pattern = '\.ref\|\.txt'
-let g:neocomplcache_temporary_dir = $DOTVIM.'/.neocon'
-
-" Define dictionary.
-let g:neocomplcache_dictionary_filetype_lists = {
-  \ 'default' : $DOTVIM.'/.neo_default',
-  \ 'vimshell' : $DOTVIM.'/.vimshell_hist',
-  \ 'scheme' : $DOTVIM.'/.gosh_completions'
-        \ }
-
-" Define keyword.
-if !exists('g:neocomplcache_keyword_patterns')
-    let g:neocomplcache_keyword_patterns = {}
-endif
-let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
-
-try
-    call neocomplcache#is_enabled()
-    " Plugin key-mappings.
-    imap <C-k>     <Plug>(neocomplcache_snippets_expand)
-    smap <C-k>     <Plug>(neocomplcache_snippets_expand)
-    inoremap <expr><C-g>     neocomplcache#undo_completion()
-    inoremap <expr><C-l>     neocomplcache#complete_common_string()
-
-    " SuperTab like snippets behavior.
-    "imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
-
-    " Recommended key-mappings.
-    " <CR>: close popup and save indent.
-    inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
-    " <TAB>: completion.
-    inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-    " <C-h>, <BS>: close popup and delete backword char.
-    inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
-    inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-    inoremap <expr><C-y>  neocomplcache#close_popup()
-    inoremap <expr><C-e>  neocomplcache#cancel_popup()
-
-    " For cursor moving in insert mode(Not recommended)
-    "inoremap <expr><Left> neocomplcache#close_popup() . "\<Left>"
-    "inoremap <expr><Right> neocomplcache#close_popup() . "\<Right>"
-    "inoremap <expr><Up> neocomplcache#close_popup() . "\<Up>"
-    "inoremap <expr><Down> neocomplcache#close_popup() . "\<Down>"
-
-    " AutoComplPop like behavior.
-    "let g:neocomplcache_enable_auto_select = 1
-
-    " Shell like behavior(not recommended).
-    "set completeopt&
-    "set completeopt+=longest
-    "let g:neocomplcache_enable_auto_select = 1
-    "let g:neocomplcache_disable_auto_complete = 1
-    "inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<TAB>"
-    "inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
-catch /E117/
-    
-endtry
-
-" Enable omni completion.
-autocmd MyVimrcCmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd MyVimrcCmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd MyVimrcCmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd MyVimrcCmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd MyVimrcCmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-
-" Enable heavy omni completion.
-if !exists('g:neocomplcache_omni_patterns')
-    let g:neocomplcache_omni_patterns = {}
-endif
-let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
-"autocmd MyVimrcCmd FileType ruby setlocal omnifunc=rubycomplete#Complete
-let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
-let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
-
-if !exists('g:neocomplcache_include_paths')
-    let g:neocomplcache_include_paths = {}
-endif
-let g:neocomplcache_include_paths.c = "C:/MinGW/lib/gcc/mingw32/4.5.2/include"
-let g:neocomplcache_include_paths.cpp = "C:/MinGW/lib/gcc/mingw32/4.5.2/include/c++,C:/boost_1_47_0"
-"}}}
-"---------------------------------------------------------------------------
-" neocomplcache-clang:"{{{
-"
-" Use clang dll.
-let g:neocomplcache_clang_use_library = 1
-"let g:neocomplcache_clang_library_path='C:/GnuWin32/bin'
-" More user include path.
-let g:neocomplcache_clang_user_options =
-\ '-I C:/MinGW/lib/gcc/mingw32/4.5.2/include '.
-\ '-I C:/MinGW/lib/gcc/mingw32/4.5.2/include/c++ '.
-\ '-I C:/MinGW/lib/gcc/mingw32/4.6.2/include '.
-\ '-I C:/MinGW/lib/gcc/mingw32/4.6.2/include/c++ '.
-\ '-I C:/Program\ Files/Microsoft\ Visual\ Studio\ 9.0/VC/include '.
-\ '-I C:/Program\ Files/Microsoft\ SDKs/Windows/v6.0A/Include '.
-\ '-I C:/boost_1_47_0 '.
-\ '-fms-extensions -fgnu-runtime '.
-\ '-include malloc.h '
-" More neocomplcache candidates.
-let g:neocomplcache_max_list = 1000
-"}}}
-"---------------------------------------------------------------------------
-" unite.vim:"{{{
-"
-" The prefix key.
-nnoremap    [unite]   <Nop>
-nmap    f [unite]
-
-nnoremap <silent> [unite]a  :<C-u>Unite -prompt=#\  buffer bookmark file_mru file<CR>
-nnoremap <silent> [unite]b  :<C-u>UniteWithBufferDir -buffer-name=files -prompt=%\  buffer bookmark file_mru file<CR>
-nnoremap <silent> [unite]c  :<C-u>UniteWithCurrentDir -buffer-name=files buffer bookmark file_mru file<CR>
-nnoremap <silent> [unite]e  :<C-u>Unite -buffer-name=files everything<CR>
-nnoremap <silent> [unite]f  :<C-u>Unite source<CR>
-nnoremap <silent> [unite]h  :<C-u>UniteWithCursorWord help<CR>
-nnoremap <silent> [unite]m  :<C-u>Unite mark -no-quit<CR>
-nnoremap <silent> [unite]o  :<C-u>Unite outline<CR>
-nnoremap <silent> [unite]pi :<C-u>Unite neobundle/install<CR>
-nnoremap <silent> [unite]pu :<C-u>Unite neobundle/install:!<CR>
-nnoremap <silent> [unite]pl :<C-u>Unite neobundle<CR>
-nnoremap <silent> [unite]r  :<C-u>Unite -buffer-name=register register<CR>
-nnoremap <silent> [unite]t  :<C-u>Unite buffer_tab tab buffer<CR>
-
-let g:unite_kind_file_cd_command = 'TabpageCD'
-let g:unite_kind_file_lcd_command = 'TabpageCD'
-
-" Start insert.
-let g:unite_enable_start_insert = 1
-
-autocmd MyVimrcCmd FileType unite call s:unite_my_settings()
-function! s:unite_my_settings()"{{{
-    " Overwrite settings.
-
-    nmap <buffer> <ESC>      <Plug>(unite_exit)
-    imap <buffer> jj      <Plug>(unite_insert_leave)
-    imap <buffer> <C-w>     <Plug>(unite_delete_backward_path)
-
-    " <C-l>: manual neocomplcache completion.
-    inoremap <buffer> <C-l>  <C-x><C-u><C-p><Down>
-
-endfunction"}}}
-
-let g:unite_source_file_mru_limit = 200
-let g:unite_source_grep_max_candidates = 50000
-
-" For optimize.
-let g:unite_source_file_mru_filename_format = ''
-
-let g:unite_data_directory = $DOTVIM.'/.unite'
+nmap <S-F6> <ESC>:<C-u>call vimproc#system("ctags -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q")<CR>
 "}}}
 "---------------------------------------------------------------------------
 " vimfiler:"{{{
@@ -1314,21 +1350,90 @@ let g:vimshell_vimshrc_path = $DOTVIM.'/.vimshell/.vimshrc'
 let g:vimshell_cd_command = 'TabpageCD'
 "}}}
 "---------------------------------------------------------------------------
-" vimproc:"{{{
+" vim-quickrun:"{{{
 "
-nmap <S-F6> <ESC>:<C-u>call vimproc#system("ctags -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q")<CR>
+if !exists('g:quickrun_config')
+    let g:quickrun_config = {}
+endif
+" flymake for C/C++{{{
+function! Flymake_for_CPP_Setting()
+    try
+        "" quickfix のエラー箇所を波線でハイライト
+        "" 以下の2行は   gvimrcに記載
+        "execute "highlight qf_error_ucurl gui=undercurl guisp=Red"
+        "let g:hier_highlight_group_qf  = "qf_error_ucurl"
+
+        " quickfix に出力して、ポッポアップはしない outputter/quickfix
+        " すでに quickfix ウィンドウが開いている場合は閉じるので注意
+        let s:silent_quickfix = quickrun#outputter#quickfix#new()
+        function! s:silent_quickfix.finish(session)
+            call call(quickrun#outputter#quickfix#new().finish, [a:session], self)
+            :cclose
+            " vim-hier の更新
+            :HierUpdate
+            " quickfix への出力後に quickfixstatus を有効に
+            :QuickfixStatusEnable
+        endfunction
+        " quickrun に登録
+        call quickrun#register_outputter("silent_quickfix", s:silent_quickfix)
+
+        " シンタックスチェック用の quickrun.vim のコンフィグ
+        " gcc 版
+        let g:quickrun_config["CppSyntaxCheck_gcc"] = {
+            \ "type"  : "cpp",
+            \ "exec"      : "%c %o %s:p ",
+            \ "command"   : "g++",
+            \ "cmdopt"    : "-fsyntax-only -std=gnu++0x ",
+            \ "outputter" : "silent_quickfix",
+            \ "runner"    : "vimproc"
+        \ }
+
+        " msvc 版
+        " .h ファイルの場合はうまく動かない
+        let g:quickrun_config["CppSyntaxCheck_msvc"] = {
+            \ "type"  : "cpp",
+            \ "exec"      : "%c %o %s:p ",
+            \ "command"   : "cl.exe",
+            \ "cmdopt"    : "/Zs ",
+            \ "outputter" : "silent_quickfix",
+            \ "runner"    : "vimproc",
+            \ "output_encode" : "sjis"
+        \ }
+
+        " ファイルの保存後に quickrun.vim が実行するように設定する
+        "autocmd MyVimrcCmd BufWritePost *.cpp,*.h,*.hpp :QuickRun CppSyntaxCheck_msvc
+    catch /E117/
+        
+    endtry
+endfunction
+call Flymake_for_CPP_Setting()
+"}}}
+" settings for pandoc{{{
+let g:quickrun_config['markdown'] = {
+      \ 'type': 'markdown/pandoc',
+      \ 'outputter': 'browser',
+      \ 'cmdopt': '-s'
+      \ }
+"}}}
 "}}}
 "---------------------------------------------------------------------------
-" errormarker.vim:"{{{
+" vim-ambicmd:"{{{
 "
-let errormarker_disablemappings = 1
+if exists('$DOTVIM./Bundle/vim-ambicmd/autoload/ambicmd.vim')
+    cnoremap <expr> <Space> ambicmd#expand("\<Space>")
+    cnoremap <expr> <CR> ambicmd#expand("\<CR>")
+    cnoremap <expr> <C-f> ambicmd#expand("\<Right>")
+    autocmd MyVimrcCmd CmdwinEnter * call s:init_cmdwin_ambicmd()
+    function! s:init_cmdwin_ambicmd()
+        inoremap <buffer> <expr> <Space> ambicmd#expand("\<Space>")
+        inoremap <buffer> <expr> <CR> ambicmd#expand("\<CR>")
+    endfunction
+endif
 "}}}
 "---------------------------------------------------------------------------
-" python-mode:"{{{
+" tcommand_vim:"{{{
 "
-let g:pymode_lint_write = 0
-let g:pydoc = "python -m pydoc"
-let g:pymode_rope = 1
+noremap <Leader>: :TCommand<CR>
 "}}}
 "---------------------------------------------------------------------------
 " Source-Explorer-srcexpl.vim:"{{{
@@ -1382,38 +1487,16 @@ nmap <Leader>gr :<C-u>Gtags -r <C-R>=expand("<cword>")<CR><CR>
 nmap <Leader>gd :<C-u>Gtags -d <C-R>=expand("<cword>")<CR><CR>
 "}}}
 "---------------------------------------------------------------------------
-" vim-qfreplace:"{{{
+" python-mode:"{{{
 "
-"if !exists('b:undo_ftplugin')
-"    let b:undo_ftplugin = ''
-"endif
-"let b:undo_ftplugin .= '| execute "delcommand Qfreplace"'
-
-command! -nargs=? -buffer Qfreplace call qfreplace#start(<q-args>)
-au MyVimrcCmd Bufenter * command! -nargs=? -buffer Qfreplace call qfreplace#start(<q-args>)
+let g:pymode_lint_write = 0
+let g:pydoc = "python -m pydoc"
+let g:pymode_rope = 1
 "}}}
 "---------------------------------------------------------------------------
 " perl-support.vim:"{{{
 "
 let g:Perl_Debugger = "ptkdb"
-"}}}
-"---------------------------------------------------------------------------
-" project.tar.gz:"{{{
-"
-let g:proj_flags = "imstc"
-nmap <silent> <Leader>P <Plug>ToggleProject
-"}}}
-"---------------------------------------------------------------------------
-" vim-fugitive:"{{{
-"
-nnoremap <Space>gd :<C-u>Gdiff<CR>
-nnoremap <Space>gs :<C-u>Gstatus<CR>
-nnoremap <Space>gl :<C-u>Glog<CR>
-nnoremap <Space>ga :<C-u>Gwrite<CR>
-nnoremap <Space>gc :<C-u>Gcommit<CR>
-nnoremap <Space>gC :<C-u>Git commit --amend<CR>
-nnoremap <Space>gb :<C-u>Gblame<CR>
-nnoremap <Space>gv :<C-u>Gitv<CR>
 "}}}
 "---------------------------------------------------------------------------
 " haskellmode-vim:"{{{
@@ -1424,70 +1507,58 @@ else
     let g:haddock_browser="/usr/bin/firefox"
 endif
 "}}}
+
 "---------------------------------------------------------------------------
-" vim-quickrun:"{{{
+" vim-ipi:"{{{
 "
-" flymake for C/C++{{{
-try
-    if !exists('g:quickrun_config')
-        let g:quickrun_config = {}
-    endif
+if s:ipi_loaded
+    " lazy loading of each filetype
+    autocmd MyVimrcCmd FileType c,cpp silent! IP taglist.vim
+    autocmd MyVimrcCmd FileType c,cpp silent! IP TagHighlight
+    autocmd MyVimrcCmd FileType c,cpp silent! IP a.vim
+    autocmd MyVimrcCmd FileType c,cpp silent! IP c.vim
+    autocmd MyVimrcCmd FileType c,cpp silent! IP Source-Explorer-srcexpl.vim
+    autocmd MyVimrcCmd FileType c,cpp silent! IP trinity.vim
+    autocmd MyVimrcCmd FileType c,cpp silent! IP cscope-menu
+    autocmd MyVimrcCmd FileType c,cpp silent! IP gtags.vim
+    autocmd MyVimrcCmd FileType c,cpp silent! IP DoxygenToolkit.vim
+    autocmd MyVimrcCmd FileType python silent! IP pytest.vim
+    autocmd MyVimrcCmd FileType python silent! IP python-mode
+    autocmd MyVimrcCmd FileType python silent! IP taglist.vim
+    autocmd MyVimrcCmd FileType python silent! IP TagHighlight
+    autocmd MyVimrcCmd FileType perl silent! IP perl-support.vim
+    autocmd MyVimrcCmd FileType perl silent! IP taglist.vim
+    autocmd MyVimrcCmd FileType perl silent! IP TagHighlight
+    autocmd MyVimrcCmd FileType javascript silent! IP vim-javascript
+    autocmd MyVimrcCmd FileType haskell silent! IP vim-filetype-haskell
+    autocmd MyVimrcCmd FileType haskell silent! IP haskellmode-vim
 
-    "" quickfix のエラー箇所を波線でハイライト
-    "" 以下の2行は   _gvimrcに記載
-    "execute "highlight qf_error_ucurl gui=undercurl guisp=Red"
-    "let g:hier_highlight_group_qf  = "qf_error_ucurl"
+    " lazy loading for vim-ref
+    nmap <silent> K :<C-u>silent! IP vim-ref<CR><Plug>(ref-keyword)
+    vmap <silent> K :<C-u>silent! IP vim-ref<CR><Plug>(ref-keyword)
+    " FIXME ref#complete doesn't work before this command
+    command! -nargs=+ -complete=customlist,ref#complete Ref
+                \ execute 'silent! IP vim-ref'
+                \ | call ref#ref(<q-args>)
 
-    " quickfix に出力して、ポッポアップはしない outputter/quickfix
-    " すでに quickfix ウィンドウが開いている場合は閉じるので注意
-    let s:silent_quickfix = quickrun#outputter#quickfix#new()
-    function! s:silent_quickfix.finish(session)
-        call call(quickrun#outputter#quickfix#new().finish, [a:session], self)
-        :cclose
-        " vim-hier の更新
-        :HierUpdate
-        " quickfix への出力後に quickfixstatus を有効に
-        :QuickfixStatusEnable
-    endfunction
-    " quickrun に登録
-    call quickrun#register_outputter("silent_quickfix", s:silent_quickfix)
-
-    " シンタックスチェック用の quickrun.vim のコンフィグ
-    " gcc 版
-    let g:quickrun_config["CppSyntaxCheck_gcc"] = {
-        \ "type"  : "cpp",
-        \ "exec"      : "%c %o %s:p ",
-        \ "command"   : "g++",
-        \ "cmdopt"    : "-fsyntax-only -std=gnu++0x ",
-        \ "outputter" : "silent_quickfix",
-        \ "runner"    : "vimproc"
-    \ }
-
-    " msvc 版
-    " .h ファイルの場合はうまく動かない
-    let g:quickrun_config["CppSyntaxCheck_msvc"] = {
-        \ "type"  : "cpp",
-        \ "exec"      : "%c %o %s:p ",
-        \ "command"   : "cl.exe",
-        \ "cmdopt"    : "/Zs ",
-        \ "outputter" : "silent_quickfix",
-        \ "runner"    : "vimproc",
-        \ "output_encode" : "sjis"
-    \ }
-
-    " ファイルの保存後に quickrun.vim が実行するように設定する
-    "autocmd MyVimrcCmd BufWritePost *.cpp,*.h,*.hpp :QuickRun CppSyntaxCheck_msvc
-catch /E117/
+    " lazy loading for vimfiler
+    nnoremap <silent> [vimfiler]b  :<C-u>silent! IP vimfiler<CR>:<C-u>VimFilerBufferDir<CR>
+    nnoremap <silent> [vimfiler]c  :<C-u>silent! IP vimfiler<CR>:<C-u>VimFilerCurrentDir<CR>
+    nnoremap <silent> [vimfiler]d  :<C-u>silent! IP vimfiler<CR>:<C-u>VimFilerDouble<CR>
+    nnoremap <silent> [vimfiler]f  :<C-u>silent! IP vimfiler<CR>:<C-u>VimFilerSimple -no-quit -winwidth=32<CR>
     
-endtry
-"}}}
-" settings for pandoc{{{
-let g:quickrun_config['markdown'] = {
-      \ 'type': 'markdown/pandoc',
-      \ 'outputter': 'browser',
-      \ 'cmdopt': '-s'
-      \ }
-"}}}
+    " lazy loading for vim-quickrun
+    function! QuickRun_IPI_Setting()
+        silent! IP vim-quickrun
+        silent! IP quicklearn
+        call Flymake_for_CPP_Setting()
+    endfunction
+    map <silent> <Leader>r :<C-u>call QuickRun_IPI_Setting()<CR><Plug>(quickrun)
+    " FIXME quickrun#complete doesn't work before this command
+    command! -nargs=* -range=0 -complete=customlist,quickrun#complete QuickRun
+                \ call QuickRun_IPI_Setting()
+                \ | call quickrun#command(<q-args>, <count>, <line1>, <line2>)
+endif
 "}}}
 "}}}
 
@@ -1534,28 +1605,6 @@ xnoremap au  a]
 onoremap iu  i]
 xnoremap iu  i]
 
-" コメント/コメントアウト設定{{{
-" lhs comments
-vmap ,# :s/^/#/<CR>:nohlsearch<CR>
-vmap ,/ :s/^/\/\//<CR>:nohlsearch<CR>
-vmap ,> :s/^/> /<CR>:nohlsearch<CR>
-vmap ," :s/^/\"/<CR>:nohlsearch<CR>
-vmap ,% :s/^/%/<CR>:nohlsearch<CR>
-vmap ,! :s/^/!/<CR>:nohlsearch<CR>
-vmap ,; :s/^/;/<CR>:nohlsearch<CR>
-vmap ,- :s/^/--/<CR>:nohlsearch<CR>
-vmap ,c :s/^\/\/\\|^--\\|^> \\|^[#"%!;]//<CR>:nohlsearch<CR>
-
-" wrapping comments
-vmap ,* :s/^\(.*\)$/\/\* \1 \*\//<CR>:nohlsearch<CR>
-vmap ,( :s/^\(.*\)$/\(\* \1 \*\)/<CR>:nohlsearch<CR>
-vmap ,< :s/^\(.*\)$/<!-- \1 -->/<CR>:nohlsearch<CR>
-vmap ,d :s/^\([/(]\*\\|<!--\) \(.*\) \(\*[/)]\\|-->\)$/\2/<CR>:nohlsearch<CR>
-
-" block comments
-vmap ,b v`<I<CR><esc>k0i/*<ESC>`>j0i*/<CR><esc><ESC>
-vmap ,h v`<I<CR><esc>k0i<!--<ESC>`>j0i--><CR><esc><ESC>
-"}}}
 "}}}
 
 "---------------------------------------------------------------------------

@@ -153,8 +153,8 @@ execute "highlight qf_error_ucurl gui=undercurl guisp=Red"
 let g:hier_highlight_group_qf  = "qf_error_ucurl"
 
 augroup Hier
-    au!
-    au QuickFixCmdPost,BufEnter,WinEnter QuickRun :HierUpdate
+    autocmd!
+    autocmd QuickFixCmdPost,BufEnter,WinEnter QuickRun :HierUpdate
 augroup END
 "}}}
 "}}}
