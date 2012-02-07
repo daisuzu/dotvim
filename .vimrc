@@ -1419,7 +1419,7 @@ let g:quickrun_config['markdown'] = {
 "---------------------------------------------------------------------------
 " vim-ambicmd:"{{{
 "
-if exists('$DOTVIM./Bundle/vim-ambicmd/autoload/ambicmd.vim')
+if 1 && filereadable($DOTVIM.'/Bundle/vim-ambicmd/autoload/ambicmd.vim')
     cnoremap <expr> <Space> ambicmd#expand("\<Space>")
     cnoremap <expr> <CR> ambicmd#expand("\<CR>")
     cnoremap <expr> <C-f> ambicmd#expand("\<Right>")
