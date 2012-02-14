@@ -184,6 +184,7 @@ try
 
     " completion
     NeoBundle 'Shougo/neocomplcache'
+    NeoBundle 'Shougo/neocomplcache-snippets-complete'
     NeoBundle 'Shougo/neocomplcache-clang'
     NeoBundle 'ujihisa/neco-ghc'
 
@@ -893,6 +894,8 @@ function! Init_neocomplecache() "{{{
     "inoremap <expr><Right> neocomplcache#close_popup() . "\<Right>"
     "inoremap <expr><Up> neocomplcache#close_popup() . "\<Up>"
     "inoremap <expr><Down> neocomplcache#close_popup() . "\<Down>"
+    " Or set this.
+    "let g:neocomplcache_enable_cursor_hold_i = 1
 
     " AutoComplPop like behavior.
     "let g:neocomplcache_enable_auto_select = 1
@@ -902,8 +905,8 @@ function! Init_neocomplecache() "{{{
     "set completeopt+=longest
     "let g:neocomplcache_enable_auto_select = 1
     "let g:neocomplcache_disable_auto_complete = 1
-    "inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<TAB>"
-    "inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
+    "inoremap <expr><TAB> pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
+    "inoremap <expr><CR> neocomplcache#smart_close_popup() . "\<CR>"
 endfunction"}}}
 function! Term_neocomplecache() "{{{
     NeoComplCacheDisable
@@ -952,6 +955,11 @@ if !exists('g:neocomplcache_keyword_patterns')
     let g:neocomplcache_keyword_patterns = {}
 endif
 let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
+
+" For snippet_complete marker.
+if has('conceal')
+    set conceallevel=2 concealcursor=i
+endif
 
 try
     if neocomplcache#is_enabled()
