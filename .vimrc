@@ -190,10 +190,11 @@ try
     " ctags
     NeoExternalBundle 'taglist.vim'
     NeoExternalBundle 'abudden/TagHighlight'
-    
+
     " vcs
     NeoBundle 'tpope/vim-fugitive'
     NeoBundle 'gregsexton/gitv'
+    NeoBundle 'int3/vim-extradite'
 
     " unite
     NeoBundle 'Shougo/unite.vim'
@@ -209,6 +210,7 @@ try
     NeoBundle 'sgur/unite-everything'
     NeoBundle 'zhaocai/unite-scriptnames'
     NeoBundle 'pasela/unite-webcolorname'
+    NeoBundle 'daisuzu/unite-grep_launcher'
 
     " textobj
     NeoBundle 'kana/vim-textobj-user'
@@ -266,7 +268,9 @@ try
     " utility
     NeoBundle 'project.tar.gz'
     NeoBundle 'Shougo/vimproc'
+    NeoBundle 'Shougo/vinarise'
     NeoExternalBundle 'Shougo/vimfiler'
+    NeoBundle 'liquidz/vimfiler-sendto'
     NeoBundle 'Shougo/vimshell'
     NeoBundle 'thinca/vim-logcat'
     NeoExternalBundle 'thinca/vim-quickrun'
@@ -383,13 +387,7 @@ set tags+=./**/tags
 " grep設定{{{
 set grepprg=grep\ -nH
 "set grepprg=ack.pl\ -a
-" autocmd MyVimrcCmd QuickfixCmdPost make,grep,grepadd,vimgrep,helpgrep copen
-"}}}
-" あらゆる言語に対してキーワードの補完を有効にする{{{
-autocmd MyVimrcCmd FileType *
-\   if &l:omnifunc == ''
-\ |   setlocal omnifunc=syntaxcomplete#Complete
-\ | endif
+autocmd MyVimrcCmd QuickfixCmdPost make,grep,grepadd,vimgrep,helpgrep copen
 "}}}
 "}}}
 
@@ -570,7 +568,7 @@ endtry
 "}}}
 
 " 開いているファイルのディレクトリに移動する{{{
-command! -nargs=? -complete=dir -bang TCD  call s:ChangeCurrentDir('<args>', '<bang>') 
+command! -nargs=? -complete=dir -bang TCD  call s:ChangeCurrentDir('<args>', '<bang>')
 function! s:ChangeCurrentDir(directory, bang)
     if a:directory == ''
         TabpageCD %:p:h
@@ -787,14 +785,14 @@ if has("cscope")
 
     " add any cscope database in current directory
     if filereadable("cscope.out")
-        cs add cscope.out  
+        cs add cscope.out
     " else add the database pointed to by environment variable 
     elseif $CSCOPE_DB != ""
         cs add $CSCOPE_DB
     endif
 
     " show msg when any other cscope db added
-    set cscopeverbose  
+    set cscopeverbose
 
     " cscope key mappings
     "   's'   symbol: find all references to the token under cursor
@@ -834,33 +832,6 @@ if has("cscope")
     nmap <C-@><C-@>d :vert scs find d <C-R>=expand("<cword>")<CR><CR>
 endif
 "}}}
-" unite-quickgrep "{{{
-let g:quickgrep_words = {}
-" let g:quickgrep_words['keyword1'] = 'a grep word'
-" let g:quickgrep_words['keyword2'] = 'grep word 1\|grep word 2'
-
-let s:source_quickgrep = {
-      \ 'name': 'quickgrep',
-      \ 'hooks' : {},
-      \ }
-call unite#define_source(s:source_quickgrep)
-
-let s:quickgrep_list = []
-function! s:source_quickgrep.hooks.on_init(args, context)
-    let s:quickgrep_list = []    
-    for key in keys(g:quickgrep_words)
-        call add(s:quickgrep_list, {
-              \ 'word' : key,
-              \ 'kind' : 'command',
-              \ 'action__command' : 'vimgrep /' . g:quickgrep_words[key] . '/ %',
-              \ })
-    endfor
-endfunc
-
-function! s:source_quickgrep.gather_candidates(args, context)
-    return s:quickgrep_list
-endfunction
-"}}}
 "}}}
 
 "---------------------------------------------------------------------------
@@ -895,7 +866,7 @@ endif
 "---------------------------------------------------------------------------
 " neocomplcache:"{{{
 "
-function! Init_neocomplecache()"{{{
+function! Init_neocomplecache() "{{{
     NeoComplCacheEnable
     imap <C-k>     <Plug>(neocomplcache_snippets_expand)
     smap <C-k>     <Plug>(neocomplcache_snippets_expand)
@@ -934,7 +905,7 @@ function! Init_neocomplecache()"{{{
     "inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<TAB>"
     "inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
 endfunction"}}}
-function! Term_neocomplecache()"{{{
+function! Term_neocomplecache() "{{{
     NeoComplCacheDisable
     iunmap <C-k>
     sunmap <C-k>
@@ -1038,7 +1009,7 @@ let g:neocomplcache_max_list = 1000
 "
 nnoremap <Space>gd :<C-u>Gdiff<CR>
 nnoremap <Space>gs :<C-u>Gstatus<CR>
-nnoremap <Space>gl :<C-u>Glog<CR>
+nnoremap <Space>gl :<C-u>Extradite<CR>
 nnoremap <Space>ga :<C-u>Gwrite<CR>
 nnoremap <Space>gc :<C-u>Gcommit<CR>
 nnoremap <Space>gC :<C-u>Git commit --amend<CR>
@@ -1074,7 +1045,7 @@ let g:unite_kind_file_lcd_command = 'TabpageCD'
 let g:unite_enable_start_insert = 1
 
 autocmd MyVimrcCmd FileType unite call s:unite_my_settings()
-function! s:unite_my_settings()"{{{
+function! s:unite_my_settings() "{{{
     " Overwrite settings.
 
     nmap <buffer> <ESC>      <Plug>(unite_exit)
@@ -1247,15 +1218,15 @@ let MyGrep_DefaultSearchWord = 1
 "gvimのメニューバーに登録する/しない
 let MyGrep_MenuBar = 3
 
-function! OpenQuickfix()
-    try
-        OpenQFixWin
-    catch /E492/
-        copen
-    endtry
-endfunction
-
-autocmd MyVimrcCmd QuickfixCmdPost make,grep,grepadd,vimgrep,helpgrep call OpenQuickfix()
+" function! OpenQuickfix()
+"     try
+"         OpenQFixWin
+"     catch /E492/
+"         copen
+"     endtry
+" endfunction
+" 
+" autocmd MyVimrcCmd QuickfixCmdPost make,grep,grepadd,vimgrep,helpgrep call OpenQuickfix()
 "}}}
 "---------------------------------------------------------------------------
 " errormarker.vim:"{{{
@@ -1489,7 +1460,10 @@ nmap <Leader>gd :<C-u>Gtags -d <C-R>=expand("<cword>")<CR><CR>
 "---------------------------------------------------------------------------
 " python-mode:"{{{
 "
-let g:pymode_lint_write = 0
+let g:pymode_lint_onfly = 1
+let g:pymode_lint_write = 1
+let g:pymode_lint_cwindow = 0
+let g:pymode_lint_message = 0
 let g:pydoc = "python -m pydoc"
 let g:pymode_rope = 1
 "}}}
@@ -1511,52 +1485,120 @@ endif
 "---------------------------------------------------------------------------
 " vim-ipi:"{{{
 "
-if s:ipi_loaded
+if has('vim_starting') && s:ipi_loaded
     " lazy loading of each filetype
-    autocmd MyVimrcCmd FileType c,cpp silent! IP taglist.vim
-    autocmd MyVimrcCmd FileType c,cpp silent! IP TagHighlight
-    autocmd MyVimrcCmd FileType c,cpp silent! IP a.vim
-    autocmd MyVimrcCmd FileType c,cpp silent! IP c.vim
-    autocmd MyVimrcCmd FileType c,cpp silent! IP Source-Explorer-srcexpl.vim
-    autocmd MyVimrcCmd FileType c,cpp silent! IP trinity.vim
-    autocmd MyVimrcCmd FileType c,cpp silent! IP cscope-menu
-    autocmd MyVimrcCmd FileType c,cpp silent! IP gtags.vim
-    autocmd MyVimrcCmd FileType c,cpp silent! IP DoxygenToolkit.vim
-    autocmd MyVimrcCmd FileType python silent! IP pytest.vim
-    autocmd MyVimrcCmd FileType python silent! IP python-mode
-    autocmd MyVimrcCmd FileType python silent! IP taglist.vim
-    autocmd MyVimrcCmd FileType python silent! IP TagHighlight
-    autocmd MyVimrcCmd FileType perl silent! IP perl-support.vim
-    autocmd MyVimrcCmd FileType perl silent! IP taglist.vim
-    autocmd MyVimrcCmd FileType perl silent! IP TagHighlight
-    autocmd MyVimrcCmd FileType javascript silent! IP vim-javascript
-    autocmd MyVimrcCmd FileType haskell silent! IP vim-filetype-haskell
-    autocmd MyVimrcCmd FileType haskell silent! IP haskellmode-vim
+    " Load C/C++ Plugins "{{{
+    function! LoadCppPlugins()
+        filetype plugin indent off
+        silent! IP taglist.vim
+        silent! IP TagHighlight
+        silent! IP a.vim
+        silent! IP c.vim
+        silent! IP Source-Explorer-srcexpl.vim
+        silent! IP trinity.vim
+        silent! IP cscope-menu
+        silent! IP gtags.vim
+        silent! IP DoxygenToolkit.vim
+        filetype plugin indent on
+        ReadTypes
+        autocmd! MyIPI_CPP
+    endfunctio
+
+    augroup MyIPI_CPP
+        autocmd!
+        autocmd filetype c,cpp call LoadCppPlugins()
+    augroup END
+    "}}}
+    " Load Python Plugins "{{{
+    function! LoadPythonPlugins()
+        filetype plugin indent off
+        silent! IP pytest.vim
+        silent! IP python-mode
+        silent! IP taglist.vim
+        silent! IP TagHighlight
+        filetype plugin indent on
+        ReadTypes
+        autocmd! MyIPI_Python
+        set filetype=python
+    endfunctio
+
+    augroup MyIPI_Python
+        autocmd!
+        autocmd filetype python call LoadPythonPlugins()
+    augroup END
+    "}}}
+    " Load Perl Plugins "{{{
+    function! LoadPerlPlugins()
+        filetype plugin indent off
+        silent! IP perl-support.vim
+        silent! IP taglist.vim
+        silent! IP TagHighlight
+        filetype plugin indent on
+        ReadTypes
+        autocmd! MyIPI_Perl
+    endfunctio
+
+    augroup MyIPI_Perl
+        autocmd!
+        autocmd filetype perl call LoadPerlPlugins()
+    augroup END
+    "}}}
+    " Load Javascript Plugins "{{{
+    function! LoadJavascriptPlugins()
+        filetype plugin indent off
+        silent! IP vim-javascript
+        filetype plugin indent on
+        autocmd! MyIPI_Javascript
+    endfunctio
+
+    augroup MyIPI_Javascript
+        autocmd!
+        autocmd filetype javascript call LoadJavascriptPlugins()
+    augroup END
+    "}}}
+    " Load Haskell Plugins "{{{
+    function! LoadHaskellPlugins()
+        filetype plugin indent off
+        silent! IP vim-filetype-haskell
+        silent! IP haskellmode-vim
+        filetype plugin indent on
+        autocmd! MyIPI_Haskell
+    endfunctio
+
+    augroup MyIPI_Haskell
+        autocmd!
+        autocmd filetype haskell call LoadHaskellPlugins()
+    augroup END
+    "}}}
 
     " lazy loading for vim-ref
     nmap <silent> K :<C-u>silent! IP vim-ref<CR><Plug>(ref-keyword)
     vmap <silent> K :<C-u>silent! IP vim-ref<CR><Plug>(ref-keyword)
-    " FIXME ref#complete doesn't work before this command
-    command! -nargs=+ -complete=customlist,ref#complete Ref
+    command! -nargs=+ Ref
                 \ execute 'silent! IP vim-ref'
                 \ | call ref#ref(<q-args>)
 
+    " lazy loading for neocomplcache
+    augroup MyInitNeocomplecache
+        autocmd!
+        autocmd InsertEnter * call Init_neocomplecache() | autocmd! MyInitNeocomplecache
+    augroup END
+    
     " lazy loading for vimfiler
     nnoremap <silent> [vimfiler]b  :<C-u>silent! IP vimfiler<CR>:<C-u>VimFilerBufferDir<CR>
     nnoremap <silent> [vimfiler]c  :<C-u>silent! IP vimfiler<CR>:<C-u>VimFilerCurrentDir<CR>
     nnoremap <silent> [vimfiler]d  :<C-u>silent! IP vimfiler<CR>:<C-u>VimFilerDouble<CR>
     nnoremap <silent> [vimfiler]f  :<C-u>silent! IP vimfiler<CR>:<C-u>VimFilerSimple -no-quit -winwidth=32<CR>
-    
+
     " lazy loading for vim-quickrun
-    function! QuickRun_IPI_Setting()
+    function! LoadQuickRun()
         silent! IP vim-quickrun
         silent! IP quicklearn
         call Flymake_for_CPP_Setting()
     endfunction
-    map <silent> <Leader>r :<C-u>call QuickRun_IPI_Setting()<CR><Plug>(quickrun)
-    " FIXME quickrun#complete doesn't work before this command
-    command! -nargs=* -range=0 -complete=customlist,quickrun#complete QuickRun
-                \ call QuickRun_IPI_Setting()
+    map <silent> <Leader>r :<C-u>call LoadQuickRun()<CR><Plug>(quickrun)
+    command! -nargs=* -range=0 QuickRun
+                \ call LoadQuickRun()
                 \ | call quickrun#command(<q-args>, <count>, <line1>, <line2>)
 endif
 "}}}
