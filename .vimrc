@@ -688,33 +688,13 @@ onoremap <silent> ]l :call NextIndent(0, 1, 0, 1)<cr>
 onoremap <silent> [L :call NextIndent(1, 0, 1, 1)<cr>
 onoremap <silent> ]L :call NextIndent(1, 1, 1, 1)<cr>
 "}}}
-" flymake for python, perl{{{
+" flymake for perl{{{
 augroup FlyQuickfixMakeCmd
     autocmd!
 augroup END
 
 function! FlyquickfixPrgSet(mode)
-    if a:mode == 0
-        """ setting for pylint
-"        setlocal makeprg=/usr/bin/pylint\ --rcfile=$HOME/.pylint\ -e\ %
-"        setlocal makeprg=pylint.bat\ %
-        setlocal makeprg=python\ -m\ pylint.lint\ %
-        setlocal errorformat=%t:%l:%m
-        let g:flyquickfixmake_mode = 0
-"        echo "flymake prg: pylint"
-    elseif a:mode == 1
-        """ setting for pyflakes
-        setlocal makeprg=pyflakes\ %
-        setlocal errorformat=%f:%l:%m
-        let g:flyquickfixmake_mode = 1
-"        echo "flymake prg: pyflakes"
-    elseif a:mode == 8
-        """ setting for pep8.py
-        setlocal makeprg=pep8\ %
-        setlocal errorformat=%f:%l:%c:%m
-        let g:flyquickfixmake_mode = 8
-"        echo "flymake prg: pep8"
-    elseif a:mode == 10
+    if a:mode == 10
         """ setting for perl
         setlocal makeprg=vimparse.pl\ -c\ %
         setlocal errorformat=%f:%l:%m
@@ -725,52 +705,29 @@ function! FlyquickfixPrgSet(mode)
 endfunction
 
 function! FlyquickfixToggleSet()
-    if g:python_flyquickfixmake == 1
+    if g:enabled_flyquickfixmake == 1
         autocmd! FlyQuickfixMakeCmd
         echo "not-used flymake"
-        let g:python_flyquickfixmake = 0
+        let g:enabled_flyquickfixmake = 0
     else
         echo "used flymake"
-        let g:python_flyquickfixmake = 1
-        autocmd FlyQuickfixMakeCmd BufWritePost *.py make
+        let g:enabled_flyquickfixmake = 1
         autocmd FlyQuickfixMakeCmd BufWritePost *.pm,*.pl,*.t make
     endif
 endfunction
 
-if !exists("g:python_flyquickfixmake")
-    let g:python_flyquickfixmake = 1
-    call FlyquickfixPrgSet(8)
+if !exists("g:enabled_flyquickfixmake")
+    let g:enabled_flyquickfixmake = 1
+    call FlyquickfixPrgSet(10)
 
-    "autocmd BufWritePost *.py silent make
-    autocmd FlyQuickfixMakeCmd BufWritePost *.py make
     autocmd FlyQuickfixMakeCmd BufWritePost *.pm,*.pl,*.t make
 endif
 
 if !exists("g:flyquickfixmake_mode")
-    let g:flyquickfixmake_mode = 8
+    let g:flyquickfixmake_mode = 10
 endif
 
-function! FlyquickfixReSet()
-    if g:flyquickfixmake_mode == 0
-        call FlyquickfixPrgSet(0)
-    elseif g:flyquickfixmake_mode == 1
-        call FlyquickfixPrgSet(1)
-    elseif g:flyquickfixmake_mode == 8
-        call FlyquickfixPrgSet(8)
-    else
-        call FlyquickfixPrgSet(10)
-    endif
-endfunction
-
-autocmd MyVimrcCmd BufEnter *.py call FlyquickfixReSet()
-autocmd MyVimrcCmd BufEnter *.pm,*.pl,*.t call FlyquickfixPrgSet(10)
-" 新規ファイルからperlファイルを作成するときにmakeprgをperl用に変更する
-autocmd MyVimrcCmd FileType perl call FlyquickfixPrgSet(10)
-
-noremap fs :call FlyquickfixToggleSet()<CR>
-noremap pl :call FlyquickfixPrgSet(0)<CR>
-noremap pf :call FlyquickfixPrgSet(1)<CR>
-noremap p8 :call FlyquickfixPrgSet(8)<CR>
+noremap pl :call FlyquickfixToggleSet()<CR>
 "}}}
 " cscope_maps{{{
 "
