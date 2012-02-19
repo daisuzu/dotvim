@@ -212,6 +212,7 @@ try
     NeoBundle 'zhaocai/unite-scriptnames'
     NeoBundle 'pasela/unite-webcolorname'
     NeoBundle 'daisuzu/unite-grep_launcher'
+    NeoBundle 'daisuzu/unite-gtags'
 
     " textobj
     NeoBundle 'kana/vim-textobj-user'
@@ -994,6 +995,7 @@ nnoremap <silent> [unite]b  :<C-u>UniteWithBufferDir -buffer-name=files -prompt=
 nnoremap <silent> [unite]c  :<C-u>UniteWithCurrentDir -buffer-name=files buffer bookmark file_mru file<CR>
 nnoremap <silent> [unite]e  :<C-u>Unite -buffer-name=files everything<CR>
 nnoremap <silent> [unite]f  :<C-u>Unite source<CR>
+nnoremap <expr>   [unite]g  ':<C-u>Unite grep:*::' . expand("<cword>")
 nnoremap <silent> [unite]h  :<C-u>UniteWithCursorWord help<CR>
 nnoremap <silent> [unite]m  :<C-u>Unite mark -no-quit<CR>
 nnoremap <silent> [unite]o  :<C-u>Unite outline<CR>
