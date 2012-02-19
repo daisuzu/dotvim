@@ -388,7 +388,7 @@ set tags+=./**/tags
 " grep設定{{{
 set grepprg=grep\ -nH
 "set grepprg=ack.pl\ -a
-autocmd MyVimrcCmd QuickfixCmdPost make,grep,grepadd,vimgrep,helpgrep copen
+" autocmd MyVimrcCmd QuickfixCmdPost make,grep,grepadd,vimgrep,helpgrep copen
 "}}}
 "}}}
 
@@ -1183,15 +1183,7 @@ let MyGrep_DefaultSearchWord = 1
 "gvimのメニューバーに登録する/しない
 let MyGrep_MenuBar = 3
 
-" function! OpenQuickfix()
-"     try
-"         OpenQFixWin
-"     catch /E492/
-"         copen
-"     endtry
-" endfunction
-" 
-" autocmd MyVimrcCmd QuickfixCmdPost make,grep,grepadd,vimgrep,helpgrep call OpenQuickfix()
+autocmd MyVimrcCmd QuickfixCmdPre make,grep,grepadd,vimgrep,helpgrep copen
 "}}}
 "---------------------------------------------------------------------------
 " errormarker.vim:"{{{
