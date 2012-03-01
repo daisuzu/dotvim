@@ -211,6 +211,7 @@ try
     NeoBundle 'sgur/unite-everything'
     NeoBundle 'zhaocai/unite-scriptnames'
     NeoBundle 'pasela/unite-webcolorname'
+    NeoBundle 'kmnk/vim-unite-giti'
     NeoBundle 'daisuzu/unite-grep_launcher'
     NeoBundle 'daisuzu/unite-gtags'
 
@@ -271,6 +272,7 @@ try
     NeoBundle 'project.tar.gz'
     NeoBundle 'Shougo/vimproc'
     NeoBundle 'Shougo/vinarise'
+    NeoBundle 's-yukikaze/vinarise-plugin-peanalysis'
     NeoExternalBundle 'Shougo/vimfiler'
     NeoBundle 'liquidz/vimfiler-sendto'
     NeoBundle 'Shougo/vimshell'
@@ -314,6 +316,7 @@ try
     " Haskell
     NeoExternalBundle 'kana/vim-filetype-haskell'
     NeoExternalBundle 'lukerandall/haskellmode-vim'
+    NeoExternalBundle 'eagletmt/ghcmod-vim'
 
     " CSV
     NeoBundle 'csv.vim'
@@ -1520,6 +1523,7 @@ if has('vim_starting') && s:ipi_loaded
         filetype plugin indent off
         silent! IP vim-filetype-haskell
         silent! IP haskellmode-vim
+        silent! IP ghcmod-vim
         filetype plugin indent on
         autocmd! MyIPI_Haskell
     endfunctio
