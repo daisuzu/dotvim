@@ -53,14 +53,14 @@ else
     set encoding=utf-8
 endif
 
-"fileencodingsをデフォルトに戻す。
+"set default fileencodings
 if &encoding == 'utf-8'
     set fileencodings=ucs-bom,utf-8,default,latin1
 elseif &encoding == 'cp932'
     set fileencodings=ucs-bom
 endif
 
-" 文字コード自動認識のためにfileencodingsを設定する
+" set fileencodings for character code automatic recognition
 if &encoding !=# 'utf-8'
     set encoding=japan
     set fileencoding=japan
@@ -68,16 +68,14 @@ endif
 if has('iconv')
     let s:enc_euc = 'euc-jp'
     let s:enc_jis = 'iso-2022-jp'
-    " iconvがeucJP-msに対応しているかをチェック
     if iconv("\x87\x64\x87\x6a", 'cp932', 'eucjp-ms') ==# "\xad\xc5\xad\xcb"
         let s:enc_euc = 'eucjp-ms'
         let s:enc_jis = 'iso-2022-jp-3'
-    " iconvがJISX0213に対応しているかをチェック
     elseif iconv("\x87\x64\x87\x6a", 'cp932', 'euc-jisx0213') ==# "\xad\xc5\xad\xcb"
         let s:enc_euc = 'euc-jisx0213'
         let s:enc_jis = 'iso-2022-jp-3'
     endif
-    " fileencodingsを構築
+    " build fileencodings
     if &encoding ==# 'utf-8'
         let s:fileencodings_default = &fileencodings
         let &fileencodings = s:enc_jis .','. s:enc_euc .',cp932'
@@ -97,20 +95,19 @@ if has('iconv')
             let &fileencodings = &fileencodings .','. s:enc_euc
         endif
     endif
-    "utf-8優先にする
+    "give priority to utf-8
     if &encoding == 'utf-8'
         set fileencodings-=utf-8
         let &fileencodings = substitute(&fileencodings, s:enc_jis, s:enc_jis.',utf-8','')
     endif
-    " 定数を処分
+    
     unlet s:enc_euc
     unlet s:enc_jis
 endif
 
-" 改行コードの自動認識
 set fileformats=dos,unix,mac
 
-" 日本語を含まない場合は fileencoding に encoding を使うようにする
+" to use the encoding to fileencoding when not included the Japanese
 if has('autocmd')
     function! AU_ReCheck_FENC()
         if &fileencoding =~# 'iso-2022-jp' && search("[^\x01-\x7e]", 'n') == 0
@@ -123,8 +120,8 @@ if has('autocmd')
     autocmd MyVimrcCmd BufReadPost * call AU_ReCheck_FENC()
 endif
 
-" Windowsで内部エンコーディングを cp932以外にしていて、
-" 環境変数に日本語を含む値を設定したい場合に使用する
+" When internal encoding is not cp932 in Windows,
+" and environment variable contains multi-byte character
 command! -nargs=+ Let call Let__EnvVar__(<q-args>)
 function! Let__EnvVar__(cmd)
     let cmd = 'let ' . a:cmd
@@ -138,8 +135,6 @@ endfunction
 "---------------------------------------------------------------------------
 " Kaoriya:"{{{
 "
-"vimrc_local.vimが存在し、g:no_vimrc_example=1になっていたら
-"vimrc_example.vimを読込む
 if exists('g:no_vimrc_example') && g:no_vimrc_example == 1
     silent! source $VIMRUNTIME/vimrc_example.vim
 endif
@@ -152,7 +147,7 @@ if 1 && filereadable($VIMRUNTIME . '/mswin.vim')
     source $VIMRUNTIME/mswin.vim
 endif
 
-" <C-A>:インクリメントと<C-X>:デクリメントを再定義
+" Redefinition <C-A>:increment and <C-X>:decrement
 noremap <C-i> <C-A>
 noremap <M-i> <C-X>
 "}}}
@@ -359,37 +354,30 @@ endif
 "---------------------------------------------------------------------------
 " Edit:"{{{
 "
+set nobackup
 set clipboard+=unnamed
-" タブの画面上での幅
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
 set smarttab
-" タブをスペースに展開する(noexpandtab:展開しない)
 set expandtab
-" 自動的にインデントする (noautoindent:インデントしない)
+set backspace=indent,eol,start
+set wildmenu
 set autoindent
 " Smart indenting
 set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
 inoremap # X<C-H><C-V>#
-" バックスペースでインデントや改行を削除できるようにする
-set backspace=indent,eol,start
-" コマンドライン補完するときに強化されたものを使う(参照 :help wildmenu)
-set wildmenu
-" テキスト挿入中の自動折り返しを日本語に対応させる
+" settings for Japanese folding
 set formatoptions&
 set formatoptions+=mM
-" 日本語整形スクリプト(by. 西岡拓洋さん)用の設定
-let format_allow_over_tw = 1    " ぶら下り可能幅
-" バックアップファイルを作成しない (次行の先頭の " を削除すれば有効になる)
-set nobackup
-" tags設定{{{
+" settings for Japanese formatting
+let format_allow_over_tw = 1
+" tags{{{
 set tags=./tags
-"上位下位ディレクトリのctagsファイルを探す
 set tags+=tags;
 set tags+=./**/tags
 "}}}
-" grep設定{{{
+" grep{{{
 set grepprg=grep\ -nH
 "set grepprg=ack.pl\ -a
 " autocmd MyVimrcCmd QuickfixCmdPost make,grep,grepadd,vimgrep,helpgrep copen
@@ -399,39 +387,30 @@ set grepprg=grep\ -nH
 "---------------------------------------------------------------------------
 " View:"{{{
 "
-" 行番号を表示 (nonumber:非表示)
 set number
-" 括弧入力時に対応する括弧を表示 (noshowmatch:表示しない)
 set showmatch
-" 常にステータス行を表示 (詳細は:he laststatus)
 set laststatus=2
-" コマンドラインの高さ (Windows用gvim使用時はgvimrcを編集すること)
 set cmdheight=2
-" コマンドをステータス行に表示
 set showcmd
-" タイトルを表示
 set title
-" 常にタブバーを表示
 set showtabline=2
-" 印字不可能文字を16進数で表示
 set display=uhex
-" 長い行を折り折り返さない (wrap:折り返す)
+
 set nowrap
 nnoremap <Space>ow :<C-u>setlocal wrap!\|setlocal wrap?<CR>
-" タブや改行を表示 (list:表示)
+
 set nolist
 nnoremap <Space>ol :<C-u>setlocal list!\|setlocal list?<CR>
-" どの文字でタブや改行を表示するかを設定
 set listchars=tab:>-,extends:<,precedes:>,trail:-,eol:$,nbsp:%
-" 全角スペース・行末のスペース・タブの可視化{{{
+
+" Visualization of the full-width space and the blank at the end of the line{{{
 if has("syntax")
     syntax on
 
-    " PODバグ対策
+    " for POD bug
     syn sync fromstart
 
     function! ActivateInvisibleIndicator()
-        " 下の行の"　"は全角スペース
         syntax match InvisibleJISX0208Space "　" display containedin=ALL
         highlight InvisibleJISX0208Space term=underline ctermbg=Blue guibg=darkgray gui=underline
         "syntax match InvisibleTrailedSpace "[ \t]\+$" display containedin=ALL
@@ -523,7 +502,6 @@ endfunction "}}}
 "---------------------------------------------------------------------------
 " Search:"{{{
 "
-" 検索時にファイルの最後まで行ったら最初に戻らない(wrapscan:戻る)
 set nowrapscan
 
 set ignorecase
@@ -533,7 +511,6 @@ set smartcase
 nnoremap <Space>os :<C-u>setlocal smartcase!\|setlocal smartcase?<CR>
 
 set hlsearch
-"Escの2回押しでハイライト消去
 nmap <ESC><ESC> :nohlsearch<CR><ESC>
 "}}}
 
@@ -572,7 +549,7 @@ catch /E492/
 endtry
 "}}}
 
-" 開いているファイルのディレクトリに移動する{{{
+" CD to the directory of open files{{{
 command! -nargs=? -complete=dir -bang TCD  call s:ChangeCurrentDir('<args>', '<bang>')
 function! s:ChangeCurrentDir(directory, bang)
     if a:directory == ''
@@ -625,14 +602,13 @@ function! s:init_cmdwin()
     startinsert!
 endfunction
 "}}}
-" DiffClip() "クリップボードと選択行でdiff{{{
+" DiffClip() "{{{
 command! -nargs=0 -range DiffClip <line1>, <line2>:call DiffClip('0')
-"レジスタ reg とdiffをとる
 function! DiffClip(reg) range
     exe "let @a=@" . a:reg
     exe a:firstline  . "," . a:lastline . "y b"
     tabnew "new
-    " このウィンドウを閉じたらバッファを消去するようにする
+    " clear the buffer after close the window
     set buftype=nofile bufhidden=wipe
     put a
     diffthis
@@ -642,7 +618,7 @@ function! DiffClip(reg) range
     diffthis
 endfunction
 "}}}
-" NextIndent() "次のインデントに移動{{{
+" NextIndent() "{{{
 " Jump to the next or previous line that has the same level or a lower
 " level of indentation than the current line.
 "
@@ -817,7 +793,7 @@ let g:ref_pydoc_cmd = "python -m pydoc"
 " ALC
 "let g:ref_alc_cmd = 'w3m -dump %s'
 let g:ref_alc_use_cache = 0
-let g:ref_alc_start_linenumber = 39 " 余計な行を読み飛ばす
+let g:ref_alc_start_linenumber = 39 " Skip the extraneous lines
 if s:MSWindows
     let g:ref_alc_encoding = 'cp932'
 endif
@@ -1063,10 +1039,9 @@ map <Leader>s <Plug>(operator-sort)
 "---------------------------------------------------------------------------
 " qfixhown.vim:"{{{
 "
-"キーマップリーダー
 let QFixHowm_Key = 'g'
 let QFixHowm_KeyB = ','
-"howm_dirはファイルを保存したいディレクトリを設定。
+
 let howm_dir             = $DOTVIM.'/howm'
 let howm_filename        = '%Y/%m/%Y-%m-%d-%H%M%S.howm'
 let howm_fileencoding    = 'utf-8'
@@ -1075,117 +1050,70 @@ let howm_fileformat      = 'dos'
 "---------------------------------------------------------------------------
 " qfixmemo.vim:"{{{
 "
-" メモファイルの保存先
 let qfixmemo_dir           = $DOTVIM.'/qfixmemo'
-" メモファイルのファイル名
 let qfixmemo_filename      = '%Y/%m/%Y-%m-%d-%H%M%S.txt'
-" メモファイルのファイルエンコーディング
 let qfixmemo_fileencoding  = 'cp932'
-" メモファイルのファイルフォーマット(改行コード)
 let qfixmemo_fileformat    = 'dos'
-" メモのファイルタイプ
 let qfixmemo_filetype      = 'qfix_memo'
 "}}}
 "---------------------------------------------------------------------------
 " qfixmru.vim:"{{{
 "
-" MRUの保存ファイル名
 let QFixMRU_Filename     = $DOTVIM.'/.qfixmru'
-" MRUに登録しないファイル名(正規表現)
 let QFixMRU_IgnoreFile   = ''
-" MRUに登録するファイルの正規表現(設定すると指定ファイル以外登録されない)
 let QFixMRU_RegisterFile = ''
-" MRUに登録しないタイトル(正規表現)
 let QFixMRU_IgnoreTitle  = ''
-" MRU表示数
 let g:QFixMRU_Entries    = 20
-" MRU内部のエントリ最大保持数
 let QFixMRU_EntryMax     = 300
 "}}}
 "---------------------------------------------------------------------------
 " qfixgrep.vim:"{{{
 "
-"Quickfixウィンドウでプレビューを有効にする。
 let QFix_PreviewEnable    = 0
-"ハイスピードプレビューを有効にする
 let QFix_HighSpeedPreview = 0
-"プレビューをQFixGrep、QFixHowm以外でも有効にする
 let QFix_DefaultPreview   = 0
-"プレビュー対象外ファイルの指定
 let QFix_PreviewExclude = '\.pdf$\|\.mp3$\|\.jpg$\|\.bmp$\|\.png$\|\.zip$\|\.rar$\|\.exe$\|\.dll$\|\.lnk$'
 
-"Quickfixウィンドウの開き方指定
 let QFix_CopenCmd = ''
-"Quickfixウィンドウの高さ
 let QFix_Height = 10
-"Quickfixウィンドウの幅
 let QFix_Width = 0
-"プレビューウィンドウの高さ
 set previewheight=12
-"プレビューウィンドウの高さ(previewheightを使用したくない場合)
 let QFix_PreviewHeight = 12
-"カレントウィンドウの最低幅
 set winwidth=20
-"ファイルを開いたウィンドウの最低高さ。
 let QFix_WindowHeightMin = 0
-"プレビューウィンドウの開き方指定
 let QFix_PreviewOpenCmd = ''
-" プレビューウィンドウの横幅指定
 let QFix_PreviewWidth  = 0
 
-"QuickfixウィンドウサイズをQFix_HeightDefaultに固定する/しない。
-"QFix_HeightDefaultは無指定なら、起動時にQFix_Heightに設定される。
 let QFix_HeightFixMode         = 0
 
-"Quickfixウィンドウから開いた後ウィンドウを閉じる/閉じない。
 let QFix_CloseOnJump           = 0
-"Quickfixウィンドウの <S-CR> は分割ではなくタブで開くには 'tab'に設定する。
 let QFix_Edit = 'tab'
 
-"Quickfixウィンドウのプレビューでfiletypeのハイライトを有効にする。
-"環境やファイルサイズによっては重くなるので、その場合はOFFにしてください。
 let QFix_PreviewFtypeHighlight = 1
-"カーソルラインを表示する
 let QFix_CursorLine            = 1
-"プレビュー画面のカーソルラインを表示する
 let QFix_PreviewCursorLine     = 1
-"アンダーラインにしたい場合は次のようにハイライトを設定する。
 "hi CursorLine guifg=NONE guibg=NONE gui=underline
 
-"Quickfixウィンドウの属性
 let QFix_Copen_winfixheight = 1
 let QFix_Copen_winfixwidth  = 1
-"previewウィンドウの属性
 let QFix_Preview_winfixheight = 1
 let QFix_Preview_winfixwidth  = 1
 
-"grepの対象にしたくないファイル名の正規表現
 let MyGrep_ExcludeReg = '[~#]$\|\.bak$\|\.o$\|\.obj$\|\.exe$\|[/\\]tags$\|[/\\]svn[/\\]\|[/\\]\.git[/\\]\|[/\\]\.hg[/\\]'
-"使用するgrepの指定。
 let mygrepprg = 'grep'
-"外部grep(shell)のエンコードを指定する。
 let MyGrep_ShellEncoding      = 'cp932'
-"「だめ文字」対策を有効/無効
 let MyGrep_Damemoji           = 2
-"「だめ文字」を置き換える正規表現
 let MyGrep_DamemojiReplaceReg = '(..)'
-"「だめ文字」を自分で追加指定したい場合は正規表現で指定する。
 let MyGrep_DamemojiReplace    = '[]'
-"yagrepのマルチバイトオプション
 let MyGrep_yagrep_opt = 0
 
-"ユーザ定義可能な追加オプション
 let MyGrepcmd_useropt = ''
 
-"Grepコマンドのキーマップ
 "let MyGrep_Key  = 'g'
-"Grepコマンドの2ストローク目キーマップ
 "let MyGrep_KeyB = ','
 
-"QFixGrepの検索時にカーソル位置の単語を拾う/拾わない
 let MyGrep_DefaultSearchWord = 1
 
-"gvimのメニューバーに登録する/しない
 let MyGrep_MenuBar = 3
 
 autocmd MyVimrcCmd QuickfixCmdPre make,grep,grepadd,vimgrep,helpgrep copen
@@ -1216,12 +1144,11 @@ let g:MultipleSearchTextColorSequence="white,black,white,black,white,black,black
 "---------------------------------------------------------------------------
 " vim-textmanip:"{{{
 "
-"" 選択したテキストの移動
 xmap <C-j> <Plug>(textmanip-move-down)
 xmap <C-k> <Plug>(textmanip-move-up)
 xmap <C-h> <Plug>(textmanip-move-left)
 xmap <C-l> <Plug>(textmanip-move-right)
-"" 行の複製
+
 xmap <M-d> <Plug>(textmanip-duplicate-down)
 nmap <M-d> <Plug>(textmanip-duplicate-down)
 xmap <M-D> <Plug>(textmanip-duplicate-up)
@@ -1291,27 +1218,21 @@ endif
 " flymake for C/C++{{{
 function! Flymake_for_CPP_Setting()
     try
-        "" quickfix のエラー箇所を波線でハイライト
-        "" 以下の2行は   gvimrcに記載
+        "" To highlight with a undercurl in quickfix error
+        "" The following two lines are written in the .gvimrc
         "execute "highlight qf_error_ucurl gui=undercurl guisp=Red"
         "let g:hier_highlight_group_qf  = "qf_error_ucurl"
 
-        " quickfix に出力して、ポッポアップはしない outputter/quickfix
-        " すでに quickfix ウィンドウが開いている場合は閉じるので注意
         let s:silent_quickfix = quickrun#outputter#quickfix#new()
         function! s:silent_quickfix.finish(session)
             call call(quickrun#outputter#quickfix#new().finish, [a:session], self)
             :cclose
-            " vim-hier の更新
             :HierUpdate
-            " quickfix への出力後に quickfixstatus を有効に
             :QuickfixStatusEnable
         endfunction
-        " quickrun に登録
+        
         call quickrun#register_outputter("silent_quickfix", s:silent_quickfix)
 
-        " シンタックスチェック用の quickrun.vim のコンフィグ
-        " gcc 版
         let g:quickrun_config["CppSyntaxCheck_gcc"] = {
             \ "type"  : "cpp",
             \ "exec"      : "%c %o %s:p ",
@@ -1321,8 +1242,6 @@ function! Flymake_for_CPP_Setting()
             \ "runner"    : "vimproc"
         \ }
 
-        " msvc 版
-        " .h ファイルの場合はうまく動かない
         let g:quickrun_config["CppSyntaxCheck_msvc"] = {
             \ "type"  : "cpp",
             \ "exec"      : "%c %o %s:p ",
@@ -1333,7 +1252,6 @@ function! Flymake_for_CPP_Setting()
             \ "output_encode" : "sjis"
         \ }
 
-        " ファイルの保存後に quickrun.vim が実行するように設定する
         "autocmd MyVimrcCmd BufWritePost *.cpp,*.h,*.hpp :QuickRun CppSyntaxCheck_msvc
     catch /E117/
         
@@ -1570,7 +1488,7 @@ endif
 "---------------------------------------------------------------------------
 " Key Mappings:"{{{
 "
-" 最後に編集された位置に移動
+" Move to the position last edited
 nnoremap gb '[
 nnoremap gp ']
 

@@ -16,19 +16,7 @@ elseif has('win32') || has('win64')
     set linespace=1
 endif
 
-" 印刷に関する設定:
-"
-" 注釈:
-" 印刷はGUIでなくてもできるのでvimrcで設定したほうが良いかもしれない。この辺
-" りはWindowsではかなり曖昧。一般的に印刷には明朝、と言われることがあるらし
-" いのでデフォルトフォントは明朝にしておく。ゴシックを使いたい場合はコメント
-" アウトしてあるprintfontを参考に。
-"
-" 参考:
-"   :hardcopy
-"   :help 'printfont'
-"   :help printing
-"印刷用フォント
+" For Printer :
 if has('printer')
     if has('win32') || has('win64')
         set printfont=MS_Mincho:h12:cSHIFTJIS
@@ -40,19 +28,9 @@ endif
 "---------------------------------------------------------------------------
 " Mouse:"{{{
 "
-" 解説:
-" mousefocusは幾つか問題(一例:ウィンドウを分割しているラインにカーソルがあっ
-" ている時の挙動)があるのでデフォルトでは設定しない。Windowsではmousehide
-" が、マウスカーソルをVimのタイトルバーに置き日本語を入力するとチラチラする
-" という問題を引き起す。
-"
-" どのモードでもマウスを使えるようにする
 set mouse=a
-" マウスの移動でフォーカスを自動的に切替えない (mousefocus:切替る)
 set nomousefocus
-" 入力時にマウスポインタを隠す (nomousehide:隠さない)
 set nomousehide
-" ビジュアル選択(D&D他)を自動的にクリップボードへ (:help guioptions_a)
 "set guioptions+=a
 "}}}
 
@@ -71,22 +49,22 @@ highlight Cursor        guifg=Black    guibg=Green      gui=bold
 highlight StatusLine    guifg=white    guibg=blue
 highlight Folded        guifg=blue     guibg=darkgray
 
-" 水平スクロールバーのサイズをカーソル行の長さに制限する。
+" Limit horizontal scrollbar size to the length of the cursor line
 set guioptions&
 set guioptions+=h
 
-" 水平スクロールバーの表示切替
+" Toggle horizontal scrollbar
 nnoremap  <silent> <Space>oh :if &guioptions =~# 'b' <Bar>
       \set guioptions-=b <Bar>
       \else <Bar>
       \set guioptions+=b <Bar>
       \endif <CR>
 
-" ウインドウの幅
+" Window width
 set columns=160
-" ウインドウの高さ
+" Window height
 set lines=40
-" コマンドラインの高さ(GUI使用時)
+" Command-line height
 set cmdheight=2
 "}}}
 
@@ -94,9 +72,9 @@ set cmdheight=2
 " IME:"{{{
 "
 if has('multi_byte_ime') || has('xim')
-    " IME ON時のカーソルの色を設定(設定例:紫)
+    " Set the color of the cursor when the IME ON
     highlight CursorIM guibg=Purple guifg=NONE
-    " 挿入モード・検索モードでのデフォルトのIME状態設定
+    " Default IME settings in search mode and insert mode
     set iminsert=0 imsearch=0
     if has('xim') && has('GUI_GTK')
         "set imactivatekey=C-Space
@@ -148,7 +126,7 @@ endtry
 "---------------------------------------------------------------------------
 " vim-hier:"{{{
 "
-" quickfix のエラー箇所を波線でハイライト
+" To highlight with a undercurl in quickfix error
 execute "highlight qf_error_ucurl gui=undercurl guisp=Red"
 let g:hier_highlight_group_qf  = "qf_error_ucurl"
 
