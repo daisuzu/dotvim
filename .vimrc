@@ -264,6 +264,8 @@ try
     NeoBundle 'git://github.com/vim-scripts/occur.vim.git'
 
     " utility
+    NeoBundle 'git://github.com/mattn/webapi-vim.git'
+    NeoBundle 'git://github.com/mattn/ideone-vim.git'
     NeoBundle 'git://github.com/vim-scripts/project.tar.gz.git'
     NeoBundle 'git://github.com/Shougo/vimproc.git'
     NeoBundle 'git://github.com/Shougo/vinarise.git'
@@ -312,6 +314,9 @@ try
     NeoExternalBundle 'git://github.com/kana/vim-filetype-haskell.git'
     NeoExternalBundle 'git://github.com/lukerandall/haskellmode-vim.git'
     NeoExternalBundle 'git://github.com/eagletmt/ghcmod-vim.git'
+
+    " Clojure
+    NeoBundle 'git://github.com/jondistad/vimclojure.git'
 
     " CSV
     NeoBundle 'git://github.com/vim-scripts/csv.vim.git'
@@ -402,6 +407,44 @@ nnoremap <Space>ow :<C-u>setlocal wrap!\|setlocal wrap?<CR>
 set nolist
 nnoremap <Space>ol :<C-u>setlocal list!\|setlocal list?<CR>
 set listchars=tab:>-,extends:<,precedes:>,trail:-,eol:$,nbsp:%
+
+" Tabline settings "{{{
+function! s:tabpage_label(n) "{{{
+    let title = gettabvar(a:n, 'title') 
+    if title !=# '' 
+        return title 
+    endif
+
+    let bufnrs = tabpagebuflist(a:n)
+
+    let hi = a:n is tabpagenr() ? '%#TabLineSel#' : '%#TabLine#'
+
+    let no = len(bufnrs) 
+    if no is 1 
+        let no = ''
+    endif
+
+    let mod = len(filter(copy(bufnrs), 'getbufvar(v:val, "&modified")')) ? '+' : '' 
+    let sp = (no . mod) ==# '' ? '' : ' ' 
+
+    let curbufnr = bufnrs[tabpagewinnr(a:n) - 1] 
+    let fname = pathshorten(bufname(curbufnr))
+
+    let label = no . mod . sp . fname
+
+    return '%' . a:n . 'T' . hi . label . '%T%#TabLineFill#'
+endfunction "}}}
+function! MakeTabLine() "{{{
+    let titles =map(range(1, tabpagenr('$')), 's:tabpage_label(v:val)')
+    let sep = ' | ' 
+    let tabpages = join(titles, sep) . sep . '%#TabLineFill#%T' 
+    let info = fnamemodify(getcwd(),"~:") . ' '
+    return tabpages . '%=' . info 
+endfunction "}}}
+set guioptions&
+set guioptions-=e
+set tabline=%!MakeTabLine()
+"}}}
 
 " Visualization of the full-width space and the blank at the end of the line{{{
 if has("syntax")
@@ -1161,6 +1204,12 @@ let g:tcommentMapLeaderOp1 = ',c'
 let g:tcommentMapLeaderOp2 = ',C'
 "}}}
 "---------------------------------------------------------------------------
+" ideone-vim:"{{{
+"
+let g:ideone_put_url_to_clipboard_after_post = 0
+let g:ideone_open_buffer_after_post = 1
+"}}}
+"---------------------------------------------------------------------------
 " project.tar.gz:"{{{
 "
 let g:proj_flags = "imstc"
@@ -1343,7 +1392,7 @@ nmap <Leader>gd :<C-u>Gtags -d <C-R>=expand("<cword>")<CR><CR>
 let g:pymode_lint_onfly = 1
 let g:pymode_lint_write = 1
 let g:pymode_lint_cwindow = 0
-let g:pymode_lint_message = 0
+let g:pymode_lint_message = 1
 let g:pydoc = "python -m pydoc"
 let g:pymode_rope = 1
 "}}}
@@ -1361,96 +1410,80 @@ else
     let g:haddock_browser="/usr/bin/firefox"
 endif
 "}}}
+"---------------------------------------------------------------------------
+" vimclojure:"{{{
+"
+let g:clj_highlight_builtins = 1
+let g:clj_paren_rainbow = 1
+"}}}
 
 "---------------------------------------------------------------------------
 " vim-ipi:"{{{
 "
+function! LazyLoading(ft)
+    filetype plugin indent off
+    for plugin_name in g:ll_plugins[a:ft]
+        execute "silent! IP " . plugin_name
+    endfor
+    filetype plugin indent on
+    execute "autocmd! MyIPI_" . a:ft
+    execute "set filetype=" . a:ft
+    silent! ReadTypes
+endfunction
+
+let g:ll_plugins={}
+let g:ll_plugins['c'] = [
+            \ 'taglist.vim',
+            \ 'TagHighlight',
+            \ 'a.vim',
+            \ 'c.vim',
+            \ 'Source-Explorer-srcexpl.vim',
+            \ 'trinity.vim',
+            \ 'cscope-menu',
+            \ 'gtags.vim',
+            \ 'DoxygenToolkit.vim',
+            \ ]
+let g:ll_plugins['cpp'] = [
+            \ 'taglist.vim',
+            \ 'TagHighlight',
+            \ 'a.vim',
+            \ 'c.vim',
+            \ 'Source-Explorer-srcexpl.vim',
+            \ 'trinity.vim',
+            \ 'cscope-menu',
+            \ 'gtags.vim',
+            \ 'DoxygenToolkit.vim',
+            \ ]
+let g:ll_plugins['python'] = [
+            \ 'pytest.vim',
+            \ 'python-mode',
+            \ 'taglist.vim',
+            \ 'TagHighlight',
+            \ ]
+let g:ll_plugins['perl'] = [
+            \ 'perl-support.vim',
+            \ 'taglist.vim',
+            \ 'TagHighlight',
+            \ ]
+let g:ll_plugins['javascript'] = [
+            \ 'vim-javascript',
+            \ ]
+let g:ll_plugins['haskell'] = [
+            \ 'vim-filetype-haskell',
+            \ 'haskellmode-vim',
+            \ 'ghcmod-vim',
+            \ ]
+
 if has('vim_starting') && s:ipi_loaded
     " lazy loading of each filetype
-    " Load C/C++ Plugins "{{{
-    function! LoadCppPlugins()
-        filetype plugin indent off
-        silent! IP taglist.vim
-        silent! IP TagHighlight
-        silent! IP a.vim
-        silent! IP c.vim
-        silent! IP Source-Explorer-srcexpl.vim
-        silent! IP trinity.vim
-        silent! IP cscope-menu
-        silent! IP gtags.vim
-        silent! IP DoxygenToolkit.vim
-        filetype plugin indent on
-        ReadTypes
-        autocmd! MyIPI_CPP
-    endfunctio
-
-    augroup MyIPI_CPP
-        autocmd!
-        autocmd filetype c,cpp call LoadCppPlugins()
-    augroup END
-    "}}}
-    " Load Python Plugins "{{{
-    function! LoadPythonPlugins()
-        filetype plugin indent off
-        silent! IP pytest.vim
-        silent! IP python-mode
-        silent! IP taglist.vim
-        silent! IP TagHighlight
-        filetype plugin indent on
-        ReadTypes
-        autocmd! MyIPI_Python
-        set filetype=python
-    endfunctio
-
-    augroup MyIPI_Python
-        autocmd!
-        autocmd filetype python call LoadPythonPlugins()
-    augroup END
-    "}}}
-    " Load Perl Plugins "{{{
-    function! LoadPerlPlugins()
-        filetype plugin indent off
-        silent! IP perl-support.vim
-        silent! IP taglist.vim
-        silent! IP TagHighlight
-        filetype plugin indent on
-        ReadTypes
-        autocmd! MyIPI_Perl
-    endfunctio
-
-    augroup MyIPI_Perl
-        autocmd!
-        autocmd filetype perl call LoadPerlPlugins()
-    augroup END
-    "}}}
-    " Load Javascript Plugins "{{{
-    function! LoadJavascriptPlugins()
-        filetype plugin indent off
-        silent! IP vim-javascript
-        filetype plugin indent on
-        autocmd! MyIPI_Javascript
-    endfunctio
-
-    augroup MyIPI_Javascript
-        autocmd!
-        autocmd filetype javascript call LoadJavascriptPlugins()
-    augroup END
-    "}}}
-    " Load Haskell Plugins "{{{
-    function! LoadHaskellPlugins()
-        filetype plugin indent off
-        silent! IP vim-filetype-haskell
-        silent! IP haskellmode-vim
-        silent! IP ghcmod-vim
-        filetype plugin indent on
-        autocmd! MyIPI_Haskell
-    endfunctio
-
-    augroup MyIPI_Haskell
-        autocmd!
-        autocmd filetype haskell call LoadHaskellPlugins()
-    augroup END
-    "}}}
+    if exists("g:ll_plugins")
+        for k in keys(g:ll_plugins)
+            execute "augroup " . "MyIPI_" . k
+            execute "autocmd!"
+            execute "autocmd FileType " . k . " call LazyLoading('" . k . "')"
+            execute "augroup END"
+        endfor
+    endif
 
     " lazy loading for vim-ref
     nmap <silent> K :<C-u>silent! IP vim-ref<CR><Plug>(ref-keyword)

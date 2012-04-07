@@ -49,8 +49,12 @@ highlight Cursor        guifg=Black    guibg=Green      gui=bold
 highlight StatusLine    guifg=white    guibg=blue
 highlight Folded        guifg=blue     guibg=darkgray
 
+highlight TabLine ctermfg=0 ctermbg=8 guifg=Black guibg=#dcdcdc gui=underline 
+highlight TabLineSel term=bold cterm=bold ctermfg=15 ctermbg=9 guifg=White guibg=Blue gui=bold 
+highlight TabLineFill ctermfg=0 ctermbg=8 guifg=Black guibg=#dcdcdc gui=underline 
+
+
 " Limit horizontal scrollbar size to the length of the cursor line
-set guioptions&
 set guioptions+=h
 
 " Toggle horizontal scrollbar
