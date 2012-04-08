@@ -1521,6 +1521,10 @@ endif
 "---------------------------------------------------------------------------
 " Key Mappings:"{{{
 "
+" Tabpage related mappings
+nnoremap <Space>to :<C-u>tabnew<CR>
+nnoremap <Space>tq :<C-u>tabclose<CR>
+
 " Move to the position last edited
 nnoremap gb '[
 nnoremap gp ']
