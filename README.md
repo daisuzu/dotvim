@@ -60,6 +60,11 @@ Some plugin can use ack as text finder.
 * ack  [using CPAN(Comprehensive Perl Archive Network)]
 
 
+For processing markdown.
+
+* Pandoc [using Cabal]
+
+
 If using Windows OS, these software extends command line processing.
 
 * Everything [http://www.voidtools.com/]
