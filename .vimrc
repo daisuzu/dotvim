@@ -182,6 +182,7 @@ try
     NeoBundle 'git://github.com/Shougo/neocomplcache-snippets-complete.git'
     NeoBundle 'git://github.com/Shougo/neocomplcache-clang.git'
     NeoBundle 'git://github.com/ujihisa/neco-ghc.git'
+    NeoBundle 'git://github.com/teramako/jscomplete-vim.git'
 
     " ctags
     NeoExternalBundle 'git://github.com/vim-scripts/taglist.vim.git'
@@ -206,7 +207,6 @@ try
     NeoBundle 'git://github.com/sgur/unite-everything.git'
     NeoBundle 'git://github.com/zhaocai/unite-scriptnames.git'
     NeoBundle 'git://github.com/pasela/unite-webcolorname.git'
-    NeoBundle 'git://github.com/kmnk/vim-unite-giti.git'
     NeoBundle 'git://github.com/daisuzu/unite-grep_launcher.git'
     NeoBundle 'git://github.com/daisuzu/unite-gtags.git'
 
@@ -214,24 +214,19 @@ try
     NeoBundle 'git://github.com/kana/vim-textobj-user.git'
     NeoBundle 'git://github.com/kana/vim-textobj-indent.git'
     NeoBundle 'git://github.com/kana/vim-textobj-syntax.git'
-    NeoBundle 'git://github.com/kana/vim-textobj-datetime.git'
     NeoBundle 'git://github.com/kana/vim-textobj-line.git'
     NeoBundle 'git://github.com/kana/vim-textobj-fold.git'
-    NeoBundle 'git://github.com/kana/vim-textobj-jabraces.git'
     NeoBundle 'git://github.com/kana/vim-textobj-entire.git'
-    NeoBundle 'git://github.com/kana/vim-textobj-lastpat.git'
     NeoBundle 'git://github.com/thinca/vim-textobj-between.git'
     NeoBundle 'git://github.com/thinca/vim-textobj-comment.git'
     NeoBundle 'git://github.com/h1mesuke/textobj-wiw.git'
     NeoBundle 'git://github.com/vimtaku/vim-textobj-sigil.git'
-    NeoBundle 'git://github.com/anyakichi/vim-textobj-xbrackets.git'
 
     " operator
     NeoBundle 'git://github.com/kana/vim-operator-user.git'
     NeoBundle 'git://github.com/kana/vim-operator-replace.git'
     NeoBundle 'git://github.com/tyru/operator-camelize.vim.git'
     NeoBundle 'git://github.com/tyru/operator-reverse.vim.git'
-    NeoBundle 'git://github.com/emonkak/vim-operator-comment.git'
     NeoBundle 'git://github.com/emonkak/vim-operator-sort.git'
 
     " quickfix
@@ -239,7 +234,6 @@ try
     NeoBundle 'git://github.com/dannyob/quickfixstatus.git'
     NeoBundle 'git://github.com/jceb/vim-hier.git'
     NeoBundle 'git://github.com/fuenor/qfixhowm.git'
-    NeoBundle 'git://github.com/vim-scripts/errormarker.vim.git'
 
     " appearance
     NeoBundle 'git://github.com/thinca/vim-fontzoom.git'
@@ -264,19 +258,19 @@ try
     NeoBundle 'git://github.com/vim-scripts/occur.vim.git'
 
     " utility
-    NeoBundle 'git://github.com/mattn/webapi-vim.git'
     NeoBundle 'git://github.com/mattn/ideone-vim.git'
     NeoBundle 'git://github.com/vim-scripts/project.tar.gz.git'
     NeoBundle 'git://github.com/Shougo/vimproc.git'
     NeoBundle 'git://github.com/Shougo/vinarise.git'
     NeoBundle 'git://github.com/s-yukikaze/vinarise-plugin-peanalysis.git'
     NeoExternalBundle 'git://github.com/Shougo/vimfiler.git'
-    NeoBundle 'git://github.com/liquidz/vimfiler-sendto.git'
     NeoBundle 'git://github.com/Shougo/vimshell.git'
     NeoBundle 'git://github.com/thinca/vim-logcat.git'
     NeoExternalBundle 'git://github.com/thinca/vim-quickrun.git'
     NeoBundle 'git://github.com/thinca/vim-prettyprint.git'
     NeoBundle 'git://github.com/thinca/vim-editvar.git'
+    NeoBundle 'git://github.com/tyru/open-browser.vim.git'
+    NeoBundle 'git://github.com/sjl/splice.vim.git'
     NeoBundle 'git://github.com/sjl/gundo.vim.git'
     NeoBundle 'git://github.com/vim-scripts/copypath.vim.git'
     NeoBundle 'git://github.com/vim-scripts/DirDiff.vim.git'
@@ -307,12 +301,13 @@ try
     " Perl
     NeoExternalBundle 'git://github.com/vim-scripts/perl-support.vim.git'
 
-    " Javascript
+    " JavaScript
     NeoExternalBundle 'git://github.com/pangloss/vim-javascript.git'
 
     " Haskell
     NeoExternalBundle 'git://github.com/kana/vim-filetype-haskell.git'
     NeoExternalBundle 'git://github.com/lukerandall/haskellmode-vim.git'
+    NeoExternalBundle 'git://github.com/Twinside/vim-syntax-haskell-cabal.git'
     NeoExternalBundle 'git://github.com/eagletmt/ghcmod-vim.git'
 
     " Clojure
@@ -325,10 +320,9 @@ try
     NeoBundle 'git://github.com/vim-scripts/Color-Sampler-Pack.git'
 
     " runtime
+    NeoBundle 'git://github.com/mattn/webapi-vim.git'
     NeoBundle 'git://github.com/vim-scripts/cecutil.git'
-    NeoBundle 'git://github.com/vim-scripts/multvals.vim.git'
     NeoBundle 'git://github.com/vim-scripts/tlib.git'
-    NeoBundle 'git://github.com/vim-scripts/L9.git'
 catch /E117/
     
 endtry
@@ -716,6 +710,12 @@ augroup FlyQuickfixMakeCmd
     autocmd!
 augroup END
 
+function! SetErrorMarkers()
+    :cclose
+    :HierUpdate
+    :QuickfixStatusEnable
+endfunction
+
 function! FlyquickfixPrgSet(mode)
     if a:mode == 10
         """ setting for perl
@@ -736,6 +736,7 @@ function! FlyquickfixToggleSet()
         echo "used flymake"
         let g:enabled_flyquickfixmake = 1
         autocmd FlyQuickfixMakeCmd BufWritePost *.pm,*.pl,*.t make
+        autocmd FlyQuickfixMakeCmd QuickFixCmdPost make call SetErrorMarkers()
     endif
 endfunction
 
@@ -744,6 +745,7 @@ if !exists("g:enabled_flyquickfixmake")
     call FlyquickfixPrgSet(10)
 
     autocmd FlyQuickfixMakeCmd BufWritePost *.pm,*.pl,*.t make
+    autocmd FlyQuickfixMakeCmd QuickFixCmdPost make call SetErrorMarkers()
 endif
 
 if !exists("g:flyquickfixmake_mode")
@@ -847,7 +849,7 @@ endif
 "---------------------------------------------------------------------------
 " neocomplcache:"{{{
 "
-function! Init_neocomplecache() "{{{
+function! Init_neocomplcache() "{{{
     NeoComplCacheEnable
     imap <C-k>     <Plug>(neocomplcache_snippets_expand)
     smap <C-k>     <Plug>(neocomplcache_snippets_expand)
@@ -888,7 +890,7 @@ function! Init_neocomplecache() "{{{
     "inoremap <expr><TAB> pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
     "inoremap <expr><CR> neocomplcache#smart_close_popup() . "\<CR>"
 endfunction"}}}
-function! Term_neocomplecache() "{{{
+function! Term_neocomplcache() "{{{
     NeoComplCacheDisable
     iunmap <C-k>
     sunmap <C-k>
@@ -902,8 +904,8 @@ function! Term_neocomplecache() "{{{
     iunmap <C-y>
     iunmap <C-e>
 endfunction"}}}
-command! InitNeoComplCache call Init_neocomplecache()
-command! TermNeoComplCache call Term_neocomplecache()
+command! InitNeoComplCache call Init_neocomplcache()
+command! TermNeoComplCache call Term_neocomplcache()
 
 " Disable AutoComplPop.
 let g:acp_enableAtStartup = 0
@@ -1160,11 +1162,6 @@ let MyGrep_DefaultSearchWord = 1
 let MyGrep_MenuBar = 3
 
 autocmd MyVimrcCmd QuickfixCmdPre make,grep,grepadd,vimgrep,helpgrep copen
-"}}}
-"---------------------------------------------------------------------------
-" errormarker.vim:"{{{
-"
-let errormarker_disablemappings = 1
 "}}}
 "---------------------------------------------------------------------------
 " vim-indent-guides:"{{{
@@ -1471,6 +1468,7 @@ let g:ll_plugins['javascript'] = [
 let g:ll_plugins['haskell'] = [
             \ 'vim-filetype-haskell',
             \ 'haskellmode-vim',
+            \ 'vim-syntax-haskell-cabal',
             \ 'ghcmod-vim',
             \ ]
 
@@ -1493,9 +1491,9 @@ if has('vim_starting') && s:ipi_loaded
                 \ | call ref#ref(<q-args>)
 
     " lazy loading for neocomplcache
-    augroup MyInitNeocomplecache
+    augroup MyInitNeocomplcache
         autocmd!
-        autocmd InsertEnter * call Init_neocomplecache() | autocmd! MyInitNeocomplecache
+        autocmd InsertEnter * call Init_neocomplcache() | autocmd! MyInitNeocomplcache
     augroup END
     
     " lazy loading for vimfiler
