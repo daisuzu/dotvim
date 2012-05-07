@@ -178,9 +178,10 @@ try
     NeoExternalBundle 'git://github.com/thinca/vim-ref.git'
 
     " completion
-    NeoBundle 'git://github.com/Shougo/neocomplcache.git'
-    NeoBundle 'git://github.com/Shougo/neocomplcache-snippets-complete.git'
-    NeoBundle 'git://github.com/Shougo/neocomplcache-clang.git'
+    " NeoBundle 'git://github.com/Shougo/neocomplcache.git'
+    " NeoBundle 'git://github.com/Shougo/neocomplcache-snippets-complete.git'
+    NeoBundle 'git://github.com/Rip-Rip/clang_complete.git'
+    " NeoBundle 'git://github.com/osyo-manga/neocomplcache-clang_complete.git'
     NeoBundle 'git://github.com/ujihisa/neco-ghc.git'
     NeoBundle 'git://github.com/teramako/jscomplete-vim.git'
 
@@ -945,10 +946,17 @@ endif
 
 try
     if neocomplcache#is_enabled()
+        " neocomplcache enable at startup
         InitNeoComplCache
+    else
+        " lazy loading for neocomplcache
+        augroup MyInitNeocomplcache
+            autocmd!
+            autocmd InsertEnter * call Init_neocomplcache() | autocmd! MyInitNeocomplcache
+        augroup END
     endif
 catch /E117/
-    
+
 endtry
 
 " Enable omni completion.
@@ -973,26 +981,21 @@ if !exists('g:neocomplcache_include_paths')
 endif
 let g:neocomplcache_include_paths.c = "C:/MinGW/lib/gcc/mingw32/4.5.2/include"
 let g:neocomplcache_include_paths.cpp = "C:/MinGW/lib/gcc/mingw32/4.5.2/include/c++,C:/boost_1_47_0"
+
+" For clang_complete
+let g:neocomplcache_force_overwrite_completefunc=1
 "}}}
 "---------------------------------------------------------------------------
-" neocomplcache-clang:"{{{
+" clang_complete:"{{{
 "
-" Use clang dll.
-let g:neocomplcache_clang_use_library = 1
-"let g:neocomplcache_clang_library_path='C:/GnuWin32/bin'
-" More user include path.
-let g:neocomplcache_clang_user_options =
-\ '-I C:/MinGW/lib/gcc/mingw32/4.5.2/include '.
-\ '-I C:/MinGW/lib/gcc/mingw32/4.5.2/include/c++ '.
-\ '-I C:/MinGW/lib/gcc/mingw32/4.6.2/include '.
-\ '-I C:/MinGW/lib/gcc/mingw32/4.6.2/include/c++ '.
-\ '-I C:/Program\ Files/Microsoft\ Visual\ Studio\ 9.0/VC/include '.
-\ '-I C:/Program\ Files/Microsoft\ SDKs/Windows/v6.0A/Include '.
+let g:clang_complete_auto = 1
+let g:clang_use_library = 0
+let g:clang_exec = '"C:/GnuWin32/bin/clang.exe'
+let g:clang_user_options = 
 \ '-I C:/boost_1_47_0 '.
-\ '-fms-extensions -fgnu-runtime '.
-\ '-include malloc.h '
-" More neocomplcache candidates.
-let g:neocomplcache_max_list = 1000
+\ '-fms-extensions -fmsc-version=1500 -fgnu-runtime '.
+\ '-D__MSVCRT_VERSION__=0x800 -D_WIN32_WINNT=0x0500 '.
+\ '2> NUL || exit 0"'
 "}}}
 "---------------------------------------------------------------------------
 " vim-fugitive:"{{{
@@ -1490,12 +1493,6 @@ if has('vim_starting') && s:ipi_loaded
                 \ execute 'silent! IP vim-ref'
                 \ | call ref#ref(<q-args>)
 
-    " lazy loading for neocomplcache
-    augroup MyInitNeocomplcache
-        autocmd!
-        autocmd InsertEnter * call Init_neocomplcache() | autocmd! MyInitNeocomplcache
-    augroup END
-    
     " lazy loading for vimfiler
     nnoremap <silent> [vimfiler]b  :<C-u>silent! IP vimfiler<CR>:<C-u>VimFilerBufferDir<CR>
     nnoremap <silent> [vimfiler]c  :<C-u>silent! IP vimfiler<CR>:<C-u>VimFilerCurrentDir<CR>
