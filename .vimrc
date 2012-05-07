@@ -178,10 +178,10 @@ try
     NeoExternalBundle 'git://github.com/thinca/vim-ref.git'
 
     " completion
-    " NeoBundle 'git://github.com/Shougo/neocomplcache.git'
-    " NeoBundle 'git://github.com/Shougo/neocomplcache-snippets-complete.git'
+    NeoBundle 'git://github.com/Shougo/neocomplcache.git'
+    NeoBundle 'git://github.com/Shougo/neocomplcache-snippets-complete.git'
     NeoBundle 'git://github.com/Rip-Rip/clang_complete.git'
-    " NeoBundle 'git://github.com/osyo-manga/neocomplcache-clang_complete.git'
+    NeoBundle 'git://github.com/osyo-manga/neocomplcache-clang_complete.git'
     NeoBundle 'git://github.com/ujihisa/neco-ghc.git'
     NeoBundle 'git://github.com/teramako/jscomplete-vim.git'
 
@@ -979,8 +979,11 @@ let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
 if !exists('g:neocomplcache_include_paths')
     let g:neocomplcache_include_paths = {}
 endif
-let g:neocomplcache_include_paths.c = "C:/MinGW/lib/gcc/mingw32/4.5.2/include"
-let g:neocomplcache_include_paths.cpp = "C:/MinGW/lib/gcc/mingw32/4.5.2/include/c++,C:/boost_1_47_0"
+
+if s:MSWindows
+    let g:neocomplcache_include_paths.c = "C:/MinGW/lib/gcc/mingw32/4.5.2/include"
+    let g:neocomplcache_include_paths.cpp = "C:/MinGW/lib/gcc/mingw32/4.5.2/include/c++,C:/boost_1_47_0"
+endif
 
 " For clang_complete
 let g:neocomplcache_force_overwrite_completefunc=1
@@ -990,12 +993,15 @@ let g:neocomplcache_force_overwrite_completefunc=1
 "
 let g:clang_complete_auto = 1
 let g:clang_use_library = 0
-let g:clang_exec = '"C:/GnuWin32/bin/clang.exe'
-let g:clang_user_options = 
-\ '-I C:/boost_1_47_0 '.
-\ '-fms-extensions -fmsc-version=1500 -fgnu-runtime '.
-\ '-D__MSVCRT_VERSION__=0x800 -D_WIN32_WINNT=0x0500 '.
-\ '2> NUL || exit 0"'
+
+if s:MSWindows
+    let g:clang_exec = '"C:/GnuWin32/bin/clang.exe'
+    let g:clang_user_options = 
+                \ '-I C:/boost_1_47_0 '.
+                \ '-fms-extensions -fmsc-version=1500 -fgnu-runtime '.
+                \ '-D__MSVCRT_VERSION__=0x800 -D_WIN32_WINNT=0x0500 '.
+                \ '2> NUL || exit 0"'
+endif
 "}}}
 "---------------------------------------------------------------------------
 " vim-fugitive:"{{{
