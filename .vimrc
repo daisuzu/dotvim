@@ -1433,8 +1433,12 @@ function! LazyLoading(ft)
     endfor
     filetype plugin indent on
     execute "autocmd! MyIPI_" . a:ft
-    execute "set filetype=" . a:ft
-    silent! ReadTypes
+
+    if exists('g:ll_post_process[a:ft]')
+        for post_process in g:ll_post_process[a:ft]
+            execute post_process
+        endfor
+    endif
 endfunction
 
 let g:ll_plugins={}
@@ -1479,6 +1483,20 @@ let g:ll_plugins['haskell'] = [
             \ 'haskellmode-vim',
             \ 'vim-syntax-haskell-cabal',
             \ 'ghcmod-vim',
+            \ ]
+let g:ll_post_process={}
+let g:ll_post_process['c'] = [
+            \ 'silent! ReadTypes',
+            \ ]
+let g:ll_post_process['cpp'] = [
+            \ 'silent! ReadTypes',
+            \ ]
+let g:ll_post_process['python'] = [
+            \ 'silent! ReadTypes',
+            \ 'set filetype=python',
+            \ ]
+let g:ll_post_process['perl'] = [
+            \ 'silent! ReadTypes',
             \ ]
 
 if has('vim_starting') && s:ipi_loaded
