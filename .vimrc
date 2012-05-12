@@ -32,7 +32,7 @@ nnoremap <silent> <Space>rg :<C-u>source $MYGVIMRC<CR>
 nnoremap <silent> <Space>rl :<C-u>if 1 && filereadable($MYLOCALVIMRC) \| source $MYLOCALVIMRC \| endif <CR>
 
 if has('win32') || has('win64')
-    set shellslash
+    " set shellslash
     set visualbell t_vb=
 endif
 nnoremap <Space>o/ :<C-u>setlocal shellslash!\|setlocal shellslash?<CR>
@@ -994,14 +994,14 @@ let g:neocomplcache_force_overwrite_completefunc=1
 let g:clang_complete_auto = 1
 let g:clang_use_library = 0
 
-if s:MSWindows
-    let g:clang_exec = '"C:/GnuWin32/bin/clang.exe'
-    let g:clang_user_options = 
-                \ '-I C:/boost_1_47_0 '.
-                \ '-fms-extensions -fmsc-version=1500 -fgnu-runtime '.
-                \ '-D__MSVCRT_VERSION__=0x800 -D_WIN32_WINNT=0x0500 '.
-                \ '2> NUL || exit 0"'
-endif
+" if s:MSWindows
+"     let g:clang_exec = '"C:/GnuWin32/bin/clang.exe'
+"     let g:clang_user_options = 
+"                 \ '-I C:/boost_1_47_0 '.
+"                 \ '-fms-extensions -fmsc-version=1500 -fgnu-runtime '.
+"                 \ '-D__MSVCRT_VERSION__=0x800 -D_WIN32_WINNT=0x0500 '.
+"                 \ '2> NUL || exit 0"'
+" endif
 "}}}
 "---------------------------------------------------------------------------
 " vim-fugitive:"{{{
