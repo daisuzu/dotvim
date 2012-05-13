@@ -156,6 +156,7 @@ noremap <M-i> <C-X>
 "---------------------------------------------------------------------------
 " Load Plugins:"{{{
 "
+filetype off
 filetype plugin indent off
 
 "---------------------------------------------------------------------------
@@ -1414,11 +1415,9 @@ let g:clj_paren_rainbow = 1
 " neobundle.vim:"{{{
 "
 function! LazyLoading(ft)
-    filetype plugin indent off
     for plugin_name in g:ll_plugins[a:ft]
         execute "silent! NeoBundleSource " . plugin_name
     endfor
-    filetype plugin indent on
     execute "autocmd! NeoBundleSourceFor_" . a:ft
 
     if exists('g:ll_post_process[a:ft]')
