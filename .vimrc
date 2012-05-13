@@ -170,12 +170,10 @@ try
 
     " plugin management
     NeoBundle 'git://github.com/Shougo/neobundle.vim.git'
-    NeoBundle 'git://github.com/tpope/vim-pathogen.git'
-    NeoBundle 'git://github.com/jceb/vim-ipi.git'
 
     " doc
     NeoBundle 'git://github.com/vim-jp/vimdoc-ja.git'
-    NeoExternalBundle 'git://github.com/thinca/vim-ref.git'
+    NeoBundleLazy 'git://github.com/thinca/vim-ref.git'
 
     " completion
     NeoBundle 'git://github.com/Shougo/neocomplcache.git'
@@ -186,8 +184,8 @@ try
     NeoBundle 'git://github.com/teramako/jscomplete-vim.git'
 
     " ctags
-    NeoExternalBundle 'git://github.com/vim-scripts/taglist.vim.git'
-    NeoExternalBundle 'git://github.com/abudden/TagHighlight.git'
+    NeoBundleLazy 'git://github.com/vim-scripts/taglist.vim.git'
+    NeoBundleLazy 'git://github.com/abudden/TagHighlight.git'
 
     " vcs
     NeoBundle 'git://github.com/tpope/vim-fugitive.git'
@@ -198,7 +196,7 @@ try
     NeoBundle 'git://github.com/Shougo/unite.vim.git'
     NeoBundle 'git://github.com/Shougo/unite-build.git'
     NeoBundle 'git://github.com/ujihisa/unite-colorscheme.git'
-    NeoExternalBundle 'git://github.com/ujihisa/quicklearn.git'
+    NeoBundleLazy 'git://github.com/ujihisa/quicklearn.git'
     NeoBundle 'git://github.com/sgur/unite-qf.git'
     NeoBundle 'git://github.com/h1mesuke/unite-outline.git'
     NeoBundle 'git://github.com/h1mesuke/vim-alignta.git'
@@ -264,10 +262,10 @@ try
     NeoBundle 'git://github.com/Shougo/vimproc.git'
     NeoBundle 'git://github.com/Shougo/vinarise.git'
     NeoBundle 'git://github.com/s-yukikaze/vinarise-plugin-peanalysis.git'
-    NeoExternalBundle 'git://github.com/Shougo/vimfiler.git'
+    NeoBundleLazy 'git://github.com/Shougo/vimfiler.git'
     NeoBundle 'git://github.com/Shougo/vimshell.git'
     NeoBundle 'git://github.com/thinca/vim-logcat.git'
-    NeoExternalBundle 'git://github.com/thinca/vim-quickrun.git'
+    NeoBundleLazy 'git://github.com/thinca/vim-quickrun.git'
     NeoBundle 'git://github.com/thinca/vim-prettyprint.git'
     NeoBundle 'git://github.com/thinca/vim-editvar.git'
     NeoBundle 'git://github.com/tyru/open-browser.vim.git'
@@ -283,33 +281,33 @@ try
     NeoBundle 'git://github.com/thinca/vim-ambicmd.git'
     NeoBundle 'git://github.com/tyru/vim-altercmd.git'
     NeoBundle 'git://github.com/tomtom/tcommand_vim.git'
-    NeoExternalBundle 'git://github.com/mbadran/headlights.git'
+    NeoBundleLazy 'git://github.com/mbadran/headlights.git'
 
     " C/C++
-    NeoExternalBundle 'git://github.com/vim-scripts/a.vim.git'
-    NeoExternalBundle 'git://github.com/vim-scripts/c.vim.git'
-    NeoExternalBundle 'git://github.com/vim-scripts/CCTree.git'
-    NeoExternalBundle 'git://github.com/vim-scripts/Source-Explorer-srcexpl.vim.git'
-    NeoExternalBundle 'git://github.com/vim-scripts/trinity.vim.git'
-    NeoExternalBundle 'git://github.com/vim-scripts/cscope-menu.git'
-    NeoExternalBundle 'git://github.com/vim-scripts/gtags.vim.git'
-    NeoExternalBundle 'git://github.com/vim-scripts/DoxygenToolkit.vim.git'
+    NeoBundleLazy 'git://github.com/vim-scripts/a.vim.git'
+    NeoBundleLazy 'git://github.com/vim-scripts/c.vim.git'
+    NeoBundleLazy 'git://github.com/vim-scripts/CCTree.git'
+    NeoBundleLazy 'git://github.com/vim-scripts/Source-Explorer-srcexpl.vim.git'
+    NeoBundleLazy 'git://github.com/vim-scripts/trinity.vim.git'
+    NeoBundleLazy 'git://github.com/vim-scripts/cscope-menu.git'
+    NeoBundleLazy 'git://github.com/vim-scripts/gtags.vim.git'
+    NeoBundleLazy 'git://github.com/vim-scripts/DoxygenToolkit.vim.git'
 
     " Python
-    NeoExternalBundle 'git://github.com/alfredodeza/pytest.vim.git'
-    NeoExternalBundle 'git://github.com/klen/python-mode.git'
+    NeoBundleLazy 'git://github.com/alfredodeza/pytest.vim.git'
+    NeoBundleLazy 'git://github.com/klen/python-mode.git'
 
     " Perl
-    NeoExternalBundle 'git://github.com/vim-scripts/perl-support.vim.git'
+    NeoBundleLazy 'git://github.com/vim-scripts/perl-support.vim.git'
 
     " JavaScript
-    NeoExternalBundle 'git://github.com/pangloss/vim-javascript.git'
+    NeoBundleLazy 'git://github.com/pangloss/vim-javascript.git'
 
     " Haskell
-    NeoExternalBundle 'git://github.com/kana/vim-filetype-haskell.git'
-    NeoExternalBundle 'git://github.com/lukerandall/haskellmode-vim.git'
-    NeoExternalBundle 'git://github.com/Twinside/vim-syntax-haskell-cabal.git'
-    NeoExternalBundle 'git://github.com/eagletmt/ghcmod-vim.git'
+    NeoBundleLazy 'git://github.com/kana/vim-filetype-haskell.git'
+    NeoBundleLazy 'git://github.com/lukerandall/haskellmode-vim.git'
+    NeoBundleLazy 'git://github.com/Twinside/vim-syntax-haskell-cabal.git'
+    NeoBundleLazy 'git://github.com/eagletmt/ghcmod-vim.git'
 
     " Clojure
     NeoBundle 'git://github.com/jondistad/vimclojure.git'
@@ -329,17 +327,6 @@ catch /E117/
 endtry
 "}}}
 
-"---------------------------------------------------------------------------
-" vim-ipi:"{{{
-"
-let s:ipi_loaded = 0
-try
-    call ipi#inspect("Bundle")
-    let s:ipi_loaded = 1
-catch /E117/
-    
-endtry
-"}}}
 filetype plugin indent on
 
 "---------------------------------------------------------------------------
@@ -1424,15 +1411,15 @@ let g:clj_paren_rainbow = 1
 "}}}
 
 "---------------------------------------------------------------------------
-" vim-ipi:"{{{
+" neobundle.vim:"{{{
 "
 function! LazyLoading(ft)
     filetype plugin indent off
     for plugin_name in g:ll_plugins[a:ft]
-        execute "silent! IP " . plugin_name
+        execute "silent! NeoBundleSource " . plugin_name
     endfor
     filetype plugin indent on
-    execute "autocmd! MyIPI_" . a:ft
+    execute "autocmd! NeoBundleSourceFor_" . a:ft
 
     if exists('g:ll_post_process[a:ft]')
         for post_process in g:ll_post_process[a:ft]
@@ -1499,11 +1486,11 @@ let g:ll_post_process['perl'] = [
             \ 'silent! ReadTypes',
             \ ]
 
-if has('vim_starting') && s:ipi_loaded
+if has('vim_starting')
     " lazy loading of each filetype
     if exists("g:ll_plugins")
         for k in keys(g:ll_plugins)
-            execute "augroup " . "MyIPI_" . k
+            execute "augroup " . "NeoBundleSourceFor_" . k
             execute "autocmd!"
             execute "autocmd FileType " . k . " call LazyLoading('" . k . "')"
             execute "augroup END"
@@ -1511,22 +1498,22 @@ if has('vim_starting') && s:ipi_loaded
     endif
 
     " lazy loading for vim-ref
-    nmap <silent> K :<C-u>silent! IP vim-ref<CR><Plug>(ref-keyword)
-    vmap <silent> K :<C-u>silent! IP vim-ref<CR><Plug>(ref-keyword)
+    nmap <silent> K :<C-u>silent! NeoBundleSource vim-ref<CR><Plug>(ref-keyword)
+    vmap <silent> K :<C-u>silent! NeoBundleSource vim-ref<CR><Plug>(ref-keyword)
     command! -nargs=+ Ref
-                \ execute 'silent! IP vim-ref'
+                \ execute 'silent! NeoBundleSource vim-ref'
                 \ | call ref#ref(<q-args>)
 
     " lazy loading for vimfiler
-    nnoremap <silent> [vimfiler]b  :<C-u>silent! IP vimfiler<CR>:<C-u>VimFilerBufferDir<CR>
-    nnoremap <silent> [vimfiler]c  :<C-u>silent! IP vimfiler<CR>:<C-u>VimFilerCurrentDir<CR>
-    nnoremap <silent> [vimfiler]d  :<C-u>silent! IP vimfiler<CR>:<C-u>VimFilerDouble<CR>
-    nnoremap <silent> [vimfiler]f  :<C-u>silent! IP vimfiler<CR>:<C-u>VimFilerSimple -no-quit -winwidth=32<CR>
+    nnoremap <silent> [vimfiler]b  :<C-u>silent! NeoBundleSource vimfiler<CR>:<C-u>VimFilerBufferDir<CR>
+    nnoremap <silent> [vimfiler]c  :<C-u>silent! NeoBundleSource vimfiler<CR>:<C-u>VimFilerCurrentDir<CR>
+    nnoremap <silent> [vimfiler]d  :<C-u>silent! NeoBundleSource vimfiler<CR>:<C-u>VimFilerDouble<CR>
+    nnoremap <silent> [vimfiler]f  :<C-u>silent! NeoBundleSource vimfiler<CR>:<C-u>VimFilerSimple -no-quit -winwidth=32<CR>
 
     " lazy loading for vim-quickrun
     function! LoadQuickRun()
-        silent! IP vim-quickrun
-        silent! IP quicklearn
+        silent! NeoBundleSource vim-quickrun
+        silent! NeoBundleSource quicklearn
         call Flymake_for_CPP_Setting()
     endfunction
     map <silent> <Leader>r :<C-u>call LoadQuickRun()<CR><Plug>(quickrun)
