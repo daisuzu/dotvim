@@ -1479,7 +1479,6 @@ let g:ll_post_process['cpp'] = [
             \ ]
 let g:ll_post_process['python'] = [
             \ 'silent! ReadTypes',
-            \ 'set filetype=python',
             \ ]
 let g:ll_post_process['perl'] = [
             \ 'silent! ReadTypes',
