@@ -10,6 +10,7 @@ augroup MyVimrcCmd
 augroup END
 
 let s:MSWindows = has('win95') + has('win16') + has('win32') + has('win64')
+let s:Android = executable('uname') ? system('uname -m')=~'armv7' : 0
 
 if s:MSWindows
     let $DOTVIM = expand($VIM . '/vimfiles')
@@ -143,7 +144,7 @@ endif
 "---------------------------------------------------------------------------
 " MSWIN:"{{{
 "
-if 1 && filereadable($VIMRUNTIME . '/mswin.vim')
+if (1 && filereadable($VIMRUNTIME . '/mswin.vim')) && !s:Android
     source $VIMRUNTIME/mswin.vim
 endif
 
@@ -166,163 +167,181 @@ if has('vim_starting')
     set runtimepath+=$DOTVIM/Bundle/neobundle.vim/
 endif
 
+if s:Android
+    let $GITHUB_COM = 'git://207.97.227.239/'
+else
+    let $GITHUB_COM = 'git://github.com/'
+endif
+
+command! -nargs=* MyNeoBundle call MyNeoBundle(<q-args>)
+function! MyNeoBundle(args)
+    let args = split(a:args)
+    if len(args) < 1
+        return
+    endif
+
+    if args[0]
+        execute 'NeoBundle ' . join(args[1:])
+    endif
+endfunction
+
 try
     call neobundle#rc($DOTVIM . '/Bundle/')
 
     " plugin management
-    NeoBundle 'git://github.com/Shougo/neobundle.vim.git'
+    NeoBundle $GITHUB_COM.'Shougo/neobundle.vim.git'
 
     " doc
-    NeoBundle 'git://github.com/vim-jp/vimdoc-ja.git'
-    NeoBundleLazy 'git://github.com/thinca/vim-ref.git'
+    NeoBundle $GITHUB_COM.'vim-jp/vimdoc-ja.git'
+    NeoBundleLazy $GITHUB_COM.'thinca/vim-ref.git'
 
     " completion
-    NeoBundle 'git://github.com/Shougo/neocomplcache.git'
-    NeoBundle 'git://github.com/Shougo/neocomplcache-snippets-complete.git'
-    NeoBundle 'git://github.com/Rip-Rip/clang_complete.git'
-    NeoBundle 'git://github.com/osyo-manga/neocomplcache-clang_complete.git'
-    NeoBundle 'git://github.com/ujihisa/neco-ghc.git'
-    NeoBundle 'git://github.com/teramako/jscomplete-vim.git'
+    NeoBundle $GITHUB_COM.'Shougo/neocomplcache.git'
+    NeoBundle $GITHUB_COM.'Shougo/neocomplcache-snippets-complete.git'
+    MyNeoBundle !s:Android $GITHUB_COM.'Rip-Rip/clang_complete.git'
+    MyNeoBundle !s:Android $GITHUB_COM.'osyo-manga/neocomplcache-clang_complete.git'
+    MyNeoBundle !s:Android $GITHUB_COM.'ujihisa/neco-ghc.git'
+    NeoBundle $GITHUB_COM.'teramako/jscomplete-vim.git'
 
     " ctags
-    NeoBundleLazy 'git://github.com/vim-scripts/taglist.vim.git'
-    NeoBundleLazy 'git://github.com/abudden/TagHighlight.git'
+    NeoBundleLazy $GITHUB_COM.'vim-scripts/taglist.vim.git'
+    NeoBundleLazy $GITHUB_COM.'abudden/TagHighlight.git'
 
     " vcs
-    NeoBundle 'git://github.com/tpope/vim-fugitive.git'
-    NeoBundle 'git://github.com/gregsexton/gitv.git'
-    NeoBundle 'git://github.com/int3/vim-extradite.git'
+    NeoBundle $GITHUB_COM.'tpope/vim-fugitive.git'
+    NeoBundle $GITHUB_COM.'gregsexton/gitv.git'
+    NeoBundle $GITHUB_COM.'int3/vim-extradite.git'
 
     " unite
-    NeoBundle 'git://github.com/Shougo/unite.vim.git'
-    NeoBundle 'git://github.com/Shougo/unite-build.git'
-    NeoBundle 'git://github.com/ujihisa/unite-colorscheme.git'
-    NeoBundleLazy 'git://github.com/ujihisa/quicklearn.git'
-    NeoBundle 'git://github.com/sgur/unite-qf.git'
-    NeoBundle 'git://github.com/h1mesuke/unite-outline.git'
-    NeoBundle 'git://github.com/h1mesuke/vim-alignta.git'
-    NeoBundle 'git://github.com/tsukkee/unite-help.git'
-    NeoBundle 'git://github.com/tsukkee/unite-tag.git'
-    NeoBundle 'git://github.com/tacroe/unite-mark.git'
-    NeoBundle 'git://github.com/sgur/unite-everything.git'
-    NeoBundle 'git://github.com/zhaocai/unite-scriptnames.git'
-    NeoBundle 'git://github.com/pasela/unite-webcolorname.git'
-    NeoBundle 'git://github.com/daisuzu/unite-grep_launcher.git'
-    NeoBundle 'git://github.com/daisuzu/unite-gtags.git'
+    NeoBundle $GITHUB_COM.'Shougo/unite.vim.git'
+    MyNeoBundle !s:Android $GITHUB_COM.'Shougo/unite-build.git'
+    NeoBundle $GITHUB_COM.'ujihisa/unite-colorscheme.git'
+    NeoBundleLazy $GITHUB_COM.'ujihisa/quicklearn.git'
+    NeoBundle $GITHUB_COM.'sgur/unite-qf.git'
+    NeoBundle $GITHUB_COM.'h1mesuke/unite-outline.git'
+    NeoBundle $GITHUB_COM.'h1mesuke/vim-alignta.git'
+    NeoBundle $GITHUB_COM.'tsukkee/unite-help.git'
+    MyNeoBundle !s:Android $GITHUB_COM.'tsukkee/unite-tag.git'
+    NeoBundle $GITHUB_COM.'tacroe/unite-mark.git'
+    MyNeoBundle !s:Android $GITHUB_COM.'sgur/unite-everything.git'
+    NeoBundle $GITHUB_COM.'zhaocai/unite-scriptnames.git'
+    NeoBundle $GITHUB_COM.'pasela/unite-webcolorname.git'
+    NeoBundle $GITHUB_COM.'daisuzu/unite-grep_launcher.git'
+    MyNeoBundle !s:Android $GITHUB_COM.'daisuzu/unite-gtags.git'
 
     " textobj
-    NeoBundle 'git://github.com/kana/vim-textobj-user.git'
-    NeoBundle 'git://github.com/kana/vim-textobj-indent.git'
-    NeoBundle 'git://github.com/kana/vim-textobj-syntax.git'
-    NeoBundle 'git://github.com/kana/vim-textobj-line.git'
-    NeoBundle 'git://github.com/kana/vim-textobj-fold.git'
-    NeoBundle 'git://github.com/kana/vim-textobj-entire.git'
-    NeoBundle 'git://github.com/thinca/vim-textobj-between.git'
-    NeoBundle 'git://github.com/thinca/vim-textobj-comment.git'
-    NeoBundle 'git://github.com/h1mesuke/textobj-wiw.git'
-    NeoBundle 'git://github.com/vimtaku/vim-textobj-sigil.git'
+    NeoBundle $GITHUB_COM.'kana/vim-textobj-user.git'
+    NeoBundle $GITHUB_COM.'kana/vim-textobj-indent.git'
+    NeoBundle $GITHUB_COM.'kana/vim-textobj-syntax.git'
+    NeoBundle $GITHUB_COM.'kana/vim-textobj-line.git'
+    NeoBundle $GITHUB_COM.'kana/vim-textobj-fold.git'
+    NeoBundle $GITHUB_COM.'kana/vim-textobj-entire.git'
+    NeoBundle $GITHUB_COM.'thinca/vim-textobj-between.git'
+    NeoBundle $GITHUB_COM.'thinca/vim-textobj-comment.git'
+    NeoBundle $GITHUB_COM.'h1mesuke/textobj-wiw.git'
+    NeoBundle $GITHUB_COM.'vimtaku/vim-textobj-sigil.git'
 
     " operator
-    NeoBundle 'git://github.com/kana/vim-operator-user.git'
-    NeoBundle 'git://github.com/kana/vim-operator-replace.git'
-    NeoBundle 'git://github.com/tyru/operator-camelize.vim.git'
-    NeoBundle 'git://github.com/tyru/operator-reverse.vim.git'
-    NeoBundle 'git://github.com/emonkak/vim-operator-sort.git'
+    NeoBundle $GITHUB_COM.'kana/vim-operator-user.git'
+    NeoBundle $GITHUB_COM.'kana/vim-operator-replace.git'
+    NeoBundle $GITHUB_COM.'tyru/operator-camelize.vim.git'
+    NeoBundle $GITHUB_COM.'tyru/operator-reverse.vim.git'
+    NeoBundle $GITHUB_COM.'emonkak/vim-operator-sort.git'
 
     " quickfix
-    NeoBundle 'git://github.com/thinca/vim-qfreplace.git'
-    NeoBundle 'git://github.com/dannyob/quickfixstatus.git'
-    NeoBundle 'git://github.com/jceb/vim-hier.git'
-    NeoBundle 'git://github.com/fuenor/qfixhowm.git'
+    NeoBundle $GITHUB_COM.'thinca/vim-qfreplace.git'
+    NeoBundle $GITHUB_COM.'dannyob/quickfixstatus.git'
+    NeoBundle $GITHUB_COM.'jceb/vim-hier.git'
+    NeoBundle $GITHUB_COM.'fuenor/qfixhowm.git'
 
     " appearance
-    NeoBundle 'git://github.com/thinca/vim-fontzoom.git'
-    NeoBundle 'git://github.com/nathanaelkane/vim-indent-guides.git'
-    NeoBundle 'git://github.com/vim-scripts/MultipleSearch.git'
+    MyNeoBundle !s:Android $GITHUB_COM.'thinca/vim-fontzoom.git'
+    MyNeoBundle !s:Android $GITHUB_COM.'nathanaelkane/vim-indent-guides.git'
+    NeoBundle $GITHUB_COM.'vim-scripts/MultipleSearch.git'
 
     " cursor movement
-    NeoBundle 'git://github.com/Lokaltog/vim-easymotion.git'
-    NeoBundle 'git://github.com/vim-scripts/matchparenpp.git'
-    NeoBundle 'git://github.com/vim-scripts/matchit.zip.git'
+    NeoBundle $GITHUB_COM.'Lokaltog/vim-easymotion.git'
+    NeoBundle $GITHUB_COM.'vim-scripts/matchparenpp.git'
+    NeoBundle $GITHUB_COM.'vim-scripts/matchit.zip.git'
 
     " editing
-    NeoBundle 'git://github.com/tpope/vim-surround.git'
-    NeoBundle 'git://github.com/t9md/vim-textmanip.git'
-    NeoBundle 'git://github.com/tomtom/tcomment_vim.git'
-    NeoBundle 'git://github.com/vim-scripts/DrawIt.git'
-    NeoBundle 'git://github.com/vim-scripts/RST-Tables.git'
-    NeoBundle 'git://github.com/vim-scripts/sequence.git'
+    NeoBundle $GITHUB_COM.'tpope/vim-surround.git'
+    NeoBundle $GITHUB_COM.'t9md/vim-textmanip.git'
+    NeoBundle $GITHUB_COM.'tomtom/tcomment_vim.git'
+    NeoBundle $GITHUB_COM.'vim-scripts/DrawIt.git'
+    NeoBundle $GITHUB_COM.'vim-scripts/RST-Tables.git'
+    NeoBundle $GITHUB_COM.'vim-scripts/sequence.git'
 
     " search
-    NeoBundle 'git://github.com/thinca/vim-visualstar.git'
-    NeoBundle 'git://github.com/vim-scripts/occur.vim.git'
+    NeoBundle $GITHUB_COM.'thinca/vim-visualstar.git'
+    NeoBundle $GITHUB_COM.'vim-scripts/occur.vim.git'
 
     " utility
-    NeoBundle 'git://github.com/mattn/ideone-vim.git'
-    NeoBundle 'git://github.com/vim-scripts/project.tar.gz.git'
-    NeoBundle 'git://github.com/Shougo/vimproc.git'
-    NeoBundle 'git://github.com/Shougo/vinarise.git'
-    NeoBundle 'git://github.com/s-yukikaze/vinarise-plugin-peanalysis.git'
-    NeoBundleLazy 'git://github.com/Shougo/vimfiler.git'
-    NeoBundle 'git://github.com/Shougo/vimshell.git'
-    NeoBundle 'git://github.com/thinca/vim-logcat.git'
-    NeoBundleLazy 'git://github.com/thinca/vim-quickrun.git'
-    NeoBundle 'git://github.com/thinca/vim-prettyprint.git'
-    NeoBundle 'git://github.com/thinca/vim-editvar.git'
-    NeoBundle 'git://github.com/tyru/open-browser.vim.git'
-    NeoBundle 'git://github.com/sjl/splice.vim.git'
-    NeoBundle 'git://github.com/sjl/gundo.vim.git'
-    NeoBundle 'git://github.com/vim-scripts/copypath.vim.git'
-    NeoBundle 'git://github.com/vim-scripts/DirDiff.vim.git'
-    NeoBundle 'git://github.com/vim-scripts/ShowMultiBase.git'
-    NeoBundle 'git://github.com/vim-scripts/ttoc.git'
-    NeoBundle 'git://github.com/vim-scripts/wokmarks.vim.git'
+    NeoBundle $GITHUB_COM.'mattn/ideone-vim.git'
+    NeoBundle $GITHUB_COM.'vim-scripts/project.tar.gz.git'
+    MyNeoBundle !s:Android $GITHUB_COM.'Shougo/vimproc.git'
+    MyNeoBundle !s:Android $GITHUB_COM.'Shougo/vinarise.git'
+    MyNeoBundle !s:Android $GITHUB_COM.'s-yukikaze/vinarise-plugin-peanalysis.git'
+    NeoBundleLazy $GITHUB_COM.'Shougo/vimfiler.git'
+    MyNeoBundle !s:Android $GITHUB_COM.'Shougo/vimshell.git'
+    MyNeoBundle !s:Android $GITHUB_COM.'thinca/vim-logcat.git'
+    NeoBundleLazy $GITHUB_COM.'thinca/vim-quickrun.git'
+    NeoBundle $GITHUB_COM.'thinca/vim-prettyprint.git'
+    NeoBundle $GITHUB_COM.'thinca/vim-editvar.git'
+    NeoBundle $GITHUB_COM.'tyru/open-browser.vim.git'
+    MyNeoBundle !s:Android $GITHUB_COM.'sjl/splice.vim.git'
+    MyNeoBundle !s:Android $GITHUB_COM.'sjl/gundo.vim.git'
+    NeoBundle $GITHUB_COM.'vim-scripts/copypath.vim.git'
+    NeoBundle $GITHUB_COM.'vim-scripts/DirDiff.vim.git'
+    NeoBundle $GITHUB_COM.'vim-scripts/ShowMultiBase.git'
+    NeoBundle $GITHUB_COM.'vim-scripts/ttoc.git'
+    NeoBundle $GITHUB_COM.'vim-scripts/wokmarks.vim.git'
 
     " command extension
-    NeoBundle 'git://github.com/thinca/vim-ambicmd.git'
-    NeoBundle 'git://github.com/tyru/vim-altercmd.git'
-    NeoBundle 'git://github.com/tomtom/tcommand_vim.git'
-    NeoBundleLazy 'git://github.com/mbadran/headlights.git'
+    NeoBundle $GITHUB_COM.'thinca/vim-ambicmd.git'
+    NeoBundle $GITHUB_COM.'tyru/vim-altercmd.git'
+    NeoBundle $GITHUB_COM.'tomtom/tcommand_vim.git'
+    NeoBundleLazy $GITHUB_COM.'mbadran/headlights.git'
 
     " C/C++
-    NeoBundleLazy 'git://github.com/vim-scripts/a.vim.git'
-    NeoBundleLazy 'git://github.com/vim-scripts/c.vim.git'
-    NeoBundleLazy 'git://github.com/vim-scripts/CCTree.git'
-    NeoBundleLazy 'git://github.com/vim-scripts/Source-Explorer-srcexpl.vim.git'
-    NeoBundleLazy 'git://github.com/vim-scripts/trinity.vim.git'
-    NeoBundleLazy 'git://github.com/vim-scripts/cscope-menu.git'
-    NeoBundleLazy 'git://github.com/vim-scripts/gtags.vim.git'
-    NeoBundleLazy 'git://github.com/vim-scripts/DoxygenToolkit.vim.git'
+    NeoBundleLazy $GITHUB_COM.'vim-scripts/a.vim.git'
+    NeoBundleLazy $GITHUB_COM.'vim-scripts/c.vim.git'
+    NeoBundleLazy $GITHUB_COM.'vim-scripts/CCTree.git'
+    NeoBundleLazy $GITHUB_COM.'vim-scripts/Source-Explorer-srcexpl.vim.git'
+    NeoBundleLazy $GITHUB_COM.'vim-scripts/trinity.vim.git'
+    NeoBundleLazy $GITHUB_COM.'vim-scripts/cscope-menu.git'
+    NeoBundleLazy $GITHUB_COM.'vim-scripts/gtags.vim.git'
+    NeoBundleLazy $GITHUB_COM.'vim-scripts/DoxygenToolkit.vim.git'
 
     " Python
-    NeoBundleLazy 'git://github.com/alfredodeza/pytest.vim.git'
-    NeoBundleLazy 'git://github.com/klen/python-mode.git'
+    NeoBundleLazy $GITHUB_COM.'alfredodeza/pytest.vim.git'
+    NeoBundleLazy $GITHUB_COM.'klen/python-mode.git'
 
     " Perl
-    NeoBundleLazy 'git://github.com/vim-scripts/perl-support.vim.git'
+    NeoBundleLazy $GITHUB_COM.'vim-scripts/perl-support.vim.git'
 
     " JavaScript
-    NeoBundleLazy 'git://github.com/pangloss/vim-javascript.git'
+    NeoBundleLazy $GITHUB_COM.'pangloss/vim-javascript.git'
 
     " Haskell
-    NeoBundleLazy 'git://github.com/kana/vim-filetype-haskell.git'
-    NeoBundleLazy 'git://github.com/lukerandall/haskellmode-vim.git'
-    NeoBundleLazy 'git://github.com/Twinside/vim-syntax-haskell-cabal.git'
-    NeoBundleLazy 'git://github.com/eagletmt/ghcmod-vim.git'
+    NeoBundleLazy $GITHUB_COM.'kana/vim-filetype-haskell.git'
+    NeoBundleLazy $GITHUB_COM.'lukerandall/haskellmode-vim.git'
+    NeoBundleLazy $GITHUB_COM.'Twinside/vim-syntax-haskell-cabal.git'
+    NeoBundleLazy $GITHUB_COM.'eagletmt/ghcmod-vim.git'
 
     " Clojure
-    NeoBundle 'git://github.com/jondistad/vimclojure.git'
+    MyNeoBundle !s:Android $GITHUB_COM.'jondistad/vimclojure.git'
 
     " CSV
-    NeoBundle 'git://github.com/vim-scripts/csv.vim.git'
+    NeoBundle $GITHUB_COM.'vim-scripts/csv.vim.git'
 
     " colorscheme
-    NeoBundle 'git://github.com/vim-scripts/Color-Sampler-Pack.git'
+    NeoBundle $GITHUB_COM.'vim-scripts/Color-Sampler-Pack.git'
 
     " runtime
-    NeoBundle 'git://github.com/mattn/webapi-vim.git'
-    NeoBundle 'git://github.com/vim-scripts/cecutil.git'
-    NeoBundle 'git://github.com/vim-scripts/tlib.git'
+    NeoBundle $GITHUB_COM.'mattn/webapi-vim.git'
+    NeoBundle $GITHUB_COM.'vim-scripts/cecutil.git'
+    NeoBundle $GITHUB_COM.'vim-scripts/tlib.git'
 catch /E117/
     
 endtry
@@ -529,6 +548,7 @@ endfunction "}}}
 " Search:"{{{
 "
 set nowrapscan
+set incsearch
 
 set ignorecase
 nnoremap <Space>oi :<C-u>setlocal ignorecase!\|setlocal ignorecase?<CR>
@@ -1024,6 +1044,7 @@ nnoremap <silent> [unite]pi :<C-u>Unite neobundle/install<CR>
 nnoremap <silent> [unite]pu :<C-u>Unite neobundle/install:!<CR>
 nnoremap <silent> [unite]pl :<C-u>Unite neobundle<CR>
 nnoremap <silent> [unite]r  :<C-u>Unite -buffer-name=register register<CR>
+nnoremap <silent> [unite]s  :<C-u>Unite scriptnames<CR>
 nnoremap <silent> [unite]t  :<C-u>Unite buffer_tab tab buffer<CR>
 
 let g:unite_kind_file_cd_command = 'TabpageCD'
@@ -1317,6 +1338,7 @@ if 1 && filereadable($DOTVIM.'/Bundle/vim-ambicmd/autoload/ambicmd.vim')
     cnoremap <expr> <Space> ambicmd#expand("\<Space>")
     cnoremap <expr> <CR> ambicmd#expand("\<CR>")
     cnoremap <expr> <C-f> ambicmd#expand("\<Right>")
+
     autocmd MyVimrcCmd CmdwinEnter * call s:init_cmdwin_ambicmd()
     function! s:init_cmdwin_ambicmd()
         inoremap <buffer> <expr> <Space> ambicmd#expand("\<Space>")
@@ -1486,7 +1508,7 @@ let g:ll_post_process['perl'] = [
 
 if has('vim_starting')
     " lazy loading of each filetype
-    if exists("g:ll_plugins")
+    if exists("g:ll_plugins") && !s:Android
         for k in keys(g:ll_plugins)
             execute "augroup " . "NeoBundleSourceFor_" . k
             execute "autocmd!"
@@ -1525,6 +1547,9 @@ endif
 "---------------------------------------------------------------------------
 " Key Mappings:"{{{
 "
+" leave insertmode
+inoremap jj <ESC>
+
 " Tabpage related mappings
 nnoremap <Space>to :<C-u>tabnew<CR>
 nnoremap <Space>tq :<C-u>tabclose<CR>
