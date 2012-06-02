@@ -180,7 +180,7 @@ function! MyNeoBundle(args)
         return
     endif
 
-    if args[0]
+    if eval(args[0])
         execute 'NeoBundle ' . join(args[1:])
     endif
 endfunction
