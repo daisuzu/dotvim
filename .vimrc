@@ -1060,6 +1060,7 @@ function! s:unite_my_settings() "{{{
     nmap <buffer> <ESC>      <Plug>(unite_exit)
     imap <buffer> jj      <Plug>(unite_insert_leave)
     imap <buffer> <C-w>     <Plug>(unite_delete_backward_path)
+    inoremap <buffer> <expr> <C-y> unite#do_action('insert')
 
     " <C-l>: manual neocomplcache completion.
     inoremap <buffer> <C-l>  <C-x><C-u><C-p><Down>
@@ -1272,6 +1273,12 @@ let g:vimshell_interactive_encodings = {'git': 'utf-8'}
 let g:vimshell_temporary_directory = $DOTVIM.'/.vimshell'
 let g:vimshell_vimshrc_path = $DOTVIM.'/.vimshell/.vimshrc'
 let g:vimshell_cd_command = 'TabpageCD'
+
+autocmd MyVimrcCmd FileType vimshell call s:vimshell_settings()
+function! s:vimshell_settings()
+    inoremap <silent><expr><buffer> <Up>  unite#sources#vimshell_history#start_complete(!0)
+    inoremap <silent><expr><buffer> <Down>  unite#sources#vimshell_history#start_complete(!0)
+endfunction
 "}}}
 "---------------------------------------------------------------------------
 " vim-quickrun:"{{{
