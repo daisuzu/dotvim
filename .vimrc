@@ -1273,6 +1273,7 @@ let g:vimshell_interactive_encodings = {'git': 'utf-8'}
 let g:vimshell_temporary_directory = $DOTVIM.'/.vimshell'
 let g:vimshell_vimshrc_path = $DOTVIM.'/.vimshell/.vimshrc'
 let g:vimshell_cd_command = 'TabpageCD'
+let g:vimshell_scrollback_limit = 50000
 
 autocmd MyVimrcCmd FileType vimshell call s:vimshell_settings()
 function! s:vimshell_settings()
