@@ -148,6 +148,9 @@ if (1 && filereadable($VIMRUNTIME . '/mswin.vim')) && !s:Android
     source $VIMRUNTIME/mswin.vim
 endif
 
+" some textobj plugins doesn't work on selection=exclusive
+set selection=inclusive
+
 " Redefinition <C-A>:increment and <C-X>:decrement
 noremap <C-i> <C-A>
 noremap <M-i> <C-X>
@@ -995,6 +998,11 @@ endif
 
 " For clang_complete
 let g:neocomplcache_force_overwrite_completefunc=1
+
+let g:neocomplcache_ignore_composite_filetype_lists = {
+      \ 'python.unit': 'python',
+      \ 'php.unit': 'php',
+      \ }
 "}}}
 "---------------------------------------------------------------------------
 " clang_complete:"{{{
