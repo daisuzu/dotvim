@@ -325,6 +325,7 @@ try
 
     " JavaScript
     NeoBundleLazy $GITHUB_COM.'pangloss/vim-javascript.git'
+    NeoBundle $GITHUB_COM.'basyura/jslint.vim.git'
 
     " Haskell
     NeoBundleLazy $GITHUB_COM.'kana/vim-filetype-haskell.git'
@@ -1432,6 +1433,18 @@ let g:pymode_rope = 1
 " perl-support.vim:"{{{
 "
 let g:Perl_Debugger = "ptkdb"
+"}}}
+"---------------------------------------------------------------------------
+" jslint.vim:"{{{
+"
+autocmd MyVimrcCmd FileType javascript call s:javascript_filetype_settings()
+
+function! s:javascript_filetype_settings()
+    autocmd MyVimrcCmd BufLeave     <buffer> call jslint#clear()
+    autocmd MyVimrcCmd BufWritePost <buffer> call jslint#check()
+    autocmd MyVimrcCmd InsertLeave <buffer> call jslint#check()
+    autocmd MyVimrcCmd CursorMoved  <buffer> call jslint#message()
+endfunction
 "}}}
 "---------------------------------------------------------------------------
 " haskellmode-vim:"{{{
