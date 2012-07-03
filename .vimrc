@@ -1554,10 +1554,25 @@ if has('vim_starting')
                 \ | call ref#ref(<q-args>)
 
     " lazy loading for vimfiler
-    nnoremap <silent> [vimfiler]b  :<C-u>silent! NeoBundleSource vimfiler<CR>:<C-u>VimFilerBufferDir<CR>
-    nnoremap <silent> [vimfiler]c  :<C-u>silent! NeoBundleSource vimfiler<CR>:<C-u>VimFilerCurrentDir<CR>
-    nnoremap <silent> [vimfiler]d  :<C-u>silent! NeoBundleSource vimfiler<CR>:<C-u>VimFilerDouble<CR>
-    nnoremap <silent> [vimfiler]f  :<C-u>silent! NeoBundleSource vimfiler<CR>:<C-u>VimFilerSimple -no-quit -winwidth=32<CR>
+    nnoremap <silent> [vimfiler]b  :<C-u>call LoadVimFiler('VimFilerBufferDir')<CR>
+    nnoremap <silent> [vimfiler]c  :<C-u>call LoadVimFiler('VimFilerCurrentDir')<CR>
+    nnoremap <silent> [vimfiler]d  :<C-u>call LoadVimFiler('VimFilerDouble')<CR>
+    nnoremap <silent> [vimfiler]f  :<C-u>call LoadVimFiler('VimFilerSimple -no-quit -winwidth=32')<CR>
+
+    " for retry vimfiler command
+    " vimfiler needs a few seconds to load
+    function! LoadVimFiler(vimfiler_cmd)
+        silent! NeoBundleSource vimfiler
+        let s:is_vimfiler_loading = 1
+        while s:is_vimfiler_loading
+            try
+                silent! execute a:vimfiler_cmd
+                let s:is_vimfiler_loading = 0
+            catch /E127/
+                sleep 1
+            endtry
+        endwhile
+    endfunction
 
     " lazy loading for vim-quickrun
     function! LoadQuickRun()
