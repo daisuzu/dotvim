@@ -327,7 +327,7 @@ try
 
     " JavaScript
     NeoBundleLazy $GITHUB_COM.'pangloss/vim-javascript.git'
-    NeoBundle $GITHUB_COM.'basyura/jslint.vim.git'
+    NeoBundleLazy $GITHUB_COM.'basyura/jslint.vim.git'
 
     " Haskell
     NeoBundleLazy $GITHUB_COM.'kana/vim-filetype-haskell.git'
@@ -450,6 +450,7 @@ function! MakeTabLine() "{{{
     return tabpages . '%=' . info 
 endfunction "}}}
 set guioptions&
+set guioptions-=T
 set guioptions-=e
 set tabline=%!MakeTabLine()
 "}}}
@@ -1446,13 +1447,17 @@ let g:Perl_Debugger = "ptkdb"
 "---------------------------------------------------------------------------
 " jslint.vim:"{{{
 "
-autocmd MyVimrcCmd FileType javascript call s:javascript_filetype_settings()
-
-function! s:javascript_filetype_settings()
-    autocmd MyVimrcCmd BufLeave     <buffer> call jslint#clear()
-    autocmd MyVimrcCmd BufWritePost <buffer> call jslint#check()
-    autocmd MyVimrcCmd InsertLeave <buffer> call jslint#check()
-    autocmd MyVimrcCmd CursorMoved  <buffer> call jslint#message()
+function! s:start_jslint()
+    if s:MSWindows ||
+                \ exists("$JS_CMD") ||
+                \ executable('/System/Library/Frameworks/JavaScriptCore.framework/Resources/jsc') ||
+                \ executable('node') ||
+                \ executable('js')
+        autocmd MyVimrcCmd BufLeave     <buffer> call jslint#clear()
+        autocmd MyVimrcCmd BufWritePost <buffer> call jslint#check()
+        autocmd MyVimrcCmd InsertLeave <buffer> call jslint#check()
+        autocmd MyVimrcCmd CursorMoved  <buffer> call jslint#message()
+    endif
 endfunction
 "}}}
 "---------------------------------------------------------------------------
@@ -1523,6 +1528,7 @@ let g:ll_plugins['perl'] = [
             \ ]
 let g:ll_plugins['javascript'] = [
             \ 'vim-javascript',
+            \ 'jslint.vim',
             \ 'taghighlight',
             \ ]
 let g:ll_plugins['haskell'] = [
@@ -1549,6 +1555,7 @@ let g:ll_post_process['perl'] = [
             \ 'silent! ReadTypes'
             \ ]
 let g:ll_post_process['javascript'] = [
+            \ 'call s:start_jslint()',
             \ 'call s:registReadTypesCmd("javascript")',
             \ 'silent! ReadTypes'
             \ ]
