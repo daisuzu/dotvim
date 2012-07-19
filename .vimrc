@@ -176,6 +176,8 @@ else
     let $GITHUB_COM = 'git://github.com/'
 endif
 
+let $BITBUCKET_ORG = 'https://bitbucket.org/'
+
 command! -nargs=* MyNeoBundle call MyNeoBundle(<q-args>)
 function! MyNeoBundle(args)
     let args = split(a:args)
@@ -208,7 +210,7 @@ try
 
     " ctags
     NeoBundleLazy $GITHUB_COM.'vim-scripts/taglist.vim.git'
-    NeoBundleLazy $GITHUB_COM.'abudden/TagHighlight.git'
+    NeoBundleLazy $BITBUCKET_ORG.'abudden/taghighlight', {'type': 'hg'}
 
     " vcs
     NeoBundle $GITHUB_COM.'tpope/vim-fugitive.git'
@@ -1021,6 +1023,13 @@ let g:clang_use_library = 0
 " endif
 "}}}
 "---------------------------------------------------------------------------
+" taghighlight:"{{{
+"
+function! s:registReadTypesCmd(ft)
+    execute 'autocmd MyVimrcCmd FileType ' . a:ft . ' silent! ReadTypes'
+endfunction
+"}}}
+"---------------------------------------------------------------------------
 " vim-fugitive:"{{{
 "
 nnoremap <Space>gd :<C-u>Gdiff<CR>
@@ -1481,7 +1490,7 @@ endfunction
 let g:ll_plugins={}
 let g:ll_plugins['c'] = [
             \ 'taglist.vim',
-            \ 'TagHighlight',
+            \ 'taghighlight',
             \ 'a.vim',
             \ 'c.vim',
             \ 'Source-Explorer-srcexpl.vim',
@@ -1492,7 +1501,7 @@ let g:ll_plugins['c'] = [
             \ ]
 let g:ll_plugins['cpp'] = [
             \ 'taglist.vim',
-            \ 'TagHighlight',
+            \ 'taghighlight',
             \ 'a.vim',
             \ 'c.vim',
             \ 'Source-Explorer-srcexpl.vim',
@@ -1505,15 +1514,16 @@ let g:ll_plugins['python'] = [
             \ 'pytest.vim',
             \ 'python-mode',
             \ 'taglist.vim',
-            \ 'TagHighlight',
+            \ 'taghighlight',
             \ ]
 let g:ll_plugins['perl'] = [
             \ 'perl-support.vim',
             \ 'taglist.vim',
-            \ 'TagHighlight',
+            \ 'taghighlight',
             \ ]
 let g:ll_plugins['javascript'] = [
             \ 'vim-javascript',
+            \ 'taghighlight',
             \ ]
 let g:ll_plugins['haskell'] = [
             \ 'vim-filetype-haskell',
@@ -1523,16 +1533,24 @@ let g:ll_plugins['haskell'] = [
             \ ]
 let g:ll_post_process={}
 let g:ll_post_process['c'] = [
-            \ 'silent! ReadTypes',
+            \ 'call s:registReadTypesCmd("c")',
+            \ 'silent! ReadTypes'
             \ ]
 let g:ll_post_process['cpp'] = [
-            \ 'silent! ReadTypes',
+            \ 'call s:registReadTypesCmd("cpp")',
+            \ 'silent! ReadTypes'
             \ ]
 let g:ll_post_process['python'] = [
-            \ 'silent! ReadTypes',
+            \ 'call s:registReadTypesCmd("python")',
+            \ 'silent! ReadTypes'
             \ ]
 let g:ll_post_process['perl'] = [
-            \ 'silent! ReadTypes',
+            \ 'call s:registReadTypesCmd("perl")',
+            \ 'silent! ReadTypes'
+            \ ]
+let g:ll_post_process['javascript'] = [
+            \ 'call s:registReadTypesCmd("javascript")',
+            \ 'silent! ReadTypes'
             \ ]
 
 if has('vim_starting')
