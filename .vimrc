@@ -101,7 +101,7 @@ if has('iconv')
         set fileencodings-=utf-8
         let &fileencodings = substitute(&fileencodings, s:enc_jis, s:enc_jis.',utf-8','')
     endif
-    
+
     unlet s:enc_euc
     unlet s:enc_jis
 endif
@@ -279,6 +279,7 @@ try
 
     " search
     NeoBundle $GITHUB_COM.'thinca/vim-visualstar.git'
+    NeoBundle $GITHUB_COM.'othree/eregex.vim.git'
     NeoBundle $GITHUB_COM.'vim-scripts/occur.vim.git'
 
     " utility
@@ -349,7 +350,7 @@ try
     NeoBundle $GITHUB_COM.'vim-scripts/cecutil.git'
     NeoBundle $GITHUB_COM.'vim-scripts/tlib.git'
 catch /E117/
-    
+
 endtry
 "}}}
 
@@ -418,24 +419,24 @@ set listchars=tab:>-,extends:<,precedes:>,trail:-,eol:$,nbsp:%
 
 " Tabline settings "{{{
 function! s:tabpage_label(n) "{{{
-    let title = gettabvar(a:n, 'title') 
-    if title !=# '' 
-        return title 
+    let title = gettabvar(a:n, 'title')
+    if title !=# ''
+        return title
     endif
 
     let bufnrs = tabpagebuflist(a:n)
 
     let hi = a:n is tabpagenr() ? '%#TabLineSel#' : '%#TabLine#'
 
-    let no = len(bufnrs) 
-    if no is 1 
+    let no = len(bufnrs)
+    if no is 1
         let no = ''
     endif
 
-    let mod = len(filter(copy(bufnrs), 'getbufvar(v:val, "&modified")')) ? '+' : '' 
-    let sp = (no . mod) ==# '' ? '' : ' ' 
+    let mod = len(filter(copy(bufnrs), 'getbufvar(v:val, "&modified")')) ? '+' : ''
+    let sp = (no . mod) ==# '' ? '' : ' '
 
-    let curbufnr = bufnrs[tabpagewinnr(a:n) - 1] 
+    let curbufnr = bufnrs[tabpagewinnr(a:n) - 1]
     let fname = pathshorten(bufname(curbufnr))
 
     let label = no . mod . sp . fname
@@ -444,13 +445,11 @@ function! s:tabpage_label(n) "{{{
 endfunction "}}}
 function! MakeTabLine() "{{{
     let titles =map(range(1, tabpagenr('$')), 's:tabpage_label(v:val)')
-    let sep = ' | ' 
-    let tabpages = join(titles, sep) . sep . '%#TabLineFill#%T' 
+    let sep = ' | '
+    let tabpages = join(titles, sep) . sep . '%#TabLineFill#%T'
     let info = fnamemodify(getcwd(),"~:") . ' '
-    return tabpages . '%=' . info 
+    return tabpages . '%=' . info
 endfunction "}}}
-set guioptions&
-set guioptions-=T
 set guioptions-=e
 set tabline=%!MakeTabLine()
 "}}}
@@ -465,11 +464,11 @@ if has("syntax")
     function! ActivateInvisibleIndicator()
         syntax match InvisibleJISX0208Space "　" display containedin=ALL
         highlight InvisibleJISX0208Space term=underline ctermbg=Blue guibg=darkgray gui=underline
-        "syntax match InvisibleTrailedSpace "[ \t]\+$" display containedin=ALL
-        "highlight InvisibleTrailedSpace term=underline ctermbg=Red guibg=NONE gui=undercurl guisp=darkorange
+        syntax match InvisibleTrailedSpace "[ \t]\+$" display containedin=ALL
+        highlight InvisibleTrailedSpace term=underline ctermbg=Red guibg=NONE gui=undercurl guisp=darkorange
         "syntax match InvisibleTab "\t" display containedin=ALL
         "highlight InvisibleTab term=underline ctermbg=white gui=undercurl guisp=darkslategray
-    endf
+    endfunction
     augroup invisible
         autocmd! invisible
         autocmd BufNew,BufRead * call ActivateInvisibleIndicator()
@@ -483,7 +482,7 @@ match WhitespaceEOL /\s\+$/
 " XPstatusline + fugitive#statusline {{{
 let g:statusline_max_path = 20
 function! StatusLineGetPath() "{{{
-    let p = expand('%:.:h') 
+    let p = expand('%:.:h')
     let p = substitute(p, expand('$HOME'), '~', '')
     if len(p) > g:statusline_max_path
         let p = simplify(p)
@@ -773,7 +772,7 @@ noremap pl :call FlyquickfixToggleSet()<CR>
 " cscope_maps{{{
 "
 " This tests to see if vim was configured with the '--enable-cscope' option
-" when it was compiled.  If it wasn't, time to recompile vim... 
+" when it was compiled.  If it wasn't, time to recompile vim...
 if has("cscope")
     " use both cscope and ctag for 'ctrl-]', ':ta', and 'vim -t'
     set cscopetag
@@ -785,7 +784,7 @@ if has("cscope")
     " add any cscope database in current directory
     if filereadable("cscope.out")
         cs add cscope.out
-    " else add the database pointed to by environment variable 
+    " else add the database pointed to by environment variable
     elseif $CSCOPE_DB != ""
         cs add $CSCOPE_DB
     endif
@@ -1016,7 +1015,7 @@ let g:clang_use_library = 0
 
 " if s:MSWindows
 "     let g:clang_exec = '"C:/GnuWin32/bin/clang.exe'
-"     let g:clang_user_options = 
+"     let g:clang_user_options =
 "                 \ '-I C:/boost_1_47_0 '.
 "                 \ '-fms-extensions -fmsc-version=1500 -fgnu-runtime '.
 "                 \ '-D__MSVCRT_VERSION__=0x800 -D_WIN32_WINNT=0x0500 '.
@@ -1026,8 +1025,12 @@ let g:clang_use_library = 0
 "---------------------------------------------------------------------------
 " taghighlight:"{{{
 "
+let g:rt_cmd_registered = {}
 function! s:registReadTypesCmd(ft)
-    execute 'autocmd MyVimrcCmd FileType ' . a:ft . ' silent! ReadTypes'
+    if !get(g:rt_cmd_registered, a:ft)
+        execute 'autocmd MyVimrcCmd FileType ' . a:ft . ' silent! ReadTypes'
+        let g:rt_cmd_registered[a:ft] = 1
+    endif
 endfunction
 "}}}
 "---------------------------------------------------------------------------
@@ -1239,6 +1242,12 @@ let g:tcommentMapLeaderOp1 = ',c'
 let g:tcommentMapLeaderOp2 = ',C'
 "}}}
 "---------------------------------------------------------------------------
+" eregex.vim:"{{{
+"
+nnoremap ,/ :<C-u>M/
+nnoremap ,? :<C-u>M?
+"}}}
+"---------------------------------------------------------------------------
 " ideone-vim:"{{{
 "
 let g:ideone_put_url_to_clipboard_after_post = 0
@@ -1321,7 +1330,7 @@ function! Flymake_for_CPP_Setting()
             :HierUpdate
             :QuickfixStatusEnable
         endfunction
-        
+
         call quickrun#register_outputter("silent_quickfix", s:silent_quickfix)
 
         let g:quickrun_config["CppSyntaxCheck_gcc"] = {
@@ -1345,7 +1354,7 @@ function! Flymake_for_CPP_Setting()
 
         "autocmd MyVimrcCmd BufWritePost *.cpp,*.h,*.hpp :QuickRun CppSyntaxCheck_msvc
     catch /E117/
-        
+
     endtry
 endfunction
 call Flymake_for_CPP_Setting()
@@ -1448,7 +1457,9 @@ let g:Perl_Debugger = "ptkdb"
 " jslint.vim:"{{{
 "
 function! s:start_jslint()
-    if s:MSWindows ||
+    if !exists('s:jslint_enabled')&&
+                \ 1 && filereadable($DOTVIM . '/Bundle/jslint.vim/plugin/jslint.vim') &&
+                \ s:MSWindows ||
                 \ exists("$JS_CMD") ||
                 \ executable('/System/Library/Frameworks/JavaScriptCore.framework/Resources/jsc') ||
                 \ executable('node') ||
@@ -1457,6 +1468,7 @@ function! s:start_jslint()
         autocmd MyVimrcCmd BufWritePost <buffer> call jslint#check()
         autocmd MyVimrcCmd InsertLeave <buffer> call jslint#check()
         autocmd MyVimrcCmd CursorMoved  <buffer> call jslint#message()
+        let s:jslint_enabled = 1
     endif
 endfunction
 "}}}
@@ -1622,6 +1634,25 @@ inoremap jj <ESC>
 " Tabpage related mappings
 nnoremap <Space>to :<C-u>tabnew<CR>
 nnoremap <Space>tq :<C-u>tabclose<CR>
+
+" Window related mappings
+nnoremap <M-j> <C-w>j
+nnoremap <M-k> <C-w>k
+nnoremap <M-h> <C-w>h
+nnoremap <M-l> <C-w>l
+inoremap <M-j> <Esc><C-w>j
+inoremap <M-k> <Esc><C-w>k
+inoremap <M-h> <Esc><C-w>h
+inoremap <M-l> <Esc><C-w>l
+
+nnoremap <M-+> <C-w>+
+nnoremap <M--> <C-w>-
+nnoremap <M->> <C-w>>
+nnoremap <M-<> <C-w><
+inoremap <M-+> <Esc><C-w>+
+inoremap <M--> <Esc><C-w>-
+inoremap <M->> <Esc><C-w>>
+inoremap <M-<> <Esc><C-w><
 
 " Move to the position last edited
 nnoremap gb '[

@@ -56,6 +56,8 @@ highlight TabLineFill ctermfg=0 ctermbg=8 guifg=Black guibg=#dcdcdc gui=underlin
 
 " Limit horizontal scrollbar size to the length of the cursor line
 set guioptions+=h
+" Hide Toolbar
+set guioptions-=T
 
 " Toggle horizontal scrollbar
 nnoremap  <silent> <Space>oh :if &guioptions =~# 'b' <Bar>
@@ -111,7 +113,7 @@ let g:indent_guides_enable_on_vim_startup = 1
 try
     IndentGuidesEnable
 catch /E492/
-    echo 
+
 endtry
 "}}}
 
