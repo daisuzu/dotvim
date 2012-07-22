@@ -19,40 +19,40 @@ Setup
 8. cd to `vimproc`
 9. run `make -f make_YOUR-ARCHITECTURE.mak`
 10. start up `gvim` or `vim`
-11. press a key to the order of the `fpi`
+11. press keys to the order of the `fpi`
 12. install following softwares as necessary
 
 Useful Softwares
 ----------------
 Some plugin needs these Programming languages.
 
-* Python [http://www.python.org/]
+* Python [http://www.python.org]
 
-* Perl [http://www.perl.org/]
+* Perl [http://www.perl.org]
 
-* GHC [http://www.haskell.org/ghc/]
-* Cabal [http://www.haskell.org/cabal/]
+* GHC [http://www.haskell.org/ghc]
+* Cabal [http://www.haskell.org/cabal]
 * ghc-mod [using Cabal]
 
-* Node.js [http://nodejs.org/]
+* Node.js [http://nodejs.org]
 * CoffeeScript [using npm(Node Package Manager)]
 
-* Clojure [http://clojure.org/]
+* Clojure [http://clojure.org]
 * leiningen [https://github.com/technomancy/leiningen]
 
-* LLVM/Clang [http://llvm.org/]
+* LLVM/Clang [http://llvm.org]
 
 
 Some plugin needs these tag generation softwares.
 
-* Ctags [http://hp.vector.co.jp/authors/VA025040/ctags/]
-* GNU GLOBAL [http://www.gnu.org/software/global/]
-* CSCOPE [http://cscope.sourceforge.net/]
+* Ctags [http://hp.vector.co.jp/authors/VA025040/ctags]
+* GNU GLOBAL [http://www.gnu.org/software/global]
+* CSCOPE [http://cscope.sourceforge.net]
 
 
 Some plugin needs command line tool for transferring data with URL syntax.
 
-* cURL [http://curl.haxx.se/]
+* cURL [http://curl.haxx.se]
 
 
 Some plugin can use ack as text finder.
@@ -65,10 +65,15 @@ For processing markdown.
 * Pandoc [using Cabal]
 
 
+Some plugins are located in the Mercurial repository.
+
+* Mercurial [http://mercurial.selenic.com]
+
+
 If using Windows OS, these software extends command line processing.
 
-* Everything [http://www.voidtools.com/]
-* MinGW or Cygwin [http://www.mingw.org/] or [http://www.cygwin.com/]
+* Everything [http://www.voidtools.com]
+* MinGW or Cygwin [http://www.mingw.org] or [http://www.cygwin.com]
 * grep [http://gnuwin32.sourceforge.net/packages/grep.htm]
 * DiffUtils  [http://gnuwin32.sourceforge.net/packages/diffutils.htm]
 * Lynx [http://lynx-win32-pata.sourceforge.jp/index-ja.html]

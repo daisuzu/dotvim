@@ -210,7 +210,9 @@ try
 
     " ctags
     NeoBundleLazy $GITHUB_COM.'vim-scripts/taglist.vim.git'
-    NeoBundleLazy $BITBUCKET_ORG.'abudden/taghighlight', {'type': 'hg'}
+    if executable('hg')
+        NeoBundleLazy $BITBUCKET_ORG.'abudden/taghighlight', {'type': 'hg'}
+    endif
 
     " vcs
     NeoBundle $GITHUB_COM.'tpope/vim-fugitive.git'
