@@ -852,16 +852,34 @@ let g:ref_cache_dir = $DOTVIM.'/.vim_ref_cache'
 " Python
 let g:ref_pydoc_cmd = "python -m pydoc"
 
-" ALC
-"let g:ref_alc_cmd = 'w3m -dump %s'
-let g:ref_alc_use_cache = 0
-let g:ref_alc_start_linenumber = 39 " Skip the extraneous lines
-if s:MSWindows
-    let g:ref_alc_encoding = 'cp932'
-endif
-if exists('*ref#register_detection')
-    call ref#register_detection('_', 'alc')
-endif
+" webdict
+let g:ref_source_webdict_sites = {
+            \ 'wikipedia:ja': {
+                \ 'url': 'http://ja.wikipedia.org/wiki/%s',
+                \ 'keyword_encoding': 'utf-8',
+                \ 'cache': '0',
+                \ },
+            \ 'wiktionary': {
+                \ 'url': 'http://ja.wiktionary.org/wiki/%s',
+                \ 'keyword_encoding': 'utf-8',
+                \ 'cache': '0',
+                \ },
+            \ 'alc': {
+                \ 'url': 'http://eow.alc.co.jp/%s',
+                \ 'keyword_encoding': 'utf-8',
+                \ 'cache': '0',
+                \ },
+            \ }
+
+function! g:ref_source_webdict_sites.wiktionary.filter(output)
+    return join(split(a:output, "\n")[18:], "\n")
+endfunction
+
+function! g:ref_source_webdict_sites.alc.filter(output)
+    return join(split(a:output, "\n")[38:], "\n")
+endfunction
+
+let g:ref_source_webdict_sites.default = 'alc'
 "}}}
 "---------------------------------------------------------------------------
 " neocomplcache:"{{{
