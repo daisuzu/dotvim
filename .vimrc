@@ -725,6 +725,7 @@ onoremap <silent> ]L :call NextIndent(1, 1, 1, 1)<cr>
 " flymake for perl{{{
 augroup FlyQuickfixMakeCmd
     autocmd!
+    autocmd BufEnter *.pm,*.pl,*.t call FlyQuickfixEnable()
 augroup END
 
 function! SetErrorMarkers()
@@ -734,12 +735,12 @@ function! SetErrorMarkers()
 endfunction
 
 function! FlyquickfixPrgSet(mode)
-    if a:mode == 10
+    if a:mode == 'perl'
         """ setting for perl
         setlocal makeprg=vimparse.pl\ -c\ %
         setlocal errorformat=%f:%l:%m
 "        setlocal shellpipe=2>&1\ >
-        let g:flyquickfixmake_mode = 10
+        let g:flyquickfixmake_mode = 'perl'
 "        echo "flymake prg: perl"
     endif
 endfunction
@@ -757,16 +758,20 @@ function! FlyquickfixToggleSet()
     endif
 endfunction
 
-if !exists("g:enabled_flyquickfixmake")
-    let g:enabled_flyquickfixmake = 1
-    call FlyquickfixPrgSet(10)
+function! FlyQuickfixEnable()
+    if !exists("g:enabled_flyquickfixmake")
+        let g:enabled_flyquickfixmake = 1
+        autocmd FlyQuickfixMakeCmd BufWritePost *.pm,*.pl,*.t make
+        autocmd FlyQuickfixMakeCmd QuickFixCmdPost make call SetErrorMarkers()
+    endif
 
-    autocmd FlyQuickfixMakeCmd BufWritePost *.pm,*.pl,*.t make
-    autocmd FlyQuickfixMakeCmd QuickFixCmdPost make call SetErrorMarkers()
-endif
+    if g:enabled_flyquickfixmake
+        call FlyquickfixPrgSet(g:flyquickfixmake_mode)
+    endif
+endfunction
 
 if !exists("g:flyquickfixmake_mode")
-    let g:flyquickfixmake_mode = 10
+    let g:flyquickfixmake_mode = 'perl'
 endif
 
 noremap pl :call FlyquickfixToggleSet()<CR>
