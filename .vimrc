@@ -864,6 +864,11 @@ let g:ref_source_webdict_sites = {
                 \ 'keyword_encoding': 'utf-8',
                 \ 'cache': '0',
                 \ },
+            \ 'wikipedia:en': {
+                \ 'url': 'http://en.wikipedia.org/wiki/%s',
+                \ 'keyword_encoding': 'utf-8',
+                \ 'cache': '0',
+                \ },
             \ 'wiktionary': {
                 \ 'url': 'http://ja.wiktionary.org/wiki/%s',
                 \ 'keyword_encoding': 'utf-8',
@@ -901,8 +906,11 @@ function! Init_neocomplcache() "{{{
     "imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
 
     " Recommended key-mappings.
-    " <CR>: close popup and save indent.
-    inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
+	" <CR>: close popup and save indent.
+	inoremap <expr><silent> <CR> <SID>my_cr_function()
+	function! s:my_cr_function()
+	  return pumvisible() ? neocomplcache#close_popup() . "\<CR>" : "\<CR>"
+	endfunction
     " <TAB>: completion.
     inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
     " <C-h>, <BS>: close popup and delete backword char.
@@ -977,6 +985,8 @@ if !exists('g:neocomplcache_keyword_patterns')
     let g:neocomplcache_keyword_patterns = {}
 endif
 let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
+
+let g:neocomplcache_enable_prefetch = 1
 
 " For snippet_complete marker.
 if has('conceal')
@@ -1471,7 +1481,7 @@ let g:pymode_lint_write = 1
 let g:pymode_lint_cwindow = 0
 let g:pymode_lint_message = 1
 let g:pydoc = "python -m pydoc"
-let g:pymode_rope = 1
+let g:pymode_rope = 0
 "}}}
 "---------------------------------------------------------------------------
 " perl-support.vim:"{{{
