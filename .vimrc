@@ -468,8 +468,8 @@ if has("syntax")
         highlight InvisibleJISX0208Space term=underline ctermbg=Blue guibg=darkgray gui=underline
         syntax match InvisibleTrailedSpace "[ \t]\+$" display containedin=ALL
         highlight InvisibleTrailedSpace term=underline ctermbg=Red guibg=NONE gui=undercurl guisp=darkorange
-        "syntax match InvisibleTab "\t" display containedin=ALL
-        "highlight InvisibleTab term=underline ctermbg=white gui=undercurl guisp=darkslategray
+        syntax match InvisibleTab "\t" display containedin=ALL
+        highlight InvisibleTab term=underline ctermbg=white gui=undercurl guisp=darkslategray
     endfunction
     augroup invisible
         autocmd! invisible
@@ -691,7 +691,7 @@ function! NextIndent(exclusive, fwd, lowerlevel, skipblanks)
     let lastline = line('$')
     let indent = indent(line)
     let stepvalue = a:fwd ? 1 : -1
-    "
+
     while (line > 0 && line <= lastline)
         let line = line + stepvalue
         if ( ! a:lowerlevel && indent(line) == indent ||
@@ -836,6 +836,30 @@ if has("cscope")
     nmap <C-@><C-@>i :vert scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
     nmap <C-@><C-@>d :vert scs find d <C-R>=expand("<cword>")<CR><CR>
 endif
+"}}}
+" FullScreenToggle() "{{{
+command! FullScreenToggle call FullScreenToggle()
+function! FullScreenToggle()
+    if s:is_full_screen
+        call FullScreenOff()
+    else
+        call FullScreenOn()
+    endif
+endfunction
+
+let s:is_full_screen = 0
+function! FullScreenOn()
+    let s:columns = &columns
+    let s:lines = &lines
+    set columns=9999
+    set lines=999
+    let s:is_full_screen = 1
+endfunction
+function! FullScreenOff()
+    execute 'set columns=' . s:columns
+    execute 'set lines=' . s:lines
+    let s:is_full_screen = 0
+endfunction
 "}}}
 "}}}
 
