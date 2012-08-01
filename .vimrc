@@ -1515,19 +1515,23 @@ let g:Perl_Debugger = "ptkdb"
 "---------------------------------------------------------------------------
 " jslint.vim:"{{{
 "
-function! s:start_jslint()
-    if !exists('s:jslint_enabled')&&
-                \ 1 && filereadable($DOTVIM . '/Bundle/jslint.vim/plugin/jslint.vim') &&
-                \ s:MSWindows ||
-                \ exists("$JS_CMD") ||
-                \ executable('/System/Library/Frameworks/JavaScriptCore.framework/Resources/jsc') ||
-                \ executable('node') ||
-                \ executable('js')
+autocmd MyVimrcCmd FileType javascript call s:registJSLintCmd()
+
+let s:jslint_enabled = filereadable($DOTVIM . '/Bundle/jslint.vim/plugin/jslint.vim') &&
+            \ s:MSWindows ||
+            \ exists("$JS_CMD") ||
+            \ executable('/System/Library/Frameworks/JavaScriptCore.framework/Resources/jsc') ||
+            \ executable('node') ||
+            \ executable('js')
+
+let g:jslint_cmd_registered = []
+function! s:registJSLintCmd()
+    if s:jslint_enabled && index(g:jslint_cmd_registered, bufnr('%')) < 0
+        call add(g:jslint_cmd_registered, bufnr('%'))
         autocmd MyVimrcCmd BufLeave     <buffer> call jslint#clear()
         autocmd MyVimrcCmd BufWritePost <buffer> call jslint#check()
         autocmd MyVimrcCmd InsertLeave <buffer> call jslint#check()
         autocmd MyVimrcCmd CursorMoved  <buffer> call jslint#message()
-        let s:jslint_enabled = 1
     endif
 endfunction
 "}}}
@@ -1626,7 +1630,6 @@ let g:ll_post_process['perl'] = [
             \ 'silent! ReadTypes'
             \ ]
 let g:ll_post_process['javascript'] = [
-            \ 'call s:start_jslint()',
             \ 'call s:registReadTypesCmd("javascript")',
             \ 'silent! ReadTypes'
             \ ]
