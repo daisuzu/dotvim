@@ -1084,7 +1084,14 @@ let g:clang_use_library = 0
 "---------------------------------------------------------------------------
 " taghighlight:"{{{
 "
-let g:rt_cmd_registered = {}
+if exists('g:rt_cmd_registered')
+    for ft in keys(g:rt_cmd_registered)
+        execute 'autocmd MyVimrcCmd FileType ' . ft . ' silent! ReadTypes'
+    endfor
+else
+    let g:rt_cmd_registered = {}
+endif
+
 function! s:registReadTypesCmd(ft)
     if !get(g:rt_cmd_registered, a:ft)
         execute 'autocmd MyVimrcCmd FileType ' . a:ft . ' silent! ReadTypes'
