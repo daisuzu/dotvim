@@ -142,6 +142,14 @@ endif
 "}}}
 
 "---------------------------------------------------------------------------
+" MacVim:"{{{
+"
+if has('mac')
+    set macmeta
+endif
+"}}}
+
+"---------------------------------------------------------------------------
 " MSWIN:"{{{
 "
 if (1 && filereadable($VIMRUNTIME . '/mswin.vim')) && !s:Android
@@ -565,7 +573,7 @@ set smartcase
 nnoremap <Space>os :<C-u>setlocal smartcase!\|setlocal smartcase?<CR>
 
 set hlsearch
-nmap <ESC><ESC> :nohlsearch<CR><ESC>
+nnoremap <ESC><ESC> :nohlsearch<CR>
 "}}}
 
 "---------------------------------------------------------------------------
@@ -876,6 +884,8 @@ let g:html_dynamic_folds = 1
 "---------------------------------------------------------------------------
 " vim-ref:"{{{
 "
+autocmd MyVimrcCmd FileType vim,help setlocal keywordprg=:help
+
 let g:ref_cache_dir = $DOTVIM.'/.vim_ref_cache'
 
 " Python
@@ -1653,11 +1663,16 @@ if has('vim_starting')
     endif
 
     " lazy loading for vim-ref
-    nmap <silent> K :<C-u>silent! NeoBundleSource vim-ref<CR><Plug>(ref-keyword)
-    vmap <silent> K :<C-u>silent! NeoBundleSource vim-ref<CR><Plug>(ref-keyword)
+    nnoremap <silent> K :<C-u>call LoadVimRef()<CR>K
+    vnoremap <silent> K :<C-u>call LoadVimRef()<CR>K
     command! -nargs=+ Ref
                 \ execute 'silent! NeoBundleSource vim-ref'
                 \ | call ref#ref(<q-args>)
+    function! LoadVimRef()
+        nunmap K
+        vunmap K
+        silent! NeoBundleSource vim-ref
+    endfunction
 
     " lazy loading for vimfiler
     nnoremap <silent> [vimfiler]b  :<C-u>call LoadVimFiler('VimFilerBufferDir')<CR>
@@ -1666,7 +1681,7 @@ if has('vim_starting')
     nnoremap <silent> [vimfiler]f  :<C-u>call LoadVimFiler('VimFilerSimple -no-quit -winwidth=32')<CR>
 
     " for retry vimfiler command
-    " vimfiler needs a few seconds to load
+    " vimfiler needs a few seconds to load with low-spec PC
     function! LoadVimFiler(vimfiler_cmd)
         silent! NeoBundleSource vimfiler
         let s:is_vimfiler_loading = 1
@@ -1686,7 +1701,7 @@ if has('vim_starting')
         silent! NeoBundleSource quicklearn
         call Flymake_for_CPP_Setting()
     endfunction
-    map <silent> <Leader>r :<C-u>call LoadQuickRun()<CR><Plug>(quickrun)
+    nnoremap <silent> <Leader>r :<C-u>call LoadQuickRun()<CR>:QuickRun<CR>
     command! -nargs=* -range=0 QuickRun
                 \ call LoadQuickRun()
                 \ | call quickrun#command(<q-args>, <count>, <line1>, <line2>)
