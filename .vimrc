@@ -132,7 +132,7 @@ function! Let__EnvVar__(cmd)
     exec cmd
 endfunction
 "}}}
-"
+
 "---------------------------------------------------------------------------
 " Kaoriya:"{{{
 "
@@ -386,14 +386,16 @@ set shiftwidth=4
 set smarttab
 set expandtab
 set backspace=indent,eol,start
+set whichwrap=b,s,<,>,[,]
 set wildmenu
 set autoindent
 " Smart indenting
 set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
 inoremap # X<C-H><C-V>#
 " settings for Japanese folding
-set formatoptions&
 set formatoptions+=mM
+" don't continue the comment line automatically
+set formatoptions-=ro
 " settings for Japanese formatting
 let format_allow_over_tw = 1
 " tags{{{
@@ -1714,6 +1716,9 @@ endif
 "
 " leave insertmode
 inoremap jj <ESC>
+
+" insert blank in normal mode
+nnoremap <C-Space> i <Esc><Right>
 
 " Tabpage related mappings
 nnoremap <Space>to :<C-u>tabnew<CR>
