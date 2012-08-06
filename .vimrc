@@ -1525,6 +1525,7 @@ let g:pymode_lint_cwindow = 0
 let g:pymode_lint_message = 1
 let g:pydoc = "python -m pydoc"
 let g:pymode_rope = 0
+let g:pymode_folding = 0
 "}}}
 "---------------------------------------------------------------------------
 " perl-support.vim:"{{{
@@ -1569,7 +1570,6 @@ endif
 let g:clj_highlight_builtins = 1
 let g:clj_paren_rainbow = 1
 "}}}
-
 "---------------------------------------------------------------------------
 " neobundle.vim:"{{{
 "
@@ -1719,6 +1719,8 @@ inoremap jj <ESC>
 
 " insert blank in normal mode
 nnoremap <C-Space> i <Esc><Right>
+nnoremap <C-o> o<Esc><Up>
+nnoremap <C-O> O<Esc><Down>
 
 " Tabpage related mappings
 nnoremap <Space>to :<C-u>tabnew<CR>
