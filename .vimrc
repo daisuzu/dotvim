@@ -992,6 +992,27 @@ function! FullScreenOff()
     let s:is_full_screen = 0
 endfunction
 "}}}
+" Split and Go "{{{
+" USAGE:
+" [count]sag - Split the current window horizontally and, go to line [count].
+" [count]sav - Split the current window vertically and, go to line [count].
+nnoremap sag :SplitAndGo split<CR>
+nnoremap sav :SplitAndGo vsplit<CR>
+
+command! -count=1 -nargs=1 -complete=customlist,SAG_Complete SplitAndGo call SplitAndGo(<q-args>)
+
+function! SplitAndGo(cmd)
+    let cnt = v:count ? v:count : 1
+    let cmd = cnt > line('.') ? 'botright '.a:cmd  : 'topleft '.a:cmd
+
+    execute cmd
+    execute cnt . 'G'
+endfunction
+
+function! SAG_Complete(ArgLead, CmdLine, CursorPos)
+    return ['split', 'vsplit']
+endfunction
+"}}}
 "}}}
 
 "---------------------------------------------------------------------------
