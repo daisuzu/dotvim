@@ -324,6 +324,7 @@ try
     NeoBundle $GITHUB_COM.'vim-scripts/ShowMultiBase.git'
     NeoBundle $GITHUB_COM.'vim-scripts/ttoc.git'
     NeoBundle $GITHUB_COM.'vim-scripts/wokmarks.vim.git'
+    NeoBundle $GITHUB_COM.'vim-scripts/sudo.vim.git'
 
     " command extension
     NeoBundle $GITHUB_COM.'thinca/vim-ambicmd.git'
@@ -408,6 +409,7 @@ inoremap # X<C-H><C-V>#
 set formatoptions+=mM
 " don't continue the comment line automatically
 set formatoptions-=ro
+autocmd MyVimrcCmd FileType * setlocal formatoptions-=ro
 " settings for Japanese formatting
 let format_allow_over_tw = 1
 " tags{{{
@@ -693,6 +695,17 @@ function! DiffClip(reg) range
     lefta vnew "vnew
     set buftype=nofile bufhidden=wipe
     put b
+    diffthis
+endfunction
+"}}}
+" DiffScratch() "{{{
+command! DiffScratch call DiffScratch()
+function! DiffScratch()
+    tabnew
+    set buftype=nofile bufhidden=wipe
+    diffthis
+    lefta vnew
+    set buftype=nofile bufhidden=wipe
     diffthis
 endfunction
 "}}}
