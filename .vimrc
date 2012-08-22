@@ -1335,17 +1335,23 @@ let diff_action = {
             \   'description' : 'diff',
             \   'is_selectable' : 1,
             \ }
+
 function! diff_action.func(candidates)
     if len(a:candidates) == 1
+        " get diff with the current buffer
         execute 'vertical diffsplit ' . a:candidates[0].action__path
     elseif len(a:candidates) == 2
+        " get diff with selected candidates
         execute 'tabnew ' . a:candidates[0].action__path
         execute 'vertical diffsplit ' . a:candidates[1].action__path
     else
-        echo "too many candidates"
+        " not support 3-way or more
+        echo 'too many candidates!'
     endif
 endfunction
+
 call unite#custom_action('file', 'diff', diff_action)
+
 unlet diff_action"}}}
 "}}}
 "---------------------------------------------------------------------------
