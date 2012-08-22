@@ -1329,6 +1329,24 @@ let g:unite_source_grep_max_candidates = 50000
 let g:unite_source_file_mru_filename_format = ''
 
 let g:unite_data_directory = $DOTVIM.'/.unite'
+
+" custom action(diff) {{{
+let diff_action = {
+            \   'description' : 'diff',
+            \   'is_selectable' : 1,
+            \ }
+function! diff_action.func(candidates)
+    if len(a:candidates) == 1
+        execute 'vertical diffsplit ' . a:candidates[0].action__path
+    elseif len(a:candidates) == 2
+        execute 'tabnew ' . a:candidates[0].action__path
+        execute 'vertical diffsplit ' . a:candidates[1].action__path
+    else
+        echo "too many candidates"
+    endif
+endfunction
+call unite#custom_action('file', 'diff', diff_action)
+unlet diff_action"}}}
 "}}}
 "---------------------------------------------------------------------------
 " textobj-comment:"{{{
@@ -1875,7 +1893,7 @@ inoremap jj <ESC>
 " insert blank in normal mode
 nnoremap <C-Space> i <Esc><Right>
 nnoremap <C-o> o<Esc><Up>
-nnoremap <C-O> O<Esc><Down>
+nnoremap <M-o> O<Esc><Down>
 
 " Tabpage related mappings
 nnoremap <Space>to :<C-u>tabnew<CR>
