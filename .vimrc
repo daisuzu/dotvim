@@ -1387,29 +1387,24 @@ let g:unite_source_file_mru_filename_format = ''
 
 let g:unite_data_directory = $DOTVIM.'/.unite'
 
-" custom action(diff) {{{
-let diff_action = {
-            \   'description' : 'diff',
+" custom action(dirdiff) {{{
+let dirdiff_action = {
+            \   'description' : 'DirDiff with the other candidate',
             \   'is_selectable' : 1,
             \ }
 
-function! diff_action.func(candidates)
-    if len(a:candidates) == 1
-        " get diff with the current buffer
-        execute 'vertical diffsplit ' . a:candidates[0].action__path
-    elseif len(a:candidates) == 2
-        " get diff with selected candidates
-        execute 'tabnew ' . a:candidates[0].action__path
-        execute 'vertical diffsplit ' . a:candidates[1].action__path
-    else
-        " not support 3-way or more
-        echo 'too many candidates!'
+function! dirdiff_action.func(candidates)
+    if len(a:candidates) == 2
+        " :DirDiff with selected candidates
+        call unite#util#smart_execute_command('tabnew', '')
+        " call unite#util#smart_execute_command('DirDiff', a:candidates[0].action__path . ' ' . a:candidates[1].action__path)
+        execute ':DirDiff ' . a:candidates[0].action__path . ' ' . a:candidates[1].action__path
     endif
 endfunction
 
-call unite#custom_action('file', 'diff', diff_action)
+call unite#custom_action('directory', 'dirdiff', dirdiff_action)
 
-unlet diff_action"}}}
+unlet dirdiff_action"}}}
 "}}}
 "---------------------------------------------------------------------------
 " textobj-comment:"{{{
