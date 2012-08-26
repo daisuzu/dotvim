@@ -1009,8 +1009,8 @@ endfunction
 " USAGE:
 " [count]sag - Split the current window horizontally and, go to line [count].
 " [count]sav - Split the current window vertically and, go to line [count].
-nnoremap sag :SplitAndGo split<CR>
-nnoremap sav :SplitAndGo vsplit<CR>
+nnoremap sag :<C-u>SplitAndGo split<CR>
+nnoremap sav :<C-u>SplitAndGo vsplit<CR>
 
 command! -count=1 -nargs=1 -complete=customlist,SAG_Complete SplitAndGo call SplitAndGo(<q-args>)
 
@@ -1018,13 +1018,70 @@ function! SplitAndGo(cmd)
     let cnt = v:count ? v:count : 1
     let cmd = cnt > line('.') ? 'botright '.a:cmd  : 'topleft '.a:cmd
 
-    execute cmd
-    execute cnt . 'G'
+    " execute cmd
+    call s:split(cmd, 'preview')
+    execute 'normal' . cnt . 'G'
+    normal zv
 endfunction
 
 function! SAG_Complete(ArgLead, CmdLine, CursorPos)
     return ['split', 'vsplit']
 endfunction
+
+" For don't split the window if the window name is already exists.
+" http://d.hatena.ne.jp/osyo-manga/20120826/1345944705
+function! s:is_number(str)
+    return (type(a:str) == type(0)) || (a:str =~ '^\d\+$')
+endfunction
+
+function! s:winnrlist(...)
+    return a:0
+                \       ? range(1, tabpagewinnr(a:1, "$"))
+                \       : range(1, tabpagewinnr(tabpagenr(), "$"))
+endfunction
+
+function! s:winlist(...)
+    let tabnr = a:0 == 0 ? tabpagenr() : a:1
+    return map(s:winnrlist(tabnr), '{
+                \       "winnr" : v:val,
+                \       "name"  : gettabwinvar(tabnr, v:val, "name")
+                \   }')
+endfunction
+
+function! s:winnr(...)
+    return a:0 == 0    ? winnr()
+                \        : a:1 ==# "$" ? winnr("$")
+                \        : a:1 ==# "#" ? winnr("#")
+                \        : !s:is_number(a:1) ? (filter(s:winlist(), 'v:val.name ==# a:1') + [{'winnr' : '-1'}])[0].winnr
+                \        : a:1
+endfunction
+
+function! s:winname(...)
+    return a:0 == 0    ? s:winname(winnr())
+                \        : a:1 ==# "$" ? s:winname(winnr("$"))
+                \        : a:1 ==# "#" ? s:winname(winnr("#"))
+                \        : !s:is_number(a:1) ? (filter(s:winlist(), 'v:val.name ==# a:1') + [{'name' : ''}])[0].name
+                \        : (filter(s:winlist(), 'v:val.winnr ==# a:1') + [{'name' : ''}])[0].name
+endfunction
+
+function! s:split(cmd, name)
+    let winnr = s:winnr(a:name)
+    if winnr == -1
+        silent execute a:cmd
+        let w:name = a:name
+    else
+        silent execute winnr . "wincmd w"
+    endif
+endfunction
+
+" split the window with specifying the window name.
+" if the window name is already exists, move to there.
+command! -count=0 -nargs=1
+            \   Split call s:split("split", <q-args>) | if <count> | silent execute <count> | endif
+
+" open the preview window by specifying the line number.
+" 123ss
+" nnoremap <silent> ss :<C-u>execute v:count."Split preview"<CR>
 "}}}
 "}}}
 
