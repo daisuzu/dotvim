@@ -181,7 +181,6 @@ noremap <M-i> <C-X>
 " Load Plugins:"{{{
 "
 filetype off
-filetype plugin indent off
 
 "---------------------------------------------------------------------------
 " neobundle.vim:"{{{
@@ -412,6 +411,7 @@ set formatoptions-=ro
 autocmd MyVimrcCmd FileType * setlocal formatoptions-=ro
 " settings for Japanese formatting
 let format_allow_over_tw = 1
+set nrformats=alpha,hex
 " tags{{{
 set tags=./tags
 set tags+=tags;
@@ -1842,8 +1842,10 @@ if has('vim_starting')
             execute "augroup END"
         endfor
     endif
+endif
 
-    " lazy loading for vim-ref
+" lazy loading for vim-ref
+if !exists('s:did_load_vimref')
     nnoremap <silent> K :<C-u>call LoadVimRef()<CR>K
     vnoremap <silent> K :<C-u>call LoadVimRef()<CR>K
     command! -nargs=+ Ref
@@ -1853,9 +1855,12 @@ if has('vim_starting')
         nunmap K
         vunmap K
         silent! NeoBundleSource vim-ref
+        let s:did_load_vimref = 1
     endfunction
+endif
 
-    " lazy loading for vimfiler
+" lazy loading for vimfiler
+if !exists('s:did_load_vimfiler')
     nnoremap <silent> [vimfiler]b  :<C-u>call LoadVimFiler('VimFilerBufferDir')<CR>
     nnoremap <silent> [vimfiler]c  :<C-u>call LoadVimFiler('VimFilerCurrentDir')<CR>
     nnoremap <silent> [vimfiler]d  :<C-u>call LoadVimFiler('VimFilerDouble')<CR>
@@ -1874,18 +1879,22 @@ if has('vim_starting')
                 sleep 1
             endtry
         endwhile
+        let s:did_load_vimfiler = 1
     endfunction
+endif
 
-    " lazy loading for vim-quickrun
-    function! LoadQuickRun()
-        silent! NeoBundleSource vim-quickrun
-        silent! NeoBundleSource quicklearn
-        call Flymake_for_CPP_Setting()
-    endfunction
+" lazy loading for vim-quickrun
+if !exists('s:did_load_quickrun')
     nnoremap <silent> <Leader>r :<C-u>call LoadQuickRun()<CR>:QuickRun<CR>
     command! -nargs=* -range=0 QuickRun
                 \ call LoadQuickRun()
                 \ | call quickrun#command(<q-args>, <count>, <line1>, <line2>)
+    function! LoadQuickRun()
+        silent! NeoBundleSource vim-quickrun
+        silent! NeoBundleSource quicklearn
+        call Flymake_for_CPP_Setting()
+        let s:did_load_quickrun = 1
+    endfunction
 endif
 "}}}
 "}}}
