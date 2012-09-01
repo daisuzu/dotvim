@@ -156,8 +156,20 @@ endif
 "---------------------------------------------------------------------------
 " MacVim:"{{{
 "
-if has('mac')
+if has('gui_macvim')
     set macmeta
+    let macvim_hig_shift_movement = 1
+    let macvim_skip_cmd_opt_movement = 1
+
+    if has('kaoriya') && has('vim_starting')
+        let $PATH = simplify($VIM . '/../../MacOS') . ':' . $PATH
+        set migemodict=$VIMRUNTIME/dict/migemo-dict
+        set migemo
+
+        let $SSH_ASKPASS = simplify($VIM . '/../../MacOS') . '/macvim-askpass'
+        set noimdisable
+        set imdisableactivate
+    endif
 endif
 "}}}
 
