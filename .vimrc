@@ -1187,18 +1187,20 @@ function! Init_neocomplcache() "{{{
     "inoremap <expr><CR> neocomplcache#smart_close_popup() . "\<CR>"
 endfunction"}}}
 function! Term_neocomplcache() "{{{
-    NeoComplCacheDisable
-    iunmap <C-k>
-    sunmap <C-k>
-    iunmap <C-g>
-    iunmap <C-l>
-    iunmap <C-q>
-    iunmap <CR>
-    iunmap <TAB>
-    iunmap <C-h>
-    iunmap <BS>
-    iunmap <C-y>
-    iunmap <C-e>
+    if neocomplcache#is_enabled()
+        NeoComplCacheDisable
+        iunmap <C-k>
+        sunmap <C-k>
+        iunmap <C-g>
+        iunmap <C-l>
+        iunmap <C-q>
+        iunmap <CR>
+        iunmap <TAB>
+        iunmap <C-h>
+        iunmap <BS>
+        iunmap <C-y>
+        iunmap <C-e>
+    endif
 endfunction"}}}
 command! InitNeoComplCache call Init_neocomplcache()
 command! TermNeoComplCache call Term_neocomplcache()
