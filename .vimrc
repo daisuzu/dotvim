@@ -1968,6 +1968,9 @@ endif
 "---------------------------------------------------------------------------
 " Key Mappings:"{{{
 "
+nnoremap Y y$
+nnoremap X ^x
+
 " leave insertmode
 inoremap jj <ESC>
 
