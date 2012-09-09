@@ -412,6 +412,7 @@ set expandtab
 set backspace=indent,eol,start
 set whichwrap=b,s,<,>,[,]
 set wildmenu
+set virtualedit+=block
 set autoindent
 " Smart indenting
 set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
@@ -456,6 +457,9 @@ nnoremap <Space>ol :<C-u>setlocal list!\|setlocal list?<CR>
 set listchars=tab:>-,extends:<,precedes:>,trail:-,eol:$,nbsp:%
 
 " Tabline settings "{{{
+function! s:is_modified(n) "{{{
+    return getbufvar(a:n, "&modified") == 1 ? "+" : ""
+endfunction "}}}
 function! s:tabpage_label(n) "{{{
     let title = gettabvar(a:n, 'title')
     if title !=# ''
@@ -463,21 +467,14 @@ function! s:tabpage_label(n) "{{{
     endif
 
     let bufnrs = tabpagebuflist(a:n)
-
-    let hi = a:n is tabpagenr() ? '%#TabLineSel#' : '%#TabLine#'
-
-    let no = len(bufnrs)
-    if no is 1
-        let no = ''
-    endif
-
-    let mod = len(filter(copy(bufnrs), 'getbufvar(v:val, "&modified")')) ? '+' : ''
-    let sp = (no . mod) ==# '' ? '' : ' '
+    let buflist = join(map(copy(bufnrs), 'v:val . s:is_modified(v:val)'), ',')
 
     let curbufnr = bufnrs[tabpagewinnr(a:n) - 1]
     let fname = pathshorten(bufname(curbufnr))
 
-    let label = no . mod . sp . fname
+    let label = '[' . buflist . ']' . fname
+
+    let hi = a:n is tabpagenr() ? '%#TabLineSel#' : '%#TabLine#'
 
     return '%' . a:n . 'T' . hi . label . '%T%#TabLineFill#'
 endfunction "}}}
@@ -518,7 +515,7 @@ highlight WhitespaceEOL ctermbg=lightgray guibg=lightgray
 match WhitespaceEOL /\s\+$/
 
 " XPstatusline + fugitive#statusline {{{
-let g:statusline_max_path = 20
+let g:statusline_max_path = 50
 function! StatusLineGetPath() "{{{
     let p = expand('%:.:h')
     let p = substitute(p, expand('$HOME'), '~', '')
@@ -553,7 +550,7 @@ function! s:SetFullStatusline() "{{{
     setlocal statusline=
     setlocal statusline+=%#StatuslineBufNr#%-1.2n\                   " buffer number
     setlocal statusline+=%h%#StatuslineFlag#%m%r%w                 " flags
-    setlocal statusline+=%#StatuslinePath#\ %-0.20{StatusLineGetPath()}%0* " path
+    setlocal statusline+=%#StatuslinePath#\ %-0.50{StatusLineGetPath()}%0* " path
     setlocal statusline+=%#StatuslineFileName#\/%t\                       " file name
 
     try
@@ -1095,6 +1092,12 @@ command! -count=0 -nargs=1
 " 123ss
 " nnoremap <silent> ss :<C-u>execute v:count."Split preview"<CR>
 "}}}
+" s:has_plugin(name) "{{{
+function! s:has_plugin(name)
+    return globpath(&runtimepath, 'plugin/' . a:name . '.vim') !=# ''
+                \   || globpath(&runtimepath, 'autoload/' . a:name . '.vim') !=# ''
+endfunction
+"}}}
 "}}}
 
 "---------------------------------------------------------------------------
@@ -1401,24 +1404,28 @@ let g:unite_source_file_mru_filename_format = ''
 
 let g:unite_data_directory = $DOTVIM.'/.unite'
 
-" custom action(dirdiff) {{{
-let dirdiff_action = {
-            \   'description' : 'DirDiff with the other candidate',
-            \   'is_selectable' : 1,
+" custom action(in thinca's vimrc) {{{
+let s:unite_action = {
+            \   'description': 'Echo the candidates for debug.',
+            \   'is_selectable': 1,
             \ }
 
-function! dirdiff_action.func(candidates)
-    if len(a:candidates) == 2
-        " :DirDiff with selected candidates
-        call unite#util#smart_execute_command('tabnew', '')
-        " call unite#util#smart_execute_command('DirDiff', a:candidates[0].action__path . ' ' . a:candidates[1].action__path)
-        execute ':DirDiff ' . a:candidates[0].action__path . ' ' . a:candidates[1].action__path
-    endif
+function! s:unite_action.func(candidates)
+    PP a:candidates
 endfunction
 
-call unite#custom_action('directory', 'dirdiff', dirdiff_action)
-
-unlet dirdiff_action"}}}
+call unite#custom_action('common', 'echo', s:unite_action)
+unlet! s:unite_action"}}}
+"}}}
+"---------------------------------------------------------------------------
+" textobj-user:"{{{
+"
+call textobj#user#plugin('camelcase', {
+            \   '-': {
+            \   '*pattern*': '\C\a[a-z0-9]\+',
+            \   'select': ['am', 'im'],
+            \   },
+            \ })
 "}}}
 "---------------------------------------------------------------------------
 " textobj-comment:"{{{
@@ -1693,7 +1700,7 @@ let g:quickrun_config['markdown'] = {
 "---------------------------------------------------------------------------
 " vim-ambicmd:"{{{
 "
-if 1 && filereadable($DOTVIM.'/Bundle/vim-ambicmd/autoload/ambicmd.vim')
+if s:has_plugin('ambicmd')
     cnoremap <expr> <Space> ambicmd#expand("\<Space>")
     cnoremap <expr> <CR> ambicmd#expand("\<CR>")
     cnoremap <expr> <C-f> ambicmd#expand("\<Right>")
@@ -1782,7 +1789,7 @@ let g:Perl_Debugger = "ptkdb"
 "
 autocmd MyVimrcCmd FileType javascript call s:registJSLintCmd()
 
-let s:jslint_enabled = filereadable($DOTVIM . '/Bundle/jslint.vim/plugin/jslint.vim') &&
+let s:jslint_enabled = s:has_plugin('jslint') &&
             \ s:MSWindows ||
             \ exists("$JS_CMD") ||
             \ executable('/System/Library/Frameworks/JavaScriptCore.framework/Resources/jsc') ||
@@ -1972,16 +1979,17 @@ nnoremap Y y$
 nnoremap X ^x
 
 " leave insertmode
+" inoremap <expr> j getline('.')[col('.') - 2] ==# 'j' ? "\<BS>\<ESC>" : 'j'
 inoremap jj <ESC>
 
 " insert blank in normal mode
 nnoremap <C-Space> i <Esc><Right>
-nnoremap <C-o> o<Esc><Up>
-nnoremap <M-o> O<Esc><Down>
+nnoremap <C-o> o<Esc>
+nnoremap <M-o> O<Esc>
 
 " Tabpage related mappings
-nnoremap <Space>to :<C-u>tabnew<CR>
-nnoremap <Space>tq :<C-u>tabclose<CR>
+nnoremap <Space>tn :<C-u>tabnew<CR>
+nnoremap <Space>tc :<C-u>tabclose<CR>
 
 " Window related mappings
 nnoremap <M-j> <C-w>j
