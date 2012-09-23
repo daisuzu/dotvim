@@ -227,6 +227,11 @@ try
     " plugin management
     NeoBundle $GITHUB_COM.'Shougo/neobundle.vim.git'
 
+    " runtime
+    NeoBundle $GITHUB_COM.'mattn/webapi-vim.git'
+    NeoBundle $GITHUB_COM.'vim-scripts/cecutil.git'
+    NeoBundle $GITHUB_COM.'vim-scripts/tlib.git'
+
     " doc
     NeoBundle $GITHUB_COM.'vim-jp/vimdoc-ja.git'
     NeoBundleLazy $GITHUB_COM.'thinca/vim-ref.git'
@@ -313,7 +318,6 @@ try
     " search
     NeoBundle $GITHUB_COM.'thinca/vim-visualstar.git'
     NeoBundle $GITHUB_COM.'othree/eregex.vim.git'
-    NeoBundle $GITHUB_COM.'vim-scripts/occur.vim.git'
 
     " utility
     NeoBundle $GITHUB_COM.'mattn/ideone-vim.git'
@@ -378,11 +382,6 @@ try
 
     " colorscheme
     NeoBundle $GITHUB_COM.'vim-scripts/Color-Sampler-Pack.git'
-
-    " runtime
-    NeoBundle $GITHUB_COM.'mattn/webapi-vim.git'
-    NeoBundle $GITHUB_COM.'vim-scripts/cecutil.git'
-    NeoBundle $GITHUB_COM.'vim-scripts/tlib.git'
 catch /E117/
 
 endtry
@@ -403,6 +402,7 @@ endif
 " Edit:"{{{
 "
 set nobackup
+set browsedir=buffer
 set clipboard+=unnamed
 set tabstop=4
 set softtabstop=4
@@ -433,7 +433,7 @@ set tags+=./**/tags
 " grep{{{
 set grepprg=grep\ -nH
 "set grepprg=ack.pl\ -a
-" autocmd MyVimrcCmd QuickfixCmdPost make,grep,grepadd,vimgrep,helpgrep copen
+" autocmd MyVimrcCmd QuickfixCmdPost make,grep,grepadd,vimgrep,vimgrepadd,helpgrep copen
 "}}}
 "}}}
 
@@ -651,6 +651,14 @@ function! s:ChangeCurrentDir(directory, bang)
 endfunction}}}
 nnoremap <silent> <Space>cd :<C-u>TCD<CR>
 
+" Occur "{{{
+command! Occur execute 'vimgrep /' . @/ . '/ %' 
+command! Moccur execute 'bufdo vimgrepadd /' . @/ . '/ %' 
+command! StarOccur execute 'vimgrep /' . expand('<cword>') . '/ %' 
+nnoremap <Leader>oc :<C-u>Occur<CR>
+nnoremap <Leader>mo :<C-u>Moccur<CR>
+nnoremap <Leader>so :<C-u>StarOccur<CR>
+"}}}
 " WinMerge keybind in vimdiff "{{{
 function! DiffGet() "{{{
     try
@@ -1169,11 +1177,11 @@ function! Init_neocomplcache() "{{{
     "imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
 
     " Recommended key-mappings.
-	" <CR>: close popup and save indent.
-	inoremap <expr><silent> <CR> <SID>my_cr_function()
-	function! s:my_cr_function()
-	  return pumvisible() ? neocomplcache#close_popup() . "\<CR>" : "\<CR>"
-	endfunction
+    " <CR>: close popup and save indent.
+    inoremap <expr><silent> <CR> <SID>my_cr_function()
+    function! s:my_cr_function()
+      return pumvisible() ? neocomplcache#close_popup() . "\<CR>" : "\<CR>"
+    endfunction
     " <TAB>: completion.
     inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
     " <C-h>, <BS>: close popup and delete backword char.
@@ -1418,23 +1426,21 @@ call unite#custom_action('common', 'echo', s:unite_action)
 unlet! s:unite_action"}}}
 "}}}
 "---------------------------------------------------------------------------
-" textobj-user:"{{{
-"
-call textobj#user#plugin('camelcase', {
-            \   '-': {
-            \   '*pattern*': '\C\a[a-z0-9]\+',
-            \   'select': ['am', 'im'],
-            \   },
-            \ })
-"}}}
-"---------------------------------------------------------------------------
 " textobj-comment:"{{{
 "
 let g:textobj_comment_no_default_key_mappings = 1
-omap ao	<Plug>(textobj-comment-a)
-xmap ao	<Plug>(textobj-comment-a)
-omap io	<Plug>(textobj-comment-i)
-xmap io	<Plug>(textobj-comment-i)
+omap ao <Plug>(textobj-comment-a)
+xmap ao <Plug>(textobj-comment-a)
+omap io <Plug>(textobj-comment-i)
+xmap io <Plug>(textobj-comment-i)
+"}}}
+"---------------------------------------------------------------------------
+" textobj-wiw"{{{
+"
+omap am <Plug>(textobj-wiw-a)
+xmap am <Plug>(textobj-wiw-a)
+omap im <Plug>(textobj-wiw-i)
+xmap im <Plug>(textobj-wiw-i)
 "}}}
 "---------------------------------------------------------------------------
 " operator-replace:"{{{
@@ -1532,7 +1538,7 @@ let MyGrep_DefaultSearchWord = 1
 
 let MyGrep_MenuBar = 3
 
-autocmd MyVimrcCmd QuickfixCmdPre make,grep,grepadd,vimgrep,helpgrep copen
+autocmd MyVimrcCmd QuickfixCmdPre make,grep,grepadd,vimgrep,vimgrepadd,helpgrep copen
 "}}}
 "---------------------------------------------------------------------------
 " vim-indent-guides:"{{{
