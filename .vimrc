@@ -399,6 +399,15 @@ endif
 "}}}
 
 "---------------------------------------------------------------------------
+" Mouse:"{{{
+"
+set mouse=a
+set nomousefocus
+set nomousehide
+"set guioptions+=a
+"}}}
+
+"---------------------------------------------------------------------------
 " Edit:"{{{
 "
 set nobackup
@@ -440,6 +449,37 @@ set grepprg=grep\ -nH
 "---------------------------------------------------------------------------
 " View:"{{{
 "
+" Fonts"{{{
+if has('xfontset')
+    set guifontset=a14,r14,k14
+elseif has('unix')
+
+elseif has('mac')
+    set guifont=Osaka-mono:h14
+elseif has('win32') || has('win64')
+"    set guifont=MS_Gothic:h12:cSHIFTJIS
+"    set guifontwide=MS_Gothic:h12:cSHIFTJIS
+    set guifont=MS_Gothic:h10:cSHIFTJIS
+    set linespace=1
+endif
+
+" For Printer :
+if has('printer')
+    if has('win32') || has('win64')
+        set printfont=MS_Mincho:h12:cSHIFTJIS
+"       set printfont=MS_Gothic:h12:cSHIFTJIS
+    endif
+endif
+"}}}
+
+" Color Scheme"{{{
+try
+    colorscheme motus
+catch /E185/
+    colorscheme torte
+endtry
+"}}}
+
 set number
 set showmatch
 set laststatus=2
@@ -455,6 +495,24 @@ nnoremap <Space>ow :<C-u>setlocal wrap!\|setlocal wrap?<CR>
 set nolist
 nnoremap <Space>ol :<C-u>setlocal list!\|setlocal list?<CR>
 set listchars=tab:>-,extends:<,precedes:>,trail:-,eol:$,nbsp:%
+
+" Limit horizontal scrollbar size to the length of the cursor line
+set guioptions+=h
+" Hide Toolbar
+set guioptions-=T
+" Toggle horizontal scrollbar
+nnoremap  <silent> <Space>oh :if &guioptions =~# 'b' <Bar>
+      \set guioptions-=b <Bar>
+      \else <Bar>
+      \set guioptions+=b <Bar>
+      \endif <CR>
+
+" Window width
+set columns=160
+" Window height
+set lines=40
+" Command-line height
+set cmdheight=2
 
 " Tabline settings "{{{
 function! s:is_modified(n) "{{{
@@ -509,10 +567,11 @@ if has("syntax")
         autocmd BufNew,BufRead * call ActivateInvisibleIndicator()
     augroup END
 endif
-"}}}
+
 " Highlight end of line whitespace.
 highlight WhitespaceEOL ctermbg=lightgray guibg=lightgray
 match WhitespaceEOL /\s\+$/
+"}}}
 
 " XPstatusline + fugitive#statusline {{{
 let g:statusline_max_path = 50
@@ -582,6 +641,35 @@ function! s:SetSimpleStatusline() "{{{
     setlocal statusline+=%#StatuslineNC#%-0.20{StatusLineGetPath()}%0* " path
     setlocal statusline+=\/%t\                       " file name
 endfunction "}}}
+"}}}
+
+" Additional settings of Color"{{{
+highlight Search        guifg=Black    guibg=Red        gui=bold
+highlight Visual        guifg=#404040  gui=bold
+highlight Cursor        guifg=Black    guibg=Green      gui=bold
+highlight StatusLine    guifg=white    guibg=blue
+highlight Folded        guifg=blue     guibg=darkgray
+
+highlight TabLine ctermfg=0 ctermbg=8 guifg=Black guibg=#dcdcdc gui=underline
+highlight TabLineSel term=bold cterm=bold ctermfg=15 ctermbg=9 guifg=White guibg=Blue gui=bold
+highlight TabLineFill ctermfg=0 ctermbg=8 guifg=Black guibg=#dcdcdc gui=underline
+"}}}
+
+" IME Color"{{{
+if has('multi_byte_ime') || has('xim')
+    " Set the color of the cursor when the IME ON
+    highlight CursorIM guibg=Purple guifg=NONE
+    " Default IME settings in search mode and insert mode
+    set iminsert=0 imsearch=0
+    if has('xim') && has('GUI_GTK')
+        "set imactivatekey=C-Space
+    endif
+endif
+
+if has('multi_byte_ime')
+"    highlight Cursor guifg=NONE guibg=Green
+    highlight CursorIM guifg=NONE guibg=Purple
+endif
 "}}}
 "}}}
 
@@ -1412,18 +1500,11 @@ let g:unite_source_file_mru_filename_format = ''
 
 let g:unite_data_directory = $DOTVIM.'/.unite'
 
-" custom action(in thinca's vimrc) {{{
-let s:unite_action = {
-            \   'description': 'Echo the candidates for debug.',
-            \   'is_selectable': 1,
-            \ }
+highlight UniteAbbr     guifg=#80a0ff    gui=underline
+highlight UniteCursor   guifg=black     guibg=lightblue  gui=bold
 
-function! s:unite_action.func(candidates)
-    PP a:candidates
-endfunction
-
-call unite#custom_action('common', 'echo', s:unite_action)
-unlet! s:unite_action"}}}
+let g:unite_cursor_line_highlight = 'UniteCursor'
+let g:unite_abbr_highlight = 'UniteAbbr'
 "}}}
 "---------------------------------------------------------------------------
 " textobj-comment:"{{{
@@ -1541,6 +1622,18 @@ let MyGrep_MenuBar = 3
 autocmd MyVimrcCmd QuickfixCmdPre make,grep,grepadd,vimgrep,vimgrepadd,helpgrep copen
 "}}}
 "---------------------------------------------------------------------------
+" vim-hier:"{{{
+"
+" To highlight with a undercurl in quickfix error
+execute "highlight qf_error_ucurl gui=undercurl guisp=Red"
+let g:hier_highlight_group_qf  = "qf_error_ucurl"
+
+augroup Hier
+    autocmd!
+    autocmd QuickFixCmdPost,BufEnter,WinEnter QuickRun :HierUpdate
+augroup END
+"}}}
+"---------------------------------------------------------------------------
 " vim-indent-guides:"{{{
 "
 "let g:indent_guides_indent_levels = 30
@@ -1549,7 +1642,13 @@ let g:indent_guides_auto_colors = 1
 let g:indent_guides_guide_size = 1
 let g:indent_guides_start_level = 2
 "let g:indent_guides_space_guides = 0
-let g:indent_guides_enable_on_vim_startup = 0
+let g:indent_guides_enable_on_vim_startup = 1
+
+try
+    IndentGuidesEnable
+catch /E492/
+
+endtry
 "}}}
 "---------------------------------------------------------------------------
 " MultipleSearch:"{{{
@@ -1557,6 +1656,14 @@ let g:indent_guides_enable_on_vim_startup = 0
 let g:MultipleSearchMaxColors=13
 let g:MultipleSearchColorSequence="red,yellow,blue,green,magenta,lightred,cyan,lightyellow,gray,brown,lightblue,darkmagenta,darkcyan"
 let g:MultipleSearchTextColorSequence="white,black,white,black,white,black,black,black,black,white,black,white,white"
+
+try
+    Search
+    SearchReinit
+    SearchReset
+catch /E492/
+
+endtry
 "}}}
 "---------------------------------------------------------------------------
 " vim-textmanip:"{{{
