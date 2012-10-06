@@ -227,7 +227,7 @@ try
     " plugin management
     NeoBundle $GITHUB_COM.'Shougo/neobundle.vim.git'
 
-    " runtime
+    " runtime for other plugins
     NeoBundle $GITHUB_COM.'mattn/webapi-vim.git'
     NeoBundle $GITHUB_COM.'vim-scripts/cecutil.git'
     NeoBundle $GITHUB_COM.'vim-scripts/tlib.git'
@@ -261,6 +261,7 @@ try
     NeoBundle $GITHUB_COM.'ujihisa/unite-colorscheme.git'
     NeoBundleLazy $GITHUB_COM.'ujihisa/quicklearn.git'
     NeoBundle $GITHUB_COM.'sgur/unite-qf.git'
+    NeoBundle $GITHUB_COM.'osyo-manga/unite-quickfix.git'
     NeoBundle $GITHUB_COM.'h1mesuke/unite-outline.git'
     NeoBundle $GITHUB_COM.'h1mesuke/vim-alignta.git'
     NeoBundle $GITHUB_COM.'tsukkee/unite-help.git'
@@ -319,6 +320,11 @@ try
     NeoBundle $GITHUB_COM.'thinca/vim-visualstar.git'
     NeoBundle $GITHUB_COM.'othree/eregex.vim.git'
 
+    " quickrun
+    NeoBundleLazy $GITHUB_COM.'thinca/vim-quickrun.git'
+    NeoBundleLazy $GITHUB_COM.'osyo-manga/vim-watchdogs.git'
+    NeoBundleLazy $GITHUB_COM.'osyo-manga/shabadou.vim.git'
+
     " utility
     NeoBundle $GITHUB_COM.'mattn/ideone-vim.git'
     NeoBundle $GITHUB_COM.'vim-scripts/project.tar.gz.git'
@@ -328,7 +334,6 @@ try
     NeoBundleLazy $GITHUB_COM.'Shougo/vimfiler.git'
     MyNeoBundle !s:Android $GITHUB_COM.'Shougo/vimshell.git'
     MyNeoBundle !s:Android $GITHUB_COM.'thinca/vim-logcat.git'
-    NeoBundleLazy $GITHUB_COM.'thinca/vim-quickrun.git'
     NeoBundle $GITHUB_COM.'thinca/vim-prettyprint.git'
     NeoBundle $GITHUB_COM.'thinca/vim-editvar.git'
     NeoBundle $GITHUB_COM.'tyru/open-browser.vim.git'
@@ -425,7 +430,6 @@ set virtualedit+=block
 set autoindent
 " Smart indenting
 set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
-inoremap # X<C-H><C-V>#
 " settings for Japanese folding
 set formatoptions+=mM
 " don't continue the comment line automatically
@@ -557,20 +561,21 @@ if has("syntax")
     function! ActivateInvisibleIndicator()
         syntax match InvisibleJISX0208Space "　" display containedin=ALL
         highlight InvisibleJISX0208Space term=underline ctermbg=Blue guibg=darkgray gui=underline
-        syntax match InvisibleTrailedSpace "[ \t]\+$" display containedin=ALL
-        highlight InvisibleTrailedSpace term=underline ctermbg=Red guibg=NONE gui=undercurl guisp=darkorange
+        syntax match InvisibleTrailedSpace "\s\+$" display containedin=ALL
+        if has('gui_macvim')
+            highlight InvisibleTrailedSpace term=underline ctermbg=Red guibg=lightgray
+        else
+            highlight InvisibleTrailedSpace term=underline ctermbg=Red gui=undercurl guisp=darkorange
+        endif
         syntax match InvisibleTab "\t" display containedin=ALL
         highlight InvisibleTab term=underline ctermbg=white gui=undercurl guisp=darkslategray
     endfunction
+    call ActivateInvisibleIndicator()
     augroup invisible
         autocmd! invisible
         autocmd BufNew,BufRead * call ActivateInvisibleIndicator()
     augroup END
 endif
-
-" Highlight end of line whitespace.
-highlight WhitespaceEOL ctermbg=lightgray guibg=lightgray
-match WhitespaceEOL /\s\+$/
 "}}}
 
 " XPstatusline + fugitive#statusline {{{
@@ -607,40 +612,70 @@ endfunction
 
 function! s:SetFullStatusline() "{{{
     setlocal statusline=
-    setlocal statusline+=%#StatuslineBufNr#%-1.2n\                   " buffer number
-    setlocal statusline+=%h%#StatuslineFlag#%m%r%w                 " flags
-    setlocal statusline+=%#StatuslinePath#\ %-0.50{StatusLineGetPath()}%0* " path
-    setlocal statusline+=%#StatuslineFileName#\/%t\                       " file name
+    setlocal statusline+=%#StatuslineBufNr#%-1.2n\                                               " buffer number
+    setlocal statusline+=%h%#StatuslineFlag#%m%r%w                                               " flags
+    setlocal statusline+=%#StatuslinePath#\ %-0.50{StatusLineGetPath()}%0*                       " path
+    setlocal statusline+=%#StatuslineFileName#\/%t\                                              " file name
+    setlocal statusline+=%#StatuslineFileSize#\(%{GetFileSize()}\)\                              " file size
 
     try
         call fugitive#statusline()
-        setlocal statusline+=%{fugitive#statusline()}  " Git branch name
+    setlocal statusline+=%{fugitive#statusline()}                                                " Git branch name
     catch /E117/
 
     endtry
 
-    setlocal statusline+=%#StatuslineChar#\ \ 0x%-2B                 " current char
-"    setlocal statusline+=%#StatuslineChar#\ \ 0x%-2B\ %0*                 " current char
-    setlocal statusline+=%#StatuslineTermEnc#(%{&termencoding},\           " encoding
-    setlocal statusline+=%#StatuslineFileEnc#%{&fileencoding},\         " file encoding
-    setlocal statusline+=%#StatuslineFileType#%{&fileformat}\)\              " file format
+    setlocal statusline+=%#StatuslineChar#\ \ %{GetCharacterCode()}                              " current char
+    setlocal statusline+=%#StatuslineTermEnc#(%{&termencoding},\                                 " encoding
+    setlocal statusline+=%#StatuslineFileEnc#%{&fileencoding},\                                  " file encoding
+    setlocal statusline+=%#StatuslineFileFormat#%{&fileformat}\)\                                " file format
 
-    setlocal statusline+=%#StatuslineFileType#\ %{strlen(&ft)?&ft:'**'}\ . " filetype
-    setlocal statusline+=%#StatuslineSyn#\ %{synIDattr(synID(line('.'),col('.'),1),'name')}\ %0*           "syntax name
-    setlocal statusline+=%#StatuslineRealSyn#\ %{StatusLineRealSyn()}\ %0*           "real syntax name
+    setlocal statusline+=%#StatuslineFileType#\ %{strlen(&ft)?&ft:'**'}\ .                       " filetype
+    setlocal statusline+=%#StatuslineSyn#\ %{synIDattr(synID(line('.'),col('.'),1),'name')}\ %0* " syntax name
+    setlocal statusline+=%#StatuslineRealSyn#\ %{StatusLineRealSyn()}\ %0*                       " real syntax name
     setlocal statusline+=%=
 
-    setlocal statusline+=\ %-10.(%l/%L,%c-%v%)             "position
-    setlocal statusline+=\ %P                             "position percentage
-"    setlocal statusline+=\ %#StatuslineTime#%{strftime(\"%m-%d\ %H:%M\")} " current time
+    setlocal statusline+=\ %-10.(%l/%L,%c-%v%)                                                   " position
+    setlocal statusline+=\ %P                                                                    " position percentage
 
 endfunction "}}}
 
 function! s:SetSimpleStatusline() "{{{
     setlocal statusline=
-    setlocal statusline+=%#StatuslineNC#%-0.20{StatusLineGetPath()}%0* " path
-    setlocal statusline+=\/%t\                       " file name
+    setlocal statusline+=%#StatuslineNC#%-0.20{StatusLineGetPath()}%0*                           " path
+    setlocal statusline+=\/%t\                                                                   " file name
 endfunction "}}}
+
+" Get character code on cursor with 'fileencoding'.
+function! GetCharacterCode()
+    let str = iconv(matchstr(getline('.'), '.', col('.') - 1), &enc, &fenc)
+    let out = '0x'
+    for i in range(strlen(str))
+        let out .= printf('%02X', char2nr(str[i]))
+    endfor
+    if str ==# ''
+        let out .= '00'
+    endif
+    return out
+endfunction
+
+" Return the current file size in human readable format.
+function! GetFileSize()
+    let size = &encoding ==# &fileencoding || &fileencoding ==# ''
+                \        ? line2byte(line('$') + 1) - 1 : getfsize(expand('%'))
+
+    if size < 0
+        let size = 0
+    endif
+    for unit in ['B', 'KB', 'MB']
+        if size < 1024
+            " return size . unit
+            return printf('%.2f' . unit, size)
+        endif
+        let size = size / 1024.0
+    endfor
+    return printf('%.2f' . 'GB', size)
+endfunction
 "}}}
 
 " Additional settings of Color"{{{
@@ -740,11 +775,9 @@ endfunction}}}
 nnoremap <silent> <Space>cd :<C-u>TCD<CR>
 
 " Occur "{{{
-command! Occur execute 'vimgrep /' . @/ . '/ %' 
-command! Moccur execute 'bufdo vimgrepadd /' . @/ . '/ %' 
-command! StarOccur execute 'vimgrep /' . expand('<cword>') . '/ %' 
+command! Occur execute 'vimgrep /' . @/ . '/ %'
+command! StarOccur execute 'vimgrep /' . expand('<cword>') . '/ %'
 nnoremap <Leader>oc :<C-u>Occur<CR>
-nnoremap <Leader>mo :<C-u>Moccur<CR>
 nnoremap <Leader>so :<C-u>StarOccur<CR>
 "}}}
 " WinMerge keybind in vimdiff "{{{
@@ -864,60 +897,6 @@ onoremap <silent> [l :call NextIndent(0, 0, 0, 1)<cr>
 onoremap <silent> ]l :call NextIndent(0, 1, 0, 1)<cr>
 onoremap <silent> [L :call NextIndent(1, 0, 1, 1)<cr>
 onoremap <silent> ]L :call NextIndent(1, 1, 1, 1)<cr>
-"}}}
-" flymake for perl{{{
-augroup FlyQuickfixMakeCmd
-    autocmd!
-    autocmd BufEnter *.pm,*.pl,*.t call FlyQuickfixEnable()
-augroup END
-
-function! SetErrorMarkers()
-    :cclose
-    :HierUpdate
-    :QuickfixStatusEnable
-endfunction
-
-function! FlyquickfixPrgSet(mode)
-    if a:mode == 'perl'
-        """ setting for perl
-        setlocal makeprg=vimparse.pl\ -c\ %
-        setlocal errorformat=%f:%l:%m
-"        setlocal shellpipe=2>&1\ >
-        let g:flyquickfixmake_mode = 'perl'
-"        echo "flymake prg: perl"
-    endif
-endfunction
-
-function! FlyquickfixToggleSet()
-    if g:enabled_flyquickfixmake == 1
-        autocmd! FlyQuickfixMakeCmd
-        echo "not-used flymake"
-        let g:enabled_flyquickfixmake = 0
-    else
-        echo "used flymake"
-        let g:enabled_flyquickfixmake = 1
-        autocmd FlyQuickfixMakeCmd BufWritePost *.pm,*.pl,*.t make
-        autocmd FlyQuickfixMakeCmd QuickFixCmdPost make call SetErrorMarkers()
-    endif
-endfunction
-
-function! FlyQuickfixEnable()
-    if !exists("g:enabled_flyquickfixmake")
-        let g:enabled_flyquickfixmake = 1
-        autocmd FlyQuickfixMakeCmd BufWritePost *.pm,*.pl,*.t make
-        autocmd FlyQuickfixMakeCmd QuickFixCmdPost make call SetErrorMarkers()
-    endif
-
-    if g:enabled_flyquickfixmake
-        call FlyquickfixPrgSet(g:flyquickfixmake_mode)
-    endif
-endfunction
-
-if !exists("g:flyquickfixmake_mode")
-    let g:flyquickfixmake_mode = 'perl'
-endif
-
-noremap pl :call FlyquickfixToggleSet()<CR>
 "}}}
 " cscope_maps.vim{{{
 " http://cscope.sourceforge.net/cscope_vim_tutorial.html
@@ -1188,6 +1167,72 @@ command! -count=0 -nargs=1
 " 123ss
 " nnoremap <silent> ss :<C-u>execute v:count."Split preview"<CR>
 "}}}
+" CtagsR "{{{
+if executable('ctags')
+    " Execute ctags command. And echo for error.
+    command! -nargs=? -complete=file -bar CtagsR call CtagsR([<f-args>])
+
+    function! CtagsR(args)
+        let args = a:args
+        let dir = '.'
+        if !empty(args) && isdirectory(args[0])
+            let dir = args[0]
+            call remove(args, 0)
+        endif
+
+        if !empty(args) && args[0] !~# '^-'
+            echoerr 'Invalid options: ' . join(args)
+            return
+        endif
+
+        let tagfile = s:tagfile()
+        if tagfile !=# ''
+            let dir = fnamemodify(tagfile, ':h')
+            let args += ['-f', tagfile]
+        endif
+
+        if s:MSWindows
+            let enc = get({
+                        \   'utf-8': 'utf8',
+                        \   'cp932': 'sjis',
+                        \   'euc-jp': 'euc',
+                        \ }, &l:fileencoding ==# '' ? &encoding : &l:fileencoding, '')
+            if enc !=# ''
+                let args += ['--jcode=' . enc]
+            endif
+        endif
+        let lang = get({
+                    \   'cpp': 'C++',
+                    \   'c': 'C++',
+                    \   'java': 'Java',
+                    \ }, &l:filetype, '')
+        if lang !=# ''
+            let args += ['--languages=' . lang]
+        endif
+        let opt = get({
+                    \   'cpp': '--sort=yes --c++-kinds=+p --fields=+iaS --extra=+q',
+                    \ }, &l:filetype, '')
+        if opt !=# ''
+            let args += [opt]
+        endif
+
+        call map(add(args, dir), 'shellescape(v:val)')
+
+        let cmd = printf('ctags -R --tag-relative=yes %s', join(args))
+        if s:MSWindows
+            let cmd = 'start /b ' . cmd
+        else
+            let cmd .= ' &'
+        endif
+        silent execute '!' . cmd
+    endfunction
+
+    function! s:tagfile()
+        let files = tagfiles()
+        return empty(files) ? '' : files[0]
+    endfunction
+endif
+"}}}
 " s:has_plugin(name) "{{{
 function! s:has_plugin(name)
     return globpath(&runtimepath, 'plugin/' . a:name . '.vim') !=# ''
@@ -1336,10 +1381,10 @@ let g:neocomplcache_temporary_dir = $DOTVIM.'/.neocon'
 
 " Define dictionary.
 let g:neocomplcache_dictionary_filetype_lists = {
-  \ 'default' : $DOTVIM.'/.neo_default',
-  \ 'vimshell' : $DOTVIM.'/.vimshell_hist',
-  \ 'scheme' : $DOTVIM.'/.gosh_completions'
-        \ }
+            \ 'default' : $DOTVIM.'/.neo_default',
+            \ 'vimshell' : $DOTVIM.'/.vimshell_hist',
+            \ 'scheme' : $DOTVIM.'/.gosh_completions'
+            \ }
 
 " Define keyword.
 if !exists('g:neocomplcache_keyword_patterns')
@@ -1396,12 +1441,12 @@ if s:MSWindows
 endif
 
 " For clang_complete
-let g:neocomplcache_force_overwrite_completefunc=1
+let g:neocomplcache_force_overwrite_completefunc = 1
 
 let g:neocomplcache_ignore_composite_filetype_lists = {
-      \ 'python.unit': 'python',
-      \ 'php.unit': 'php',
-      \ }
+            \ 'python.unit': 'python',
+            \ 'php.unit': 'php',
+            \ }
 "}}}
 "---------------------------------------------------------------------------
 " clang_complete:"{{{
@@ -1466,7 +1511,7 @@ nnoremap <silent> [unite]h  :<C-u>UniteWithCursorWord help<CR>
 nnoremap <silent> [unite]m  :<C-u>Unite mark -no-quit<CR>
 nnoremap <silent> [unite]o  :<C-u>Unite outline<CR>
 nnoremap <silent> [unite]pi :<C-u>Unite neobundle/install<CR>
-nnoremap <silent> [unite]pu :<C-u>Unite neobundle/install:!<CR>
+nnoremap <silent> [unite]pu :<C-u>Unite neobundle/update<CR>
 nnoremap <silent> [unite]pl :<C-u>Unite neobundle<CR>
 nnoremap <silent> [unite]r  :<C-u>Unite -buffer-name=register register<CR>
 nnoremap <silent> [unite]s  :<C-u>Unite scriptnames<CR>
@@ -1703,11 +1748,6 @@ let g:proj_flags = "imstc"
 nmap <silent> <Leader>P <Plug>ToggleProject
 "}}}
 "---------------------------------------------------------------------------
-" vimproc:"{{{
-"
-nmap <S-F6> <ESC>:<C-u>call vimproc#system("ctags -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q")<CR>
-"}}}
-"---------------------------------------------------------------------------
 " vimfiler:"{{{
 "
 nnoremap    [vimfiler]   <Nop>
@@ -1734,8 +1774,10 @@ let g:vimfiler_safe_mode_by_default = 0
 
 let g:vimfiler_data_directory = $DOTVIM.'/.vimfiler'
 
-let g:vimfiler_execute_file_list={'txt': 'vim',
-            \'vim': 'vim'}
+let g:vimfiler_execute_file_list={
+            \ 'txt': 'vim',
+            \ 'vim': 'vim'
+            \ }
 "}}}
 "---------------------------------------------------------------------------
 " vimshell:"{{{
@@ -1758,50 +1800,21 @@ endfunction
 if !exists('g:quickrun_config')
     let g:quickrun_config = {}
 endif
-" flymake for C/C++{{{
-function! Flymake_for_CPP_Setting()
-    try
-        "" To highlight with a undercurl in quickfix error
-        "" The following two lines are written in the .gvimrc
-        "execute "highlight qf_error_ucurl gui=undercurl guisp=Red"
-        "let g:hier_highlight_group_qf  = "qf_error_ucurl"
 
-        let s:silent_quickfix = quickrun#outputter#quickfix#new()
-        function! s:silent_quickfix.finish(session)
-            call call(quickrun#outputter#quickfix#new().finish, [a:session], self)
-            :cclose
-            :HierUpdate
-            :QuickfixStatusEnable
-        endfunction
+let g:quickrun_config['_'] = {
+            \ 'hook/close_unite_quickfix/enable_hook_loaded' : 1,
+            \ 'hook/unite_quickfix/enable_failure' : 1,
+            \ 'hook/close_quickfix/enable_exit' : 1,
+            \ 'hook/close_buffer/enable_failure' : 1,
+            \ 'hook/close_buffer/enable_empty_data' : 1,
+            \ 'outputter' : 'multi:buffer:quickfix',
+            \ 'hook/inu/enable' : 1,
+            \ 'hook/inu/wait' : 20,
+            \ 'outputter/buffer/split' : ':botright 8sp',
+            \ 'runner' : 'vimproc',
+            \ 'runner/vimproc/updatetime' : 40,
+            \ }
 
-        call quickrun#register_outputter("silent_quickfix", s:silent_quickfix)
-
-        let g:quickrun_config["CppSyntaxCheck_gcc"] = {
-            \ "type"  : "cpp",
-            \ "exec"      : "%c %o %s:p ",
-            \ "command"   : "g++",
-            \ "cmdopt"    : "-fsyntax-only -std=gnu++0x ",
-            \ "outputter" : "silent_quickfix",
-            \ "runner"    : "vimproc"
-        \ }
-
-        let g:quickrun_config["CppSyntaxCheck_msvc"] = {
-            \ "type"  : "cpp",
-            \ "exec"      : "%c %o %s:p ",
-            \ "command"   : "cl.exe",
-            \ "cmdopt"    : "/Zs ",
-            \ "outputter" : "silent_quickfix",
-            \ "runner"    : "vimproc",
-            \ "output_encode" : "sjis"
-        \ }
-
-        "autocmd MyVimrcCmd BufWritePost *.cpp,*.h,*.hpp :QuickRun CppSyntaxCheck_msvc
-    catch /E117/
-
-    endtry
-endfunction
-call Flymake_for_CPP_Setting()
-"}}}
 " settings for pandoc{{{
 let g:quickrun_config['markdown'] = {
       \ 'type': 'markdown/pandoc',
@@ -2071,14 +2084,29 @@ endif
 
 " lazy loading for vim-quickrun
 if !exists('s:did_load_quickrun')
-    nnoremap <silent> <Leader>r :<C-u>call LoadQuickRun()<CR>:QuickRun<CR>
+    nnoremap <silent> <Leader>r :<C-u>call LoadQuickRun()<CR>:QuickRun -mode n<CR>
+    vnoremap <silent> <Leader>r :<C-u>call LoadQuickRun()<CR>:QuickRun -mode v<CR>
+
     command! -nargs=* -range=0 QuickRun
                 \ call LoadQuickRun()
                 \ | call quickrun#command(<q-args>, <count>, <line1>, <line2>)
+
+    command! -nargs=* -range=0 WatchdogsRun
+                \ delcommand WatchdogsRun
+                \ | call LoadQuickRun()
+                \ | WatchdogsRun
+
+    command! -nargs=* -range=0 WatchdogsRunSilent
+                \ delcommand WatchdogsRunSilent
+                \ | call LoadQuickRun()
+                \ | WatchdogsRunSilent
+
     function! LoadQuickRun()
         silent! NeoBundleSource vim-quickrun
         silent! NeoBundleSource quicklearn
-        call Flymake_for_CPP_Setting()
+        silent! NeoBundleSource vim-watchdogs
+        silent! NeoBundleSource shabadou.vim
+        call watchdogs#setup(g:quickrun_config)
         let s:did_load_quickrun = 1
     endfunction
 endif
