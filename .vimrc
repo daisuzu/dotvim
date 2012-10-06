@@ -312,6 +312,7 @@ try
     NeoBundle $GITHUB_COM.'tpope/vim-surround.git'
     NeoBundle $GITHUB_COM.'t9md/vim-textmanip.git'
     NeoBundle $GITHUB_COM.'tomtom/tcomment_vim.git'
+    NeoBundle $GITHUB_COM.'kana/vim-niceblock.git'
     NeoBundle $GITHUB_COM.'vim-scripts/DrawIt.git'
     NeoBundle $GITHUB_COM.'vim-scripts/RST-Tables.git'
     NeoBundle $GITHUB_COM.'vim-scripts/sequence.git'
