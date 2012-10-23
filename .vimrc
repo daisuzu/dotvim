@@ -10,7 +10,7 @@ augroup MyVimrcCmd
 augroup END
 
 let s:MSWindows = has('win95') + has('win16') + has('win32') + has('win64')
-let s:Android = executable('uname') ? system('uname -m')=~'armv7' : 0
+let s:Android = executable('uname') ? system('uname -m')=~#'armv7l' : 0
 
 if s:MSWindows
     let $DOTVIM = expand($VIM . '/vimfiles')
@@ -439,12 +439,12 @@ autocmd MyVimrcCmd FileType * setlocal formatoptions-=ro
 " settings for Japanese formatting
 let format_allow_over_tw = 1
 set nrformats=alpha,hex
-" tags{{{
+" tags "{{{
 set tags=./tags
 set tags+=tags;
 set tags+=./**/tags
 "}}}
-" grep{{{
+" grep "{{{
 set grepprg=grep\ -nH
 "set grepprg=ack.pl\ -a
 " autocmd MyVimrcCmd QuickfixCmdPost make,grep,grepadd,vimgrep,vimgrepadd,helpgrep copen
@@ -454,7 +454,7 @@ set grepprg=grep\ -nH
 "---------------------------------------------------------------------------
 " View:"{{{
 "
-" Fonts"{{{
+" Fonts "{{{
 if has('xfontset')
     set guifontset=a14,r14,k14
 elseif has('unix')
@@ -477,7 +477,7 @@ if has('printer')
 endif
 "}}}
 
-" Color Scheme"{{{
+" Color Scheme "{{{
 try
     colorscheme motus
 catch /E185/
@@ -552,7 +552,7 @@ set guioptions-=e
 set tabline=%!MakeTabLine()
 "}}}
 
-" Visualization of the full-width space and the blank at the end of the line{{{
+" Visualization of the full-width space and the blank at the end of the line "{{{
 if has("syntax")
     syntax on
 
@@ -579,7 +579,7 @@ if has("syntax")
 endif
 "}}}
 
-" XPstatusline + fugitive#statusline {{{
+" XPstatusline + fugitive#statusline "{{{
 let g:statusline_max_path = 50
 function! StatusLineGetPath() "{{{
     let p = expand('%:.:h')
@@ -679,7 +679,7 @@ function! GetFileSize()
 endfunction
 "}}}
 
-" Additional settings of Color"{{{
+" Additional settings of Color "{{{
 highlight Search        guifg=Black    guibg=Red        gui=bold
 highlight Visual        guifg=#404040  gui=bold
 highlight Cursor        guifg=Black    guibg=Green      gui=bold
@@ -691,7 +691,7 @@ highlight TabLineSel term=bold cterm=bold ctermfg=15 ctermbg=9 guifg=White guibg
 highlight TabLineFill ctermfg=0 ctermbg=8 guifg=Black guibg=#dcdcdc gui=underline
 "}}}
 
-" IME Color"{{{
+" IME Color "{{{
 if has('multi_byte_ime') || has('xim')
     " Set the color of the cursor when the IME ON
     highlight CursorIM guibg=Purple guifg=NONE
@@ -734,7 +734,7 @@ catch /E117/
 
 endtry
 
-" TabpageCD"{{{
+" TabpageCD "{{{
 command! -bar -complete=dir -nargs=?
       \   CD
       \   TabpageCD <args>
@@ -760,7 +760,7 @@ catch /E492/
 endtry
 "}}}
 
-" CD to the directory of open files{{{
+" CD to the directory of open files "{{{
 command! -nargs=? -complete=dir -bang TCD  call s:ChangeCurrentDir('<args>', '<bang>')
 function! s:ChangeCurrentDir(directory, bang)
     if a:directory == ''
@@ -772,7 +772,7 @@ function! s:ChangeCurrentDir(directory, bang)
     if a:bang == ''
         pwd
     endif
-endfunction}}}
+endfunction "}}}
 nnoremap <silent> <Space>cd :<C-u>TCD<CR>
 
 " Occur "{{{
@@ -794,7 +794,7 @@ if !exists('g:rainwbow_colors')
                 \ ]
 endif
 
-let s:rc = {}  " {{{
+let s:rc = {}  "{{{
 
 function! s:rc.Init()
     augroup RainbowCyclone
@@ -907,7 +907,7 @@ function! SetDiffMap() "{{{
 endfunction "}}}
 autocmd MyVimrcCmd FilterWritePost * call SetDiffMap()
 "}}}
-" Command-line window{{{
+" Command-line window "{{{
 autocmd MyVimrcCmd CmdwinEnter * call s:init_cmdwin()
 function! s:init_cmdwin()
     nnoremap <buffer> q :<C-u>quit<CR>
@@ -1001,7 +1001,7 @@ onoremap <silent> ]l :call NextIndent(0, 1, 0, 1)<cr>
 onoremap <silent> [L :call NextIndent(1, 0, 1, 1)<cr>
 onoremap <silent> ]L :call NextIndent(1, 1, 1, 1)<cr>
 "}}}
-" cscope_maps.vim{{{
+" cscope_maps.vim "{{{
 " http://cscope.sourceforge.net/cscope_vim_tutorial.html
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -1444,7 +1444,7 @@ function! Init_neocomplcache() "{{{
     "let g:neocomplcache_disable_auto_complete = 1
     "inoremap <expr><TAB> pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
     "inoremap <expr><CR> neocomplcache#smart_close_popup() . "\<CR>"
-endfunction"}}}
+endfunction "}}}
 function! Term_neocomplcache() "{{{
     if neocomplcache#is_enabled()
         NeoComplCacheDisable
@@ -1460,7 +1460,7 @@ function! Term_neocomplcache() "{{{
         iunmap <C-y>
         iunmap <C-e>
     endif
-endfunction"}}}
+endfunction "}}}
 command! InitNeoComplCache call Init_neocomplcache()
 command! TermNeoComplCache call Term_neocomplcache()
 
@@ -1638,7 +1638,7 @@ function! s:unite_my_settings() "{{{
     " <C-l>: manual neocomplcache completion.
     inoremap <buffer> <C-l>  <C-x><C-u><C-p><Down>
 
-endfunction"}}}
+endfunction "}}}
 
 let g:unite_source_file_mru_limit = 200
 let g:unite_source_grep_max_candidates = 50000
@@ -1664,9 +1664,9 @@ omap io <Plug>(textobj-comment-i)
 xmap io <Plug>(textobj-comment-i)
 "}}}
 "---------------------------------------------------------------------------
-" textobj-user"{{{
+" textobj-user "{{{
 "
-" textobj-ruledline {{{
+" textobj-ruledline "{{{
 " ruled line for rst's table
 call textobj#user#plugin('ruledline', {
             \      '-': {
@@ -1677,7 +1677,7 @@ call textobj#user#plugin('ruledline', {
 "}}}
 "}}}
 "---------------------------------------------------------------------------
-" textobj-wiw"{{{
+" textobj-wiw "{{{
 "
 omap am <Plug>(textobj-wiw-a)
 xmap am <Plug>(textobj-wiw-a)
@@ -1687,7 +1687,7 @@ xmap im <Plug>(textobj-wiw-i)
 "---------------------------------------------------------------------------
 " operator-user:"{{{
 "
-" operator-fillblank {{{
+" operator-fillblank "{{{
 " replace selection with space
 function! OperatorFillBlank(motion_wise)
     let v = operator#user#visual_command_from_wise_name(a:motion_wise)
@@ -1944,7 +1944,7 @@ let g:quickrun_config['_'] = {
             \ 'runner/vimproc/updatetime' : 40,
             \ }
 
-" settings for pandoc{{{
+" settings for pandoc "{{{
 let g:quickrun_config['markdown'] = {
       \ 'type': 'markdown/pandoc',
       \ 'outputter': 'browser',
