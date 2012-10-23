@@ -238,7 +238,7 @@ try
 
     " completion
     NeoBundle $GITHUB_COM.'Shougo/neocomplcache.git'
-    NeoBundle $GITHUB_COM.'Shougo/neocomplcache-snippets-complete.git'
+    NeoBundle $GITHUB_COM.'Shougo/neosnippet.git'
     MyNeoBundle !s:Android $GITHUB_COM.'Rip-Rip/clang_complete.git'
     MyNeoBundle !s:Android $GITHUB_COM.'osyo-manga/neocomplcache-clang_complete.git'
     MyNeoBundle !s:Android $GITHUB_COM.'ujihisa/neco-ghc.git'
@@ -1403,14 +1403,14 @@ let g:ref_source_webdict_sites.default = 'alc'
 "
 function! Init_neocomplcache() "{{{
     NeoComplCacheEnable
-    imap <C-k>     <Plug>(neocomplcache_snippets_expand)
-    smap <C-k>     <Plug>(neocomplcache_snippets_expand)
+    imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+    smap <C-k>     <Plug>(neosnippet_expand_or_jump)
     inoremap <expr><C-g>     neocomplcache#undo_completion()
     inoremap <expr><C-l>     neocomplcache#complete_common_string()
     imap <C-q>  <Plug>(neocomplcache_start_unite_quick_match)
 
     " SuperTab like snippets behavior.
-    "imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+    "imap <expr><TAB> neosnippet#expandable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
 
     " Recommended key-mappings.
     " <CR>: close popup and save indent.
