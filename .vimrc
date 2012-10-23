@@ -1664,12 +1664,38 @@ omap io <Plug>(textobj-comment-i)
 xmap io <Plug>(textobj-comment-i)
 "}}}
 "---------------------------------------------------------------------------
+" textobj-user"{{{
+"
+" textobj-ruledline {{{
+" ruled line for rst's table
+call textobj#user#plugin('ruledline', {
+            \      '-': {
+            \           '*pattern*': '-\+',
+            \           'select': ['aR', 'iR'],
+            \      },
+            \   })
+"}}}
+"}}}
+"---------------------------------------------------------------------------
 " textobj-wiw"{{{
 "
 omap am <Plug>(textobj-wiw-a)
 xmap am <Plug>(textobj-wiw-a)
 omap im <Plug>(textobj-wiw-i)
 xmap im <Plug>(textobj-wiw-i)
+"}}}
+"---------------------------------------------------------------------------
+" operator-user:"{{{
+"
+" operator-fillblank {{{
+" replace selection with space
+function! OperatorFillBlank(motion_wise)
+    let v = operator#user#visual_command_from_wise_name(a:motion_wise)
+    execute 'normal! '. v . '`["x`]r '
+endfunction
+call operator#user#define('fillblank', 'OperatorFillBlank')
+map <Leader>b <Plug>(operator-fillblank)
+"}}}
 "}}}
 "---------------------------------------------------------------------------
 " operator-replace:"{{{
@@ -2294,6 +2320,12 @@ xnoremap au  a]
 onoremap iu  i]
 xnoremap iu  i]
 
+"}}}
+
+"---------------------------------------------------------------------------
+" FileTypes:"{{{
+"
+autocmd MyVimrcCmd FileType rst setlocal suffixesadd=.rst
 "}}}
 
 "---------------------------------------------------------------------------
