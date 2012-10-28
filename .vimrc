@@ -454,7 +454,7 @@ set grepprg=grep\ -nH
 "---------------------------------------------------------------------------
 " View:"{{{
 "
-" Fonts "{{{
+" Fonts:"{{{
 if has('xfontset')
     set guifontset=a14,r14,k14
 elseif has('unix')
@@ -477,7 +477,7 @@ if has('printer')
 endif
 "}}}
 
-" Color Scheme "{{{
+" Color Scheme:"{{{
 try
     colorscheme motus
 catch /E185/
@@ -679,18 +679,6 @@ function! GetFileSize()
 endfunction
 "}}}
 
-" Additional settings of Color "{{{
-highlight Search        guifg=Black    guibg=Red        gui=bold
-highlight Visual        guifg=#404040  gui=bold
-highlight Cursor        guifg=Black    guibg=Green      gui=bold
-highlight StatusLine    guifg=white    guibg=blue
-highlight Folded        guifg=blue     guibg=darkgray
-
-highlight TabLine ctermfg=0 ctermbg=8 guifg=Black guibg=#dcdcdc gui=underline
-highlight TabLineSel term=bold cterm=bold ctermfg=15 ctermbg=9 guifg=White guibg=Blue gui=bold
-highlight TabLineFill ctermfg=0 ctermbg=8 guifg=Black guibg=#dcdcdc gui=underline
-"}}}
-
 " IME Color "{{{
 if has('multi_byte_ime') || has('xim')
     " Set the color of the cursor when the IME ON
@@ -706,6 +694,18 @@ if has('multi_byte_ime')
 "    highlight Cursor guifg=NONE guibg=Green
     highlight CursorIM guifg=NONE guibg=Purple
 endif
+"}}}
+
+" Additional settings of Color "{{{
+highlight Search        guifg=Black    guibg=Red        gui=bold
+highlight Visual        guifg=#404040  gui=bold
+highlight Cursor        guifg=Black    guibg=Green      gui=bold
+highlight StatusLine    guifg=white    guibg=blue
+highlight Folded        guifg=blue     guibg=darkgray
+
+highlight TabLine ctermfg=0 ctermbg=8 guifg=Black guibg=#dcdcdc gui=underline
+highlight TabLineSel term=bold cterm=bold ctermfg=15 ctermbg=9 guifg=White guibg=Blue gui=bold
+highlight TabLineFill ctermfg=0 ctermbg=8 guifg=Black guibg=#dcdcdc gui=underline
 "}}}
 "}}}
 
@@ -1336,6 +1336,25 @@ if executable('ctags')
     endfunction
 endif
 "}}}
+" Capture "{{{
+command!
+            \   -nargs=+ -complete=command
+            \   Capture
+            \   call s:cmd_capture(<q-args>)
+
+function! s:cmd_capture(q_args) "{{{
+    redir => output
+    silent execute a:q_args
+    redir END
+    let output = substitute(output, '^\n\+', '', '')
+
+    belowright new
+
+    silent file `=printf('[Capture: %s]', a:q_args)`
+    setlocal buftype=nofile bufhidden=unload noswapfile nobuflisted
+    call setline(1, split(output, '\n'))
+endfunction "}}}
+"}}}
 " s:has_plugin(name) "{{{
 function! s:has_plugin(name)
     return globpath(&runtimepath, 'plugin/' . a:name . '.vim') !=# ''
@@ -1655,6 +1674,21 @@ let g:unite_cursor_line_highlight = 'UniteCursor'
 let g:unite_abbr_highlight = 'UniteAbbr'
 "}}}
 "---------------------------------------------------------------------------
+" textobj-user:"{{{
+"
+" textobj-ruledline "{{{
+" ruled line for rst's table
+if s:has_plugin('textobj/user')
+    call textobj#user#plugin('ruledline', {
+                \      '-': {
+                \           '*pattern*': '-\+',
+                \           'select': ['aR', 'iR'],
+                \      },
+                \   })
+endif
+"}}}
+"}}}
+"---------------------------------------------------------------------------
 " textobj-comment:"{{{
 "
 let g:textobj_comment_no_default_key_mappings = 1
@@ -1664,20 +1698,7 @@ omap io <Plug>(textobj-comment-i)
 xmap io <Plug>(textobj-comment-i)
 "}}}
 "---------------------------------------------------------------------------
-" textobj-user "{{{
-"
-" textobj-ruledline "{{{
-" ruled line for rst's table
-call textobj#user#plugin('ruledline', {
-            \      '-': {
-            \           '*pattern*': '-\+',
-            \           'select': ['aR', 'iR'],
-            \      },
-            \   })
-"}}}
-"}}}
-"---------------------------------------------------------------------------
-" textobj-wiw "{{{
+" textobj-wiw:"{{{
 "
 omap am <Plug>(textobj-wiw-a)
 xmap am <Plug>(textobj-wiw-a)
@@ -1687,6 +1708,7 @@ xmap im <Plug>(textobj-wiw-i)
 "---------------------------------------------------------------------------
 " operator-user:"{{{
 "
+if s:has_plugin('operator/user')
 " operator-fillblank "{{{
 " replace selection with space
 function! OperatorFillBlank(motion_wise)
@@ -1696,6 +1718,23 @@ endfunction
 call operator#user#define('fillblank', 'OperatorFillBlank')
 map <Leader>b <Plug>(operator-fillblank)
 "}}}
+" operator-retab "{{{
+call operator#user#define_ex_command('retab', 'retab')
+map <Leader>t <Plug>(operator-retab)
+"}}}
+" operator-join "{{{
+call operator#user#define_ex_command('join', 'join')
+map <Leader>j <Plug>(operator-join)
+"}}}
+" operator-uniq "{{{
+call operator#user#define_ex_command('uniq', 'sort u')
+map <Leader>u <Plug>(operator-uniq)
+"}}}
+" operator-blank-killer "{{{
+call operator#user#define_ex_command('blank-killer', 's/\s\+$//')
+map <Leader>k <Plug>(operator-blank-killer)
+"}}}
+endif
 "}}}
 "---------------------------------------------------------------------------
 " operator-replace:"{{{
@@ -1707,6 +1746,12 @@ map _  <Plug>(operator-replace)
 "
 map <Leader>c <Plug>(operator-camelize)
 map <Leader>C <Plug>(operator-decamelize)
+"}}}
+"---------------------------------------------------------------------------
+" operator-reverse:"{{{
+"
+map <Leader>rl <Plug>(operator-reverse-lines)
+map <Leader>rt <Plug>(operator-reverse-text)
 "}}}
 "---------------------------------------------------------------------------
 " operator-sort:"{{{
@@ -1802,9 +1847,13 @@ autocmd MyVimrcCmd QuickfixCmdPre make,grep,grepadd,vimgrep,vimgrepadd,helpgrep 
 execute "highlight qf_error_ucurl gui=undercurl guisp=Red"
 let g:hier_highlight_group_qf  = "qf_error_ucurl"
 
-augroup Hier
+function! ResetHierAutocmd()
+    autocmd! Hier
+endfunction
+
+augroup MyHier
     autocmd!
-    autocmd QuickFixCmdPost,BufEnter,WinEnter QuickRun :HierUpdate
+    autocmd QuickFixCmdPre * call ResetHierAutocmd()
 augroup END
 "}}}
 "---------------------------------------------------------------------------
