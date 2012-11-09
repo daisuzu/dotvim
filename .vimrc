@@ -2012,6 +2012,13 @@ let g:quickrun_config['rst'] = {
             \ 'command': 'make',
             \ 'outputter': 'quickfix',
             \ 'hook/sphinx_open/enable' : 1,
+            \ 'hook/sphinx_html2pdf/enable' : 1,
+            \ 'hook/sphinx_html2pdf/options': [
+            \   '-B 0',
+            \   '-L 0',
+            \   '-R 0',
+            \   '-T 0',
+            \ ],
             \ 'cmdopt': 'singlehtml',
             \ 'exec': '%c %o'
             \ }
