@@ -388,6 +388,7 @@ try
     NeoBundle $GITHUB_COM.'vim-scripts/csv.vim.git'
 
     " colorscheme
+    NeoBundle $GITHUB_COM.'altercation/vim-colors-solarized.git'
     NeoBundle $GITHUB_COM.'vim-scripts/Color-Sampler-Pack.git'
 catch /E117/
 
@@ -1570,6 +1571,11 @@ let g:neocomplcache_ignore_composite_filetype_lists = {
             \ 'python.unit': 'python',
             \ 'php.unit': 'php',
             \ }
+
+highlight Pmenu       ctermfg=White ctermbg=DarkBlue  guifg=#0033ff guibg=#99cccc gui=none
+highlight PmenuSel    ctermfg=Black ctermbg=Cyan      guifg=#ccffff guibg=#006699 gui=none
+highlight PmenuSbar   ctermfg=White ctermbg=LightCyan guifg=#ffffff guibg=#848484 gui=none
+highlight PmenuThumb  ctermfg=White ctermbg=DarkGreen guifg=#ffffff guibg=#006699 gui=none
 "}}}
 "---------------------------------------------------------------------------
 " clang_complete:"{{{
