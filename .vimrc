@@ -325,6 +325,7 @@ try
     NeoBundleLazy $GITHUB_COM.'thinca/vim-quickrun.git'
     NeoBundleLazy $GITHUB_COM.'osyo-manga/vim-watchdogs.git'
     NeoBundleLazy $GITHUB_COM.'osyo-manga/shabadou.vim.git'
+    NeoBundle $GITHUB_COM.'daisuzu/quickrun-hook-sphinx.git'
 
     " utility
     NeoBundle $GITHUB_COM.'mattn/ideone-vim.git'
@@ -1995,10 +1996,19 @@ let g:quickrun_config['_'] = {
 
 " settings for pandoc "{{{
 let g:quickrun_config['markdown'] = {
-      \ 'type': 'markdown/pandoc',
-      \ 'outputter': 'browser',
-      \ 'cmdopt': '-s'
-      \ }
+            \ 'type': 'markdown/pandoc',
+            \ 'outputter': 'browser',
+            \ 'cmdopt': '-s'
+            \ }
+"}}}
+" settings for sphinx "{{{
+let g:quickrun_config['rst'] = {
+            \ 'command': 'make',
+            \ 'outputter': 'quickfix',
+            \ 'hook/sphinx_open/enable' : 1,
+            \ 'cmdopt': 'singlehtml',
+            \ 'exec': '%c %o'
+            \ }
 "}}}
 "}}}
 "---------------------------------------------------------------------------
