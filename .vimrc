@@ -389,7 +389,7 @@ try
 
     " colorscheme
     NeoBundle $GITHUB_COM.'altercation/vim-colors-solarized.git'
-    NeoBundle $GITHUB_COM.'vim-scripts/Color-Sampler-Pack.git'
+    NeoBundle $GITHUB_COM.'vim-scripts/Colour-Sampler-Pack.git'
 catch /E117/
 
 endtry
@@ -681,34 +681,50 @@ function! GetFileSize()
 endfunction
 "}}}
 
-" IME Color "{{{
-if has('multi_byte_ime') || has('xim')
-    " Set the color of the cursor when the IME ON
-    highlight CursorIM guibg=Purple guifg=NONE
-    " Default IME settings in search mode and insert mode
-    set iminsert=0 imsearch=0
-    if has('xim') && has('GUI_GTK')
-        "set imactivatekey=C-Space
+augroup MyVimrcCmd
+    autocmd ColorScheme * call s:onColorScheme()
+augroup END
+function! s:onColorScheme()
+    " IME Color "{{{
+    if has('multi_byte_ime') || has('xim')
+        " Set the color of the cursor when the IME ON
+        highlight CursorIM guibg=Purple guifg=NONE
+        " Default IME settings in search mode and insert mode
+        set iminsert=0 imsearch=0
+        if has('xim') && has('GUI_GTK')
+            "set imactivatekey=C-Space
+        endif
     endif
-endif
 
-if has('multi_byte_ime')
-"    highlight Cursor guifg=NONE guibg=Green
-    highlight CursorIM guifg=NONE guibg=Purple
-endif
-"}}}
+    if has('multi_byte_ime')
+        "    highlight Cursor guifg=NONE guibg=Green
+        highlight CursorIM guifg=NONE guibg=Purple
+    endif
+    "}}}
+    " Additional settings of Color "{{{
+    highlight Search        guifg=Black    guibg=Red        gui=bold
+    highlight Visual        guifg=#404040  gui=bold
+    highlight Cursor        guifg=Black    guibg=Green      gui=bold
+    highlight StatusLine    guifg=white    guibg=blue
+    highlight Folded        guifg=blue     guibg=darkgray
+    " highlight Folded        guifg=blue     guibg=cadetblue
 
-" Additional settings of Color "{{{
-highlight Search        guifg=Black    guibg=Red        gui=bold
-highlight Visual        guifg=#404040  gui=bold
-highlight Cursor        guifg=Black    guibg=Green      gui=bold
-highlight StatusLine    guifg=white    guibg=blue
-highlight Folded        guifg=blue     guibg=darkgray
-
-highlight TabLine ctermfg=0 ctermbg=8 guifg=Black guibg=#dcdcdc gui=underline
-highlight TabLineSel term=bold cterm=bold ctermfg=15 ctermbg=9 guifg=White guibg=Blue gui=bold
-highlight TabLineFill ctermfg=0 ctermbg=8 guifg=Black guibg=#dcdcdc gui=underline
-"}}}
+    highlight TabLine ctermfg=0 ctermbg=8 guifg=Black guibg=#dcdcdc gui=underline
+    highlight TabLineSel term=bold cterm=bold ctermfg=15 ctermbg=9 guifg=White guibg=Blue gui=bold
+    highlight TabLineFill ctermfg=0 ctermbg=8 guifg=Black guibg=#dcdcdc gui=underline
+    "}}}
+    " For completion menu "{{{
+    highlight Pmenu       ctermfg=White ctermbg=DarkBlue  guifg=#0033ff guibg=#99cccc gui=none
+    highlight PmenuSel    ctermfg=Black ctermbg=Cyan      guifg=#ccffff guibg=#006699 gui=none
+    highlight PmenuSbar   ctermfg=White ctermbg=LightCyan guifg=#ffffff guibg=#848484 gui=none
+    highlight PmenuThumb  ctermfg=White ctermbg=DarkGreen guifg=#ffffff guibg=#006699 gui=none
+    "}}}
+    " For unite "{{{
+    highlight UniteAbbr     guifg=#80a0ff    gui=underline
+    highlight UniteCursor   guifg=black     guibg=lightblue  gui=bold
+    "}}}
+endfunction
+call s:onColorScheme()
 "}}}
 
 "---------------------------------------------------------------------------
@@ -1571,11 +1587,6 @@ let g:neocomplcache_ignore_composite_filetype_lists = {
             \ 'python.unit': 'python',
             \ 'php.unit': 'php',
             \ }
-
-highlight Pmenu       ctermfg=White ctermbg=DarkBlue  guifg=#0033ff guibg=#99cccc gui=none
-highlight PmenuSel    ctermfg=Black ctermbg=Cyan      guifg=#ccffff guibg=#006699 gui=none
-highlight PmenuSbar   ctermfg=White ctermbg=LightCyan guifg=#ffffff guibg=#848484 gui=none
-highlight PmenuThumb  ctermfg=White ctermbg=DarkGreen guifg=#ffffff guibg=#006699 gui=none
 "}}}
 "---------------------------------------------------------------------------
 " clang_complete:"{{{
@@ -1674,9 +1685,8 @@ let g:unite_source_file_mru_filename_format = ''
 
 let g:unite_data_directory = $DOTVIM.'/.unite'
 
-highlight UniteAbbr     guifg=#80a0ff    gui=underline
-highlight UniteCursor   guifg=black     guibg=lightblue  gui=bold
-
+" highlight UniteAbbr     guifg=#80a0ff    gui=underline
+" highlight UniteCursor   guifg=black     guibg=lightblue  gui=bold
 let g:unite_cursor_line_highlight = 'UniteCursor'
 let g:unite_abbr_highlight = 'UniteAbbr'
 "}}}
