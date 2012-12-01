@@ -301,6 +301,7 @@ try
     " appearance
     MyNeoBundle !s:Android $GITHUB_COM.'thinca/vim-fontzoom.git'
     MyNeoBundle !s:Android $GITHUB_COM.'nathanaelkane/vim-indent-guides.git'
+    NeoBundle $GITHUB_COM.'daisuzu/rainbowcyclone.vim.git'
     NeoBundle $GITHUB_COM.'vim-scripts/MultipleSearch.git'
 
     " cursor movement
@@ -798,108 +799,6 @@ command! Occur execute 'vimgrep /' . @/ . '/ %'
 command! StarOccur execute 'vimgrep /' . expand('<cword>') . '/ %'
 nnoremap <Leader>oc :<C-u>Occur<CR>
 nnoremap <Leader>so :<C-u>StarOccur<CR>
-"}}}
-" RainbowCyclone "{{{
-if !exists('g:rainwbow_colors')
-    let g:rainwbow_colors = [
-                \ 'term=reverse ctermfg=1 ctermbg=12 gui=bold guifg=Black guibg=Red',
-                \ 'term=reverse ctermfg=1 ctermbg=6  gui=bold guifg=Black guibg=Orange',
-                \ 'term=reverse ctermfg=1 ctermbg=14 gui=bold guifg=Black guibg=Yellow',
-                \ 'term=reverse ctermfg=1 ctermbg=10 gui=bold guifg=Black guibg=Green',
-                \ 'term=reverse ctermfg=1 ctermbg=9  gui=bold guifg=Black guibg=Blue',
-                \ 'term=reverse ctermfg=1 ctermbg=1  gui=bold guifg=Black guibg=SlateBlue',
-                \ 'term=reverse ctermfg=1 ctermbg=5  gui=bold guifg=Black guibg=Purple'
-                \ ]
-endif
-
-let s:rc = {}  "{{{
-
-function! s:rc.Init()
-    augroup RainbowCyclone
-        autocmd!
-        autocmd SourcePre *vimrc call s:rc.Reset()
-        autocmd VimEnter,WinEnter,TabEnter * call s:rc.Refresh()
-    augroup END
-
-    let self.idx = 0
-    let self.words = ['','','','','','','']
-
-    let i = 0
-    for pattern in g:rainwbow_colors
-        execute 'highlight RainbowCyclone' . i . ' ' . pattern
-        let i += 1
-    endfor
-endfunction
-
-function! s:rc.AddWord(arg)
-    if self.words[self.idx] != ''
-        for id in map(filter(getmatches(), 'v:val.group =~# "RainbowCyclone" . self.idx') , 'v:val.id')
-            call matchdelete(id)
-        endfor
-    endif
-    let self.words[self.idx] = a:arg
-endfunction
-
-function! s:rc.Increment()
-    if self.idx == 6
-        let self.idx = 0
-    else
-        let self.idx += 1
-    endif
-endfunction
-
-function! s:rc.DoSearch(direction)
-    try
-        execute 'normal ' . a:direction
-    catch /E385/
-        echohl WarningMsg  | echo 'Not Found!' | echohl None
-    endtry
-endfunction
-
-function! s:rc.DoSearchIndex(arg, all)
-    if a:all
-        let @/ = join(filter(copy(self.words), 'v:val != ""'), '\|')
-    else
-        let @/ = join(map(split(a:arg), 'self.words[v:val]'), '\|')
-    endif
-endfunction
-
-function! s:rc.Perform(arg, jump, direction)
-    call self.AddWord(a:arg)
-    execute 'call matchadd("RainbowCyclone' . self.idx . '","' . a:arg . '")'
-    call self.Increment()
-    let @/ = a:arg
-
-    if a:jump
-        call self.DoSearch(a:direction)
-    endif
-endfunction
-
-function! s:rc.Refresh()
-    for idx in range(self.idx)
-        execute 'call matchadd("RainbowCyclone' . idx . '","' . self.words[idx] . '")'
-    endfor
-endfunction
-
-function! s:rc.Reset()
-    for id in map(filter(getmatches(), 'v:val.group =~# "RainbowCyclone\\d"') , 'v:val.id')
-        call matchdelete(id)
-    endfor
-    call self.Init()
-endfunction
-
-function! s:rc.Clear()
-    windo call self.Reset()
-endfunction
-"}}}
-
-call s:rc.Init()
-
-command! -nargs=1 -bang RainbowCyclone      call s:rc.Perform(<q-args>, <bang>1, 'n')
-command! -nargs=1 -bang RainbowCycloneBack  call s:rc.Perform(<q-args>, <bang>1, 'N')
-command!          -bang RainbowCycloneStar  call s:rc.Perform(expand('<cword>'), <bang>1, 'n')
-command! -nargs=* -bang RainbowCycloneIndex call s:rc.DoSearchIndex(<q-args>, <bang>0)
-command!                RainbowCycloneClear call s:rc.Clear()
 "}}}
 " WinMerge keybind in vimdiff "{{{
 function! DiffGet() "{{{
@@ -1904,6 +1803,20 @@ try
 catch /E492/
 
 endtry
+"}}}
+"---------------------------------------------------------------------------
+" rainbowcyclone.vim:"{{{
+"
+if s:has_plugin('rainbowcyclone')
+    nmap c/         <Plug>(rc_search_forward)
+    nmap c?         <Plug>(rc_search_backward)
+    nmap c*         <Plug>(rc_search_forward_with_cursor)
+    nmap c#         <Plug>(rc_search_backward_with_cursor)
+    nmap cn         <Plug>(rc_search_forward_with_last_pattern)
+    nmap cN         <Plug>(rc_search_backward_with_last_pattern)
+    " nmap <Esc><Esc> <Plug>(rc_reset):nohlsearch<CR>
+    nnoremap <Esc><Esc> :<C-u>RCReset<CR>:nohlsearch<CR>
+endif
 "}}}
 "---------------------------------------------------------------------------
 " vim-textmanip:"{{{
