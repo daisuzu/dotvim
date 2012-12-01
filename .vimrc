@@ -2029,7 +2029,7 @@ let g:quickrun_config['rst'] = {
             \   '-R 0',
             \   '-T 0',
             \ ],
-            \ 'cmdopt': 'singlehtml',
+            \ 'cmdopt': 'html',
             \ 'exec': '%c %o'
             \ }
 "}}}
