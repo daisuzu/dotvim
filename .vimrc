@@ -32,14 +32,14 @@ nnoremap <silent> <Space>rv :<C-u>source $MYVIMRC \| if has('gui_running') \| so
 nnoremap <silent> <Space>rg :<C-u>source $MYGVIMRC<CR>
 nnoremap <silent> <Space>rl :<C-u>if 1 && filereadable($MYLOCALVIMRC) \| source $MYLOCALVIMRC \| endif <CR>
 
-if has('win32') || has('win64')
+if s:MSWindows
     " set shellslash
     set visualbell t_vb=
 endif
-nnoremap <Space>o/ :<C-u>setlocal shellslash!\|setlocal shellslash?<CR>
+nnoremap <Space>o/ :<C-u>setlocal shellslash! shellslash?<CR>
 
 set noautochdir
-nnoremap <Space>oc :<C-u>setlocal autochdir!\|setlocal autochdir?<CR>
+nnoremap <Space>oc :<C-u>setlocal autochdir! autochdir?<CR>
 
 "---------------------------------------------------------------------------
 " Encoding:"{{{
@@ -137,7 +137,7 @@ if !has('gui_macvim')
     command! -nargs=+ Let call Let__EnvVar__(<q-args>)
     function! Let__EnvVar__(cmd)
         let cmd = 'let ' . a:cmd
-        if has('win32') + has('win64') && has('iconv') && &enc != 'cp932'
+        if s:MSWindows && has('iconv') && &enc != 'cp932'
             let cmd = iconv(cmd, &enc, 'cp932')
         endif
         exec cmd
@@ -284,6 +284,7 @@ try
     NeoBundle $GITHUB_COM.'thinca/vim-textobj-comment.git'
     NeoBundle $GITHUB_COM.'h1mesuke/textobj-wiw.git'
     NeoBundle $GITHUB_COM.'vimtaku/vim-textobj-sigil.git'
+    NeoBundle $GITHUB_COM.'sgur/vim-textobj-parameter.git'
 
     " operator
     NeoBundle $GITHUB_COM.'kana/vim-operator-user.git'
@@ -314,6 +315,7 @@ try
     NeoBundle $GITHUB_COM.'t9md/vim-textmanip.git'
     NeoBundle $GITHUB_COM.'tomtom/tcomment_vim.git'
     NeoBundle $GITHUB_COM.'kana/vim-niceblock.git'
+    NeoBundle $GITHUB_COM.'kana/vim-altr.git'
     NeoBundle $GITHUB_COM.'vim-scripts/DrawIt.git'
     NeoBundle $GITHUB_COM.'vim-scripts/RST-Tables.git'
     NeoBundle $GITHUB_COM.'vim-scripts/sequence.git'
@@ -356,7 +358,6 @@ try
     NeoBundleLazy $GITHUB_COM.'mbadran/headlights.git'
 
     " C/C++
-    NeoBundleLazy $GITHUB_COM.'vim-scripts/a.vim.git'
     NeoBundleLazy $GITHUB_COM.'vim-scripts/c.vim.git'
     NeoBundleLazy $GITHUB_COM.'vim-scripts/CCTree.git'
     NeoBundleLazy $GITHUB_COM.'vim-scripts/Source-Explorer-srcexpl.vim.git'
@@ -383,6 +384,7 @@ try
     NeoBundleLazy $GITHUB_COM.'eagletmt/ghcmod-vim.git'
 
     " Clojure
+    NeoBundle $GITHUB_COM.'thinca/vim-ft-clojure.git'
     MyNeoBundle !s:Android $GITHUB_COM.'jondistad/vimclojure.git'
 
     " CSV
@@ -464,7 +466,7 @@ elseif has('unix')
 
 elseif has('mac')
     set guifont=Osaka-mono:h14
-elseif has('win32') || has('win64')
+elseif s:MSWindows
 "    set guifont=MS_Gothic:h12:cSHIFTJIS
 "    set guifontwide=MS_Gothic:h12:cSHIFTJIS
     set guifont=MS_Gothic:h10:cSHIFTJIS
@@ -473,7 +475,7 @@ endif
 
 " For Printer :
 if has('printer')
-    if has('win32') || has('win64')
+    if s:MSWindows
         set printfont=MS_Mincho:h12:cSHIFTJIS
 "       set printfont=MS_Gothic:h12:cSHIFTJIS
     endif
@@ -498,10 +500,10 @@ set showtabline=2
 set display=uhex
 
 set nowrap
-nnoremap <Space>ow :<C-u>setlocal wrap!\|setlocal wrap?<CR>
+nnoremap <Space>ow :<C-u>setlocal wrap! wrap?<CR>
 
 set nolist
-nnoremap <Space>ol :<C-u>setlocal list!\|setlocal list?<CR>
+nnoremap <Space>ol :<C-u>setlocal list! list?<CR>
 set listchars=tab:>-,extends:<,precedes:>,trail:-,eol:$,nbsp:%
 
 " Limit horizontal scrollbar size to the length of the cursor line
@@ -560,7 +562,7 @@ if has("syntax")
     syntax on
 
     " for POD bug
-    syn sync fromstart
+    " syn sync fromstart
 
     function! ActivateInvisibleIndicator()
         syntax match InvisibleJISX0208Space "　" display containedin=ALL
@@ -594,8 +596,8 @@ function! StatusLineGetPath() "{{{
     return p
 endfunction "}}}
 
-nmap <Plug>view:switch_status_path_length :let g:statusline_max_path = 200 - g:statusline_max_path<cr>
-nmap ,t <Plug>view:switch_status_path_length
+nnoremap <Plug>view:switch_status_path_length :let g:statusline_max_path = 200 - g:statusline_max_path<cr>
+nnoremap ,t <Plug>view:switch_status_path_length
 
 augroup Statusline
     autocmd! Statusline
@@ -624,7 +626,7 @@ function! s:SetFullStatusline() "{{{
 
     try
         call fugitive#statusline()
-    setlocal statusline+=%{fugitive#statusline()}                                                " Git branch name
+        setlocal statusline+=%{fugitive#statusline()}                                            " Git branch name
     catch /E117/
 
     endtry
@@ -735,10 +737,10 @@ set nowrapscan
 set incsearch
 
 set ignorecase
-nnoremap <Space>oi :<C-u>setlocal ignorecase!\|setlocal ignorecase?<CR>
+nnoremap <Space>oi :<C-u>setlocal ignorecase! ignorecase?<CR>
 
 set smartcase
-nnoremap <Space>os :<C-u>setlocal smartcase!\|setlocal smartcase?<CR>
+nnoremap <Space>os :<C-u>setlocal smartcase! smartcase?<CR>
 
 set hlsearch
 nnoremap <ESC><ESC> :nohlsearch<CR>
@@ -816,11 +818,11 @@ function! DiffPut() "{{{
     endtry
 endfunction "}}}
 function! SetDiffMap() "{{{
-        nnoremap <buffer> <F5> :<C-u>diffupdate<CR>
-        nnoremap <buffer> <A-Up> [c
-        nnoremap <buffer> <A-Down> ]c
-        nnoremap <buffer> <A-Right> :<C-u>call DiffGet()<CR>
-        nnoremap <buffer> <A-Left> :<C-u>call DiffPut()<CR>
+    nnoremap <buffer> <F5> :<C-u>diffupdate<CR>
+    nnoremap <buffer> <A-Up> [c
+    nnoremap <buffer> <A-Down> ]c
+    nnoremap <buffer> <A-Right> :<C-u>call DiffGet()<CR>
+    nnoremap <buffer> <A-Left> :<C-u>call DiffPut()<CR>
 endfunction "}}}
 autocmd MyVimrcCmd FilterWritePost * call SetDiffMap()
 "}}}
@@ -1011,14 +1013,14 @@ if has("cscope")
     " go back to where you were before the search.
     "
 
-    nmap <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
-    nmap <C-\>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
-    nmap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>
+    nnoremap <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>
+    nnoremap <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR>
+    nnoremap <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR>
+    nnoremap <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR>
+    nnoremap <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR>
+    nnoremap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
+    nnoremap <C-\>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
+    nnoremap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>
 
 
     " Using 'CTRL-spacebar' (intepreted as CTRL-@ by vim) then a search type
@@ -1029,14 +1031,14 @@ if has("cscope")
     " can be simulated roughly via:
     "    nmap <C-@>s <C-W><C-S> :cs find s <C-R>=expand("<cword>")<CR><CR>
 
-    nmap <C-@>s :scs find s <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-@>g :scs find g <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-@>c :scs find c <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-@>t :scs find t <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-@>e :scs find e <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-@>f :scs find f <C-R>=expand("<cfile>")<CR><CR>
-    nmap <C-@>i :scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
-    nmap <C-@>d :scs find d <C-R>=expand("<cword>")<CR><CR>
+    nnoremap <C-@>s :scs find s <C-R>=expand("<cword>")<CR><CR>
+    nnoremap <C-@>g :scs find g <C-R>=expand("<cword>")<CR><CR>
+    nnoremap <C-@>c :scs find c <C-R>=expand("<cword>")<CR><CR>
+    nnoremap <C-@>t :scs find t <C-R>=expand("<cword>")<CR><CR>
+    nnoremap <C-@>e :scs find e <C-R>=expand("<cword>")<CR><CR>
+    nnoremap <C-@>f :scs find f <C-R>=expand("<cfile>")<CR><CR>
+    nnoremap <C-@>i :scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
+    nnoremap <C-@>d :scs find d <C-R>=expand("<cword>")<CR><CR>
 
 
     " Hitting CTRL-space *twice* before the search type does a vertical
@@ -1045,14 +1047,14 @@ if has("cscope")
     " (Note: you may wish to put a 'set splitright' in your .vimrc
     " if you prefer the new window on the right instead of the left
 
-    nmap <C-@><C-@>s :vert scs find s <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-@><C-@>g :vert scs find g <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-@><C-@>c :vert scs find c <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-@><C-@>t :vert scs find t <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-@><C-@>e :vert scs find e <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-@><C-@>f :vert scs find f <C-R>=expand("<cfile>")<CR><CR>
-    nmap <C-@><C-@>i :vert scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
-    nmap <C-@><C-@>d :vert scs find d <C-R>=expand("<cword>")<CR><CR>
+    nnoremap <C-@><C-@>s :vert scs find s <C-R>=expand("<cword>")<CR><CR>
+    nnoremap <C-@><C-@>g :vert scs find g <C-R>=expand("<cword>")<CR><CR>
+    nnoremap <C-@><C-@>c :vert scs find c <C-R>=expand("<cword>")<CR><CR>
+    nnoremap <C-@><C-@>t :vert scs find t <C-R>=expand("<cword>")<CR><CR>
+    nnoremap <C-@><C-@>e :vert scs find e <C-R>=expand("<cword>")<CR><CR>
+    nnoremap <C-@><C-@>f :vert scs find f <C-R>=expand("<cfile>")<CR><CR>
+    nnoremap <C-@><C-@>i :vert scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
+    nnoremap <C-@><C-@>d :vert scs find d <C-R>=expand("<cword>")<CR><CR>
 
 
     """"""""""""" key map timeouts
@@ -1124,8 +1126,8 @@ function! SplitAndGo(cmd)
 
     " execute cmd
     call s:split(cmd, 'preview')
-    execute 'normal' . cnt . 'G'
-    normal zv
+    execute cnt
+    normal! zv
 endfunction
 
 function! SAG_Complete(ArgLead, CmdLine, CursorPos)
@@ -1505,15 +1507,19 @@ let g:clang_use_library = 0
 "---------------------------------------------------------------------------
 " taghighlight:"{{{
 "
-if exists('g:rt_cmd_registered')
+function! s:recallReadTypesCmd()
     for ft in keys(g:rt_cmd_registered)
         execute 'autocmd MyVimrcCmd FileType ' . ft . ' silent! ReadTypes'
     endfor
+endfunction
+
+if exists('g:rt_cmd_registered')
+    call s:recallReadTypesCmd()
 else
     let g:rt_cmd_registered = {}
 endif
 
-function! s:registReadTypesCmd(ft)
+function! s:registerReadTypesCmd(ft)
     if !get(g:rt_cmd_registered, a:ft)
         execute 'autocmd MyVimrcCmd FileType ' . a:ft . ' silent! ReadTypes'
         let g:rt_cmd_registered[a:ft] = 1
@@ -1622,6 +1628,19 @@ omap im <Plug>(textobj-wiw-i)
 xmap im <Plug>(textobj-wiw-i)
 "}}}
 "---------------------------------------------------------------------------
+" textobj-parameter"{{{
+"
+let g:loaded_textobj_parameter = 1
+if s:has_plugin('textobj/user')
+    call textobj#user#plugin('parameter', {
+                \      '-': {
+                \        'select-i': "ip",  '*select-i-function*': 'textobj#parameter#select_i',
+                \        'select-a': "ap",  '*select-a-function*': 'textobj#parameter#select_a',
+                \      }
+                \    })
+endif
+"}}}
+"---------------------------------------------------------------------------
 " operator-user:"{{{
 "
 if s:has_plugin('operator/user')
@@ -1655,7 +1674,8 @@ endif
 "---------------------------------------------------------------------------
 " operator-replace:"{{{
 "
-map _  <Plug>(operator-replace)
+map  _ <Plug>(operator-replace)
+vmap p <Plug>(operator-replace)
 "}}}
 "---------------------------------------------------------------------------
 " operator-camelize:"{{{
@@ -1675,7 +1695,7 @@ map <Leader>rt <Plug>(operator-reverse-text)
 map <Leader>s <Plug>(operator-sort)
 "}}}
 "---------------------------------------------------------------------------
-" qfixhown.vim:"{{{
+" qfixhowm.vim:"{{{
 "
 let QFixHowm_Key = 'g'
 let QFixHowm_KeyB = ','
@@ -1836,6 +1856,14 @@ nmap <M-D> <Plug>(textmanip-duplicate-up)
 "
 let g:tcommentMapLeaderOp1 = ',c'
 let g:tcommentMapLeaderOp2 = ',C'
+"}}}
+"---------------------------------------------------------------------------
+" vim-altr:"{{{
+if s:has_plugin('altr')
+    nnoremap <silent> tf :<C-u>call altr#forward()<CR>
+    nnoremap <silent> tb :<C-u>call altr#back()<CR>
+endif
+"
 "}}}
 "---------------------------------------------------------------------------
 " eregex.vim:"{{{
@@ -2012,11 +2040,11 @@ noremap <Leader>: :TCommand<CR>
 "---------------------------------------------------------------------------
 " gtags.vim:"{{{
 "
-nmap <Leader>gs :<C-u>Gtags -s <C-R>=expand("<cword>")<CR><CR>
-nmap <Leader>gg :<C-u>Gtags -g <C-R>=expand("<cword>")<CR><CR>
-nmap <Leader>gf :<C-u>Gtags -f <C-R>=expand("<cfile>")<CR><CR>
-nmap <Leader>gr :<C-u>Gtags -r <C-R>=expand("<cword>")<CR><CR>
-nmap <Leader>gd :<C-u>Gtags -d <C-R>=expand("<cword>")<CR><CR>
+nnoremap <Leader>gs :<C-u>Gtags -s <C-R>=expand("<cword>")<CR><CR>
+nnoremap <Leader>gg :<C-u>Gtags -g <C-R>=expand("<cword>")<CR><CR>
+nnoremap <Leader>gf :<C-u>Gtags -f <C-R>=expand("<cfile>")<CR><CR>
+nnoremap <Leader>gr :<C-u>Gtags -r <C-R>=expand("<cword>")<CR><CR>
+nnoremap <Leader>gd :<C-u>Gtags -d <C-R>=expand("<cword>")<CR><CR>
 "}}}
 "---------------------------------------------------------------------------
 " python-mode:"{{{
@@ -2037,7 +2065,7 @@ let g:Perl_Debugger = "ptkdb"
 "---------------------------------------------------------------------------
 " jslint.vim:"{{{
 "
-autocmd MyVimrcCmd FileType javascript call s:registJSLintCmd()
+autocmd MyVimrcCmd FileType javascript call s:registerJSLintCmd()
 
 let s:jslint_enabled = s:has_plugin('jslint') &&
             \ s:MSWindows ||
@@ -2047,12 +2075,12 @@ let s:jslint_enabled = s:has_plugin('jslint') &&
             \ executable('js')
 
 let g:jslint_cmd_registered = []
-function! s:registJSLintCmd()
+function! s:registerJSLintCmd()
     if s:jslint_enabled && index(g:jslint_cmd_registered, bufnr('%')) < 0
         call add(g:jslint_cmd_registered, bufnr('%'))
         autocmd MyVimrcCmd BufLeave     <buffer> call jslint#clear()
         autocmd MyVimrcCmd BufWritePost <buffer> call jslint#check()
-        autocmd MyVimrcCmd InsertLeave <buffer> call jslint#check()
+        autocmd MyVimrcCmd InsertLeave  <buffer> call jslint#check()
         autocmd MyVimrcCmd CursorMoved  <buffer> call jslint#message()
     endif
 endfunction
@@ -2092,7 +2120,6 @@ let g:ll_plugins={}
 let g:ll_plugins['c'] = [
             \ 'taglist.vim',
             \ 'taghighlight',
-            \ 'a.vim',
             \ 'c.vim',
             \ 'Source-Explorer-srcexpl.vim',
             \ 'trinity.vim',
@@ -2103,7 +2130,6 @@ let g:ll_plugins['c'] = [
 let g:ll_plugins['cpp'] = [
             \ 'taglist.vim',
             \ 'taghighlight',
-            \ 'a.vim',
             \ 'c.vim',
             \ 'Source-Explorer-srcexpl.vim',
             \ 'trinity.vim',
@@ -2135,23 +2161,23 @@ let g:ll_plugins['haskell'] = [
             \ ]
 let g:ll_post_process={}
 let g:ll_post_process['c'] = [
-            \ 'call s:registReadTypesCmd("c")',
+            \ 'call s:registerReadTypesCmd("c")',
             \ 'silent! ReadTypes'
             \ ]
 let g:ll_post_process['cpp'] = [
-            \ 'call s:registReadTypesCmd("cpp")',
+            \ 'call s:registerReadTypesCmd("cpp")',
             \ 'silent! ReadTypes'
             \ ]
 let g:ll_post_process['python'] = [
-            \ 'call s:registReadTypesCmd("python")',
+            \ 'call s:registerReadTypesCmd("python")',
             \ 'silent! ReadTypes'
             \ ]
 let g:ll_post_process['perl'] = [
-            \ 'call s:registReadTypesCmd("perl")',
+            \ 'call s:registerReadTypesCmd("perl")',
             \ 'silent! ReadTypes'
             \ ]
 let g:ll_post_process['javascript'] = [
-            \ 'call s:registReadTypesCmd("javascript")',
+            \ 'call s:registerReadTypesCmd("javascript")',
             \ 'silent! ReadTypes'
             \ ]
 
@@ -2164,6 +2190,7 @@ if has('vim_starting')
             execute "autocmd FileType " . k . " call LazyLoading('" . k . "')"
             execute "augroup END"
         endfor
+        unlet k
     endif
 endif
 
