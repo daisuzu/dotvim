@@ -272,6 +272,8 @@ try
     NeoBundle $GITHUB_COM.'pasela/unite-webcolorname.git'
     NeoBundle $GITHUB_COM.'daisuzu/unite-grep_launcher.git'
     MyNeoBundle !s:Android $GITHUB_COM.'daisuzu/unite-gtags.git'
+    NeoBundle $GITHUB_COM.'ujihisa/unite-haskellimport.git'
+    NeoBundle $GITHUB_COM.'eagletmt/unite-haddock.git'
 
     " textobj
     NeoBundle $GITHUB_COM.'kana/vim-textobj-user.git'
@@ -369,6 +371,7 @@ try
     " Python
     NeoBundleLazy $GITHUB_COM.'alfredodeza/pytest.vim.git'
     NeoBundleLazy $GITHUB_COM.'klen/python-mode.git'
+    NeoBundleLazy $GITHUB_COM.'davidhalter/jedi-vim.git'
 
     " Perl
     NeoBundleLazy $GITHUB_COM.'vim-scripts/perl-support.vim.git'
@@ -382,10 +385,11 @@ try
     NeoBundleLazy $GITHUB_COM.'lukerandall/haskellmode-vim.git'
     NeoBundleLazy $GITHUB_COM.'Twinside/vim-syntax-haskell-cabal.git'
     NeoBundleLazy $GITHUB_COM.'eagletmt/ghcmod-vim.git'
+    NeoBundleLazy $GITHUB_COM.'dag/vim2hs.git'
 
     " Clojure
     NeoBundle $GITHUB_COM.'thinca/vim-ft-clojure.git'
-    MyNeoBundle !s:Android $GITHUB_COM.'jondistad/vimclojure.git'
+    " MyNeoBundle !s:Android $GITHUB_COM.'jondistad/vimclojure.git'
 
     " CSV
     NeoBundle $GITHUB_COM.'vim-scripts/csv.vim.git'
@@ -2071,6 +2075,11 @@ let g:pymode_rope = 0
 let g:pymode_folding = 0
 "}}}
 "---------------------------------------------------------------------------
+" jedi-vim:"{{{
+"
+let g:jedi#popup_on_dot = 0
+"}}}
+"---------------------------------------------------------------------------
 " perl-support.vim:"{{{
 "
 let g:Perl_Debugger = "ptkdb"
@@ -2106,6 +2115,12 @@ if s:MSWindows
 else
     let g:haddock_browser="/usr/bin/firefox"
 endif
+"}}}
+"---------------------------------------------------------------------------
+" vim2hs:"{{{
+"
+vmap <silent> ios <Plug>InnerOffside
+onoremap <silent> ios :normal vios<CR>
 "}}}
 "---------------------------------------------------------------------------
 " vimclojure:"{{{
@@ -2153,6 +2168,7 @@ let g:ll_plugins['cpp'] = [
 let g:ll_plugins['python'] = [
             \ 'pytest.vim',
             \ 'python-mode',
+            \ 'jedi-vim',
             \ 'taglist.vim',
             \ 'taghighlight',
             \ ]
@@ -2171,6 +2187,7 @@ let g:ll_plugins['haskell'] = [
             \ 'haskellmode-vim',
             \ 'vim-syntax-haskell-cabal',
             \ 'ghcmod-vim',
+            \ 'vim2hs',
             \ ]
 let g:ll_post_process={}
 let g:ll_post_process['c'] = [
