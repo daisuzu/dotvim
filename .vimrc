@@ -1646,9 +1646,22 @@ endif
 if s:has_plugin('operator/user')
 " operator-fillblank "{{{
 " replace selection with space
+" fixed by id:tyru
+" http://d.hatena.ne.jp/tyru/20121217/operator_fillblank
 function! OperatorFillBlank(motion_wise)
     let v = operator#user#visual_command_from_wise_name(a:motion_wise)
-    execute 'normal! '. v . '`["x`]r '
+    execute 'normal! `['.v.'`]"xy'
+    let text = getreg('x', 1)
+    let text = s:map_lines(text,
+                \   'substitute(v:val, ".", "\\=s:charwidthwise_r(submatch(0))", "g")')
+    call setreg('x', text, v)
+    normal! gv"xp
+endfunction
+function! s:charwidthwise_r(char)
+    return repeat(' ', exists('*strwidth') ? strwidth(a:char) : 1)
+endfunction
+function! s:map_lines(str, expr)
+    return join(map(split(a:str, '\n', 1), a:expr), "\n")
 endfunction
 call operator#user#define('fillblank', 'OperatorFillBlank')
 map <Leader>b <Plug>(operator-fillblank)
