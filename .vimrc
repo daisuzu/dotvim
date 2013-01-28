@@ -1937,6 +1937,8 @@ let g:vimfiler_execute_file_list={
 "---------------------------------------------------------------------------
 " vimshell:"{{{
 "
+let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
+let g:vimshell_prompt = '% '
 let g:vimshell_interactive_encodings = {'git': 'utf-8'}
 let g:vimshell_temporary_directory = $DOTVIM.'/.vimshell'
 let g:vimshell_vimshrc_path = $DOTVIM.'/.vimshell/.vimshrc'
