@@ -521,10 +521,12 @@ nnoremap  <silent> <Space>oh :if &guioptions =~# 'b' <Bar>
       \set guioptions+=b <Bar>
       \endif <CR>
 
-" Window width
-set columns=160
-" Window height
-set lines=40
+if has('gui_running')
+    " Window width
+    set columns=160
+    " Window height
+    set lines=40
+endif
 " Command-line height
 set cmdheight=2
 
@@ -709,10 +711,10 @@ function! s:onColorScheme()
     endif
     "}}}
     " Additional settings of Color "{{{
-    highlight Search        guifg=Black    guibg=Red        gui=bold
-    highlight Visual        guifg=#404040  gui=bold
+    highlight Search        ctermfg=Black  ctermbg=Red cterm=bold  guifg=Black       guibg=Red gui=bold
+    highlight Visual        cterm=reverse  guifg=#404040  gui=bold
     highlight Cursor        guifg=Black    guibg=Green      gui=bold
-    highlight StatusLine    guifg=white    guibg=blue
+    highlight StatusLine    ctermfg=blue   ctermbg=white guifg=white    guibg=blue
     highlight Folded        guifg=blue     guibg=darkgray
     " highlight Folded        guifg=blue     guibg=cadetblue
 
@@ -728,7 +730,7 @@ function! s:onColorScheme()
     "}}}
     " For unite "{{{
     highlight UniteAbbr     guifg=#80a0ff    gui=underline
-    highlight UniteCursor   guifg=black     guibg=lightblue  gui=bold
+    highlight UniteCursor   ctermbg=Blue     guifg=black     guibg=lightblue  gui=bold
     "}}}
 endfunction
 call s:onColorScheme()
