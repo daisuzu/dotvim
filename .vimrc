@@ -352,6 +352,7 @@ try
     NeoBundle $GITHUB_COM.'vim-scripts/ttoc.git'
     NeoBundle $GITHUB_COM.'vim-scripts/wokmarks.vim.git'
     NeoBundle $GITHUB_COM.'vim-scripts/sudo.vim.git'
+    NeoBundle $GITHUB_COM.'vim-scripts/Align.git'
 
     " command extension
     NeoBundle $GITHUB_COM.'thinca/vim-ambicmd.git'
@@ -393,6 +394,10 @@ try
 
     " CSV
     NeoBundle $GITHUB_COM.'vim-scripts/csv.vim.git'
+
+    " SQL
+    NeoBundle $GITHUB_COM.'vim-scripts/dbext.vim.git'
+    NeoBundle $GITHUB_COM.'vim-scripts/SQLUtilities.git'
 
     " colorscheme
     NeoBundle $GITHUB_COM.'altercation/vim-colors-solarized.git'
