@@ -209,9 +209,10 @@ endif
 
 let $BITBUCKET_ORG = 'https://bitbucket.org/'
 
-command! -nargs=* MyNeoBundle call MyNeoBundle(<q-args>)
-function! MyNeoBundle(args)
-    let args = split(a:args)
+command! -nargs=* MyNeoBundle
+            \ call MyNeoBundle(substitute(<q-args>, '\s"[^"]\+$', '', ''))
+function! MyNeoBundle(arg)
+    let args = split(a:arg)
     if len(args) < 1
         return
     endif
@@ -225,7 +226,7 @@ try
     call neobundle#rc($DOTVIM . '/Bundle/')
 
     " plugin management
-    NeoBundle $GITHUB_COM.'Shougo/neobundle.vim.git'
+    NeoBundleFetch $GITHUB_COM.'Shougo/neobundle.vim.git'
 
     " runtime for other plugins
     NeoBundle $GITHUB_COM.'mattn/webapi-vim.git'
@@ -234,20 +235,46 @@ try
 
     " doc
     NeoBundle $GITHUB_COM.'vim-jp/vimdoc-ja.git'
-    NeoBundleLazy $GITHUB_COM.'thinca/vim-ref.git'
+    NeoBundle $GITHUB_COM.'thinca/vim-ref.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'commands': [{'name': 'Ref',
+                \                   'complete': 'customlist,ref#complete',}],
+                \ }}
 
     " completion
-    NeoBundle $GITHUB_COM.'Shougo/neocomplcache.git'
-    NeoBundle $GITHUB_COM.'Shougo/neosnippet.git'
-    MyNeoBundle !s:Android $GITHUB_COM.'Rip-Rip/clang_complete.git'
-    MyNeoBundle !s:Android $GITHUB_COM.'osyo-manga/neocomplcache-clang_complete.git'
-    MyNeoBundle !s:Android $GITHUB_COM.'ujihisa/neco-ghc.git'
-    NeoBundle $GITHUB_COM.'teramako/jscomplete-vim.git'
+    NeoBundle $GITHUB_COM.'Shougo/neocomplcache.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'insert': 1,
+                \ }}
+    NeoBundle $GITHUB_COM.'Shougo/neosnippet.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'insert': 1,
+                \     'filetypes': 'snippet',
+                \ }}
+    MyNeoBundle !s:Android $GITHUB_COM.'Rip-Rip/clang_complete.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'filetypes': ['c', 'cpp', ],
+                \ }}
+    MyNeoBundle !s:Android $GITHUB_COM.'ujihisa/neco-ghc.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'filetypes': ['haskell', ],
+                \ }}
+    NeoBundle $GITHUB_COM.'teramako/jscomplete-vim.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'filetypes': ['javascript', ],
+                \ }}
 
     " ctags
-    NeoBundleLazy $GITHUB_COM.'vim-scripts/taglist.vim.git'
+    NeoBundle $GITHUB_COM.'vim-scripts/taglist.vim.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'filetypes': ['c', 'cpp', 'python', 'perl', 'javascript', ],
+                \ }}
     if executable('hg')
-        NeoBundleLazy $BITBUCKET_ORG.'abudden/taghighlight', {'type': 'hg'}
+        NeoBundle $BITBUCKET_ORG.'abudden/taghighlight', {'lazy': 1,
+                    \ 'autoload' : {
+                    \     'filetypes': ['c', 'cpp', 'python', 'perl', 'javascript', ],
+                    \ },
+                    \ 'type': 'hg'}
     endif
 
     " vcs
@@ -256,7 +283,15 @@ try
     NeoBundle $GITHUB_COM.'int3/vim-extradite.git'
 
     " unite
-    NeoBundle $GITHUB_COM.'Shougo/unite.vim.git'
+    NeoBundle $GITHUB_COM.'Shougo/unite.vim.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'commands': [{'name': 'Unite',
+                \                   'complete': 'customlist,unite#complete_source'},
+                \                   'UniteWithBufferDir',
+                \                   'UniteWithCurrentDir',
+                \                   'UniteWithCursorWord',
+                \                   'UniteWithInput'],
+                \ }}
     MyNeoBundle !s:Android $GITHUB_COM.'Shougo/unite-build.git'
     NeoBundle $GITHUB_COM.'ujihisa/unite-colorscheme.git'
     NeoBundleLazy $GITHUB_COM.'ujihisa/quicklearn.git'
@@ -296,16 +331,24 @@ try
     NeoBundle $GITHUB_COM.'emonkak/vim-operator-sort.git'
 
     " quickfix
-    NeoBundle $GITHUB_COM.'thinca/vim-qfreplace.git'
-    NeoBundle $GITHUB_COM.'dannyob/quickfixstatus.git'
-    NeoBundle $GITHUB_COM.'jceb/vim-hier.git'
+    NeoBundle $GITHUB_COM.'thinca/vim-qfreplace.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'filetypes': ['quickfix', 'unite', ],
+                \ }}
+    NeoBundleLazy  $GITHUB_COM.'dannyob/quickfixstatus.git'
+    NeoBundleLazy $GITHUB_COM.'jceb/vim-hier.git'
     NeoBundle $GITHUB_COM.'fuenor/qfixhowm.git'
 
     " appearance
-    MyNeoBundle !s:Android $GITHUB_COM.'thinca/vim-fontzoom.git'
+    MyNeoBundle !s:Android $GITHUB_COM.'thinca/vim-fontzoom.git', {'lazy': 1,
+                \ 'gui': 1,
+                \ 'autoload': {
+                \     'mappings': [
+                \                 ['n', '<Plug>(fontzoom-larger)'],
+                \                 ['n', '<Plug>(fontzoom-smaller)']],
+                \ }}
     MyNeoBundle !s:Android $GITHUB_COM.'nathanaelkane/vim-indent-guides.git'
     NeoBundle $GITHUB_COM.'daisuzu/rainbowcyclone.vim.git'
-    NeoBundle $GITHUB_COM.'vim-scripts/MultipleSearch.git'
 
     " cursor movement
     NeoBundle $GITHUB_COM.'Lokaltog/vim-easymotion.git'
@@ -314,7 +357,17 @@ try
 
     " editing
     NeoBundle $GITHUB_COM.'tpope/vim-surround.git'
-    NeoBundle $GITHUB_COM.'t9md/vim-textmanip.git'
+    NeoBundle $GITHUB_COM.'t9md/vim-textmanip.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'mappings': [
+                \                 ['x', '<Plug>(textmanip-move-down)'],
+                \                 ['x', '<Plug>(textmanip-move-up)'],
+                \                 ['x', '<Plug>(textmanip-move-left)'],
+                \                 ['x', '<Plug>(textmanip-move-right)'],
+                \                 ['nx', '<Plug>(textmanip-duplicate-down)'],
+                \                 ['nx', '<Plug>(textmanip-duplicate-up)'],
+                \                 ['n', '<Plug>(fontzoom-smaller)']],
+                \ }}
     NeoBundle $GITHUB_COM.'tomtom/tcomment_vim.git'
     NeoBundle $GITHUB_COM.'kana/vim-niceblock.git'
     NeoBundle $GITHUB_COM.'kana/vim-altr.git'
@@ -327,29 +380,109 @@ try
     NeoBundle $GITHUB_COM.'othree/eregex.vim.git'
 
     " quickrun
-    NeoBundleLazy $GITHUB_COM.'thinca/vim-quickrun.git'
-    NeoBundleLazy $GITHUB_COM.'osyo-manga/vim-watchdogs.git'
+    NeoBundle $GITHUB_COM.'thinca/vim-quickrun.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'commands': [{'name': 'QuickRun',
+                \                   'complete': 'customlist,quickrun#complete',}],
+                \     'mappings': ['nxo', '<Plug>(quickrun)'],
+                \ }}
+    NeoBundle $GITHUB_COM.'osyo-manga/vim-watchdogs.git', {'lazy': 1,
+                \ 'depends': [$GITHUB_COM.'thinca/vim-quickrun.git',
+                \             $GITHUB_COM.'osyo-manga/shabadou.vim.git',
+                \             $GITHUB_COM.'dannyob/quickfixstatus.git',
+                \             $GITHUB_COM.'jceb/vim-hier.git',
+                \            ],
+                \ 'autoload': {
+                \     'commands': [{'name': 'WatchdogsRun',
+                \                   'complete': 'customlist,quickrun#complete',},
+                \                   'WatchdogsRunSilent'],
+                \ }}
     NeoBundleLazy $GITHUB_COM.'osyo-manga/shabadou.vim.git'
     NeoBundle $GITHUB_COM.'daisuzu/quickrun-hook-sphinx.git'
 
     " utility
-    NeoBundle $GITHUB_COM.'mattn/ideone-vim.git'
+    NeoBundle $GITHUB_COM.'mattn/ideone-vim.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'commands': 'Ideone',
+                \ }}
+
     NeoBundle $GITHUB_COM.'vim-scripts/project.tar.gz.git'
-    MyNeoBundle !s:Android $GITHUB_COM.'Shougo/vimproc.git'
-    MyNeoBundle !s:Android $GITHUB_COM.'Shougo/vinarise.git'
-    MyNeoBundle !s:Android $GITHUB_COM.'s-yukikaze/vinarise-plugin-peanalysis.git'
-    NeoBundleLazy $GITHUB_COM.'Shougo/vimfiler.git'
-    MyNeoBundle !s:Android $GITHUB_COM.'Shougo/vimshell.git'
-    MyNeoBundle !s:Android $GITHUB_COM.'thinca/vim-logcat.git'
-    NeoBundle $GITHUB_COM.'thinca/vim-prettyprint.git'
-    NeoBundle $GITHUB_COM.'thinca/vim-editvar.git'
+    MyNeoBundle !s:Android $GITHUB_COM.'Shougo/vimproc.git', {
+                \ 'build': {
+                \     'windows': 'make -f make_mingw32.mak',
+                \     'cygwin': 'make -f make_cygwin.mak',
+                \     'mac': 'make -f make_mac.mak',
+                \     'unix': 'make -f make_unix.mak',
+                \    },
+                \ }
+    MyNeoBundle !s:Android $GITHUB_COM.'Shougo/vinarise.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'commands': 'Vinarise',
+                \ }}
+    MyNeoBundle !s:Android $GITHUB_COM.'s-yukikaze/vinarise-plugin-peanalysis.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'commands': 'Vinarise',
+                \ }}
+    NeoBundle $GITHUB_COM.'Shougo/vimfiler.git', {'lazy': 1,
+                \ 'depends': $GITHUB_COM.'Shougo/unite.vim.git',
+                \ 'autoload': {
+                \     'commands': [{'name': 'VimFiler',
+                \                   'complete': 'customlist,vimfiler#complete' },
+                \                   'VimFilerExplorer',
+                \                   'VimFilerSimple',
+                \                   'VimFilerBufferDir',
+                \                   'VimFilerCurrentDir',
+                \                   'VimFilerDouble',
+                \                   'Edit', 'Read', 'Source', 'Write'],
+                \     'mappings': ['<Plug>(vimfiler_switch)'],
+                \ }}
+    MyNeoBundle !s:Android $GITHUB_COM.'Shougo/vimshell.git', {'lazy': 1,
+                \ 'autoload' : {
+                \     'commands': [{'name': 'VimShell',
+                \                   'complete': 'customlist,vimshell#complete'},
+                \                   'VimShellExecute',
+                \                   'VimShellInteractive',
+                \                   'VimShellTerminal',
+                \                   'VimShellPop'],
+                \     'mappings': ['<Plug>(vimshell_switch)'],
+                \ }}
+    MyNeoBundle !s:Android $GITHUB_COM.'thinca/vim-logcat.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'commands': 'Logcat',
+                \ }}
+    NeoBundle $GITHUB_COM.'thinca/vim-prettyprint.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'commands': 'PP',
+                \ }}
+    NeoBundle $GITHUB_COM.'thinca/vim-editvar.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'commands': 'Editvar',
+                \ }}
     NeoBundle $GITHUB_COM.'tyru/open-browser.vim.git'
-    MyNeoBundle !s:Android $GITHUB_COM.'sjl/splice.vim.git'
-    MyNeoBundle !s:Android $GITHUB_COM.'sjl/gundo.vim.git'
-    NeoBundle $GITHUB_COM.'vim-scripts/copypath.vim.git'
-    NeoBundle $GITHUB_COM.'vim-scripts/DirDiff.vim.git'
-    NeoBundle $GITHUB_COM.'vim-scripts/ShowMultiBase.git'
-    NeoBundle $GITHUB_COM.'vim-scripts/ttoc.git'
+    MyNeoBundle !s:Android $GITHUB_COM.'sjl/splice.vim.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'commands': 'SpliceInit',
+                \ }}
+    MyNeoBundle !s:Android $GITHUB_COM.'sjl/gundo.vim.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'commands': 'GundoToggle',
+                \ }}
+    NeoBundle $GITHUB_COM.'vim-scripts/copypath.vim.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'commands': ['CopyPath', 'CopyFileName', ],
+                \ }}
+    NeoBundle $GITHUB_COM.'vim-scripts/DirDiff.vim.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'commands': 'DirDiff',
+                \ }}
+    NeoBundle $GITHUB_COM.'vim-scripts/ShowMultiBase.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'commands': 'ShowMultiBase',
+                \ }}
+    NeoBundle $GITHUB_COM.'vim-scripts/ttoc.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'commands': 'TToC',
+                \ }}
     NeoBundle $GITHUB_COM.'vim-scripts/wokmarks.vim.git'
     NeoBundle $GITHUB_COM.'vim-scripts/sudo.vim.git'
     NeoBundle $GITHUB_COM.'vim-scripts/Align.git'
@@ -357,47 +490,112 @@ try
     " command extension
     NeoBundle $GITHUB_COM.'thinca/vim-ambicmd.git'
     NeoBundle $GITHUB_COM.'tyru/vim-altercmd.git'
-    NeoBundle $GITHUB_COM.'tomtom/tcommand_vim.git'
+    NeoBundle $GITHUB_COM.'tomtom/tcommand_vim.git', {'lazy': 1,
+                \ 'depends': $GITHUB_COM.'vim-scripts/tlib.git',
+                \ 'autoload': {
+                \     'commands': 'TCommand',
+                \ }}
     NeoBundleLazy $GITHUB_COM.'mbadran/headlights.git'
 
     " C/C++
-    NeoBundleLazy $GITHUB_COM.'vim-scripts/c.vim.git'
-    NeoBundleLazy $GITHUB_COM.'vim-scripts/CCTree.git'
-    NeoBundleLazy $GITHUB_COM.'vim-scripts/Source-Explorer-srcexpl.vim.git'
-    NeoBundleLazy $GITHUB_COM.'vim-scripts/trinity.vim.git'
-    NeoBundleLazy $GITHUB_COM.'vim-scripts/cscope-menu.git'
-    NeoBundleLazy $GITHUB_COM.'vim-scripts/gtags.vim.git'
-    NeoBundleLazy $GITHUB_COM.'vim-scripts/DoxygenToolkit.vim.git'
+    NeoBundle $GITHUB_COM.'vim-scripts/c.vim.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'filetypes': ['c', 'cpp', ],
+                \ }}
+    NeoBundle $GITHUB_COM.'vim-scripts/CCTree.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'filetypes': ['c', 'cpp', ],
+                \ }}
+    NeoBundle $GITHUB_COM.'vim-scripts/Source-Explorer-srcexpl.vim.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'filetypes': ['c', 'cpp', ],
+                \ }}
+    NeoBundle $GITHUB_COM.'vim-scripts/trinity.vim.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'filetypes': ['c', 'cpp', ],
+                \ }}
+    NeoBundle $GITHUB_COM.'vim-scripts/cscope-menu.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'filetypes': ['c', 'cpp', ],
+                \ }}
+    NeoBundle $GITHUB_COM.'vim-scripts/gtags.vim.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'filetypes': ['c', 'cpp', ],
+                \ }}
+    NeoBundle $GITHUB_COM.'vim-scripts/DoxygenToolkit.vim.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'filetypes': ['c', 'cpp', ],
+                \ }}
 
     " Python
-    NeoBundleLazy $GITHUB_COM.'alfredodeza/pytest.vim.git'
-    NeoBundleLazy $GITHUB_COM.'klen/python-mode.git'
-    NeoBundleLazy $GITHUB_COM.'davidhalter/jedi-vim.git'
+    NeoBundle $GITHUB_COM.'alfredodeza/pytest.vim.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'filetypes': ['python', ],
+                \ }}
+    NeoBundle $GITHUB_COM.'klen/python-mode.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'filetypes': ['python', ],
+                \ }}
+    NeoBundle $GITHUB_COM.'davidhalter/jedi-vim.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'filetypes': ['python', ],
+                \ }}
 
     " Perl
-    NeoBundleLazy $GITHUB_COM.'vim-scripts/perl-support.vim.git'
+    NeoBundle $GITHUB_COM.'vim-scripts/perl-support.vim.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'filetypes': ['perl', ],
+                \ }}
 
     " JavaScript
-    NeoBundleLazy $GITHUB_COM.'pangloss/vim-javascript.git'
-    NeoBundleLazy $GITHUB_COM.'basyura/jslint.vim.git'
+    NeoBundle $GITHUB_COM.'pangloss/vim-javascript.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'filetypes': ['javascript', ],
+                \ }}
+    NeoBundle $GITHUB_COM.'basyura/jslint.vim.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'filetypes': ['javascript', ],
+                \ }}
 
     " Haskell
-    NeoBundleLazy $GITHUB_COM.'kana/vim-filetype-haskell.git'
-    NeoBundleLazy $GITHUB_COM.'lukerandall/haskellmode-vim.git'
-    NeoBundleLazy $GITHUB_COM.'Twinside/vim-syntax-haskell-cabal.git'
-    NeoBundleLazy $GITHUB_COM.'eagletmt/ghcmod-vim.git'
-    NeoBundleLazy $GITHUB_COM.'dag/vim2hs.git'
+    NeoBundle $GITHUB_COM.'kana/vim-filetype-haskell.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'filetypes': ['haskell', ],
+                \ }}
+    NeoBundle $GITHUB_COM.'lukerandall/haskellmode-vim.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'filetypes': ['haskell', ],
+                \ }}
+    NeoBundle $GITHUB_COM.'Twinside/vim-syntax-haskell-cabal.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'filetypes': ['haskell', ],
+                \ }}
+    NeoBundle $GITHUB_COM.'eagletmt/ghcmod-vim.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'filetypes': ['haskell', ],
+                \ }}
+    NeoBundle $GITHUB_COM.'dag/vim2hs.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'filetypes': ['haskell', ],
+                \ }}
 
     " Clojure
-    NeoBundle $GITHUB_COM.'thinca/vim-ft-clojure.git'
-    " MyNeoBundle !s:Android $GITHUB_COM.'jondistad/vimclojure.git'
+    NeoBundle $GITHUB_COM.'thinca/vim-ft-clojure.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'filetypes': ['clojure', ],
+                \ }}
 
     " CSV
-    NeoBundle $GITHUB_COM.'vim-scripts/csv.vim.git'
+    NeoBundle $GITHUB_COM.'vim-scripts/csv.vim.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'filetypes': ['csv', ],
+                \ }}
 
     " SQL
-    NeoBundle $GITHUB_COM.'vim-scripts/dbext.vim.git'
-    NeoBundle $GITHUB_COM.'vim-scripts/SQLUtilities.git'
+    NeoBundle $GITHUB_COM.'vim-scripts/dbext.vim.git', {'lazy': 1,
+                \ }
+    NeoBundle $GITHUB_COM.'vim-scripts/SQLUtilities.git', {'lazy': 1,
+                \ }
 
     " colorscheme
     NeoBundle $GITHUB_COM.'altercation/vim-colors-solarized.git'
@@ -1350,8 +1548,9 @@ let g:ref_source_webdict_sites.default = 'alc'
 "---------------------------------------------------------------------------
 " neocomplcache:"{{{
 "
-function! Init_neocomplcache() "{{{
-    NeoComplCacheEnable
+let g:neocomplcache_enable_at_startup = 1
+
+if s:has_plugin('neocomplcache')
     imap <C-k>     <Plug>(neosnippet_expand_or_jump)
     smap <C-k>     <Plug>(neosnippet_expand_or_jump)
     inoremap <expr><C-g>     neocomplcache#undo_completion()
@@ -1367,8 +1566,18 @@ function! Init_neocomplcache() "{{{
     function! s:my_cr_function()
       return pumvisible() ? neocomplcache#close_popup() . "\<CR>" : "\<CR>"
     endfunction
+
     " <TAB>: completion.
-    inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+    inoremap <expr><TAB>  pumvisible() ? "\<C-n>" :
+                \ <SID>check_back_space() ? "\<TAB>" :
+                \ neocomplcache#start_manual_complete()
+    function! s:check_back_space() "{{{
+        let col = col('.') - 1
+        return !col || getline('.')[col - 1]  =~ '\s'
+    endfunction "}}}
+    " <S-TAB>: completion back.
+    inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<C-h>"
+
     " <C-h>, <BS>: close popup and delete backword char.
     inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
     inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
@@ -1393,118 +1602,135 @@ function! Init_neocomplcache() "{{{
     "let g:neocomplcache_disable_auto_complete = 1
     "inoremap <expr><TAB> pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
     "inoremap <expr><CR> neocomplcache#smart_close_popup() . "\<CR>"
-endfunction "}}}
-function! Term_neocomplcache() "{{{
-    if neocomplcache#is_enabled()
-        NeoComplCacheDisable
-        iunmap <C-k>
-        sunmap <C-k>
-        iunmap <C-g>
-        iunmap <C-l>
-        iunmap <C-q>
-        iunmap <CR>
-        iunmap <TAB>
-        iunmap <C-h>
-        iunmap <BS>
-        iunmap <C-y>
-        iunmap <C-e>
-    endif
-endfunction "}}}
-command! InitNeoComplCache call Init_neocomplcache()
-command! TermNeoComplCache call Term_neocomplcache()
+endif
 
 " Disable AutoComplPop.
 let g:acp_enableAtStartup = 0
-" Use neocomplcache.
-let g:neocomplcache_enable_at_startup = 0
 " Use smartcase.
 let g:neocomplcache_enable_smart_case = 1
 " Use camel case completion.
 let g:neocomplcache_enable_camel_case_completion = 1
 " Use underbar completion.
 let g:neocomplcache_enable_underbar_completion = 1
+" Use fuzzy completion.
+let g:neocomplcache_enable_fuzzy_completion = 1
 " Set minimum syntax keyword length.
 let g:neocomplcache_min_syntax_length = 3
+" Set auto completion length.
+let g:neocomplcache_auto_completion_start_length = 2
+" Set manual completion length.
+let g:neocomplcache_manual_completion_start_length = 0
+" Set minimum keyword length.
+let g:neocomplcache_min_keyword_length = 3
+let g:neocomplcache_enable_cursor_hold_i = 0
+let g:neocomplcache_cursor_hold_i_time = 300
+let g:neocomplcache_enable_insert_char_pre = 0
+let g:neocomplcache_enable_prefetch = 0
+let g:neocomplcache_skip_auto_completion_time = '0.6'
+
+if !exists('g:neocomplcache_wildcard_characters')
+    let g:neocomplcache_wildcard_characters = {}
+endif
+let g:neocomplcache_wildcard_characters._ = '-'
+
+" For auto select.
+let g:neocomplcache_enable_auto_select = 1
+
+let g:neocomplcache_enable_auto_delimiter = 1
+
+let g:neocomplcache_disable_auto_select_buffer_name_pattern = '\[Command Line\]'
+
+let g:neocomplcache_max_list = 100
+let g:neocomplcache_force_overwrite_completefunc = 1
+
 let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
 
 " Disable caching buffer name
-let g:neocomplcache_disable_caching_file_path_pattern = '\.ref\|\.txt'
+let g:neocomplcache_disable_caching_file_path_pattern = '\.txt'
 let g:neocomplcache_temporary_dir = $DOTVIM.'/.neocon'
 
 " Define dictionary.
 let g:neocomplcache_dictionary_filetype_lists = {
             \ 'default' : $DOTVIM.'/.neo_default',
-            \ 'vimshell' : $DOTVIM.'/.vimshell_hist',
-            \ 'scheme' : $DOTVIM.'/.gosh_completions'
             \ }
 
-" Define keyword.
+let g:neocomplcache_omni_functions = {
+            \ 'ruby' : 'rubycomplete#Complete',
+            \ }
+
+" Define keyword pattern.
 if !exists('g:neocomplcache_keyword_patterns')
     let g:neocomplcache_keyword_patterns = {}
 endif
-let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
-
-let g:neocomplcache_enable_prefetch = 1
+" let g:neocomplcache_keyword_patterns.default = '\h\w*'
+let g:neocomplcache_keyword_patterns['default'] = '[0-9a-zA-Z:#_]\+'
+let g:neocomplcache_keyword_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 
 " For snippet_complete marker.
 if has('conceal')
     set conceallevel=2 concealcursor=i
 endif
 
-try
-    if neocomplcache#is_enabled()
-        " neocomplcache enable at startup
-        InitNeoComplCache
-    else
-        " lazy loading for neocomplcache
-        augroup MyInitNeocomplcache
-            autocmd!
-            autocmd InsertEnter * call Init_neocomplcache() | autocmd! MyInitNeocomplcache
-        augroup END
-    endif
-catch /E117/
-
-endtry
-
-" Enable omni completion.
-autocmd MyVimrcCmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd MyVimrcCmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd MyVimrcCmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd MyVimrcCmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd MyVimrcCmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-
 " Enable heavy omni completion.
 if !exists('g:neocomplcache_omni_patterns')
     let g:neocomplcache_omni_patterns = {}
 endif
-let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
-"autocmd MyVimrcCmd FileType ruby setlocal omnifunc=rubycomplete#Complete
-let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
-let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
+" let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
+" let g:neocomplcache_force_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
+let g:neocomplcache_omni_patterns.php = '[^. *\t]\.\w*\|\h\w*::'
+let g:neocomplcache_omni_patterns.mail = '^\s*\w\+'
+let g:neocomplcache_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+let g:neocomplcache_caching_limit_file_size = 500000
 
-if !exists('g:neocomplcache_include_paths')
-    let g:neocomplcache_include_paths = {}
+if !exists('g:neocomplcache_same_filetype_lists')
+    let g:neocomplcache_same_filetype_lists = {}
 endif
 
-if s:MSWindows
-    let g:neocomplcache_include_paths.c = "C:/MinGW/lib/gcc/mingw32/4.5.2/include"
-    let g:neocomplcache_include_paths.cpp = "C:/MinGW/lib/gcc/mingw32/4.5.2/include/c++,C:/boost_1_47_0"
+let g:neocomplcache_source_look_dictionary_path = ''
+
+if !exists('g:neocomplcache_force_omni_patterns')
+    let g:neocomplcache_force_omni_patterns = {}
 endif
 
 " For clang_complete
-let g:neocomplcache_force_overwrite_completefunc = 1
+let g:neocomplcache_force_omni_patterns.c =
+            \ '[^.[:digit:] *\t]\%(\.\|->\)'
+let g:neocomplcache_force_omni_patterns.cpp =
+            \ '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+
+" For jedi-vim.
+let g:neocomplcache_force_omni_patterns.python = '[^. \t]\.\w*'
 
 let g:neocomplcache_ignore_composite_filetype_lists = {
             \ 'python.unit': 'python',
             \ 'php.unit': 'php',
             \ }
+
+let g:neocomplcache_vim_completefuncs = {
+            \ 'Ref' : 'ref#complete',
+            \ 'Unite' : 'unite#complete_source',
+            \ 'VimShellExecute' :
+            \      'vimshell#vimshell_execute_complete',
+            \ 'VimShellInteractive' :
+            \      'vimshell#vimshell_execute_complete',
+            \ 'VimShellTerminal' :
+            \      'vimshell#vimshell_execute_complete',
+            \ 'VimShell' : 'vimshell#complete',
+            \ 'VimFiler' : 'vimfiler#complete',
+            \ 'Vinarise' : 'vinarise#complete',
+            \}
+if !exists('g:neocomplcache_source_completion_length')
+    let g:neocomplcache_source_completion_length = {
+                \ 'look' : 4,
+                \ }
+endif
 "}}}
 "---------------------------------------------------------------------------
 " clang_complete:"{{{
 "
-let g:clang_complete_auto = 1
-let g:clang_use_library = 0
+let g:clang_complete_auto = 0
+let g:clang_auto_select = 0
+let g:clang_use_library   = 0
 
 " if s:MSWindows
 "     let g:clang_exec = '"C:/GnuWin32/bin/clang.exe'
@@ -1834,21 +2060,6 @@ catch /E492/
 endtry
 "}}}
 "---------------------------------------------------------------------------
-" MultipleSearch:"{{{
-"
-let g:MultipleSearchMaxColors=13
-let g:MultipleSearchColorSequence="red,yellow,blue,green,magenta,lightred,cyan,lightyellow,gray,brown,lightblue,darkmagenta,darkcyan"
-let g:MultipleSearchTextColorSequence="white,black,white,black,white,black,black,black,black,white,black,white,white"
-
-try
-    Search
-    SearchReinit
-    SearchReset
-catch /E492/
-
-endtry
-"}}}
-"---------------------------------------------------------------------------
 " rainbowcyclone.vim:"{{{
 "
 if s:has_plugin('rainbowcyclone')
@@ -2000,6 +2211,18 @@ let g:quickrun_config['rst'] = {
             \ 'exec': '%c %o'
             \ }
 "}}}
+
+if s:has_plugin('neobundle')
+    let bundle = neobundle#get('vim-quickrun')
+    function! bundle.hooks.on_source(bundle)
+        NeoBundleSource quicklearn
+    endfunction
+
+    let bundle = neobundle#get('vim-watchdogs')
+    function! bundle.hooks.on_source(bundle)
+        call watchdogs#setup(g:quickrun_config)
+    endfunction
+endif
 "}}}
 "---------------------------------------------------------------------------
 " vim-ambicmd:"{{{
@@ -2130,176 +2353,6 @@ endif
 "
 vmap <silent> ios <Plug>InnerOffside
 onoremap <silent> ios :normal vios<CR>
-"}}}
-"---------------------------------------------------------------------------
-" vimclojure:"{{{
-"
-let g:clj_highlight_builtins = 1
-let g:clj_paren_rainbow = 1
-"}}}
-"---------------------------------------------------------------------------
-" neobundle.vim:"{{{
-"
-function! LazyLoading(ft)
-    for plugin_name in g:ll_plugins[a:ft]
-        execute "silent! NeoBundleSource " . plugin_name
-    endfor
-    execute "autocmd! NeoBundleSourceFor_" . a:ft
-
-    if exists('g:ll_post_process[a:ft]')
-        for post_process in g:ll_post_process[a:ft]
-            execute post_process
-        endfor
-    endif
-endfunction
-
-let g:ll_plugins={}
-let g:ll_plugins['c'] = [
-            \ 'taglist.vim',
-            \ 'taghighlight',
-            \ 'c.vim',
-            \ 'Source-Explorer-srcexpl.vim',
-            \ 'trinity.vim',
-            \ 'cscope-menu',
-            \ 'gtags.vim',
-            \ 'DoxygenToolkit.vim',
-            \ ]
-let g:ll_plugins['cpp'] = [
-            \ 'taglist.vim',
-            \ 'taghighlight',
-            \ 'c.vim',
-            \ 'Source-Explorer-srcexpl.vim',
-            \ 'trinity.vim',
-            \ 'cscope-menu',
-            \ 'gtags.vim',
-            \ 'DoxygenToolkit.vim',
-            \ ]
-let g:ll_plugins['python'] = [
-            \ 'pytest.vim',
-            \ 'python-mode',
-            \ 'jedi-vim',
-            \ 'taglist.vim',
-            \ 'taghighlight',
-            \ ]
-let g:ll_plugins['perl'] = [
-            \ 'perl-support.vim',
-            \ 'taglist.vim',
-            \ 'taghighlight',
-            \ ]
-let g:ll_plugins['javascript'] = [
-            \ 'vim-javascript',
-            \ 'jslint.vim',
-            \ 'taghighlight',
-            \ ]
-let g:ll_plugins['haskell'] = [
-            \ 'vim-filetype-haskell',
-            \ 'haskellmode-vim',
-            \ 'vim-syntax-haskell-cabal',
-            \ 'ghcmod-vim',
-            \ 'vim2hs',
-            \ ]
-let g:ll_post_process={}
-let g:ll_post_process['c'] = [
-            \ 'call s:registerReadTypesCmd("c")',
-            \ 'silent! ReadTypes'
-            \ ]
-let g:ll_post_process['cpp'] = [
-            \ 'call s:registerReadTypesCmd("cpp")',
-            \ 'silent! ReadTypes'
-            \ ]
-let g:ll_post_process['python'] = [
-            \ 'call s:registerReadTypesCmd("python")',
-            \ 'silent! ReadTypes'
-            \ ]
-let g:ll_post_process['perl'] = [
-            \ 'call s:registerReadTypesCmd("perl")',
-            \ 'silent! ReadTypes'
-            \ ]
-let g:ll_post_process['javascript'] = [
-            \ 'call s:registerReadTypesCmd("javascript")',
-            \ 'silent! ReadTypes'
-            \ ]
-
-if has('vim_starting')
-    " lazy loading of each filetype
-    if exists("g:ll_plugins") && !s:Android
-        for k in keys(g:ll_plugins)
-            execute "augroup " . "NeoBundleSourceFor_" . k
-            execute "autocmd!"
-            execute "autocmd FileType " . k . " call LazyLoading('" . k . "')"
-            execute "augroup END"
-        endfor
-        unlet k
-    endif
-endif
-
-" lazy loading for vim-ref
-if !exists('s:did_load_vimref')
-    nnoremap <silent> K :<C-u>call LoadVimRef()<CR>K
-    vnoremap <silent> K :<C-u>call LoadVimRef()<CR>K
-    command! -nargs=+ Ref
-                \ execute 'silent! NeoBundleSource vim-ref'
-                \ | call ref#ref(<q-args>)
-    function! LoadVimRef()
-        nunmap K
-        vunmap K
-        silent! NeoBundleSource vim-ref
-        let s:did_load_vimref = 1
-    endfunction
-endif
-
-" lazy loading for vimfiler
-if !exists('s:did_load_vimfiler')
-    nnoremap <silent> [vimfiler]b  :<C-u>call LoadVimFiler('VimFilerBufferDir')<CR>
-    nnoremap <silent> [vimfiler]c  :<C-u>call LoadVimFiler('VimFilerCurrentDir')<CR>
-    nnoremap <silent> [vimfiler]d  :<C-u>call LoadVimFiler('VimFilerDouble')<CR>
-    nnoremap <silent> [vimfiler]f  :<C-u>call LoadVimFiler('VimFilerSimple -no-quit -winwidth=32')<CR>
-
-    " for retry vimfiler command
-    " vimfiler needs a few seconds to load with low-spec PC
-    function! LoadVimFiler(vimfiler_cmd)
-        silent! NeoBundleSource vimfiler
-        let s:is_vimfiler_loading = 1
-        while s:is_vimfiler_loading
-            try
-                silent! execute a:vimfiler_cmd
-                let s:is_vimfiler_loading = 0
-            catch /E127/
-                sleep 1
-            endtry
-        endwhile
-        let s:did_load_vimfiler = 1
-    endfunction
-endif
-
-" lazy loading for vim-quickrun
-if !exists('s:did_load_quickrun')
-    nnoremap <silent> <Leader>r :<C-u>call LoadQuickRun()<CR>:QuickRun -mode n<CR>
-    vnoremap <silent> <Leader>r :<C-u>call LoadQuickRun()<CR>:QuickRun -mode v<CR>
-
-    command! -nargs=* -range=0 QuickRun
-                \ call LoadQuickRun()
-                \ | call quickrun#command(<q-args>, <count>, <line1>, <line2>)
-
-    command! -nargs=* -range=0 WatchdogsRun
-                \ delcommand WatchdogsRun
-                \ | call LoadQuickRun()
-                \ | WatchdogsRun
-
-    command! -nargs=* -range=0 WatchdogsRunSilent
-                \ delcommand WatchdogsRunSilent
-                \ | call LoadQuickRun()
-                \ | WatchdogsRunSilent
-
-    function! LoadQuickRun()
-        silent! NeoBundleSource vim-quickrun
-        silent! NeoBundleSource quicklearn
-        silent! NeoBundleSource vim-watchdogs
-        silent! NeoBundleSource shabadou.vim
-        call watchdogs#setup(g:quickrun_config)
-        let s:did_load_quickrun = 1
-    endfunction
-endif
 "}}}
 "}}}
 
