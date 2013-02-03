@@ -201,10 +201,13 @@ if has('vim_starting')
     set runtimepath+=$DOTVIM/Bundle/neobundle.vim/
 endif
 
+if !exists('$GIT_PROTOCOL')
+    let $GIT_PROTOCOL = 'git'
+endif
 if s:Android
-    let $GITHUB_COM = 'git://207.97.227.239/'
+    let $GITHUB_COM = $GIT_PROTOCOL.'://207.97.227.239/'
 else
-    let $GITHUB_COM = 'git://github.com/'
+    let $GITHUB_COM = $GIT_PROTOCOL.'://github.com/'
 endif
 
 let $BITBUCKET_ORG = 'https://bitbucket.org/'
