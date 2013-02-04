@@ -266,6 +266,7 @@ try
                 \ 'autoload': {
                 \     'filetypes': ['javascript', ],
                 \ }}
+    NeoBundle $GITHUB_COM.'ujihisa/neco-look.git'
 
     " ctags
     NeoBundle $GITHUB_COM.'vim-scripts/taglist.vim.git', {'lazy': 1,
@@ -489,6 +490,7 @@ try
     NeoBundle $GITHUB_COM.'vim-scripts/wokmarks.vim.git'
     NeoBundle $GITHUB_COM.'vim-scripts/sudo.vim.git'
     NeoBundle $GITHUB_COM.'vim-scripts/Align.git'
+    NeoBundle $GITHUB_COM.'kana/vim-submode.git'
 
     " command extension
     NeoBundle $GITHUB_COM.'thinca/vim-ambicmd.git'
@@ -2232,6 +2234,30 @@ if s:has_plugin('neobundle')
     endfunction
 
     unlet bundle
+endif
+"}}}
+"---------------------------------------------------------------------------
+" vim-submode"{{{
+"
+if s:has_plugin('vim-submode')
+    call submode#enter_with('undo/redo', 'n', '', 'g-', 'g-')
+    call submode#enter_with('undo/redo', 'n', '', 'g+', 'g+')
+    call submode#map('undo/redo', 'n', '', '-', 'g-')
+    call submode#map('undo/redo', 'n', '', '+', 'g+')
+
+    call submode#enter_with('winsize', 'n', '', '<C-w>>', '<C-w>>')
+    call submode#enter_with('winsize', 'n', '', '<C-w><', '<C-w><')
+    call submode#enter_with('winsize', 'n', '', '<C-w>+', '<C-w>-')
+    call submode#enter_with('winsize', 'n', '', '<C-w>-', '<C-w>+')
+    call submode#map('winsize', 'n', '', '>', '<C-w>>')
+    call submode#map('winsize', 'n', '', '<', '<C-w><')
+    call submode#map('winsize', 'n', '', '+', '<C-w>-')
+    call submode#map('winsize', 'n', '', '-', '<C-w>+')
+
+    call submode#enter_with('changetab', 'n', '', 'gt', 'gt')
+    call submode#enter_with('changetab', 'n', '', 'gT', 'gT')
+    call submode#map('changetab', 'n', '', 't', 'gt')
+    call submode#map('changetab', 'n', '', 'T', 'gT')
 endif
 "}}}
 "---------------------------------------------------------------------------
