@@ -1738,7 +1738,7 @@ endif
 "
 let g:clang_complete_auto = 0
 let g:clang_auto_select = 0
-let g:clang_use_library   = 0
+let g:clang_use_library   = 1
 
 " if s:MSWindows
 "     let g:clang_exec = '"C:/GnuWin32/bin/clang.exe'
@@ -2230,6 +2230,8 @@ if s:has_plugin('neobundle')
     function! bundle.hooks.on_source(bundle)
         call watchdogs#setup(g:quickrun_config)
     endfunction
+
+    unlet bundle
 endif
 "}}}
 "---------------------------------------------------------------------------
