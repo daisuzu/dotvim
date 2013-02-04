@@ -1553,7 +1553,12 @@ let g:ref_source_webdict_sites.default = 'alc'
 "
 let g:neocomplcache_enable_at_startup = 1
 
-if s:has_plugin('neocomplcache')
+let s:is_installed_neocomplcache = 0
+if s:has_plugin('neobundle')
+    let s:is_installed_neocomplcache = 1
+endif
+
+if s:is_installed_neocomplcache
     imap <C-k>     <Plug>(neosnippet_expand_or_jump)
     smap <C-k>     <Plug>(neosnippet_expand_or_jump)
     inoremap <expr><C-g>     neocomplcache#undo_completion()
@@ -1567,7 +1572,7 @@ if s:has_plugin('neocomplcache')
     " <CR>: close popup and save indent.
     inoremap <expr><silent> <CR> <SID>my_cr_function()
     function! s:my_cr_function()
-      return pumvisible() ? neocomplcache#close_popup() . "\<CR>" : "\<CR>"
+        return pumvisible() ? neocomplcache#close_popup() . "\<CR>" : "\<CR>"
     endfunction
 
     " <TAB>: completion.
@@ -1637,7 +1642,7 @@ endif
 let g:neocomplcache_wildcard_characters._ = '-'
 
 " For auto select.
-let g:neocomplcache_enable_auto_select = 1
+let g:neocomplcache_enable_auto_select = 0
 
 let g:neocomplcache_enable_auto_delimiter = 1
 
