@@ -666,6 +666,8 @@ set grepprg=grep\ -nH
 "set grepprg=ack.pl\ -a
 " autocmd MyVimrcCmd QuickfixCmdPost make,grep,grepadd,vimgrep,vimgrepadd,helpgrep copen
 "}}}
+autocmd MyVimrcCmd InsertLeave * if &paste | set nopaste | endif
+nnoremap <Space>op :<C-u>set paste! paste?<CR>
 "}}}
 
 "---------------------------------------------------------------------------
@@ -743,7 +745,7 @@ function! s:is_modified(n) "{{{
     return getbufvar(a:n, "&modified") == 1 ? "+" : ""
 endfunction "}}}
 function! s:tabpage_label(n) "{{{
-    let title = gettabvar(a:n, 'title')
+    let title = gettabwinvar(a:n, 0, 'title')
     if title !=# ''
         return title
     endif
@@ -887,14 +889,17 @@ function! GetFileSize()
     if size < 0
         let size = 0
     endif
+
+    let format = has('float') ? '%0.2f' : '%d'
+    let div_unit = has('float') ? 1024.0 : 1024
     for unit in ['B', 'KB', 'MB']
         if size < 1024
             " return size . unit
-            return printf('%.2f' . unit, size)
+            return printf(format . unit, size)
         endif
-        let size = size / 1024.0
+        let size = size / div_unit
     endfor
-    return printf('%.2f' . 'GB', size)
+    return printf(format . 'GB', size)
 endfunction
 "}}}
 
@@ -926,9 +931,9 @@ function! s:onColorScheme()
     highlight Folded        guifg=blue     guibg=darkgray
     " highlight Folded        guifg=blue     guibg=cadetblue
 
-    highlight TabLine ctermfg=0 ctermbg=8 guifg=Black guibg=#dcdcdc gui=underline
-    highlight TabLineSel term=bold cterm=bold ctermfg=15 ctermbg=9 guifg=White guibg=Blue gui=bold
-    highlight TabLineFill ctermfg=0 ctermbg=8 guifg=Black guibg=#dcdcdc gui=underline
+    highlight TabLine ctermfg=Black ctermbg=White guifg=Black guibg=#dcdcdc gui=underline
+    highlight TabLineSel term=bold cterm=bold ctermfg=White ctermbg=Blue guifg=White guibg=Blue gui=bold
+    highlight TabLineFill ctermfg=White ctermbg=Black guifg=Black guibg=#dcdcdc gui=underline
     "}}}
     " For completion menu "{{{
     highlight Pmenu       ctermfg=White ctermbg=DarkBlue  guifg=#0033ff guibg=#99cccc gui=none
