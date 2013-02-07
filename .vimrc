@@ -10,7 +10,7 @@ augroup MyVimrcCmd
 augroup END
 
 let s:MSWindows = has('win95') + has('win16') + has('win32') + has('win64')
-let s:Android = executable('uname') ? system('uname -m')=~#'armv7l' : 0
+let s:Android = !s:MSWindows && executable('uname') ? system('uname -m')=~#'armv7l' : 0
 
 if s:MSWindows
     let $DOTVIM = expand($VIM . '/vimfiles')
