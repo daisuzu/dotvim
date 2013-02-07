@@ -369,8 +369,7 @@ try
                 \                 ['x', '<Plug>(textmanip-move-left)'],
                 \                 ['x', '<Plug>(textmanip-move-right)'],
                 \                 ['nx', '<Plug>(textmanip-duplicate-down)'],
-                \                 ['nx', '<Plug>(textmanip-duplicate-up)'],
-                \                 ['n', '<Plug>(fontzoom-smaller)']],
+                \                 ['nx', '<Plug>(textmanip-duplicate-up)']],
                 \ }}
     NeoBundle $GITHUB_COM.'tomtom/tcomment_vim.git'
     NeoBundle $GITHUB_COM.'kana/vim-niceblock.git'
@@ -451,6 +450,7 @@ try
                 \     'mappings': ['<Plug>(vimshell_switch)'],
                 \ }}
     MyNeoBundle !s:Android $GITHUB_COM.'thinca/vim-logcat.git', {'lazy': 1,
+                \ 'depends': $GITHUB_COM.'Shougo/vimshell',
                 \ 'autoload': {
                 \     'commands': 'Logcat',
                 \ }}
@@ -1955,6 +1955,26 @@ map <Leader>rt <Plug>(operator-reverse-text)
 map <Leader>s <Plug>(operator-sort)
 "}}}
 "---------------------------------------------------------------------------
+" vim-hier:"{{{
+"
+" To highlight with a undercurl in quickfix error
+execute "highlight qf_error_ucurl gui=undercurl guisp=Red"
+let g:hier_highlight_group_qf  = "qf_error_ucurl"
+
+function! ResetHierAutocmd()
+    try
+        autocmd! Hier
+    catch /E216/
+
+    endtry
+endfunction
+
+augroup MyHier
+    autocmd!
+    autocmd QuickFixCmdPre * call ResetHierAutocmd()
+augroup END
+"}}}
+"---------------------------------------------------------------------------
 " qfixhowm.vim:"{{{
 "
 let QFixHowm_Key = 'g'
@@ -2037,24 +2057,10 @@ let MyGrep_MenuBar = 3
 autocmd MyVimrcCmd QuickfixCmdPre make,grep,grepadd,vimgrep,vimgrepadd,helpgrep copen
 "}}}
 "---------------------------------------------------------------------------
-" vim-hier:"{{{
+" vim-fontzoom:"{{{
 "
-" To highlight with a undercurl in quickfix error
-execute "highlight qf_error_ucurl gui=undercurl guisp=Red"
-let g:hier_highlight_group_qf  = "qf_error_ucurl"
-
-function! ResetHierAutocmd()
-    try
-        autocmd! Hier
-    catch /E216/
-
-    endtry
-endfunction
-
-augroup MyHier
-    autocmd!
-    autocmd QuickFixCmdPre * call ResetHierAutocmd()
-augroup END
+nmap + <Plug>(fontzoom-larger)
+nmap - <Plug>(fontzoom-smaller)
 "}}}
 "---------------------------------------------------------------------------
 " vim-indent-guides:"{{{
@@ -2184,6 +2190,10 @@ endfunction
 "---------------------------------------------------------------------------
 " vim-quickrun:"{{{
 "
+nmap <Leader>r <Plug>(quickrun)
+omap <Leader>r <Plug>(quickrun)
+xmap <Leader>r <Plug>(quickrun)
+
 if !exists('g:quickrun_config')
     let g:quickrun_config = {}
 endif
@@ -2345,11 +2355,13 @@ let g:pymode_lint_message = 1
 let g:pydoc = "python -m pydoc"
 let g:pymode_rope = 0
 let g:pymode_folding = 0
+let g:pymode_run_key = '<Leader>pr'
 "}}}
 "---------------------------------------------------------------------------
 " jedi-vim:"{{{
 "
 let g:jedi#popup_on_dot = 0
+let g:jedi#rename_command = '<Leader>jr'
 "}}}
 "---------------------------------------------------------------------------
 " perl-support.vim:"{{{
