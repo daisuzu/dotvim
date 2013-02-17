@@ -375,7 +375,7 @@ try
     NeoBundle $GITHUB_COM.'kana/vim-niceblock.git'
     NeoBundle $GITHUB_COM.'kana/vim-altr.git'
     NeoBundle $GITHUB_COM.'vim-scripts/DrawIt.git'
-    NeoBundle $GITHUB_COM.'vim-scripts/RST-Tables.git'
+    NeoBundle $GITHUB_COM.'vim-scripts/Unicode-RST-Tables.git'
     NeoBundle $GITHUB_COM.'vim-scripts/sequence.git'
 
     " search
@@ -2124,6 +2124,20 @@ if s:has_plugin('altr')
     nnoremap <silent> tb :<C-u>call altr#back()<CR>
 endif
 "
+"}}}
+"---------------------------------------------------------------------------
+" Unicode-RST-Table:"{{{
+"
+let g:no_rst_table_maps = 0
+if s:has_plugin('rst_table')
+    if has('python3')
+        noremap <silent> ,,c :python3 CreateTable()<CR>
+        noremap <silent> ,,f :python3 FixTable()<CR>
+    elseif has('python')
+        noremap <silent> ,,c :python  CreateTable()<CR>
+        noremap <silent> ,,f :python  FixTable()<CR>
+    endif
+endif
 "}}}
 "---------------------------------------------------------------------------
 " eregex.vim:"{{{
