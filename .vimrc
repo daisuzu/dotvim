@@ -648,6 +648,8 @@ set virtualedit+=block
 set autoindent
 " Smart indenting
 set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
+" for smartindent
+inoremap # X<C-H><C-V>#
 " settings for Japanese folding
 set formatoptions+=mM
 " don't continue the comment line automatically
@@ -1562,7 +1564,7 @@ let g:neocomplcache_enable_at_startup = 1
 
 let s:is_installed_neocomplcache = 0
 if s:has_plugin('neobundle')
-    let s:is_installed_neocomplcache = 1
+    let s:is_installed_neocomplcache = neobundle#is_installed('neocomplcache')
 endif
 
 if s:is_installed_neocomplcache
