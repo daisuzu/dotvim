@@ -2146,69 +2146,9 @@ endif
 "---------------------------------------------------------------------------
 " eregex.vim:"{{{
 "
+let g:eregex_default_enable = 0
 nnoremap ,/ :<C-u>M/
 nnoremap ,? :<C-u>M?
-"}}}
-"---------------------------------------------------------------------------
-" ideone-vim:"{{{
-"
-let g:ideone_put_url_to_clipboard_after_post = 0
-let g:ideone_open_buffer_after_post = 1
-"}}}
-"---------------------------------------------------------------------------
-" project.tar.gz:"{{{
-"
-let g:proj_flags = "imstc"
-nmap <silent> <Leader>P <Plug>ToggleProject
-"}}}
-"---------------------------------------------------------------------------
-" vimfiler:"{{{
-"
-nnoremap    [vimfiler]   <Nop>
-nmap    <Space>v [vimfiler]
-
-nnoremap <silent> [vimfiler]b  :<C-u>VimFilerBufferDir<CR>
-nnoremap <silent> [vimfiler]c  :<C-u>VimFilerCurrentDir<CR>
-nnoremap <silent> [vimfiler]d  :<C-u>VimFilerDouble<CR>
-nnoremap <silent> [vimfiler]f  :<C-u>VimFilerSimple -no-quit -winwidth=32<CR>
-nnoremap <silent> [vimfiler]s  :<C-u>VimShell<CR>
-
-" Edit file by tabedit.
-let g:vimfiler_edit_action = 'open'
-let g:vimfiler_split_action = 'tabopen'
-
-let g:vimfiler_as_default_explorer = 1
-
-if s:MSWindows
-    let g:unite_kind_file_use_trashbox = 1
-endif
-
-" Enable file operation commands.
-let g:vimfiler_safe_mode_by_default = 0
-
-let g:vimfiler_data_directory = $DOTVIM.'/.vimfiler'
-
-let g:vimfiler_execute_file_list={
-            \ 'txt': 'vim',
-            \ 'vim': 'vim'
-            \ }
-"}}}
-"---------------------------------------------------------------------------
-" vimshell:"{{{
-"
-let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
-let g:vimshell_prompt = '% '
-let g:vimshell_interactive_encodings = {'git': 'utf-8'}
-let g:vimshell_temporary_directory = $DOTVIM.'/.vimshell'
-let g:vimshell_vimshrc_path = $DOTVIM.'/.vimshell/.vimshrc'
-let g:vimshell_cd_command = 'TabpageCD'
-let g:vimshell_scrollback_limit = 50000
-
-autocmd MyVimrcCmd FileType vimshell call s:vimshell_settings()
-function! s:vimshell_settings()
-    inoremap <silent><expr><buffer> <Up>  unite#sources#vimshell_history#start_complete(!0)
-    inoremap <silent><expr><buffer> <Down>  unite#sources#vimshell_history#start_complete(!0)
-endfunction
 "}}}
 "---------------------------------------------------------------------------
 " vim-quickrun:"{{{
@@ -2272,6 +2212,67 @@ if s:has_plugin('neobundle')
 
     unlet bundle
 endif
+"}}}
+"---------------------------------------------------------------------------
+" ideone-vim:"{{{
+"
+let g:ideone_put_url_to_clipboard_after_post = 0
+let g:ideone_open_buffer_after_post = 1
+"}}}
+"---------------------------------------------------------------------------
+" project.tar.gz:"{{{
+"
+let g:proj_flags = "imstc"
+nmap <silent> <Leader>P <Plug>ToggleProject
+"}}}
+"---------------------------------------------------------------------------
+" vimfiler:"{{{
+"
+nnoremap    [vimfiler]   <Nop>
+nmap    <Space>v [vimfiler]
+
+nnoremap <silent> [vimfiler]b  :<C-u>VimFilerBufferDir<CR>
+nnoremap <silent> [vimfiler]c  :<C-u>VimFilerCurrentDir<CR>
+nnoremap <silent> [vimfiler]d  :<C-u>VimFilerDouble<CR>
+nnoremap <silent> [vimfiler]f  :<C-u>VimFilerSimple -no-quit -winwidth=32<CR>
+nnoremap <silent> [vimfiler]s  :<C-u>VimShell<CR>
+
+" Edit file by tabedit.
+let g:vimfiler_edit_action = 'open'
+let g:vimfiler_split_action = 'tabopen'
+
+let g:vimfiler_as_default_explorer = 1
+
+if s:MSWindows
+    let g:unite_kind_file_use_trashbox = 1
+endif
+
+" Enable file operation commands.
+let g:vimfiler_safe_mode_by_default = 0
+
+let g:vimfiler_data_directory = $DOTVIM.'/.vimfiler'
+
+let g:vimfiler_execute_file_list={
+            \ 'txt': 'vim',
+            \ 'vim': 'vim'
+            \ }
+"}}}
+"---------------------------------------------------------------------------
+" vimshell:"{{{
+"
+let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
+let g:vimshell_prompt = '% '
+let g:vimshell_interactive_encodings = {'git': 'utf-8'}
+let g:vimshell_temporary_directory = $DOTVIM.'/.vimshell'
+let g:vimshell_vimshrc_path = $DOTVIM.'/.vimshell/.vimshrc'
+let g:vimshell_cd_command = 'TabpageCD'
+let g:vimshell_scrollback_limit = 50000
+
+autocmd MyVimrcCmd FileType vimshell call s:vimshell_settings()
+function! s:vimshell_settings()
+    inoremap <silent><expr><buffer> <Up>  unite#sources#vimshell_history#start_complete(!0)
+    inoremap <silent><expr><buffer> <Down>  unite#sources#vimshell_history#start_complete(!0)
+endfunction
 "}}}
 "---------------------------------------------------------------------------
 " vim-submode"{{{
