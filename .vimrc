@@ -285,6 +285,7 @@ try
     NeoBundle $GITHUB_COM.'tpope/vim-fugitive.git'
     NeoBundle $GITHUB_COM.'gregsexton/gitv.git'
     NeoBundle $GITHUB_COM.'int3/vim-extradite.git'
+    NeoBundle $GITHUB_COM.'airblade/vim-gitgutter.git'
 
     " unite
     NeoBundle $GITHUB_COM.'Shougo/unite.vim.git', {'lazy': 1,
@@ -313,6 +314,7 @@ try
     MyNeoBundle !s:Android $GITHUB_COM.'daisuzu/unite-gtags.git'
     NeoBundle $GITHUB_COM.'ujihisa/unite-haskellimport.git'
     NeoBundle $GITHUB_COM.'eagletmt/unite-haddock.git'
+    NeoBundle $GITHUB_COM.'thinca/vim-unite-history.git'
 
     " textobj
     NeoBundle $GITHUB_COM.'kana/vim-textobj-user.git'
