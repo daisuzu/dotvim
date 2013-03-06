@@ -339,7 +339,7 @@ try
     " quickfix
     NeoBundle $GITHUB_COM.'thinca/vim-qfreplace.git', {'lazy': 1,
                 \ 'autoload': {
-                \     'filetypes': ['quickfix', 'unite', ],
+                \     'filetypes': ['quickfix', 'qf', 'unite', ],
                 \ }}
     NeoBundleLazy  $GITHUB_COM.'dannyob/quickfixstatus.git'
     NeoBundleLazy $GITHUB_COM.'jceb/vim-hier.git'
@@ -2162,15 +2162,18 @@ if !exists('g:quickrun_config')
 endif
 
 let g:quickrun_config['_'] = {
+            \ 'outputter/buffer/split' : ':botright 8sp',
+            \ }
+let g:quickrun_config['watchdogs_checker/_'] = {
             \ 'hook/close_unite_quickfix/enable_hook_loaded' : 1,
             \ 'hook/unite_quickfix/enable_failure' : 1,
             \ 'hook/close_quickfix/enable_exit' : 1,
+            \ 'hook/close_buffer/enable_exit' : 1,
             \ 'hook/close_buffer/enable_failure' : 1,
             \ 'hook/close_buffer/enable_empty_data' : 1,
             \ 'outputter' : 'multi:buffer:quickfix',
             \ 'hook/inu/enable' : 1,
             \ 'hook/inu/wait' : 20,
-            \ 'outputter/buffer/split' : ':botright 8sp',
             \ 'runner' : 'vimproc',
             \ 'runner/vimproc/updatetime' : 40,
             \ }
@@ -2372,7 +2375,7 @@ nnoremap <Leader>gd :<C-u>Gtags -d <C-R>=expand("<cword>")<CR><CR>
 "---------------------------------------------------------------------------
 " python-mode:"{{{
 "
-let g:pymode_lint_onfly = 1
+let g:pymode_lint_onfly = 0
 let g:pymode_lint_write = 1
 let g:pymode_lint_cwindow = 0
 let g:pymode_lint_message = 1
