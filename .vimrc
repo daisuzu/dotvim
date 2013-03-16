@@ -368,10 +368,10 @@ try
     NeoBundle $GITHUB_COM.'t9md/vim-textmanip.git', {'lazy': 1,
                 \ 'autoload': {
                 \     'mappings': [
-                \                 ['x', '<Plug>(textmanip-move-down)'],
                 \                 ['x', '<Plug>(textmanip-move-up)'],
-                \                 ['x', '<Plug>(textmanip-move-left)'],
+                \                 ['x', '<Plug>(textmanip-move-down)'],
                 \                 ['x', '<Plug>(textmanip-move-right)'],
+                \                 ['x', '<Plug>(textmanip-move-left)'],
                 \                 ['nx', '<Plug>(textmanip-duplicate-down)'],
                 \                 ['nx', '<Plug>(textmanip-duplicate-up)']],
                 \ }}
@@ -639,7 +639,7 @@ set nomousehide
 "
 set nobackup
 set browsedir=buffer
-set clipboard+=unnamed
+set clipboard=unnamed,unnamedplus
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
@@ -2320,7 +2320,7 @@ endif
 if s:has_plugin('ambicmd')
     cnoremap <expr> <Space> ambicmd#expand("\<Space>")
     cnoremap <expr> <CR> ambicmd#expand("\<CR>")
-    cnoremap <expr> <C-f> ambicmd#expand("\<Right>")
+    " cnoremap <expr> <C-f> ambicmd#expand("\<Right>")
 
     autocmd MyVimrcCmd CmdwinEnter * call s:init_cmdwin_ambicmd()
     function! s:init_cmdwin_ambicmd()
@@ -2458,6 +2458,9 @@ nnoremap X ^x
 " inoremap <expr> j getline('.')[col('.') - 2] ==# 'j' ? "\<BS>\<ESC>" : 'j'
 inoremap jj <ESC>
 
+"paste
+inoremap <C-v> <C-r>+
+
 " insert blank in normal mode
 nnoremap <C-Space> i <Esc><Right>
 nnoremap <C-o> o<Esc>
@@ -2526,6 +2529,19 @@ xnoremap au  a]
 onoremap iu  i]
 xnoremap iu  i]
 
+" for cmdline-mode
+cnoremap <C-a> <Home>
+cnoremap <C-e> <End>
+cnoremap <C-p> <Up>
+cnoremap <C-n> <Down>
+cnoremap <C-f> <Right>
+cnoremap <C-b> <Left>
+
+cnoremap <Left> <Space><BS><Left>
+cnoremap <Right> <Space><BS><Right>
+
+" paste
+cnoremap <C-v> <C-r>+
 "}}}
 
 "---------------------------------------------------------------------------
