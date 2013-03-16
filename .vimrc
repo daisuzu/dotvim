@@ -604,7 +604,10 @@ try
     NeoBundle $GITHUB_COM.'vim-scripts/dbext.vim.git', {'lazy': 1,
                 \ }
     NeoBundle $GITHUB_COM.'vim-scripts/SQLUtilities.git', {'lazy': 1,
-                \ }
+                \ 'autoload': {
+                \     'commands': ['SQLUFormatter',
+                \                  'SQLUFormatStmts'],
+                \ }}
 
     " colorscheme
     NeoBundle $GITHUB_COM.'altercation/vim-colors-solarized.git'
