@@ -176,16 +176,18 @@ endif
 "---------------------------------------------------------------------------
 " MSWIN:"{{{
 "
-if (1 && filereadable($VIMRUNTIME . '/mswin.vim')) && !s:Android
-    source $VIMRUNTIME/mswin.vim
+if exists("g:skip_loading_mswin") && g:skip_loading_mswin
+    if (1 && filereadable($VIMRUNTIME . '/mswin.vim')) && !s:Android
+        source $VIMRUNTIME/mswin.vim
+    endif
+
+    " some textobj plugins doesn't work on selection=exclusive
+    set selection=inclusive
+
+    " Redefinition <C-A>:increment and <C-X>:decrement
+    noremap <C-i> <C-A>
+    noremap <M-i> <C-X>
 endif
-
-" some textobj plugins doesn't work on selection=exclusive
-set selection=inclusive
-
-" Redefinition <C-A>:increment and <C-X>:decrement
-noremap <C-i> <C-A>
-noremap <M-i> <C-X>
 "}}}
 "}}}
 
