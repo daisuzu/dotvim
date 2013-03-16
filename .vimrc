@@ -2280,7 +2280,7 @@ endfunction
 "---------------------------------------------------------------------------
 " vim-submode"{{{
 "
-if s:has_plugin('vim-submode')
+if s:has_plugin('submode')
     call submode#enter_with('undo/redo', 'n', '', 'g-', 'g-')
     call submode#enter_with('undo/redo', 'n', '', 'g+', 'g+')
     call submode#map('undo/redo', 'n', '', '-', 'g-')
@@ -2294,6 +2294,17 @@ if s:has_plugin('vim-submode')
     call submode#map('winsize', 'n', '', '<', '<C-w><')
     call submode#map('winsize', 'n', '', '+', '<C-w>-')
     call submode#map('winsize', 'n', '', '-', '<C-w>+')
+
+    call submode#enter_with('winmove', 'n', '', '<C-w>w', '<C-w>w')
+    call submode#enter_with('winmove', 'n', '', '<C-w>j', '<C-w>j')
+    call submode#enter_with('winmove', 'n', '', '<C-w>k', '<C-w>k')
+    call submode#enter_with('winmove', 'n', '', '<C-w>h', '<C-w>h')
+    call submode#enter_with('winmove', 'n', '', '<C-w>l', '<C-w>l')
+    call submode#map('winmove', 'n', '', 'w', '<C-w>w')
+    call submode#map('winmove', 'n', '', 'j', '<C-w>j')
+    call submode#map('winmove', 'n', '', 'k', '<C-w>k')
+    call submode#map('winmove', 'n', '', 'h', '<C-w>h')
+    call submode#map('winmove', 'n', '', 'l', '<C-w>l')
 
     call submode#enter_with('changetab', 'n', '', 'gt', 'gt')
     call submode#enter_with('changetab', 'n', '', 'gT', 'gT')
