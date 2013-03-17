@@ -601,7 +601,8 @@ try
                 \ }}
 
     " SQL
-    NeoBundle $GITHUB_COM.'vim-scripts/dbext.vim.git', {'lazy': 1,
+    NeoBundle $GITHUB_COM.'daisuzu/dbext.vim.git', {'lazy': 1,
+                \ 'rev': 'Fix/SyntaxBroken'
                 \ }
     NeoBundle $GITHUB_COM.'vim-scripts/SQLUtilities.git', {'lazy': 1,
                 \ 'autoload': {
