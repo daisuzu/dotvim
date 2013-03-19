@@ -414,7 +414,7 @@ try
                 \ }}
 
     NeoBundle $GITHUB_COM.'vim-scripts/project.tar.gz.git'
-    MyNeoBundle !s:Android $GITHUB_COM.'Shougo/vimproc.git', {
+    NeoBundle $GITHUB_COM.'Shougo/vimproc.git', {
                 \ 'build': {
                 \     'windows': 'make -f make_mingw32.mak',
                 \     'cygwin': 'make -f make_cygwin.mak',
@@ -443,7 +443,7 @@ try
                 \                   'Edit', 'Read', 'Source', 'Write'],
                 \     'mappings': ['<Plug>(vimfiler_switch)'],
                 \ }}
-    MyNeoBundle !s:Android $GITHUB_COM.'Shougo/vimshell.git', {'lazy': 1,
+    NeoBundle $GITHUB_COM.'Shougo/vimshell.git', {'lazy': 1,
                 \ 'autoload' : {
                 \     'commands': [{'name': 'VimShell',
                 \                   'complete': 'customlist,vimshell#complete'},
