@@ -286,11 +286,15 @@ try
     " vcs
     NeoBundle $GITHUB_COM.'tpope/vim-fugitive.git'
     NeoBundle $GITHUB_COM.'gregsexton/gitv.git'
+    NeoBundle $GITHUB_COM.'kablamo/vim-git-log.git'
     NeoBundle $GITHUB_COM.'int3/vim-extradite.git'
     NeoBundle $GITHUB_COM.'airblade/vim-gitgutter.git'
 
     " unite
     NeoBundle $GITHUB_COM.'Shougo/unite.vim.git', {'lazy': 1,
+                \ 'depends': [$GITHUB_COM.'Shougo/vimfiler.git',
+                \             $GITHUB_COM.'Shougo/vimshell.git',
+                \            ],
                 \ 'autoload': {
                 \     'commands': [{'name': 'Unite',
                 \                   'complete': 'customlist,unite#complete_source'},
@@ -330,6 +334,7 @@ try
     NeoBundle $GITHUB_COM.'h1mesuke/textobj-wiw.git'
     NeoBundle $GITHUB_COM.'vimtaku/vim-textobj-sigil.git'
     NeoBundle $GITHUB_COM.'sgur/vim-textobj-parameter.git'
+    NeoBundle $GITHUB_COM.'terryma/vim-expand-region.git'
 
     " operator
     NeoBundle $GITHUB_COM.'kana/vim-operator-user.git'
@@ -495,6 +500,11 @@ try
     NeoBundle $GITHUB_COM.'vim-scripts/sudo.vim.git'
     NeoBundle $GITHUB_COM.'vim-scripts/Align.git'
     NeoBundle $GITHUB_COM.'kana/vim-submode.git'
+    NeoBundle $GITHUB_COM.'itchyny/thumbnail.vim.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'commands': 'Thumbnail',
+                \ }}
+    NeoBundle $GITHUB_COM.'thinca/vim-scall.git'
 
     " command extension
     NeoBundle $GITHUB_COM.'thinca/vim-ambicmd.git'
@@ -1890,7 +1900,7 @@ omap im <Plug>(textobj-wiw-i)
 xmap im <Plug>(textobj-wiw-i)
 "}}}
 "---------------------------------------------------------------------------
-" textobj-parameter"{{{
+" textobj-parameter:"{{{
 "
 let g:loaded_textobj_parameter = 1
 if s:has_plugin('textobj/user')
@@ -1901,6 +1911,12 @@ if s:has_plugin('textobj/user')
                 \      }
                 \    })
 endif
+"}}}
+"---------------------------------------------------------------------------
+" expand-region:"{{{
+"
+vmap + <Plug>(expand_region_expand)
+vmap _ <Plug>(expand_region_shrink)
 "}}}
 "---------------------------------------------------------------------------
 " operator-user:"{{{
@@ -2284,7 +2300,7 @@ function! s:vimshell_settings()
 endfunction
 "}}}
 "---------------------------------------------------------------------------
-" vim-submode"{{{
+" vim-submode:"{{{
 "
 if s:has_plugin('submode')
     call submode#enter_with('undo/redo', 'n', '', 'g-', 'g-')
@@ -2317,6 +2333,11 @@ if s:has_plugin('submode')
     call submode#map('changetab', 'n', '', 't', 'gt')
     call submode#map('changetab', 'n', '', 'T', 'gT')
 endif
+"}}}
+"---------------------------------------------------------------------------
+" vim-scall:"{{{
+"
+let g:scall_function_name = 'S'
 "}}}
 "---------------------------------------------------------------------------
 " vim-ambicmd:"{{{
