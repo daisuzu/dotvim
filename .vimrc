@@ -1916,7 +1916,7 @@ endif
 " expand-region:"{{{
 "
 vmap + <Plug>(expand_region_expand)
-vmap _ <Plug>(expand_region_shrink)
+vmap - <Plug>(expand_region_shrink)
 "}}}
 "---------------------------------------------------------------------------
 " operator-user:"{{{
