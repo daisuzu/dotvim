@@ -459,17 +459,21 @@ try
                 \     'mappings': ['<Plug>(vimshell_switch)'],
                 \ }}
     MyNeoBundle !s:Android $GITHUB_COM.'thinca/vim-logcat.git', {'lazy': 1,
-                \ 'depends': $GITHUB_COM.'Shougo/vimshell',
+                \ 'depends': $GITHUB_COM.'Shougo/vimshell.git',
                 \ 'autoload': {
                 \     'commands': 'Logcat',
                 \ }}
     NeoBundle $GITHUB_COM.'thinca/vim-prettyprint.git', {'lazy': 1,
                 \ 'autoload': {
-                \     'commands': 'PP',
+                \     'commands': [{'name': 'PP',
+                \                   'complete': 'expression'},
+                \                   'PrettyPrint'],
                 \ }}
     NeoBundle $GITHUB_COM.'thinca/vim-editvar.git', {'lazy': 1,
+                \ 'depends': $GITHUB_COM.'thinca/vim-prettyprint.git',
                 \ 'autoload': {
-                \     'commands': 'Editvar',
+                \     'commands': [{'name': 'Editvar',
+                \                   'complete': 'var'}],
                 \ }}
     NeoBundle $GITHUB_COM.'tyru/open-browser.vim.git'
     MyNeoBundle !s:Android $GITHUB_COM.'sjl/splice.vim.git', {'lazy': 1,
