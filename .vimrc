@@ -1534,6 +1534,15 @@ function! s:cmd_capture(q_args) "{{{
     call setline(1, split(output, '\n'))
 endfunction "}}}
 "}}}
+" ContinuousNumber "{{{
+nnoremap <silent> co :ContinuousNumber <C-a><CR>
+vnoremap <silent> co :ContinuousNumber <C-a><CR>
+command! -count -nargs=1 ContinuousNumber let c = col('.')
+            \ | for n in range(1, <count>?<count>-line('.'):1)
+            \ |     exec 'normal! j' . n . <q-args>
+            \ |     call cursor('.', c)
+            \ | endfor
+"}}}
 " Overrides fileencoding "{{{
 command! -bang -bar -complete=file -nargs=? Iso2022jp edit<bang> ++enc=iso-2022-jp <args>
 command! -bang -bar -complete=file -nargs=? Cp932 edit<bang> ++enc=cp932 <args>
