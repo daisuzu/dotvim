@@ -616,15 +616,14 @@ try
     NeoBundle $GITHUB_COM.'tpope/vim-classpath.git'
 
     " CSV
-    NeoBundle $GITHUB_COM.'vim-scripts/csv.vim.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'filetypes': ['csv', ],
-                \ }}
+    NeoBundle $GITHUB_COM.'vim-scripts/csv.vim.git'
 
     " SQL
     NeoBundle $GITHUB_COM.'daisuzu/dbext.vim.git', {'lazy': 1,
-                \ 'rev': 'Fix/SyntaxBroken'
-                \ }
+                \ 'rev': 'Fix/SyntaxBroken',
+                \ 'autoload': {
+                \     'filetypes': ['sql', ],
+                \ }}
     NeoBundle $GITHUB_COM.'vim-scripts/SQLUtilities.git', {'lazy': 1,
                 \ 'autoload': {
                 \     'commands': ['SQLUFormatter',
