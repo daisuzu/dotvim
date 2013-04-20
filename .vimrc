@@ -570,6 +570,10 @@ try
                 \ 'autoload': {
                 \     'filetypes': ['perl', ],
                 \ }}
+    NeoBundle $GITHUB_COM.'c9s/perlomni.vim.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'filetypes': ['perl', ],
+                \ }}
 
     " JavaScript
     NeoBundle $GITHUB_COM.'pangloss/vim-javascript.git', {'lazy': 1,
@@ -1731,17 +1735,12 @@ let g:neocomplcache_dictionary_filetype_lists = {
             \     'default' : $DOTVIM.'/.neo_default',
             \ }
 
-let g:neocomplcache_omni_functions = {
-            \     'ruby' : 'rubycomplete#Complete',
-            \ }
-
 " Define keyword pattern.
 if !exists('g:neocomplcache_keyword_patterns')
     let g:neocomplcache_keyword_patterns = {}
 endif
 " let g:neocomplcache_keyword_patterns.default = '\h\w*'
-let g:neocomplcache_keyword_patterns['default'] = '[0-9a-zA-Z:#_]\+'
-let g:neocomplcache_keyword_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+let g:neocomplcache_keyword_patterns.default = '[0-9a-zA-Z:#_]\+'
 
 " For snippet_complete marker.
 if has('conceal')
@@ -1752,11 +1751,9 @@ endif
 if !exists('g:neocomplcache_omni_patterns')
     let g:neocomplcache_omni_patterns = {}
 endif
-" let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
-" let g:neocomplcache_force_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
 let g:neocomplcache_omni_patterns.php = '[^. *\t]\.\w*\|\h\w*::'
 let g:neocomplcache_omni_patterns.mail = '^\s*\w\+'
-let g:neocomplcache_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+let g:neocomplcache_omni_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 let g:neocomplcache_caching_limit_file_size = 500000
 
 if !exists('g:neocomplcache_same_filetype_lists')
@@ -1768,7 +1765,7 @@ let g:neocomplcache_source_look_dictionary_path = ''
 if !exists('g:neocomplcache_force_omni_patterns')
     let g:neocomplcache_force_omni_patterns = {}
 endif
-
+" let g:neocomplcache_force_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
 " For clang_complete
 let g:neocomplcache_force_omni_patterns.c =
             \ '[^.[:digit:] *\t]\%(\.\|->\)'
