@@ -20,13 +20,13 @@ endif
 
 let $MYLOCALVIMRC = $DOTVIM.'/.local.vimrc'
 
-nnoremap <silent> <Space>ev  :<C-u>edit $MYVIMRC<CR>
-nnoremap <silent> <Space>eg  :<C-u>edit $MYGVIMRC<CR>
-nnoremap <silent> <Space>el  :<C-u>edit $MYLOCALVIMRC<CR>
+nnoremap <silent> <Space>ev :<C-u>edit $MYVIMRC<CR>
+nnoremap <silent> <Space>eg :<C-u>edit $MYGVIMRC<CR>
+nnoremap <silent> <Space>el :<C-u>edit $MYLOCALVIMRC<CR>
 
-nnoremap <silent> <Space>tv  :<C-u>tabedit $MYVIMRC<CR>
-nnoremap <silent> <Space>tg  :<C-u>tabedit $MYGVIMRC<CR>
-nnoremap <silent> <Space>tl  :<C-u>tabedit $MYLOCALVIMRC<CR>
+nnoremap <silent> <Space>tv :<C-u>tabedit $MYVIMRC<CR>
+nnoremap <silent> <Space>tg :<C-u>tabedit $MYGVIMRC<CR>
+nnoremap <silent> <Space>tl :<C-u>tabedit $MYLOCALVIMRC<CR>
 
 nnoremap <silent> <Space>rv :<C-u>source $MYVIMRC \| if has('gui_running') \| source $MYGVIMRC \| endif <CR>
 nnoremap <silent> <Space>rg :<C-u>source $MYGVIMRC<CR>
@@ -123,9 +123,9 @@ if !has('gui_macvim')
     if has('autocmd')
         function! AU_ReCheck_FENC()
             if &fileencoding =~# 'iso-2022-jp' && search("[^\x01-\x7e]", 'n') == 0
-                let &fileencoding=&encoding
+                let &fileencoding = &encoding
                 if s:MSWindows
-                    let &fileencoding='cp932'
+                    let &fileencoding = 'cp932'
                 endif
             endif
         endfunction
@@ -305,6 +305,7 @@ try
                 \ }}
     MyNeoBundle !s:Android $GITHUB_COM.'Shougo/unite-build.git'
     NeoBundle $GITHUB_COM.'ujihisa/unite-colorscheme.git'
+    NeoBundle $GITHUB_COM.'ujihisa/unite-font.git'
     NeoBundleLazy $GITHUB_COM.'ujihisa/quicklearn.git'
     NeoBundle $GITHUB_COM.'sgur/unite-qf.git'
     NeoBundle $GITHUB_COM.'osyo-manga/unite-quickfix.git'
@@ -603,10 +604,12 @@ try
                 \ }}
 
     " Clojure
-    NeoBundle $GITHUB_COM.'thinca/vim-ft-clojure.git', {'lazy': 1,
+    NeoBundle $GITHUB_COM.'thinca/vim-ft-clojure.git'
+    NeoBundle $GITHUB_COM.'tpope/vim-fireplace.git', {'lazy': 1,
                 \ 'autoload': {
                 \     'filetypes': ['clojure', ],
                 \ }}
+    NeoBundle $GITHUB_COM.'tpope/vim-classpath.git'
 
     " CSV
     NeoBundle $GITHUB_COM.'vim-scripts/csv.vim.git', {'lazy': 1,
@@ -633,14 +636,6 @@ endtry
 "}}}
 
 filetype plugin indent on
-
-"---------------------------------------------------------------------------
-" CCTree.vim:"{{{
-"
-if 1 && filereadable($DOTVIM . '/Bundle/CCTree/ftplugin/cctree.vim')
-    source $DOTVIM/Bundle/CCTree/ftplugin/cctree.vim
-endif
-"}}}
 "}}}
 
 "---------------------------------------------------------------------------
@@ -736,6 +731,8 @@ set showcmd
 set title
 set showtabline=2
 set display=uhex
+set previewheight=12
+set winwidth=20
 
 set nowrap
 nnoremap <Space>ow :<C-u>setlocal wrap! wrap?<CR>
@@ -749,11 +746,12 @@ set guioptions+=h
 " Hide Toolbar
 set guioptions-=T
 " Toggle horizontal scrollbar
-nnoremap  <silent> <Space>oh :if &guioptions =~# 'b' <Bar>
-      \set guioptions-=b <Bar>
-      \else <Bar>
-      \set guioptions+=b <Bar>
-      \endif <CR>
+nnoremap <silent> <Space>oh :
+            \ if &guioptions =~# 'b' <Bar>
+            \     set guioptions-=b <Bar>
+            \ else <Bar>
+            \     set guioptions+=b <Bar>
+            \ endif <CR>
 
 if has('gui_running')
     " Window width
@@ -858,38 +856,57 @@ endfunction
 
 function! s:SetFullStatusline() "{{{
     setlocal statusline=
-    setlocal statusline+=%#StatuslineBufNr#%-1.2n\                                               " buffer number
-    setlocal statusline+=%h%#StatuslineFlag#%m%r%w                                               " flags
-    setlocal statusline+=%#StatuslinePath#\ %-0.50{StatusLineGetPath()}%0*                       " path
-    setlocal statusline+=%#StatuslineFileName#\/%t\                                              " file name
-    setlocal statusline+=%#StatuslineFileSize#\(%{GetFileSize()}\)\                              " file size
+
+    " buffer number
+    setlocal statusline+=%#StatuslineBufNr#%-1.2n
+    " flags
+    setlocal statusline+=\ %h%#StatuslineFlag#%m%r%w
+    " path
+    setlocal statusline+=%#StatuslinePath#\ %-0.50{StatusLineGetPath()}%0*
+    " file name
+    setlocal statusline+=%#StatuslineFileName#\/%t
+    " file size
+    setlocal statusline+=%#StatuslineFileSize#\ \(%{GetFileSize()}\)
 
     try
         call fugitive#statusline()
-        setlocal statusline+=%{fugitive#statusline()}                                            " Git branch name
+        " Git branch name
+        setlocal statusline+=\ %{fugitive#statusline()}
     catch /E117/
 
     endtry
 
-    setlocal statusline+=%#StatuslineChar#\ \ %{GetCharacterCode()}                              " current char
-    setlocal statusline+=%#StatuslineTermEnc#(%{&termencoding},\                                 " encoding
-    setlocal statusline+=%#StatuslineFileEnc#%{&fileencoding},\                                  " file encoding
-    setlocal statusline+=%#StatuslineFileFormat#%{&fileformat}\)\                                " file format
+    " current char
+    setlocal statusline+=%#StatuslineChar#\ \ %{GetCharacterCode()}
+    " encoding
+    setlocal statusline+=%#StatuslineTermEnc#(%{&termencoding},
+    " file encoding
+    setlocal statusline+=%#StatuslineFileEnc#%{&fileencoding},
+    " file format
+    setlocal statusline+=%#StatuslineFileFormat#%{&fileformat}\)
 
-    setlocal statusline+=%#StatuslineFileType#\ %{strlen(&ft)?&ft:'**'}\ .                       " filetype
-    setlocal statusline+=%#StatuslineSyn#\ %{synIDattr(synID(line('.'),col('.'),1),'name')}\ %0* " syntax name
-    setlocal statusline+=%#StatuslineRealSyn#\ %{StatusLineRealSyn()}\ %0*                       " real syntax name
+    " filetype
+    setlocal statusline+=%#StatuslineFileType#\ %{strlen(&ft)?&ft:'**'}\ .
+    " syntax name
+    setlocal statusline+=%#StatuslineSyn#\ %{synIDattr(synID(line('.'),col('.'),1),'name')}\ %0*
+    " real syntax name
+    setlocal statusline+=%#StatuslineRealSyn#\ %{StatusLineRealSyn()}\ %0*
+
     setlocal statusline+=%=
 
-    setlocal statusline+=\ %-10.(%l/%L,%c-%v%)                                                   " position
-    setlocal statusline+=\ %P                                                                    " position percentage
-
+    " position
+    setlocal statusline+=\ %-10.(%l/%L,%c-%v%)
+    " position percentage
+    setlocal statusline+=\ %P
 endfunction "}}}
 
 function! s:SetSimpleStatusline() "{{{
     setlocal statusline=
-    setlocal statusline+=%#StatuslineNC#%-0.20{StatusLineGetPath()}%0*                           " path
-    setlocal statusline+=\/%t\                                                                   " file name
+
+    " path
+    setlocal statusline+=%#StatuslineNC#%-0.20{StatusLineGetPath()}%0*
+    " file name
+    setlocal statusline+=\/%t
 endfunction "}}}
 
 " Get character code on cursor with 'fileencoding'.
@@ -948,16 +965,16 @@ function! s:onColorScheme()
     endif
     "}}}
     " Additional settings of Color "{{{
-    highlight Search        ctermfg=Black  ctermbg=Red cterm=bold  guifg=Black       guibg=Red gui=bold
-    highlight Visual        cterm=reverse  guifg=#404040  gui=bold
-    highlight Cursor        guifg=Black    guibg=Green      gui=bold
-    highlight StatusLine    ctermfg=blue   ctermbg=white guifg=white    guibg=blue
-    highlight Folded        guifg=blue     guibg=darkgray
-    " highlight Folded        guifg=blue     guibg=cadetblue
+    highlight Cursor      guifg=Black   guibg=Green   gui=bold
+    highlight Search      ctermfg=Black ctermbg=Red   cterm=bold  guifg=Black  guibg=Red  gui=bold
+    highlight StatusLine  ctermfg=blue  ctermbg=white guifg=white guibg=blue
+    highlight Visual      cterm=reverse guifg=#404040 gui=bold
+    highlight Folded      guifg=blue    guibg=darkgray
+    " highlight Folded      guifg=blue    guibg=cadetblue
 
-    highlight TabLine ctermfg=Black ctermbg=White guifg=Black guibg=#dcdcdc gui=underline
-    highlight TabLineSel term=bold cterm=bold ctermfg=White ctermbg=Blue guifg=White guibg=Blue gui=bold
-    highlight TabLineFill ctermfg=White ctermbg=Black guifg=Black guibg=#dcdcdc gui=underline
+    highlight TabLine     ctermfg=Black ctermbg=White guifg=Black   guibg=#dcdcdc gui=underline
+    highlight TabLineFill ctermfg=White ctermbg=Black guifg=Black   guibg=#dcdcdc gui=underline
+    highlight TabLineSel  term=bold     cterm=bold    ctermfg=White ctermbg=Blue  guifg=White guibg=Blue gui=bold
     "}}}
     " For completion menu "{{{
     highlight Pmenu       ctermfg=White ctermbg=DarkBlue  guifg=#0033ff guibg=#99cccc gui=none
@@ -966,8 +983,8 @@ function! s:onColorScheme()
     highlight PmenuThumb  ctermfg=White ctermbg=DarkGreen guifg=#ffffff guibg=#006699 gui=none
     "}}}
     " For unite "{{{
-    highlight UniteAbbr     guifg=#80a0ff    gui=underline
-    highlight UniteCursor   ctermbg=Blue     guifg=black     guibg=lightblue  gui=bold
+    highlight UniteAbbr   guifg=#80a0ff    gui=underline
+    highlight UniteCursor ctermbg=Blue     guifg=black     guibg=lightblue  gui=bold
     "}}}
 endfunction
 call s:onColorScheme()
@@ -1000,21 +1017,21 @@ endtry
 
 " TabpageCD "{{{
 command! -bar -complete=dir -nargs=?
-      \   CD
-      \   TabpageCD <args>
+            \ CD
+            \ TabpageCD <args>
 command! -bar -complete=dir -nargs=?
-      \   TabpageCD
-      \   execute 'cd' fnameescape(expand(<q-args>))
-      \   | let t:cwd = getcwd()
+            \ TabpageCD
+            \ execute 'cd' fnameescape(expand(<q-args>))
+            \ | let t:cwd = getcwd()
 
 autocmd MyVimrcCmd TabEnter *
-      \   if exists('t:cwd') && !isdirectory(t:cwd)
-      \ |     unlet t:cwd
-      \ | endif
-      \ | if !exists('t:cwd')
-      \ |   let t:cwd = getcwd()
-      \ | endif
-      \ | execute 'cd' fnameescape(expand(t:cwd))
+            \   if exists('t:cwd') && !isdirectory(t:cwd)
+            \ |     unlet t:cwd
+            \ | endif
+            \ | if !exists('t:cwd')
+            \ |     let t:cwd = getcwd()
+            \ | endif
+            \ | execute 'cd' fnameescape(expand(t:cwd))
 
 " Exchange ':cd' to ':TabpageCD'.
 try
@@ -1078,7 +1095,7 @@ function! s:init_cmdwin()
     inoremap <buffer><expr><C-h> pumvisible() ? "\<C-y>\<C-h>" : "\<C-h>"
     inoremap <buffer><expr><BS> pumvisible() ? "\<C-y>\<C-h>" : "\<C-h>"
 
-    inoremap <buffer><expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+    inoremap <buffer><expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 
     startinsert!
 endfunction
@@ -1385,32 +1402,32 @@ endfunction
 
 function! s:winnrlist(...)
     return a:0
-                \       ? range(1, tabpagewinnr(a:1, "$"))
-                \       : range(1, tabpagewinnr(tabpagenr(), "$"))
+                \ ? range(1, tabpagewinnr(a:1, "$"))
+                \ : range(1, tabpagewinnr(tabpagenr(), "$"))
 endfunction
 
 function! s:winlist(...)
     let tabnr = a:0 == 0 ? tabpagenr() : a:1
     return map(s:winnrlist(tabnr), '{
-                \       "winnr" : v:val,
-                \       "name"  : gettabwinvar(tabnr, v:val, "name")
-                \   }')
+                \     "winnr" : v:val,
+                \     "name"  : gettabwinvar(tabnr, v:val, "name")
+                \ }')
 endfunction
 
 function! s:winnr(...)
-    return a:0 == 0    ? winnr()
-                \        : a:1 ==# "$" ? winnr("$")
-                \        : a:1 ==# "#" ? winnr("#")
-                \        : !s:is_number(a:1) ? (filter(s:winlist(), 'v:val.name ==# a:1') + [{'winnr' : '-1'}])[0].winnr
-                \        : a:1
+    return a:0 == 0 ? winnr()
+                \ : a:1 ==# "$" ? winnr("$")
+                \ : a:1 ==# "#" ? winnr("#")
+                \ : !s:is_number(a:1) ? (filter(s:winlist(), 'v:val.name ==# a:1') + [{'winnr' : '-1'}])[0].winnr
+                \ : a:1
 endfunction
 
 function! s:winname(...)
-    return a:0 == 0    ? s:winname(winnr())
-                \        : a:1 ==# "$" ? s:winname(winnr("$"))
-                \        : a:1 ==# "#" ? s:winname(winnr("#"))
-                \        : !s:is_number(a:1) ? (filter(s:winlist(), 'v:val.name ==# a:1') + [{'name' : ''}])[0].name
-                \        : (filter(s:winlist(), 'v:val.winnr ==# a:1') + [{'name' : ''}])[0].name
+    return a:0 == 0 ? s:winname(winnr())
+                \ : a:1 ==# "$" ? s:winname(winnr("$"))
+                \ : a:1 ==# "#" ? s:winname(winnr("#"))
+                \ : !s:is_number(a:1) ? (filter(s:winlist(), 'v:val.name ==# a:1') + [{'name' : ''}])[0].name
+                \ : (filter(s:winlist(), 'v:val.winnr ==# a:1') + [{'name' : ''}])[0].name
 endfunction
 
 function! s:split(cmd, name)
@@ -1458,24 +1475,24 @@ if executable('ctags')
 
         if s:MSWindows
             let enc = get({
-                        \   'utf-8': 'utf8',
-                        \   'cp932': 'sjis',
-                        \   'euc-jp': 'euc',
+                        \     'utf-8': 'utf8',
+                        \     'cp932': 'sjis',
+                        \     'euc-jp': 'euc',
                         \ }, &l:fileencoding ==# '' ? &encoding : &l:fileencoding, '')
             if enc !=# ''
                 let args += ['--jcode=' . enc]
             endif
         endif
         let lang = get({
-                    \   'cpp': 'C++',
-                    \   'c': 'C++',
-                    \   'java': 'Java',
+                    \     'cpp': 'C++',
+                    \     'c': 'C++',
+                    \     'java': 'Java',
                     \ }, &l:filetype, '')
         if lang !=# ''
             let args += ['--languages=' . lang]
         endif
         let opt = get({
-                    \   'cpp': '--sort=yes --c++-kinds=+p --fields=+iaS --extra=+q',
+                    \     'cpp': '--sort=yes --c++-kinds=+p --fields=+iaS --extra=+q',
                     \ }, &l:filetype, '')
         if opt !=# ''
             let args += [opt]
@@ -1500,9 +1517,9 @@ endif
 "}}}
 " Capture "{{{
 command!
-            \   -nargs=+ -complete=command
-            \   Capture
-            \   call s:cmd_capture(<q-args>)
+            \ -nargs=+ -complete=command
+            \ Capture
+            \ call s:cmd_capture(<q-args>)
 
 function! s:cmd_capture(q_args) "{{{
     redir => output
@@ -1532,7 +1549,7 @@ command! -bang -bar -complete=file -nargs=? Unicode Utf16<bang> <args>
 " s:has_plugin(name) "{{{
 function! s:has_plugin(name)
     return globpath(&runtimepath, 'plugin/' . a:name . '.vim') !=# ''
-                \   || globpath(&runtimepath, 'autoload/' . a:name . '.vim') !=# ''
+                \ || globpath(&runtimepath, 'autoload/' . a:name . '.vim') !=# ''
 endfunction
 "}}}
 "}}}
@@ -1559,26 +1576,26 @@ let g:ref_pydoc_cmd = "python -m pydoc"
 
 " webdict
 let g:ref_source_webdict_sites = {
-            \ 'wikipedia:ja': {
-                \ 'url': 'http://ja.wikipedia.org/wiki/%s',
-                \ 'keyword_encoding': 'utf-8',
-                \ 'cache': '0',
-                \ },
-            \ 'wikipedia:en': {
-                \ 'url': 'http://en.wikipedia.org/wiki/%s',
-                \ 'keyword_encoding': 'utf-8',
-                \ 'cache': '0',
-                \ },
-            \ 'wiktionary': {
-                \ 'url': 'http://ja.wiktionary.org/wiki/%s',
-                \ 'keyword_encoding': 'utf-8',
-                \ 'cache': '0',
-                \ },
-            \ 'alc': {
-                \ 'url': 'http://eow.alc.co.jp/%s',
-                \ 'keyword_encoding': 'utf-8',
-                \ 'cache': '0',
-                \ },
+            \     'wikipedia:ja': {
+            \         'url': 'http://ja.wikipedia.org/wiki/%s',
+            \         'keyword_encoding': 'utf-8',
+            \         'cache': '0',
+            \     },
+            \     'wikipedia:en': {
+            \         'url': 'http://en.wikipedia.org/wiki/%s',
+            \         'keyword_encoding': 'utf-8',
+            \         'cache': '0',
+            \     },
+            \     'wiktionary': {
+            \         'url': 'http://ja.wiktionary.org/wiki/%s',
+            \         'keyword_encoding': 'utf-8',
+            \         'cache': '0',
+            \     },
+            \     'alc': {
+            \         'url': 'http://eow.alc.co.jp/%s',
+            \         'keyword_encoding': 'utf-8',
+            \         'cache': '0',
+            \     },
             \ }
 
 function! g:ref_source_webdict_sites.wiktionary.filter(output)
@@ -1602,11 +1619,11 @@ if s:has_plugin('neobundle')
 endif
 
 if s:is_installed_neocomplcache
-    imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-    smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-    inoremap <expr><C-g>     neocomplcache#undo_completion()
-    inoremap <expr><C-l>     neocomplcache#complete_common_string()
-    imap <C-q>  <Plug>(neocomplcache_start_unite_quick_match)
+    imap <C-k> <Plug>(neosnippet_expand_or_jump)
+    smap <C-k> <Plug>(neosnippet_expand_or_jump)
+    inoremap <expr><C-g> neocomplcache#undo_completion()
+    inoremap <expr><C-l> neocomplcache#complete_common_string()
+    imap <C-q> <Plug>(neocomplcache_start_unite_quick_match)
 
     " SuperTab like snippets behavior.
     "imap <expr><TAB> neosnippet#expandable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
@@ -1619,7 +1636,7 @@ if s:is_installed_neocomplcache
     endfunction
 
     " <TAB>: completion.
-    inoremap <expr><TAB>  pumvisible() ? "\<C-n>" :
+    inoremap <expr><TAB> pumvisible() ? "\<C-n>" :
                 \ <SID>check_back_space() ? "\<TAB>" :
                 \ neocomplcache#start_manual_complete()
     function! s:check_back_space() "{{{
@@ -1627,13 +1644,13 @@ if s:is_installed_neocomplcache
         return !col || getline('.')[col - 1]  =~ '\s'
     endfunction "}}}
     " <S-TAB>: completion back.
-    inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<C-h>"
+    inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
     " <C-h>, <BS>: close popup and delete backword char.
     inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
     inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-    inoremap <expr><C-y>  neocomplcache#close_popup()
-    inoremap <expr><C-e>  neocomplcache#cancel_popup()
+    inoremap <expr><C-y> neocomplcache#close_popup()
+    inoremap <expr><C-e> neocomplcache#cancel_popup()
 
     " For cursor moving in insert mode(Not recommended)
     "inoremap <expr><Left> neocomplcache#close_popup() . "\<Left>"
@@ -1702,11 +1719,11 @@ let g:neocomplcache_temporary_dir = $DOTVIM.'/.neocon'
 
 " Define dictionary.
 let g:neocomplcache_dictionary_filetype_lists = {
-            \ 'default' : $DOTVIM.'/.neo_default',
+            \     'default' : $DOTVIM.'/.neo_default',
             \ }
 
 let g:neocomplcache_omni_functions = {
-            \ 'ruby' : 'rubycomplete#Complete',
+            \     'ruby' : 'rubycomplete#Complete',
             \ }
 
 " Define keyword pattern.
@@ -1753,26 +1770,23 @@ let g:neocomplcache_force_omni_patterns.cpp =
 let g:neocomplcache_force_omni_patterns.python = '[^. \t]\.\w*'
 
 let g:neocomplcache_ignore_composite_filetype_lists = {
-            \ 'python.unit': 'python',
-            \ 'php.unit': 'php',
+            \     'python.unit': 'python',
+            \     'php.unit': 'php',
             \ }
 
 let g:neocomplcache_vim_completefuncs = {
-            \ 'Ref' : 'ref#complete',
-            \ 'Unite' : 'unite#complete_source',
-            \ 'VimShellExecute' :
-            \      'vimshell#vimshell_execute_complete',
-            \ 'VimShellInteractive' :
-            \      'vimshell#vimshell_execute_complete',
-            \ 'VimShellTerminal' :
-            \      'vimshell#vimshell_execute_complete',
-            \ 'VimShell' : 'vimshell#complete',
-            \ 'VimFiler' : 'vimfiler#complete',
-            \ 'Vinarise' : 'vinarise#complete',
+            \     'Ref': 'ref#complete',
+            \     'Unite': 'unite#complete_source',
+            \     'VimShellExecute': 'vimshell#vimshell_execute_complete',
+            \     'VimShellInteractive': 'vimshell#vimshell_execute_complete',
+            \     'VimShellTerminal': 'vimshell#vimshell_execute_complete',
+            \     'VimShell': 'vimshell#complete',
+            \     'VimFiler': 'vimfiler#complete',
+            \     'Vinarise': 'vinarise#complete',
             \}
 if !exists('g:neocomplcache_source_completion_length')
     let g:neocomplcache_source_completion_length = {
-                \ 'look' : 4,
+                \     'look' : 4,
                 \ }
 endif
 "}}}
@@ -1781,7 +1795,7 @@ endif
 "
 let g:clang_complete_auto = 0
 let g:clang_auto_select = 0
-let g:clang_use_library   = 1
+let g:clang_use_library = 1
 
 " if s:MSWindows
 "     let g:clang_exec = '"C:/GnuWin32/bin/clang.exe'
@@ -1831,8 +1845,8 @@ nnoremap <Space>gV :<C-u>Gitv!<CR>
 " unite.vim:"{{{
 "
 " The prefix key.
-nnoremap    [unite]   <Nop>
-nmap    f [unite]
+nnoremap [unite] <Nop>
+nmap f [unite]
 
 nnoremap <silent> [unite]a  :<C-u>Unite -prompt=#\  buffer bookmark file_mru file<CR>
 nnoremap <silent> [unite]b  :<C-u>UniteWithBufferDir -buffer-name=files -prompt=%\  buffer bookmark file_mru file<CR>
@@ -1860,13 +1874,13 @@ autocmd MyVimrcCmd FileType unite call s:unite_my_settings()
 function! s:unite_my_settings() "{{{
     " Overwrite settings.
 
-    nmap <buffer> <ESC>      <Plug>(unite_exit)
-    imap <buffer> jj      <Plug>(unite_insert_leave)
-    imap <buffer> <C-w>     <Plug>(unite_delete_backward_path)
+    nmap <buffer> <ESC> <Plug>(unite_exit)
+    imap <buffer> jj <Plug>(unite_insert_leave)
+    imap <buffer> <C-w> <Plug>(unite_delete_backward_path)
     inoremap <buffer> <expr> <C-y> unite#do_action('insert')
 
     " <C-l>: manual neocomplcache completion.
-    inoremap <buffer> <C-l>  <C-x><C-u><C-p><Down>
+    inoremap <buffer> <C-l> <C-x><C-u><C-p><Down>
 
 endfunction "}}}
 
@@ -1890,11 +1904,11 @@ let g:unite_abbr_highlight = 'UniteAbbr'
 " ruled line for rst's table
 if s:has_plugin('textobj/user')
     call textobj#user#plugin('ruledline', {
-                \      '-': {
-                \           '*pattern*': '-\+',
-                \           'select': ['aR', 'iR'],
-                \      },
-                \   })
+                \     '-': {
+                \         '*pattern*': '-\+',
+                \         'select': ['aR', 'iR'],
+                \     },
+                \ })
 endif
 "}}}
 "}}}
@@ -1921,11 +1935,11 @@ xmap im <Plug>(textobj-wiw-i)
 let g:loaded_textobj_parameter = 1
 if s:has_plugin('textobj/user')
     call textobj#user#plugin('parameter', {
-                \      '-': {
-                \        'select-i': "ip",  '*select-i-function*': 'textobj#parameter#select_i',
-                \        'select-a': "ap",  '*select-a-function*': 'textobj#parameter#select_a',
-                \      }
-                \    })
+                \     '-': {
+                \         'select-i': "ip",  '*select-i-function*': 'textobj#parameter#select_i',
+                \         'select-a': "ap",  '*select-a-function*': 'textobj#parameter#select_a',
+                \     }
+                \ })
 endif
 "}}}
 "---------------------------------------------------------------------------
@@ -1947,7 +1961,7 @@ function! OperatorFillBlank(motion_wise)
     execute 'normal! `['.v.'`]"xy'
     let text = getreg('x', 1)
     let text = s:map_lines(text,
-                \   'substitute(v:val, ".", "\\=s:charwidthwise_r(submatch(0))", "g")')
+                \ 'substitute(v:val, ".", "\\=s:charwidthwise_r(submatch(0))", "g")')
     call setreg('x', text, v)
     normal! gv"xp
 endfunction
@@ -2006,7 +2020,7 @@ map <Leader>s <Plug>(operator-sort)
 "
 " To highlight with a undercurl in quickfix error
 execute "highlight qf_error_ucurl gui=undercurl guisp=Red"
-let g:hier_highlight_group_qf  = "qf_error_ucurl"
+let g:hier_highlight_group_qf = "qf_error_ucurl"
 
 function! ResetHierAutocmd()
     try
@@ -2027,74 +2041,72 @@ augroup END
 let QFixHowm_Key = 'g'
 let QFixHowm_KeyB = ','
 
-let howm_dir             = $DOTVIM.'/howm'
-let howm_filename        = '%Y/%m/%Y-%m-%d-%H%M%S.howm'
-let howm_fileencoding    = 'utf-8'
-let howm_fileformat      = 'dos'
+let howm_dir = $DOTVIM.'/howm'
+let howm_filename = '%Y/%m/%Y-%m-%d-%H%M%S.howm'
+let howm_fileencoding = 'utf-8'
+let howm_fileformat = 'dos'
 "}}}
 "---------------------------------------------------------------------------
 " qfixmemo.vim:"{{{
 "
-let qfixmemo_dir           = $DOTVIM.'/qfixmemo'
-let qfixmemo_filename      = '%Y/%m/%Y-%m-%d-%H%M%S.txt'
-let qfixmemo_fileencoding  = 'cp932'
-let qfixmemo_fileformat    = 'dos'
-let qfixmemo_filetype      = 'qfix_memo'
+let qfixmemo_dir = $DOTVIM.'/qfixmemo'
+let qfixmemo_filename = '%Y/%m/%Y-%m-%d-%H%M%S.txt'
+let qfixmemo_fileencoding = 'cp932'
+let qfixmemo_fileformat = 'dos'
+let qfixmemo_filetype = 'qfix_memo'
 "}}}
 "---------------------------------------------------------------------------
 " qfixmru.vim:"{{{
 "
-let QFixMRU_Filename     = $DOTVIM.'/.qfixmru'
-let QFixMRU_IgnoreFile   = ''
+let QFixMRU_Filename = $DOTVIM.'/.qfixmru'
+let QFixMRU_IgnoreFile = ''
 let QFixMRU_RegisterFile = ''
-let QFixMRU_IgnoreTitle  = ''
-let g:QFixMRU_Entries    = 20
-let QFixMRU_EntryMax     = 300
+let QFixMRU_IgnoreTitle = ''
+let g:QFixMRU_Entries = 20
+let QFixMRU_EntryMax = 300
 "}}}
 "---------------------------------------------------------------------------
 " qfixgrep.vim:"{{{
 "
-let QFix_PreviewEnable    = 0
+let QFix_PreviewEnable = 0
 let QFix_HighSpeedPreview = 0
-let QFix_DefaultPreview   = 0
+let QFix_DefaultPreview = 0
 let QFix_PreviewExclude = '\.pdf$\|\.mp3$\|\.jpg$\|\.bmp$\|\.png$\|\.zip$\|\.rar$\|\.exe$\|\.dll$\|\.lnk$'
 
 let QFix_CopenCmd = ''
 let QFix_Height = 10
 let QFix_Width = 0
-set previewheight=12
 let QFix_PreviewHeight = 12
-set winwidth=20
 let QFix_WindowHeightMin = 0
 let QFix_PreviewOpenCmd = ''
-let QFix_PreviewWidth  = 0
+let QFix_PreviewWidth = 0
 
-let QFix_HeightFixMode         = 0
+let QFix_HeightFixMode = 0
 
-let QFix_CloseOnJump           = 0
+let QFix_CloseOnJump = 0
 let QFix_Edit = 'tab'
 
 let QFix_PreviewFtypeHighlight = 1
-let QFix_CursorLine            = 1
-let QFix_PreviewCursorLine     = 1
-"hi CursorLine guifg=NONE guibg=NONE gui=underline
+let QFix_CursorLine = 1
+let QFix_PreviewCursorLine = 1
+"hi CursorLine guifg = NONE guibg = NONE gui = underline
 
 let QFix_Copen_winfixheight = 1
-let QFix_Copen_winfixwidth  = 1
+let QFix_Copen_winfixwidth = 1
 let QFix_Preview_winfixheight = 1
-let QFix_Preview_winfixwidth  = 1
+let QFix_Preview_winfixwidth = 1
 
 let MyGrep_ExcludeReg = '[~#]$\|\.bak$\|\.o$\|\.obj$\|\.exe$\|[/\\]tags$\|[/\\]svn[/\\]\|[/\\]\.git[/\\]\|[/\\]\.hg[/\\]'
 let mygrepprg = 'grep'
-let MyGrep_ShellEncoding      = 'cp932'
-let MyGrep_Damemoji           = 2
+let MyGrep_ShellEncoding = 'cp932'
+let MyGrep_Damemoji = 2
 let MyGrep_DamemojiReplaceReg = '(..)'
-let MyGrep_DamemojiReplace    = '[]'
+let MyGrep_DamemojiReplace = '[]'
 let MyGrep_yagrep_opt = 0
 
 let MyGrepcmd_useropt = ''
 
-"let MyGrep_Key  = 'g'
+"let MyGrep_Key = 'g'
 "let MyGrep_KeyB = ','
 
 let MyGrep_DefaultSearchWord = 1
@@ -2130,12 +2142,12 @@ endtry
 " rainbowcyclone.vim:"{{{
 "
 if s:has_plugin('rainbowcyclone')
-    nmap c/         <Plug>(rc_search_forward)
-    nmap c?         <Plug>(rc_search_backward)
-    nmap c*         <Plug>(rc_search_forward_with_cursor)
-    nmap c#         <Plug>(rc_search_backward_with_cursor)
-    nmap cn         <Plug>(rc_search_forward_with_last_pattern)
-    nmap cN         <Plug>(rc_search_backward_with_last_pattern)
+    nmap c/ <Plug>(rc_search_forward)
+    nmap c? <Plug>(rc_search_backward)
+    nmap c* <Plug>(rc_search_forward_with_cursor)
+    nmap c# <Plug>(rc_search_backward_with_cursor)
+    nmap cn <Plug>(rc_search_forward_with_last_pattern)
+    nmap cN <Plug>(rc_search_backward_with_last_pattern)
     " nmap <Esc><Esc> <Plug>(rc_reset):nohlsearch<CR>
     nnoremap <Esc><Esc> :<C-u>RCReset<CR>:nohlsearch<CR>
 endif
@@ -2176,8 +2188,8 @@ if s:has_plugin('rst_table')
         noremap <silent> ,,c :python3 CreateTable()<CR>
         noremap <silent> ,,f :python3 FixTable()<CR>
     elseif has('python')
-        noremap <silent> ,,c :python  CreateTable()<CR>
-        noremap <silent> ,,f :python  FixTable()<CR>
+        noremap <silent> ,,c :python CreateTable()<CR>
+        noremap <silent> ,,f :python FixTable()<CR>
     endif
 endif
 "}}}
@@ -2200,48 +2212,49 @@ if !exists('g:quickrun_config')
 endif
 
 let g:quickrun_config['_'] = {
-            \ 'outputter/buffer/split' : ':botright 8sp',
+            \     'outputter/buffer/split' : ':botright 8sp',
             \ }
 let g:quickrun_config['watchdogs_checker/_'] = {
-            \ 'hook/close_unite_quickfix/enable_hook_loaded' : 1,
-            \ 'hook/unite_quickfix/enable_failure' : 1,
-            \ 'hook/close_quickfix/enable_exit' : 1,
-            \ 'hook/close_buffer/enable_exit' : 1,
-            \ 'hook/close_buffer/enable_failure' : 1,
-            \ 'hook/close_buffer/enable_empty_data' : 1,
-            \ 'outputter' : 'multi:buffer:quickfix',
-            \ 'hook/inu/enable' : 1,
-            \ 'hook/inu/wait' : 20,
-            \ 'runner' : 'vimproc',
-            \ 'runner/vimproc/updatetime' : 40,
+            \     'hook/close_unite_quickfix/enable_hook_loaded' : 1,
+            \     'hook/unite_quickfix/enable_failure' : 1,
+            \     'hook/close_quickfix/enable_exit' : 1,
+            \     'hook/close_buffer/enable_exit' : 1,
+            \     'hook/close_buffer/enable_failure' : 1,
+            \     'hook/close_buffer/enable_empty_data' : 1,
+            \     'outputter' : 'multi:buffer:quickfix',
+            \     'hook/inu/enable' : 1,
+            \     'hook/inu/wait' : 20,
+            \     'runner' : 'vimproc',
+            \     'runner/vimproc/updatetime' : 40,
             \ }
 
 " settings for pandoc "{{{
 let g:quickrun_config['markdown'] = {
-            \ 'type': 'markdown/pandoc',
-            \ 'outputter': 'browser',
-            \ 'cmdopt': '-s'
+            \     'type': 'markdown/pandoc',
+            \     'outputter': 'browser',
+            \     'cmdopt': '-s'
             \ }
 "}}}
 " settings for sphinx "{{{
 let g:quickrun_config['rst'] = {
-            \ 'command': 'make',
-            \ 'outputter': 'quickfix',
-            \ 'hook/sphinx_open/enable' : 1,
-            \ 'hook/sphinx_html2pdf/enable' : 1,
-            \ 'hook/sphinx_html2pdf/options': [
-            \   '-B 0',
-            \   '-L 0',
-            \   '-R 0',
-            \   '-T 0',
-            \ ],
-            \ 'cmdopt': 'html',
-            \ 'exec': '%c %o'
+            \     'command': 'make',
+            \     'outputter': 'quickfix',
+            \     'hook/sphinx_open/enable' : 1,
+            \     'hook/sphinx_html2pdf/enable' : 1,
+            \     'hook/sphinx_html2pdf/options': [
+            \         '-B 0',
+            \         '-L 0',
+            \         '-R 0',
+            \         '-T 0',
+            \     ],
+            \     'cmdopt': 'html',
+            \     'exec': '%c %o'
             \ }
 "}}}
 
 if s:has_plugin('neobundle')
     let bundle = neobundle#get('vim-quickrun')
+
     function! bundle.hooks.on_source(bundle)
         NeoBundleSource quicklearn
     endfunction
@@ -2269,14 +2282,14 @@ nmap <silent> <Leader>P <Plug>ToggleProject
 "---------------------------------------------------------------------------
 " vimfiler:"{{{
 "
-nnoremap    [vimfiler]   <Nop>
-nmap    <Space>v [vimfiler]
+nnoremap [vimfiler] <Nop>
+nmap <Space>v [vimfiler]
 
-nnoremap <silent> [vimfiler]b  :<C-u>VimFilerBufferDir<CR>
-nnoremap <silent> [vimfiler]c  :<C-u>VimFilerCurrentDir<CR>
-nnoremap <silent> [vimfiler]d  :<C-u>VimFilerDouble<CR>
-nnoremap <silent> [vimfiler]f  :<C-u>VimFilerSimple -no-quit -winwidth=32<CR>
-nnoremap <silent> [vimfiler]s  :<C-u>VimShell<CR>
+nnoremap <silent> [vimfiler]b :<C-u>VimFilerBufferDir<CR>
+nnoremap <silent> [vimfiler]c :<C-u>VimFilerCurrentDir<CR>
+nnoremap <silent> [vimfiler]d :<C-u>VimFilerDouble<CR>
+nnoremap <silent> [vimfiler]f :<C-u>VimFilerSimple -no-quit -winwidth=32<CR>
+nnoremap <silent> [vimfiler]s :<C-u>VimShell<CR>
 
 " Edit file by tabedit.
 let g:vimfiler_edit_action = 'open'
@@ -2294,8 +2307,8 @@ let g:vimfiler_safe_mode_by_default = 0
 let g:vimfiler_data_directory = $DOTVIM.'/.vimfiler'
 
 let g:vimfiler_execute_file_list={
-            \ 'txt': 'vim',
-            \ 'vim': 'vim'
+            \     'txt': 'vim',
+            \     'vim': 'vim'
             \ }
 "}}}
 "---------------------------------------------------------------------------
@@ -2311,8 +2324,8 @@ let g:vimshell_scrollback_limit = 50000
 
 autocmd MyVimrcCmd FileType vimshell call s:vimshell_settings()
 function! s:vimshell_settings()
-    inoremap <silent><expr><buffer> <Up>  unite#sources#vimshell_history#start_complete(!0)
-    inoremap <silent><expr><buffer> <Down>  unite#sources#vimshell_history#start_complete(!0)
+    inoremap <silent><expr><buffer> <Up> unite#sources#vimshell_history#start_complete(!0)
+    inoremap <silent><expr><buffer> <Down> unite#sources#vimshell_history#start_complete(!0)
 endfunction
 "}}}
 "---------------------------------------------------------------------------
@@ -2374,6 +2387,19 @@ endif
 " tcommand_vim:"{{{
 "
 noremap <Leader>: :TCommand<CR>
+"}}}
+"---------------------------------------------------------------------------
+" CCTree.vim:"{{{
+"
+if s:has_plugin('neobundle')
+    let bundle = neobundle#get('CCTree')
+
+    function! bundle.hooks.on_source(bundle)
+        execute 'source ' . a:bundle.rtp . '/ftplugin/cctree.vim'
+    endfunction
+
+    unlet bundle
+endif
 "}}}
 "---------------------------------------------------------------------------
 " Source-Explorer-srcexpl.vim:"{{{
@@ -2476,9 +2502,9 @@ endfunction
 " haskellmode-vim:"{{{
 "
 if s:MSWindows
-    let g:haddock_browser="C:/Program\ Files/Mozilla\ Firefox/firefox.exe"
+    let g:haddock_browser = "C:/Program\ Files/Mozilla\ Firefox/firefox.exe"
 else
-    let g:haddock_browser="/usr/bin/firefox"
+    let g:haddock_browser = "/usr/bin/firefox"
 endif
 "}}}
 "---------------------------------------------------------------------------
@@ -2540,40 +2566,40 @@ vnoremap gc :<C-u>normal gc<CR>
 onoremap gc :<C-u>normal gc<CR>
 
 " 'Quote'
-onoremap aq  a'
-xnoremap aq  a'
-onoremap iq  i'
-xnoremap iq  i'
+onoremap aq a'
+xnoremap aq a'
+onoremap iq i'
+xnoremap iq i'
 
 " "Double quote"
-onoremap ad  a"
-xnoremap ad  a"
-onoremap id  i"
-xnoremap id  i"
+onoremap ad a"
+xnoremap ad a"
+onoremap id i"
+xnoremap id i"
 
 " (Round bracket)
-onoremap ar  a)
-xnoremap ar  a)
-onoremap ir  i)
-xnoremap ir  i)
+onoremap ar a)
+xnoremap ar a)
+onoremap ir i)
+xnoremap ir i)
 
 " {Curly bracket}
-onoremap ac  a}
-xnoremap ac  a}
-onoremap ic  i}
-xnoremap ic  i}
+onoremap ac a}
+xnoremap ac a}
+onoremap ic i}
+xnoremap ic i}
 
 " <Angle bracket>
-onoremap aa  a>
-xnoremap aa  a>
-onoremap ia  i>
-xnoremap ia  i>
+onoremap aa a>
+xnoremap aa a>
+onoremap ia i>
+xnoremap ia i>
 
 " [sqUare bracket]
-onoremap au  a]
-xnoremap au  a]
-onoremap iu  i]
-xnoremap iu  i]
+onoremap au a]
+xnoremap au a]
+onoremap iu i]
+xnoremap iu i]
 
 " for cmdline-mode
 cnoremap <C-a> <Home>
