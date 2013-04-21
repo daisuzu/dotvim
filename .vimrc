@@ -245,6 +245,7 @@ try
                 \     'commands': [{'name': 'Ref',
                 \                   'complete': 'customlist,ref#complete',}],
                 \ }}
+    NeoBundle $GITHUB_COM.'thinca/vim-ft-help_fold.git'
 
     " completion
     NeoBundle $GITHUB_COM.'Shougo/neocomplcache.git', {'lazy': 1,
