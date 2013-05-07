@@ -1862,6 +1862,7 @@ nnoremap <silent> [unite]e  :<C-u>Unite -buffer-name=files everything<CR>
 nnoremap <silent> [unite]f  :<C-u>Unite source<CR>
 nnoremap <expr>   [unite]g  ':<C-u>Unite grep:*::' . expand("<cword>")
 nnoremap <silent> [unite]h  :<C-u>UniteWithCursorWord help<CR>
+nnoremap <silent> [unite]l  :<C-u>Unite line<CR>
 nnoremap <silent> [unite]m  :<C-u>Unite mark -no-quit<CR>
 nnoremap <silent> [unite]o  :<C-u>Unite outline<CR>
 nnoremap <silent> [unite]pi :<C-u>Unite neobundle/install<CR>
@@ -1870,6 +1871,13 @@ nnoremap <silent> [unite]pl :<C-u>Unite neobundle<CR>
 nnoremap <silent> [unite]r  :<C-u>Unite -buffer-name=register register<CR>
 nnoremap <silent> [unite]s  :<C-u>Unite scriptnames<CR>
 nnoremap <silent> [unite]t  :<C-u>Unite buffer_tab tab buffer<CR>
+nnoremap <silent> [unite]w  :<C-u>Unite window<CR>
+nnoremap <silent> [unite]y  :<C-u>Unite history/yank<CR>
+nnoremap <silent> [unite]:  :<C-u>Unite history/command<CR>
+nnoremap <silent> [unite];  :<C-u>Unite history/command<CR>
+nnoremap <silent> [unite]/  :<C-u>Unite history/search<CR>
+
+let g:unite_source_history_yank_enable = 1
 
 let g:unite_kind_file_cd_command = 'TabpageCD'
 let g:unite_kind_file_lcd_command = 'TabpageCD'
@@ -2527,6 +2535,10 @@ onoremap <silent> ios :normal vios<CR>
 "
 nnoremap Y y$
 nnoremap X ^x
+
+noremap <Space>h ^
+noremap <Space>l $
+map <Space>n %
 
 " leave insertmode
 " inoremap <expr> j getline('.')[col('.') - 2] ==# 'j' ? "\<BS>\<ESC>" : 'j'
