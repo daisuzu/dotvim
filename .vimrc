@@ -479,10 +479,7 @@ try
                 \                   'complete': 'var'}],
                 \ }}
     NeoBundle $GITHUB_COM.'tyru/open-browser.vim.git'
-    MyNeoBundle !s:Android $GITHUB_COM.'sjl/splice.vim.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'commands': 'SpliceInit',
-                \ }}
+    MyNeoBundle !s:Android $GITHUB_COM.'sjl/splice.vim.git'
     MyNeoBundle !s:Android $GITHUB_COM.'sjl/gundo.vim.git', {'lazy': 1,
                 \ 'autoload': {
                 \     'commands': 'GundoToggle',
@@ -739,6 +736,8 @@ set display=uhex
 set previewheight=12
 set winwidth=20
 
+set t_Co=256
+
 set nowrap
 nnoremap <Space>ow :<C-u>setlocal wrap! wrap?<CR>
 
@@ -972,7 +971,7 @@ function! s:onColorScheme()
     " Additional settings of Color "{{{
     highlight Cursor      guifg=Black   guibg=Green   gui=bold
     highlight Search      ctermfg=Black ctermbg=Red   cterm=bold  guifg=Black  guibg=Red  gui=bold
-    highlight StatusLine  ctermfg=blue  ctermbg=white guifg=white guibg=blue
+    highlight StatusLine  ctermfg=White ctermbg=Blue guifg=white guibg=blue
     highlight Visual      cterm=reverse guifg=#404040 gui=bold
     highlight Folded      guifg=blue    guibg=darkgray
     " highlight Folded      guifg=blue    guibg=cadetblue
@@ -990,6 +989,13 @@ function! s:onColorScheme()
     " For unite "{{{
     highlight UniteAbbr   guifg=#80a0ff    gui=underline
     highlight UniteCursor ctermbg=Blue     guifg=black     guibg=lightblue  gui=bold
+    "}}}
+    " For indent-guides "{{{
+    let cterm_colors = (&background == 'dark') ? ['darkgray', 'gray'] : ['lightgray', 'white']
+    let gui_colors   = (&background == 'dark') ? ['grey15', 'grey30']  : ['grey70', 'grey85']
+
+    execute 'highlight IndentGuidesEven guibg=' . gui_colors[0] . ' guifg=' . gui_colors[1] . ' ctermbg=' . cterm_colors[0] . ' ctermfg=' . cterm_colors[1]
+    execute 'highlight IndentGuidesOdd  guibg=' . gui_colors[1] . ' guifg=' . gui_colors[0] . ' ctermbg=' . cterm_colors[1] . ' ctermfg=' . cterm_colors[0]
     "}}}
 endfunction
 call s:onColorScheme()
@@ -1066,6 +1072,24 @@ command! Occur execute 'vimgrep /' . @/ . '/ %'
 command! StarOccur execute 'vimgrep /' . expand('<cword>') . '/ %'
 nnoremap <Leader>oc :<C-u>Occur<CR>
 nnoremap <Leader>so :<C-u>StarOccur<CR>
+"}}}
+" SwapColon "{{{
+command! SwapColon call SwapColon()
+function! SwapColon()
+    if maparg(';', 'n') == ':'
+        nnoremap ; ;
+        nnoremap : :
+        vnoremap ; ;
+        vnoremap : :
+        nnoremap q; q;
+    else
+        nnoremap ; :
+        nnoremap : ;
+        vnoremap ; :
+        vnoremap : ;
+        nnoremap q; q:
+    endif
+endfunction
 "}}}
 " WinMerge keybind in vimdiff "{{{
 function! DiffGet() "{{{
@@ -2139,12 +2163,12 @@ nmap - <Plug>(fontzoom-smaller)
 "---------------------------------------------------------------------------
 " vim-indent-guides:"{{{
 "
-"let g:indent_guides_indent_levels = 30
-let g:indent_guides_auto_colors = 1
-"let g:indent_guides_color_change_percent = 10
+" let g:indent_guides_indent_levels = 30
+let g:indent_guides_auto_colors = 0
+" let g:indent_guides_color_change_percent = 10
 let g:indent_guides_guide_size = 1
 let g:indent_guides_start_level = 2
-"let g:indent_guides_space_guides = 0
+" let g:indent_guides_space_guides = 0
 let g:indent_guides_enable_on_vim_startup = 1
 
 try
@@ -2555,6 +2579,8 @@ nnoremap <M-o> O<Esc>
 " Tabpage related mappings
 nnoremap <Space>tn :<C-u>tabnew<CR>
 nnoremap <Space>tc :<C-u>tabclose<CR>
+nnoremap <Space>tC :<C-u>tabclose!<CR>
+nnoremap <Space>ts :<C-u>tabs<CR>
 
 " Window related mappings
 nnoremap <M-j> <C-w>j
