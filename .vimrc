@@ -194,7 +194,7 @@ endif
 "---------------------------------------------------------------------------
 " Load Plugins:"{{{
 "
-filetype off
+" filetype off
 
 "---------------------------------------------------------------------------
 " neobundle.vim:"{{{
@@ -1074,14 +1074,15 @@ nnoremap <Leader>oc :<C-u>Occur<CR>
 nnoremap <Leader>so :<C-u>StarOccur<CR>
 "}}}
 " SwapColon "{{{
+nnoremap <Space>sc :<C-u>SwapColon<CR>
 command! SwapColon call SwapColon()
 function! SwapColon()
     if maparg(';', 'n') == ':'
-        nnoremap ; ;
-        nnoremap : :
-        vnoremap ; ;
-        vnoremap : :
-        nnoremap q; q;
+        nunmap ;
+        nunmap :
+        vunmap ;
+        vunmap :
+        nunmap q;
     else
         nnoremap ; :
         nnoremap : ;
