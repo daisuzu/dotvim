@@ -2044,6 +2044,12 @@ nnoremap <Space>gC :<C-u>Git commit --amend<CR>
 nnoremap <Space>gb :<C-u>Gblame<CR>
 nnoremap <Space>gv :<C-u>Gitv<CR>
 nnoremap <Space>gV :<C-u>Gitv!<CR>
+
+if s:MSWindows
+    autocmd MyVimrcCmd FileType gitcommit setlocal encoding=utf-8
+    autocmd MyVimrcCmd FileType gitcommit setlocal fileencoding=utf-8
+    autocmd MyVimrcCmd FileType gitcommit setlocal fileencodings=utf-8
+endif
 "}}}
 "---------------------------------------------------------------------------
 " unite.vim:"{{{
