@@ -2743,6 +2743,11 @@ endif
 vmap <silent> ios <Plug>InnerOffside
 onoremap <silent> ios :normal vios<CR>
 "}}}
+"---------------------------------------------------------------------------
+" SQLUtilities:"{{{
+"
+let g:sqlutil_align_comma = 1
+"}}}
 "}}}
 
 "---------------------------------------------------------------------------
