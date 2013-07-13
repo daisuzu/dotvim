@@ -1990,6 +1990,11 @@ endif
 "}}}
 endif
 "---------------------------------------------------------------------------
+" neosnippet:"{{{
+"
+let g:neosnippet#snippets_directory = $DOTVIM.'/.snip/'
+"}}}
+"---------------------------------------------------------------------------
 " clang_complete:"{{{
 "
 let g:clang_complete_auto = 0
@@ -2576,6 +2581,11 @@ endif
 let g:scall_function_name = 'S'
 "}}}
 "---------------------------------------------------------------------------
+" sonictemplate-vim:"{{{
+"
+let g:sonictemplate_vim_template_dir = expand($DOTVIM . '/.template')
+"}}}
+"---------------------------------------------------------------------------
 " vim-ambicmd:"{{{
 "
 if s:has_plugin('ambicmd')
@@ -2681,6 +2691,13 @@ let g:jedi#rename_command = '<Leader>jr'
 " perl-support.vim:"{{{
 "
 let g:Perl_Debugger = "ptkdb"
+"}}}
+"---------------------------------------------------------------------------
+" perlomni.vim:"{{{
+"
+if has('vim_starting')
+    let $PATH = $DOTVIM . '/Bundle/perlomni.vim/bin:' . $PATH
+endif
 "}}}
 "---------------------------------------------------------------------------
 " jslint.vim:"{{{
