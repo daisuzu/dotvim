@@ -2446,15 +2446,60 @@ let g:quickrun_config['watchdogs_checker/_'] = {
             \     'runner/vimproc/updatetime' : 40,
             \ }
 
-" settings for pandoc "{{{
+" settings for lightweight markup language "{{{
 let g:quickrun_config['markdown'] = {
             \     'type': 'markdown/pandoc',
             \     'outputter': 'browser',
             \     'cmdopt': '-s'
             \ }
-"}}}
-" settings for sphinx "{{{
+let g:quickrun_config['markdown/pandoc/docx'] = {
+            \ 'input' : '%{expand("%")}',
+            \ 'command': 'pandoc',
+            \ 'cmdopt' : '%{tempname()}.docx',
+            \ 'exec': ['%c -s --from=markdown --to=docx -o "%o" %a',
+            \          (has('win32') || has('win64'))
+            \          ? 'move /Y "%o" "%S:p:r.docx"'
+            \          : 'mv %o %S:pr:r.docx'],
+            \ 'outputter' : 'error',
+            \ 'output_encode' : 'cp932',
+            \ }
+
+let g:quickrun_config['html/pandoc/markdown'] = {
+            \ 'command': 'pandoc',
+            \ 'input' : '%{expand("%")}',
+            \ 'exec': '%c -s --from=html --to=markdown %o %a',
+            \ }
+
+let g:quickrun_config['textile'] = {
+            \     'type': 'textile/redcloth'
+            \ }
+let g:quickrun_config['textile/redcloth'] = {
+            \     'command'   : 'redcloth',
+            \     'exec'      : '%c %s',
+            \     'outputter' : 'browser',
+            \ }
+let g:quickrun_config['textile/pandoc'] = {
+            \     'command': 'pandoc',
+            \     'outputter': 'browser',
+            \     'cmdopt': '-s',
+            \     'exec': '%c --from=textile --to=html %o %s %a',
+            \ }
+let g:quickrun_config['textile/pandoc/docx'] = {
+            \ 'input' : '%{expand("%")}',
+            \ 'command': 'pandoc',
+            \ 'cmdopt' : '%{tempname()}.docx',
+            \ 'exec': ['%c -s --from=textile --to=docx -o "%o" %a',
+            \          (has('win32') || has('win64'))
+            \          ? 'move /Y "%o" "%S:p:r.docx"'
+            \          : 'mv %o %S:pr:r.docx'],
+            \ 'outputter' : 'error',
+            \ 'output_encode' : 'cp932',
+            \ }
+
 let g:quickrun_config['rst'] = {
+            \     'type': 'rst/sphinx'
+            \ }
+let g:quickrun_config['rst/sphinx'] = {
             \     'command': 'make',
             \     'outputter': 'quickfix',
             \     'hook/sphinx_open/enable' : 1,
@@ -2467,6 +2512,24 @@ let g:quickrun_config['rst'] = {
             \     ],
             \     'cmdopt': 'html',
             \     'exec': '%c %o'
+            \ }
+let g:quickrun_config['rst/pandoc'] = {
+            \ 'input' : '%{expand("%")}',
+            \ 'command': 'pandoc',
+            \ 'exec': '%c -s --from=rst --to=html %o %a',
+            \ 'outputter' : 'browser',
+            \ 'output_encode' : 'utf-8',
+            \ }
+let g:quickrun_config['rst/pandoc/docx'] = {
+            \ 'input' : '%{expand("%")}',
+            \ 'command': 'pandoc',
+            \ 'cmdopt' : '%{tempname()}.docx',
+            \ 'exec': ['%c -s --from=rst --to=docx -o "%o" %a',
+            \          (has('win32') || has('win64'))
+            \          ? 'move /Y "%o" "%S:p:r.docx"'
+            \          : 'mv %o %S:pr:r.docx'],
+            \ 'outputter' : 'error',
+            \ 'output_encode' : 'cp932',
             \ }
 "}}}
 
