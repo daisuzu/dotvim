@@ -249,7 +249,7 @@ try
 
     " completion
     if has('lua')
-        NeoBundle $GITHUB_COM.'Shougo/neocomplete.git', {'lazy': 1,
+        NeoBundle $GITHUB_COM.'Shougo/neocomplete.git', {
                     \ 'autoload': {
                     \     'insert': 1,
                     \ }}
@@ -1669,6 +1669,7 @@ if has('lua')
 " neocomplete:"{{{
 "
 let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#data_directory = $DOTVIM.'/.neocomplete'
 
 let s:is_installed_neocomplete = 0
 if s:has_plugin('neobundle')
@@ -1705,8 +1706,20 @@ if s:is_installed_neocomplete
     " <C-h>, <BS>: close popup and delete backword char.
     inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
     inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-    inoremap <expr><C-y> neocomplete#close_popup()
-    inoremap <expr><C-e> neocomplete#cancel_popup()
+    " <C-y>: paste.
+    inoremap <expr><C-y>  pumvisible() ? neocomplete#close_popup() :  "\<C-r>\""
+    " <C-e>: close popup.
+    inoremap <expr><C-e>  pumvisible() ? neocomplete#cancel_popup() : "\<End>"
+
+    " <C-n>: neocomplete.
+    inoremap <expr><C-n>  pumvisible() ? "\<C-n>" : "\<C-x>\<C-u>\<C-p>\<Down>"
+    " <C-p>: keyword completion.
+    inoremap <expr><C-p>  pumvisible() ? "\<C-p>" : "\<C-p>\<C-n>"
+    inoremap <expr>'  pumvisible() ? neocomplete#close_popup() : "'"
+
+    " <C-f>, <C-b>: page move.
+    inoremap <expr><C-f>  pumvisible() ? "\<PageDown>" : "\<Right>"
+    inoremap <expr><C-b>  pumvisible() ? "\<PageUp>"   : "\<Left>"
 
     " For cursor moving in insert mode(Not recommended)
     "inoremap <expr><Left> neocomplete#close_popup() . "\<Left>"
@@ -1726,6 +1739,8 @@ if s:is_installed_neocomplete
     "let g:neocomplete#disable_auto_complete = 1
     "inoremap <expr><TAB> pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
     "inoremap <expr><CR> neocomplete#smart_close_popup() . "\<CR>"
+
+    call neocomplete#custom#source('look', 'min_pattern_length', 4)
 endif
 
 " Disable AutoComplPop.
@@ -1746,7 +1761,7 @@ let g:neocomplete#manual_completion_start_length = 0
 let g:neocomplete#min_keyword_length = 3
 
 let g:neocomplete#skip_auto_completion_time = '0.6'
-let g:neocomplete#enable_insert_char_pre = 1
+let g:neocomplete#enable_insert_char_pre = 0
 
 " For auto select.
 let g:neocomplete#enable_auto_select = 0
@@ -1805,7 +1820,6 @@ let g:neocomplete#sources#vim#complete_functions = {
             \     'VimFiler': 'vimfiler#complete',
             \     'Vinarise': 'vinarise#complete',
             \ }
-call neocomplete#custom#source('look', 'min_pattern_length', 4)
 
 " For snippet_complete marker.
 if has('conceal')
