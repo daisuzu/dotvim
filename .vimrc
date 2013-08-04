@@ -2531,6 +2531,14 @@ let g:quickrun_config['rst/pandoc/docx'] = {
             \ 'outputter' : 'error',
             \ 'output_encode' : 'cp932',
             \ }
+
+let g:quickrun_config['diag'] = {
+            \     'type': 'diag/blockdiag'
+            \ }
+let g:quickrun_config['diag/blockdiag'] = {
+            \     'command': 'blockdiag',
+            \     'exec': '%c %s',
+            \ }
 "}}}
 
 if s:has_plugin('neobundle')
@@ -2924,6 +2932,7 @@ cnoremap <C-v> <C-r>+
 " FileTypes:"{{{
 "
 autocmd MyVimrcCmd FileType rst setlocal suffixesadd=.rst
+autocmd MyVimrcCmd BufNewFile,BufReadPost *.diag setlocal filetype=diag
 autocmd MyVimrcCmd FileType help call MyFileTypeHelp()
 function! MyFileTypeHelp() "{{{
     if &l:buftype !=# 'help'
