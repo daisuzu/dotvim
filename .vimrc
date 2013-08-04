@@ -2815,6 +2815,11 @@ vmap <silent> ios <Plug>InnerOffside
 onoremap <silent> ios :normal vios<CR>
 "}}}
 "---------------------------------------------------------------------------
+" dbext.vim:"{{{
+"
+let g:dbext_default_history_file = $DOTVIM.'/dbext_sql_history.txt'
+"}}}
+"---------------------------------------------------------------------------
 " SQLUtilities:"{{{
 "
 let g:sqlutil_align_comma = 1
