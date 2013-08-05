@@ -1717,7 +1717,6 @@ if s:is_installed_neocomplete
     inoremap <expr><C-n>  pumvisible() ? "\<C-n>" : "\<C-x>\<C-u>\<C-p>\<Down>"
     " <C-p>: keyword completion.
     inoremap <expr><C-p>  pumvisible() ? "\<C-p>" : "\<C-p>\<C-n>"
-    inoremap <expr>'  pumvisible() ? neocomplete#close_popup() : "'"
 
     " <C-f>, <C-b>: page move.
     inoremap <expr><C-f>  pumvisible() ? "\<PageDown>" : "\<Right>"
