@@ -12,10 +12,12 @@ augroup END
 let s:MSWindows = has('win95') + has('win16') + has('win32') + has('win64')
 let s:Android = !s:MSWindows && executable('uname') ? system('uname -m')=~#'armv7l' : 0
 
-if s:MSWindows
-    let $DOTVIM = expand($VIM . '/vimfiles')
-else
-    let $DOTVIM = expand('~/.vim')
+if !exists('$DOTVIM')
+    if s:MSWindows
+        let $DOTVIM = expand($VIM . '/vimfiles')
+    else
+        let $DOTVIM = expand('~/.vim')
+    endif
 endif
 
 let $MYLOCALVIMRC = $DOTVIM.'/.local.vimrc'
