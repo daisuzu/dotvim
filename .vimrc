@@ -2845,6 +2845,9 @@ let g:sqlutil_align_comma = 1
 "---------------------------------------------------------------------------
 " Key Mappings:"{{{
 "
+nnoremap ,f f
+nnoremap ,t t
+
 nnoremap Y y$
 nnoremap X ^x
 
