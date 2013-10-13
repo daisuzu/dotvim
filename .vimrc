@@ -1752,6 +1752,8 @@ let g:neocomplete#enable_smart_case = 1
 " Use fuzzy completion.
 let g:neocomplete#enable_fuzzy_completion = 1
 
+let g:neocomplete#ignore_source_files = ['tag.vim']
+
 " Set minimum syntax keyword length.
 let g:neocomplete#sources#syntax#min_keyword_length = 3
 " Set auto completion length.
@@ -1767,42 +1769,55 @@ let g:neocomplete#enable_insert_char_pre = 0
 " For auto select.
 let g:neocomplete#enable_auto_select = 0
 
+let g:neocomplete#enable_auto_delimiter = 1
+let g:neocomplete#disable_auto_select_buffer_name_pattern =
+            \ '\[Command Line\]'
+let g:neocomplete#max_list = 100
+
 " Define dictionary.
 let g:neocomplete#sources#dictionary#dictionaries = {
             \ 'default': '',
             \ 'vimshell': $DOTVIM.'/.vimshell/command-history',
             \ }
 
-let g:neocomplete#enable_auto_delimiter = 1
-let g:neocomplete#disable_auto_select_buffer_name_pattern =
-            \ '\[Command Line\]'
-let g:neocomplete#max_list = 100
+" Set includeexpr
+if !exists('g:neocomplete#sources#file_include#exprs')
+    let g:neocomplete#sources#file_include#exprs = {}
+endif
+let g:neocomplete#sources#file_include#exprs.perl = 'fnamemodify(substitute(v:fname, "/", "::", "g"), ":r")'
 
-let g:neocomplete#force_overwrite_completefunc = 1
+" Set omni patterns
 if !exists('g:neocomplete#sources#omni#input_patterns')
     let g:neocomplete#sources#omni#input_patterns = {}
 endif
 if !exists('g:neocomplete#sources#omni#functions')
     let g:neocomplete#sources#omni#functions = {}
 endif
-if !exists('g:neocomplete#force_omni_input_patterns')
-    let g:neocomplete#force_omni_input_patterns = {}
-endif
-let g:neocomplete#enable_auto_close_preview = 1
 
 let g:neocomplete#sources#omni#input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
 
-" For clang_complete
-let g:neocomplete#sources#omni#input_patterns.c =
-            \ '[^.[:digit:] *\t]\%(\.\|->\)'
-let g:neocomplete#sources#omni#input_patterns.cpp =
-            \ '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-
 " For jedi-vim
 let g:neocomplete#sources#omni#input_patterns.python = '[^. \t]\.\w*'
+let g:neocomplete#enable_auto_close_preview = 1
 
 " For perlomni.vim
 let g:neocomplete#sources#omni#input_patterns.perl = '[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
+
+" Set force omni patterns
+let g:neocomplete#force_overwrite_completefunc = 1
+if !exists('g:neocomplete#force_omni_input_patterns')
+    let g:neocomplete#force_omni_input_patterns = {}
+endif
+
+" For clang_complete
+let g:neocomplete#force_omni_input_patterns.c =
+            \ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
+let g:neocomplete#force_omni_input_patterns.cpp =
+            \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+let g:neocomplete#force_omni_input_patterns.objc =
+            \ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
+let g:neocomplete#force_omni_input_patterns.objcpp =
+            \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
 
 " Define keyword pattern.
 if !exists('g:neocomplete#keyword_patterns')
