@@ -2403,6 +2403,7 @@ nmap <M-D> <Plug>(textmanip-duplicate-up)
 "
 let g:tcommentMapLeaderOp1 = ',c'
 let g:tcommentMapLeaderOp2 = ',C'
+let g:tcommentTextObjectInlineComment = ''
 "}}}
 "---------------------------------------------------------------------------
 " vim-altr:"{{{
