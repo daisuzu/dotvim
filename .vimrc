@@ -2421,6 +2421,13 @@ let g:tcommentMapLeaderOp2 = ',C'
 let g:tcommentTextObjectInlineComment = ''
 "}}}
 "---------------------------------------------------------------------------
+" vim-niceblock:"{{{
+"
+if s:has_plugin('niceblock')
+    xnoremap <expr> r niceblock#force_blockwise('r')
+endif
+"}}}
+"---------------------------------------------------------------------------
 " vim-altr:"{{{
 if s:has_plugin('altr')
     nnoremap <silent> tf :<C-u>call altr#forward()<CR>
