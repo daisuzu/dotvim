@@ -1600,9 +1600,9 @@ command! -bang -bar -complete=file -nargs=? EncodeUtf8 edit<bang> ++enc=utf-8 <a
 command! -bang -bar -complete=file -nargs=? EncodeUtf16 edit<bang> ++enc=ucs-2le <args>
 command! -bang -bar -complete=file -nargs=? EncodeUtf16be edit<bang> ++enc=ucs-2 <args>
 
-command! -bang -bar -complete=file -nargs=? EncodeJis  Iso2022jp<bang> <args>
-command! -bang -bar -complete=file -nargs=? EncodeSjis  Cp932<bang> <args>
-command! -bang -bar -complete=file -nargs=? EncodeUnicode Utf16<bang> <args>
+command! -bang -bar -complete=file -nargs=? EncodeJis  EncodeIso2022jp<bang> <args>
+command! -bang -bar -complete=file -nargs=? EncodeSjis  EncodeCp932<bang> <args>
+command! -bang -bar -complete=file -nargs=? EncodeUnicode EncodeUtf16<bang> <args>
 "}}}
 " s:has_plugin(name) "{{{
 function! s:has_plugin(name)
