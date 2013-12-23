@@ -426,6 +426,7 @@ try
     NeoBundle $GITHUB_COM.'daisuzu/quickrun-hook-sphinx.git'
 
     " utility
+    NeoBundle $GITHUB_COM.'daisuzu/translategoogle.vim.git'
     NeoBundle $GITHUB_COM.'mattn/ideone-vim.git', {'lazy': 1,
                 \ 'autoload': {
                 \     'commands': 'Ideone',
@@ -521,6 +522,7 @@ try
                 \ }}
     NeoBundle $GITHUB_COM.'thinca/vim-scall.git'
     NeoBundle $GITHUB_COM.'mattn/sonictemplate-vim.git'
+    NeoBundle $GITHUB_COM.'LeafCage/vimhelpgenerator.git'
 
     " command extension
     NeoBundle $GITHUB_COM.'thinca/vim-ambicmd.git'
@@ -2699,6 +2701,11 @@ let g:scall_function_name = 'S'
 " sonictemplate-vim:"{{{
 "
 let g:sonictemplate_vim_template_dir = expand($DOTVIM . '/.template')
+"}}}
+"---------------------------------------------------------------------------
+" vimhelpgenerator:"{{{
+"
+let g:vimhelpgenerator_defaultlanguage = 'en'
 "}}}
 "---------------------------------------------------------------------------
 " vim-ambicmd:"{{{
