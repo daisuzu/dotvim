@@ -2787,14 +2787,16 @@ nnoremap <Leader>gd :<C-u>Gtags -d <C-R>=expand("<cword>")<CR><CR>
 "---------------------------------------------------------------------------
 " python-mode:"{{{
 "
-let g:pymode_lint_onfly = 0
-let g:pymode_lint_write = 1
+let g:pymode_lint_on_fly = 0
+let g:pymode_lint_on_write = 1
 let g:pymode_lint_cwindow = 0
 let g:pymode_lint_message = 1
+let g:pymode_lint_signs = 1
 let g:pydoc = "python -m pydoc"
 let g:pymode_rope = 0
 let g:pymode_folding = 0
-let g:pymode_run_key = '<Leader>pr'
+let g:pymode_run = 0
+let g:pymode_trim_whitespaces = 0
 "}}}
 "---------------------------------------------------------------------------
 " jedi-vim:"{{{
