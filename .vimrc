@@ -1799,7 +1799,7 @@ endif
 let g:neocomplete#sources#omni#input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
 
 " For jedi-vim
-let g:neocomplete#sources#omni#input_patterns.python = '[^. \t]\.\w*'
+let g:neocomplete#sources#omni#input_patterns.python = '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
 let g:neocomplete#enable_auto_close_preview = 1
 
 " For perlomni.vim
