@@ -832,9 +832,9 @@ if has("syntax")
         highlight InvisibleJISX0208Space term=underline ctermbg=Blue guibg=darkgray gui=underline
         syntax match InvisibleTrailedSpace "\s\+$" display containedin=ALL
         if has('gui_macvim')
-            highlight InvisibleTrailedSpace term=underline ctermbg=Red guibg=lightgray
+            highlight InvisibleTrailedSpace term=underline ctermbg=darkgray guibg=lightgray
         else
-            highlight InvisibleTrailedSpace term=underline ctermbg=Red gui=undercurl guisp=darkorange
+            highlight InvisibleTrailedSpace term=underline ctermbg=darkgray gui=undercurl guisp=darkorange
         endif
         syntax match InvisibleTab "\t" display containedin=ALL
         highlight InvisibleTab term=underline ctermbg=white gui=undercurl guisp=darkslategray
