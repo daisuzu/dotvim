@@ -2794,7 +2794,7 @@ nnoremap <Leader>gd :<C-u>Gtags -d <C-R>=expand("<cword>")<CR><CR>
 "---------------------------------------------------------------------------
 " python-mode:"{{{
 "
-let g:pymode_lint_on_fly = 0
+let g:pymode_lint_on_fly = 1
 let g:pymode_lint_on_write = 1
 let g:pymode_lint_cwindow = 0
 let g:pymode_lint_message = 1
