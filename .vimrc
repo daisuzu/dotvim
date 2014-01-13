@@ -1626,6 +1626,33 @@ command! -bang -bar -complete=file -nargs=? EncodeJis  EncodeIso2022jp<bang> <ar
 command! -bang -bar -complete=file -nargs=? EncodeSjis  EncodeCp932<bang> <args>
 command! -bang -bar -complete=file -nargs=? EncodeUnicode EncodeUtf16<bang> <args>
 "}}}
+" ginger "{{{
+let s:endpoint = 'http://services.gingersoftware.com/Ginger/correct/json/GingerTheText'
+let s:apikey = '6ae0c3a0-afdc-4532-a810-82ded0054236'
+function! s:ginger(text)
+    let res = webapi#json#decode(webapi#http#get(s:endpoint, {
+                \ 'lang': 'US',
+                \ 'clientVersion': '2.0',
+                \ 'apiKey': s:apikey,
+                \ 'text': a:text}).content)
+    let i = 0
+    for rs in res['LightGingerTheTextResult']
+        let [from, to] = [rs["From"], rs["To"]]
+        if i < from
+            echon a:text[i : from-1]
+        endif
+        echohl WarningMsg
+        echon a:text[from : to]
+        echohl None
+        let i = to + 1
+    endfor
+    if i < len(a:text)
+        echon a:text[i :]
+    endif
+endfunction
+
+command! -nargs=+ Ginger call s:ginger(<q-args>)
+"}}}
 " s:has_plugin(name) "{{{
 function! s:has_plugin(name)
     return globpath(&runtimepath, 'plugin/' . a:name . '.vim') !=# ''
