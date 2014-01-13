@@ -842,6 +842,13 @@ if has("syntax")
     " syn sync fromstart
 
     function! ActivateInvisibleIndicator()
+        let bufname = bufname('%')
+        if bufname =~? '\[unite\]'
+            return
+        elseif bufname =~? 'vimfiler:'
+            return
+        endif
+
         syntax match InvisibleJISX0208Space "　" display containedin=ALL
         highlight InvisibleJISX0208Space term=underline ctermbg=Blue guibg=darkgray gui=underline
         syntax match InvisibleTrailedSpace "\s\+$" display containedin=ALL
