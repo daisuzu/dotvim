@@ -266,6 +266,11 @@ try
                 \     'insert': 1,
                 \     'filetypes': 'snippet',
                 \ }}
+    NeoBundle $GITHUB_COM.'Shougo/neosnippet-snippets.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'insert': 1,
+                \     'filetypes': 'snippet',
+                \ }}
     MyNeoBundle !s:Android $GITHUB_COM.'Rip-Rip/clang_complete.git', {'lazy': 1,
                 \ 'autoload': {
                 \     'filetypes': ['c', 'cpp', ],
@@ -298,8 +303,9 @@ try
     NeoBundle $GITHUB_COM.'gregsexton/gitv.git'
     NeoBundle $GITHUB_COM.'kablamo/vim-git-log.git'
     NeoBundle $GITHUB_COM.'int3/vim-extradite.git'
-    NeoBundle $GITHUB_COM.'airblade/vim-gitgutter.git'
     NeoBundle $GITHUB_COM.'rhysd/git-messenger.vim.git'
+    " NeoBundle $GITHUB_COM.'airblade/vim-gitgutter.git'
+    NeoBundle $GITHUB_COM.'mhinz/vim-signify.git'
 
     " unite
     NeoBundle $GITHUB_COM.'Shougo/unite.vim.git', {'lazy': 1,
@@ -520,9 +526,17 @@ try
                 \ 'autoload': {
                 \     'commands': 'Thumbnail',
                 \ }}
+    NeoBundle $GITHUB_COM.'itchyny/calendar.vim.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'commands': 'Calendar',
+                \ }}
     NeoBundle $GITHUB_COM.'thinca/vim-scall.git'
     NeoBundle $GITHUB_COM.'mattn/sonictemplate-vim.git'
     NeoBundle $GITHUB_COM.'LeafCage/vimhelpgenerator.git'
+    NeoBundle $GITHUB_COM.'t9md/vim-choosewin.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'mappings': ['<Plug>(choosewin)'],
+                \ }}
 
     " command extension
     NeoBundle $GITHUB_COM.'thinca/vim-ambicmd.git'
@@ -1017,6 +1031,12 @@ function! s:onColorScheme()
 
     execute 'highlight IndentGuidesEven guibg=' . gui_colors[0] . ' guifg=' . gui_colors[1] . ' ctermbg=' . cterm_colors[0] . ' ctermfg=' . cterm_colors[1]
     execute 'highlight IndentGuidesOdd  guibg=' . gui_colors[1] . ' guifg=' . gui_colors[0] . ' ctermbg=' . cterm_colors[1] . ' ctermfg=' . cterm_colors[0]
+    "}}}
+
+    " For signfy "{{{
+    highlight SignifySignAdd    cterm=bold ctermbg=237  ctermfg=119 guifg=Black guibg=Green
+    highlight SignifySignDelete cterm=bold ctermbg=237  ctermfg=167 guifg=Black guibg=Red
+    highlight SignifySignChange cterm=bold ctermbg=237  ctermfg=227 guifg=Black guibg=Yellow
     "}}}
 endfunction
 call s:onColorScheme()
@@ -2084,6 +2104,10 @@ if s:MSWindows
 endif
 "}}}
 "---------------------------------------------------------------------------
+" vim-signify:"{{{
+"
+"}}}
+"---------------------------------------------------------------------------
 " unite.vim:"{{{
 "
 " The prefix key.
@@ -2705,7 +2729,14 @@ let g:sonictemplate_vim_template_dir = expand($DOTVIM . '/.template')
 "---------------------------------------------------------------------------
 " vimhelpgenerator:"{{{
 "
-let g:vimhelpgenerator_defaultlanguage = 'en'
+let g:vimhelpgenerator_defaultlanguage = 'ja'
+"}}}
+"---------------------------------------------------------------------------
+" vim-choosewin:"{{{
+"
+nmap <Leader>- <Plug>(choosewin)
+let g:choosewin_overlay_enable = 1
+let g:choosewin_overlay_clear_multibyte = 1
 "}}}
 "---------------------------------------------------------------------------
 " vim-ambicmd:"{{{
