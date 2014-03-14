@@ -1649,7 +1649,7 @@ function! s:ginger(text)
         if i < from
             echon a:text[i : from-1]
         endif
-        echohl WarningMsg
+        echohl ErrorMsg
         echon a:text[from : to]
         echohl None
         let i = to + 1
