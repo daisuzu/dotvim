@@ -2424,6 +2424,8 @@ let MyGrep_DefaultSearchWord = 1
 
 let MyGrep_MenuBar = 3
 
+let g:QFixWin_EnableMode = 1
+
 autocmd MyVimrcCmd QuickfixCmdPre make,grep,grepadd,vimgrep,vimgrepadd,helpgrep copen
 "}}}
 "---------------------------------------------------------------------------
