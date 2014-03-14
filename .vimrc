@@ -275,7 +275,7 @@ try
                 \ 'autoload': {
                 \     'filetypes': ['c', 'cpp', ],
                 \ }}
-    MyNeoBundle !s:Android $GITHUB_COM.'ujihisa/neco-ghc.git', {'lazy': 1,
+    MyNeoBundle !s:Android $GITHUB_COM.'eagletmt/neco-ghc.git', {'lazy': 1,
                 \ 'autoload': {
                 \     'filetypes': ['haskell', ],
                 \ }}
