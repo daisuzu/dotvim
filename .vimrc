@@ -316,6 +316,7 @@ try
                 \                   'UniteWithCursorWord',
                 \                   'UniteWithInput'],
                 \ }}
+    NeoBundle $GITHUB_COM.'Shougo/neomru.vim.git'
     MyNeoBundle !s:Android $GITHUB_COM.'Shougo/unite-build.git'
     NeoBundle $GITHUB_COM.'ujihisa/unite-colorscheme.git'
     NeoBundle $GITHUB_COM.'ujihisa/unite-font.git'
@@ -2148,9 +2149,9 @@ endif
 nnoremap [unite] <Nop>
 nmap f [unite]
 
-nnoremap <silent> [unite]a  :<C-u>Unite -prompt=#\  buffer bookmark file_mru file<CR>
-nnoremap <silent> [unite]b  :<C-u>UniteWithBufferDir -buffer-name=files -prompt=%\  buffer bookmark file_mru file<CR>
-nnoremap <silent> [unite]c  :<C-u>UniteWithCurrentDir -buffer-name=files buffer bookmark file_mru file<CR>
+nnoremap <silent> [unite]a  :<C-u>Unite -prompt=#\  buffer bookmark neomru/file file<CR>
+nnoremap <silent> [unite]b  :<C-u>UniteWithBufferDir -buffer-name=files -prompt=%\  buffer bookmark neomru/file file<CR>
+nnoremap <silent> [unite]c  :<C-u>UniteWithCurrentDir -buffer-name=files buffer bookmark neomru/file file<CR>
 nnoremap <silent> [unite]e  :<C-u>Unite -buffer-name=files everything<CR>
 nnoremap <silent> [unite]f  :<C-u>Unite source<CR>
 nnoremap <expr>   [unite]g  ':<C-u>Unite grep:*::' . expand("<cword>")
@@ -2192,11 +2193,7 @@ function! s:unite_my_settings() "{{{
 
 endfunction "}}}
 
-let g:unite_source_file_mru_limit = 200
 let g:unite_source_grep_max_candidates = 50000
-
-" For optimize.
-let g:unite_source_file_mru_filename_format = ''
 
 let g:unite_data_directory = $DOTVIM.'/.unite'
 
@@ -2204,6 +2201,12 @@ let g:unite_data_directory = $DOTVIM.'/.unite'
 " highlight UniteCursor   guifg=black     guibg=lightblue  gui=bold
 let g:unite_cursor_line_highlight = 'UniteCursor'
 let g:unite_abbr_highlight = 'UniteAbbr'
+"}}}
+"---------------------------------------------------------------------------
+" neomru.vim:"{{{
+"
+let g:neomru#file_mru_path = $DOTVIM.'/.neomru/file'
+let g:neomru#directory_mru_path = $DOTVIM.'/.neomru/directory'
 "}}}
 "---------------------------------------------------------------------------
 " textobj-user:"{{{
