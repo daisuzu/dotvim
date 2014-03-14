@@ -279,10 +279,6 @@ try
                 \ 'autoload': {
                 \     'filetypes': ['haskell', ],
                 \ }}
-    NeoBundle $GITHUB_COM.'teramako/jscomplete-vim.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'filetypes': ['javascript', ],
-                \ }}
     NeoBundle $GITHUB_COM.'ujihisa/neco-look.git'
 
     " ctags
@@ -607,11 +603,15 @@ try
                 \ 'autoload': {
                 \     'filetypes': ['javascript', ],
                 \ }}
-    NeoBundle $GITHUB_COM.'basyura/jslint.vim.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'filetypes': ['javascript', ],
-                \ }}
-
+    if executable('npm')
+        NeoBundle $GITHUB_COM.'marijnh/tern_for_vim.git', {'lazy': 1,
+                    \ 'build': {
+                    \     'others': 'npm install',
+                    \  },
+                    \ 'autoload': {
+                    \     'filetypes': ['javascript', ],
+                    \ }}
+    endif
     " Haskell
     NeoBundle $GITHUB_COM.'kana/vim-filetype-haskell.git', {'lazy': 1,
                 \ 'autoload': {
@@ -2887,29 +2887,6 @@ let g:Perl_Debugger = "ptkdb"
 if has('vim_starting')
     let $PATH = $DOTVIM . '/Bundle/perlomni.vim/bin:' . $PATH
 endif
-"}}}
-"---------------------------------------------------------------------------
-" jslint.vim:"{{{
-"
-autocmd MyVimrcCmd FileType javascript call s:registerJSLintCmd()
-
-let s:jslint_enabled = s:has_plugin('jslint') &&
-            \ s:MSWindows ||
-            \ exists("$JS_CMD") ||
-            \ executable('/System/Library/Frameworks/JavaScriptCore.framework/Resources/jsc') ||
-            \ executable('node') ||
-            \ executable('js')
-
-let g:jslint_cmd_registered = []
-function! s:registerJSLintCmd()
-    if s:jslint_enabled && index(g:jslint_cmd_registered, bufnr('%')) < 0
-        call add(g:jslint_cmd_registered, bufnr('%'))
-        autocmd MyVimrcCmd BufLeave     <buffer> call jslint#clear()
-        autocmd MyVimrcCmd BufWritePost <buffer> call jslint#check()
-        autocmd MyVimrcCmd InsertLeave  <buffer> call jslint#check()
-        autocmd MyVimrcCmd CursorMoved  <buffer> call jslint#message()
-    endif
-endfunction
 "}}}
 "---------------------------------------------------------------------------
 " haskellmode-vim:"{{{
