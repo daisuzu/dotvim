@@ -2888,7 +2888,7 @@ let g:jedi#rename_command = '<Leader>jr'
 "---------------------------------------------------------------------------
 " perl-support.vim:"{{{
 "
-let g:Perl_Debugger = "ptkdb"
+let g:Perl_Debugger = "perl"
 "}}}
 "---------------------------------------------------------------------------
 " perlomni.vim:"{{{
