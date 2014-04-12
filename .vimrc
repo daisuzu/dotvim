@@ -493,6 +493,10 @@ try
                 \     'commands': [{'name': 'Editvar',
                 \                   'complete': 'var'}],
                 \ }}
+    NeoBundle $GITHUB_COM.'thinca/vim-showtime.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'commands': 'ShowtimeStart',
+                \ }}
     NeoBundle $GITHUB_COM.'tyru/open-browser.vim.git'
     MyNeoBundle !s:Android $GITHUB_COM.'sjl/splice.vim.git'
     MyNeoBundle !s:Android $GITHUB_COM.'sjl/gundo.vim.git', {'lazy': 1,
@@ -3047,6 +3051,7 @@ function! MyFileTypeHelp() "{{{
         endif
     endif
 endfunction "}}}
+autocmd MyVimrcCmd FileType showtime IndentGuidesDisable
 "}}}
 
 "---------------------------------------------------------------------------
