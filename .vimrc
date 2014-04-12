@@ -3052,6 +3052,12 @@ function! MyFileTypeHelp() "{{{
     endif
 endfunction "}}}
 autocmd MyVimrcCmd FileType showtime IndentGuidesDisable
+autocmd MyVimrcCmd FileType clojure call MyFileTypeClojure()
+function! MyFileTypeClojure() "{{{
+    setl tabstop=2
+    setl softtabstop=2
+    setl shiftwidth=2
+endfunction "}}}
 "}}}
 
 "---------------------------------------------------------------------------
