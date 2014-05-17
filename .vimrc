@@ -485,7 +485,8 @@ try
                 \ 'autoload': {
                 \     'commands': [{'name': 'PP',
                 \                   'complete': 'expression'},
-                \                   'PrettyPrint'],
+                \                   'PrettyPrint',
+                \                   'PP'],
                 \ }}
     NeoBundle $GITHUB_COM.'thinca/vim-editvar.git', {'lazy': 1,
                 \ 'depends': $GITHUB_COM.'thinca/vim-prettyprint.git',
