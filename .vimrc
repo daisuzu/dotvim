@@ -1068,6 +1068,7 @@ set smartcase
 nnoremap <Space>os :<C-u>setlocal smartcase! smartcase?<CR>
 
 set hlsearch
+nohlsearch
 nnoremap <ESC><ESC> :nohlsearch<CR>
 "}}}
 
