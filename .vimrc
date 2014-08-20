@@ -439,14 +439,16 @@ try
                 \ }}
 
     NeoBundle $GITHUB_COM.'vim-scripts/project.tar.gz.git'
-    NeoBundle $GITHUB_COM.'Shougo/vimproc.git', {
+    let vimproc_updcmd = has('win64') ?
+                \ 'tools\\update-dll-mingw 64' : 'tools\\update-dll-mingw 32'
+    execute "NeoBundle '" . $GITHUB_COM . "Shougo/vimproc.vim.git'," . string({
                 \ 'build': {
-                \     'windows': 'make -f make_mingw32.mak',
+                \     'windows': vimproc_updcmd,
                 \     'cygwin': 'make -f make_cygwin.mak',
                 \     'mac': 'make -f make_mac.mak',
                 \     'unix': 'make -f make_unix.mak',
                 \    },
-                \ }
+                \ })
     MyNeoBundle !s:Android $GITHUB_COM.'Shougo/vinarise.git', {'lazy': 1,
                 \ 'autoload': {
                 \     'commands': 'Vinarise',
