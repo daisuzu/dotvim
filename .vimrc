@@ -429,7 +429,10 @@ try
     NeoBundle $GITHUB_COM.'daisuzu/quickrun-hook-sphinx.git'
 
     " utility
+    NeoBundle $GITHUB_COM.'daisuzu/unite-notmuch.git'
+    NeoBundle $GITHUB_COM.'daisuzu/autorepeat.vim.git'
     NeoBundle $GITHUB_COM.'daisuzu/translategoogle.vim.git'
+    NeoBundle $GITHUB_COM.'rhysd/vim-grammarous.git'
     NeoBundle $GITHUB_COM.'mattn/ideone-vim.git', {'lazy': 1,
                 \ 'autoload': {
                 \     'commands': 'Ideone',
@@ -2164,6 +2167,7 @@ nnoremap <expr>   [unite]g  ':<C-u>Unite grep:*::' . expand("<cword>")
 nnoremap <silent> [unite]h  :<C-u>UniteWithCursorWord help<CR>
 nnoremap <silent> [unite]l  :<C-u>Unite line<CR>
 nnoremap <silent> [unite]m  :<C-u>Unite mark -no-quit<CR>
+nnoremap <silent> [unite]n  :<C-u>Unite notmuch -no-quit -keep-focus<CR>
 nnoremap <silent> [unite]o  :<C-u>Unite outline<CR>
 nnoremap <silent> [unite]pi :<C-u>Unite neobundle/install<CR>
 nnoremap <silent> [unite]pu :<C-u>Unite neobundle/update<CR>
@@ -2196,6 +2200,12 @@ function! s:unite_my_settings() "{{{
 
     " <C-l>: manual neocomplcache completion.
     inoremap <buffer> <C-l> <C-x><C-u><C-p><Down>
+
+    " for unite-notmuch
+    let unite = unite#get_current_unite()
+    if index(unite.source_names, 'notmuch') > -1
+        nmap <buffer><expr> r unite#do_action('read')
+    endif
 
 endfunction "}}}
 
@@ -2664,6 +2674,11 @@ if s:has_plugin('neobundle')
 
     unlet bundle
 endif
+"}}}
+"---------------------------------------------------------------------------
+" autorepeat.vim:"{{{
+"
+nmap <Space>. <Plug>(autorepeat)
 "}}}
 "---------------------------------------------------------------------------
 " ideone-vim:"{{{
