@@ -230,7 +230,7 @@ function! MyNeoBundle(arg)
 endfunction
 
 try
-    call neobundle#rc($DOTVIM . '/Bundle/')
+    call neobundle#begin($DOTVIM . '/Bundle/')
 
     " plugin management
     NeoBundleFetch $GITHUB_COM.'Shougo/neobundle.vim.git'
@@ -675,9 +675,14 @@ try
     " textile
     NeoBundle $GITHUB_COM.'timcharper/textile.vim.git'
 
+    " go
+    NeoBundle $GITHUB_COM.'vim-jp/vim-go-extra.git'
+
     " colorscheme
     NeoBundle $GITHUB_COM.'altercation/vim-colors-solarized.git'
     NeoBundle $GITHUB_COM.'vim-scripts/Colour-Sampler-Pack.git'
+
+    call neobundle#end()
 catch /E117/
 
 endtry
@@ -2791,7 +2796,7 @@ let g:sonictemplate_vim_template_dir = expand($DOTVIM . '/.template')
 "---------------------------------------------------------------------------
 " vimhelpgenerator:"{{{
 "
-let g:vimhelpgenerator_defaultlanguage = 'ja'
+let g:vimhelpgenerator_defaultlanguage = 'en'
 "}}}
 "---------------------------------------------------------------------------
 " vim-choosewin:"{{{
