@@ -405,7 +405,7 @@ try
 
     " search
     NeoBundle $GITHUB_COM.'thinca/vim-visualstar.git'
-    NeoBundle $GITHUB_COM.'othree/eregex.vim.git'
+    " NeoBundle $GITHUB_COM.'othree/eregex.vim.git'
 
     " quickrun
     NeoBundle $GITHUB_COM.'thinca/vim-quickrun.git', {'lazy': 1,
