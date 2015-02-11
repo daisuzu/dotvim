@@ -3,8 +3,6 @@
 "---------------------------------------------------------------------------
 " Initialize:"{{{
 "
-set nocompatible
-
 augroup MyVimrcCmd
     autocmd!
 augroup END
@@ -872,7 +870,7 @@ if has("syntax")
             return
         endif
 
-        syntax match InvisibleJISX0208Space "　" display containedin=ALL
+        syntax match InvisibleJISX0208Space "\%u3000" display containedin=ALL
         highlight InvisibleJISX0208Space term=underline ctermbg=Blue guibg=darkgray gui=underline
         syntax match InvisibleTrailedSpace "\s\+$" display containedin=ALL
         if has('gui_macvim')
