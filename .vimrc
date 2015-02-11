@@ -2173,6 +2173,8 @@ endif
 "---------------------------------------------------------------------------
 " vim-signify:"{{{
 "
+nmap <leader>gj <plug>(signify-next-hunk)
+nmap <leader>gk <plug>(signify-prev-hunk)
 "}}}
 "---------------------------------------------------------------------------
 " unite.vim:"{{{
@@ -2991,6 +2993,8 @@ inoremap jj <ESC>
 
 "paste
 inoremap <C-v> <C-r>+
+" swap <C-v> to <C-a>
+inoremap <C-a> <C-v>
 
 " insert blank in normal mode
 nnoremap <C-Space> i <Esc><Right>
