@@ -599,6 +599,11 @@ try
                 \ 'autoload': {
                 \     'filetypes': ['python', ],
                 \ }}
+    NeoBundle $GITHUB_COM.'lambdalisue/vim-pyenv', {'lazy': 1,
+                \ 'depends': ['davidhalter/jedi-vim.git'],
+                \ 'autoload': {
+                \   'filetypes': ['python', 'python3'],
+                \ }}
 
     " Perl
     NeoBundle $GITHUB_COM.'vim-scripts/perl-support.vim.git', {'lazy': 1,
@@ -1868,11 +1873,12 @@ if !exists('g:neocomplete#sources#omni#functions')
     let g:neocomplete#sources#omni#functions = {}
 endif
 
-let g:neocomplete#sources#omni#input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
+" For gocode
+let g:neocomplete#sources#omni#functions.go = 'gocomplete#Complete'
+let g:neocomplete#sources#omni#input_patterns.go = '[^.[:digit:] *\t]\.\w*'
 
-" For jedi-vim
-let g:neocomplete#sources#omni#input_patterns.python = '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
-let g:neocomplete#enable_auto_close_preview = 1
+" For ruby
+let g:neocomplete#sources#omni#input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
 
 " For perlomni.vim
 let g:neocomplete#sources#omni#input_patterns.perl = '[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
@@ -1893,12 +1899,20 @@ let g:neocomplete#force_omni_input_patterns.objc =
 let g:neocomplete#force_omni_input_patterns.objcpp =
             \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
 
+" For tern_for_vim
+let g:neocomplete#force_omni_input_patterns.javascript = '[^. \t]\.\w*'
+
+" For jedi-vim
+let g:neocomplete#force_omni_input_patterns.python = '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
+let g:neocomplete#enable_auto_close_preview = 1
+
+
 " Define keyword pattern.
 if !exists('g:neocomplete#keyword_patterns')
     let g:neocomplete#keyword_patterns = {}
 endif
 let g:neocomplete#keyword_patterns._ = '[0-9a-zA-Z:#_]\+'
-let g:neocomplete#keyword_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+let g:neocomplete#keyword_patterns.perl = '\h\w*->\h\w*\|\h\w*::\w*'
 
 let g:neocomplete#sources#vim#complete_functions = {
             \     'Ref': 'ref#complete',
@@ -2907,7 +2921,10 @@ let g:pymode_trim_whitespaces = 0
 "---------------------------------------------------------------------------
 " jedi-vim:"{{{
 "
-let g:jedi#popup_on_dot = 0
+autocmd MyVimrcCmd FileType python setlocal omnifunc=jedi#completions
+" let g:jedi#popup_on_dot = 0
+let g:jedi#completions_enabled = 0
+let g:jedi#auto_vim_configuration = 0
 let g:jedi#rename_command = '<Leader>jr'
 "}}}
 "---------------------------------------------------------------------------
@@ -2921,6 +2938,11 @@ let g:Perl_Debugger = "perl"
 if has('vim_starting')
     let $PATH = $DOTVIM . '/Bundle/perlomni.vim/bin:' . $PATH
 endif
+"}}}
+"---------------------------------------------------------------------------
+" tern_for_vim:"{{{
+"
+autocmd MyVimrcCmd FileType javascript setlocal omnifunc=tern#Complete
 "}}}
 "---------------------------------------------------------------------------
 " haskellmode-vim:"{{{
