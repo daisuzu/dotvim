@@ -505,6 +505,7 @@ try
                 \ }}
     NeoBundle $GITHUB_COM.'thinca/vim-themis.git'
     NeoBundle $GITHUB_COM.'tyru/open-browser.vim.git'
+    NeoBundle $GITHUB_COM.'yuratomo/w3m.vim.git'
     MyNeoBundle !s:Android $GITHUB_COM.'sjl/splice.vim.git'
     MyNeoBundle !s:Android $GITHUB_COM.'sjl/gundo.vim.git', {'lazy': 1,
                 \ 'autoload': {
