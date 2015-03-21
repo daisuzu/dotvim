@@ -605,7 +605,7 @@ try
                 \ }}
 
     " Perl
-    NeoBundle $GITHUB_COM.'vim-scripts/perl-support.vim.git', {'lazy': 1,
+    NeoBundle $GITHUB_COM.'vim-perl/vim-perl.git', {'lazy': 1,
                 \ 'autoload': {
                 \     'filetypes': ['perl', ],
                 \ }}
