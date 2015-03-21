@@ -680,6 +680,10 @@ try
     " textile
     NeoBundle $GITHUB_COM.'timcharper/textile.vim.git'
 
+    " html/css
+    NeoBundle $GITHUB_COM.'mattn/emmet-vim.git'
+    NeoBundle $GITHUB_COM.'slim-template/vim-slim.git'
+
     " go
     NeoBundle $GITHUB_COM.'vim-jp/vim-go-extra.git'
 
