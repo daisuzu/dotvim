@@ -685,7 +685,16 @@ try
     NeoBundle $GITHUB_COM.'slim-template/vim-slim.git'
 
     " go
-    NeoBundle $GITHUB_COM.'vim-jp/vim-go-extra.git'
+    NeoBundle $GITHUB_COM.'fatih/vim-go.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'filetypes': ['go', ],
+                \ }}
+
+    NeoBundle $GITHUB_COM.'t-yuki/vim-go-coverlay.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'filetypes': ['go', ],
+                \ }}
+
 
     " colorscheme
     NeoBundle $GITHUB_COM.'altercation/vim-colors-solarized.git'
@@ -2973,6 +2982,19 @@ let g:dbext_default_history_file = $DOTVIM.'/dbext_sql_history.txt'
 " SQLUtilities:"{{{
 "
 let g:sqlutil_align_comma = 1
+"}}}
+"---------------------------------------------------------------------------
+" vim-go:"{{{
+"
+let g:go_textobj_enabled = 0
+autocmd MyVimrcCmd FileType go nmap <leader>b <Plug>(go-build)
+autocmd MyVimrcCmd FileType go nmap <leader>t <Plug>(go-test)
+"}}}
+"---------------------------------------------------------------------------
+" vim-go-coverlay:"{{{
+"
+autocmd MyVimrcCmd FileType go nmap <leader>c <Plug>(go-coverlay)
+autocmd MyVimrcCmd FileType go nmap <leader>C <Plug>(go-clearlay)
 "}}}
 "}}}
 
