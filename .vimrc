@@ -1886,7 +1886,7 @@ if !exists('g:neocomplete#sources#omni#functions')
 endif
 
 " For gocode
-let g:neocomplete#sources#omni#functions.go = 'gocomplete#Complete'
+let g:neocomplete#sources#omni#functions.go = 'go#complete#Complete'
 let g:neocomplete#sources#omni#input_patterns.go = '[^.[:digit:] *\t]\.\w*'
 
 " For ruby
@@ -2986,9 +2986,19 @@ let g:sqlutil_align_comma = 1
 "---------------------------------------------------------------------------
 " vim-go:"{{{
 "
+let g:go_snippet_engine = "neosnippet"
 let g:go_textobj_enabled = 0
+
 autocmd MyVimrcCmd FileType go nmap <leader>b <Plug>(go-build)
 autocmd MyVimrcCmd FileType go nmap <leader>t <Plug>(go-test)
+autocmd MyVimrcCmd FileType go call s:go_import_commands()
+
+" same as vim-go-extra
+function! s:go_import_commands()
+    command! -buffer -nargs=? -complete=customlist,go#package#Complete Drop GoDrop <args>
+    command! -buffer -nargs=1 -complete=customlist,go#package#Complete Import GoImport <args>
+    command! -buffer -nargs=* -complete=customlist,go#package#Complete ImportAs GoImportAs <args>
+endfunction
 "}}}
 "---------------------------------------------------------------------------
 " vim-go-coverlay:"{{{
