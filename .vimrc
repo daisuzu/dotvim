@@ -632,6 +632,7 @@ try
                     \     'filetypes': ['javascript', ],
                     \ }}
     endif
+
     " Haskell
     NeoBundle $GITHUB_COM.'kana/vim-filetype-haskell.git', {'lazy': 1,
                 \ 'autoload': {
