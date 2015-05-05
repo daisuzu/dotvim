@@ -1924,7 +1924,6 @@ if !exists('g:neocomplete#keyword_patterns')
     let g:neocomplete#keyword_patterns = {}
 endif
 let g:neocomplete#keyword_patterns._ = '[0-9a-zA-Z:#_]\+'
-let g:neocomplete#keyword_patterns.perl = '\h\w*->\h\w*\|\h\w*::\w*'
 
 let g:neocomplete#sources#vim#complete_functions = {
             \     'Ref': 'ref#complete',
