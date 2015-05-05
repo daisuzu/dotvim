@@ -269,6 +269,10 @@ try
                 \     'insert': 1,
                 \     'filetypes': 'snippet',
                 \ }}
+    NeoBundle $GITHUB_COM.'daisuzu/miosnippet.vim.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'insert': 1,
+                \ }}
     MyNeoBundle !s:Android $GITHUB_COM.'Rip-Rip/clang_complete.git', {'lazy': 1,
                 \ 'autoload': {
                 \     'filetypes': ['c', 'cpp', ],
@@ -2140,6 +2144,11 @@ endif
 " neosnippet:"{{{
 "
 let g:neosnippet#snippets_directory = $DOTVIM.'/.snip/'
+"}}}
+"---------------------------------------------------------------------------
+" miosnippet:"{{{
+"
+imap <C-]> <Plug>(miosnippet_generate)
 "}}}
 "---------------------------------------------------------------------------
 " clang_complete:"{{{
