@@ -658,6 +658,21 @@ try
                 \ }}
     NeoBundle $GITHUB_COM.'tpope/vim-classpath.git'
 
+    " C#
+    NeoBundle $GITHUB_COM.'Omnisharp/omnisharp-vim.git', {'lazy': 1,
+                \  'autoload': {
+                \       'filetypes': ['cs']
+                \  },
+                \  'build': {
+                \     'windows': 'MSBuild.exe server/OmniSharp.sln /p:Platform="Any CPU"',
+                \     'mac': 'xbuild server/OmniSharp.sln',
+                \     'unix': 'xbuild server/OmniSharp.sln',
+                \ }}
+    NeoBundle $GITHUB_COM.'OrangeT/vim-csharp.git', {'lazy': 1,
+                \  'autoload': {
+                \       'filetypes': ['cs']
+                \  }}
+
     " CSV
     NeoBundle $GITHUB_COM.'vim-scripts/csv.vim.git'
 
@@ -1895,6 +1910,9 @@ let g:neocomplete#sources#omni#input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
 " For perlomni.vim
 let g:neocomplete#sources#omni#input_patterns.perl = '[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
 
+" For omnisharp-vim
+let g:neocomplete#sources#omni#input_patterns.cs = '.*[^=\);]'
+
 " Set force omni patterns
 let g:neocomplete#force_overwrite_completefunc = 1
 if !exists('g:neocomplete#force_omni_input_patterns')
@@ -2971,6 +2989,11 @@ endif
 "
 vmap <silent> ios <Plug>InnerOffside
 onoremap <silent> ios :normal vios<CR>
+"}}}
+"---------------------------------------------------------------------------
+" omnisharp-vim:"{{{
+"
+let g:OmniSharp_start_without_solution = 1
 "}}}
 "---------------------------------------------------------------------------
 " dbext.vim:"{{{
