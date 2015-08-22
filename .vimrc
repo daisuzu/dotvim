@@ -302,7 +302,6 @@ try
     NeoBundle $GITHUB_COM.'kablamo/vim-git-log.git'
     NeoBundle $GITHUB_COM.'int3/vim-extradite.git'
     NeoBundle $GITHUB_COM.'rhysd/git-messenger.vim.git'
-    " NeoBundle $GITHUB_COM.'airblade/vim-gitgutter.git'
     NeoBundle $GITHUB_COM.'mhinz/vim-signify.git'
 
     " unite
