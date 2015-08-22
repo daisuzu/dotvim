@@ -336,7 +336,7 @@ try
     NeoBundleLazy $GITHUB_COM.'ujihisa/quicklearn.git'
     NeoBundle $GITHUB_COM.'sgur/unite-qf.git'
     NeoBundle $GITHUB_COM.'osyo-manga/unite-quickfix.git'
-    NeoBundle $GITHUB_COM.'h1mesuke/unite-outline.git'
+    NeoBundle $GITHUB_COM.'Shougo/unite-outline.git'
     NeoBundle $GITHUB_COM.'h1mesuke/vim-alignta.git'
     NeoBundle $GITHUB_COM.'tsukkee/unite-help.git'
     MyNeoBundle !s:Android $GITHUB_COM.'tsukkee/unite-tag.git'
