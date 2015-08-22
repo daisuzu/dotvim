@@ -269,6 +269,18 @@ try
                 \     'insert': 1,
                 \     'filetypes': 'snippet',
                 \ }}
+    NeoBundle $GITHUB_COM.'Shougo/neoinclude.vim.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'insert': 1,
+                \ }}
+    NeoBundle $GITHUB_COM.'Shougo/neco-syntax.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'insert': 1,
+                \ }}
+    NeoBundle $GITHUB_COM.'Shougo/neco-vim.git', {'lazy': 1,
+                \ 'autoload': {
+                \     'insert': 1,
+                \ }}
     NeoBundle $GITHUB_COM.'daisuzu/miosnippet.vim.git', {'lazy': 1,
                 \ 'autoload': {
                 \     'insert': 1,
@@ -1867,6 +1879,11 @@ let g:neocomplete#ignore_source_files = ['tag.vim']
 
 " Set minimum syntax keyword length.
 let g:neocomplete#sources#syntax#min_keyword_length = 3
+let g:necosyntax#min_keyword_length = 3
+if !exists('g:necovim#complete_functions')
+    let g:necovim#complete_functions = {}
+endif
+let g:necovim#complete_functions.Ref = 'ref#complete'
 " Set auto completion length.
 let g:neocomplete#auto_completion_start_length = 2
 " Set manual completion length.
@@ -1896,6 +1913,10 @@ if !exists('g:neocomplete#sources#file_include#exprs')
     let g:neocomplete#sources#file_include#exprs = {}
 endif
 let g:neocomplete#sources#file_include#exprs.perl = 'fnamemodify(substitute(v:fname, "/", "::", "g"), ":r")'
+if !exists('g:neoinclude#exprs')
+    let g:neoinclude#exprs = {}
+endif
+let g:neoinclude#exprs.perl = 'fnamemodify(substitute(v:fname, "/", "::", "g"), ":r")'
 
 " Set omni patterns
 if !exists('g:neocomplete#sources#omni#input_patterns')
