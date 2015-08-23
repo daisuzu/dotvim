@@ -2586,13 +2586,6 @@ let g:tcommentMapLeaderOp2 = ',C'
 let g:tcommentTextObjectInlineComment = ''
 "}}}
 "---------------------------------------------------------------------------
-" vim-niceblock:"{{{
-"
-if s:has_plugin('niceblock')
-    xnoremap <expr> r niceblock#force_blockwise('r')
-endif
-"}}}
-"---------------------------------------------------------------------------
 " vim-altr:"{{{
 if s:has_plugin('altr')
     nnoremap <silent> tf :<C-u>call altr#forward()<CR>
@@ -3087,6 +3080,9 @@ inoremap <C-a> <C-v>
 nnoremap <C-Space> i <Esc><Right>
 nnoremap <C-o> o<Esc>
 nnoremap <M-o> O<Esc>
+
+" improve replacement of twice the width of characters in linewise
+xnoremap <expr> r mode() ==# 'V' ? "\<C-v>0o$r" : "r"
 
 " Tabpage related mappings
 nnoremap <Space>tn :<C-u>tabnew<CR>
