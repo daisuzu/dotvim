@@ -2980,6 +2980,7 @@ autocmd MyVimrcCmd FileType python setlocal omnifunc=jedi#completions
 " let g:jedi#popup_on_dot = 0
 let g:jedi#completions_enabled = 0
 let g:jedi#auto_vim_configuration = 0
+let g:jedi#smart_auto_mappings = 0
 let g:jedi#rename_command = '<Leader>jr'
 "}}}
 "---------------------------------------------------------------------------
