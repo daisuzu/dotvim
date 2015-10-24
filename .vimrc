@@ -330,6 +330,7 @@ try
                 \                   'UniteWithInput'],
                 \ }}
     NeoBundle $GITHUB_COM.'Shougo/neomru.vim.git'
+    NeoBundle $GITHUB_COM.'Shougo/neoyank.vim.git'
     MyNeoBundle !s:Android $GITHUB_COM.'Shougo/unite-build.git'
     NeoBundle $GITHUB_COM.'ujihisa/unite-colorscheme.git'
     NeoBundle $GITHUB_COM.'ujihisa/unite-font.git'
@@ -2264,8 +2265,6 @@ nnoremap <silent> [unite]y  :<C-u>Unite history/yank<CR>
 nnoremap <silent> [unite]:  :<C-u>Unite history/command<CR>
 nnoremap <silent> [unite];  :<C-u>Unite history/command<CR>
 nnoremap <silent> [unite]/  :<C-u>Unite history/search<CR>
-
-let g:unite_source_history_yank_enable = 1
 
 let g:unite_kind_file_cd_command = 'TabpageCD'
 let g:unite_kind_file_lcd_command = 'TabpageCD'
