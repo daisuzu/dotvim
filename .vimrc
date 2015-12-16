@@ -204,7 +204,7 @@ if has('vim_starting')
 endif
 
 if !exists('$GIT_PROTOCOL')
-    let $GIT_PROTOCOL = 'git'
+    let $GIT_PROTOCOL = 'https'
 endif
 if s:Android
     let $GITHUB_COM = $GIT_PROTOCOL.'://207.97.227.239/'
