@@ -2242,7 +2242,7 @@ nmap <leader>gk <plug>(signify-prev-hunk)
 "
 " The prefix key.
 nnoremap [unite] <Nop>
-nmap f [unite]
+nmap <Space>f [unite]
 
 nnoremap <silent> [unite]a  :<C-u>Unite -prompt=#\  buffer bookmark neomru/file file<CR>
 nnoremap <silent> [unite]b  :<C-u>UniteWithBufferDir -buffer-name=files -prompt=%\  buffer bookmark neomru/file file<CR>
@@ -3058,9 +3058,6 @@ autocmd MyVimrcCmd FileType go nmap <leader>C <Plug>(go-clearlay)
 "---------------------------------------------------------------------------
 " Key Mappings:"{{{
 "
-nnoremap ,f f
-nnoremap ,t t
-
 nnoremap Y y$
 nnoremap X ^x
 
