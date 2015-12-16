@@ -716,6 +716,7 @@ try
     NeoBundle $GITHUB_COM.'mattn/emmet-vim.git'
     NeoBundle $GITHUB_COM.'slim-template/vim-slim.git'
     NeoBundle $GITHUB_COM.'digitaltoad/vim-jade.git'
+    NeoBundle $GITHUB_COM.'hail2u/vim-css3-syntax.git'
 
     " go
     NeoBundle $GITHUB_COM.'fatih/vim-go.git', {'lazy': 1,
