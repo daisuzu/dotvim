@@ -3079,8 +3079,6 @@ inoremap <C-a> <C-v>
 
 " insert blank in normal mode
 nnoremap <C-Space> i <Esc><Right>
-nnoremap <C-o> o<Esc>
-nnoremap <M-o> O<Esc>
 
 " improve replacement of twice the width of characters in linewise
 xnoremap <expr> r mode() ==# 'V' ? "\<C-v>0o$r" : "r"
