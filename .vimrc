@@ -249,10 +249,8 @@ try
 
     " completion
     if has('lua')
-        NeoBundle $GITHUB_COM.'Shougo/neocomplete.git', {
-                    \ 'autoload': {
-                    \     'insert': 1,
-                    \ }}
+        NeoBundle $GITHUB_COM.'Shougo/neocomplete.git', {'lazy': 1, 
+                    \ }
     else
         NeoBundle $GITHUB_COM.'Shougo/neocomplcache.git', {'lazy': 1,
                     \ 'autoload': {
@@ -1795,7 +1793,7 @@ if has('lua')
 "---------------------------------------------------------------------------
 " neocomplete:"{{{
 "
-let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_at_startup = 0
 let g:neocomplete#data_directory = $DOTVIM.'/.neocomplete'
 
 let s:is_installed_neocomplete = 0
@@ -1804,69 +1802,75 @@ if s:has_plugin('neobundle')
 endif
 
 if s:is_installed_neocomplete
-    imap <C-k> <Plug>(neosnippet_expand_or_jump)
-    smap <C-k> <Plug>(neosnippet_expand_or_jump)
-    inoremap <expr><C-g> neocomplete#undo_completion()
-    inoremap <expr><C-l> neocomplete#complete_common_string()
-    imap <C-q> <Plug>(neocomplete_start_unite_quick_match)
+    command! StartNeocomplete call StartNeocomplete()
+    function! StartNeocomplete()
+        NeoCompleteEnable
 
-    " <CR>: close popup and save indent.
-    inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-    function! s:my_cr_function()
-	    return neocomplete#close_popup() . "\<CR>"
+        inoremap <expr><C-g> neocomplete#undo_completion()
+        inoremap <expr><C-l> neocomplete#complete_common_string()
+        imap <C-q> <Plug>(neocomplete_start_unite_quick_match)
+
+        " <CR>: close popup and save indent.
+        inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+        function! s:my_cr_function()
+            return neocomplete#close_popup() . "\<CR>"
+        endfunction
+
+        " <TAB>: completion.
+        inoremap <expr><TAB> pumvisible() ? "\<C-n>" :
+                    \ <SID>check_back_space() ? "\<TAB>" :
+                    \ neocomplete#start_manual_complete()
+        function! s:check_back_space() "{{{
+            let col = col('.') - 1
+            return !col || getline('.')[col - 1]  =~ '\s'
+        endfunction "}}}
+        " <S-TAB>: completion back.
+        inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+        " <C-h>, <BS>: close popup and delete backword char.
+        inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+        inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+        " <C-y>: paste.
+        inoremap <expr><C-y>  pumvisible() ? neocomplete#close_popup() :  "\<C-r>\""
+        " <C-e>: close popup.
+        inoremap <expr><C-e>  pumvisible() ? neocomplete#cancel_popup() : "\<End>"
+
+        " <C-n>: neocomplete.
+        inoremap <expr><C-n>  pumvisible() ? "\<C-n>" : "\<C-x>\<C-u>\<C-p>\<Down>"
+        " <C-p>: keyword completion.
+        inoremap <expr><C-p>  pumvisible() ? "\<C-p>" : "\<C-p>\<C-n>"
+
+        " <C-f>, <C-b>: page move.
+        inoremap <expr><C-f>  pumvisible() ? "\<PageDown>" : "\<Right>"
+        inoremap <expr><C-b>  pumvisible() ? "\<PageUp>"   : "\<Left>"
+
+        call neocomplete#custom#source('look', 'min_pattern_length', 4)
     endfunction
 
-    " SuperTab like snippets behavior.
-    "imap <expr><TAB> neosnippet#expandable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+    command! StopNeocomplete call StopNeocomplete()
+    function! StopNeocomplete()
+        NeoCompleteDisable
 
-    " <TAB>: completion.
-    inoremap <expr><TAB> pumvisible() ? "\<C-n>" :
-                \ <SID>check_back_space() ? "\<TAB>" :
-                \ neocomplete#start_manual_complete()
-    function! s:check_back_space() "{{{
-        let col = col('.') - 1
-        return !col || getline('.')[col - 1]  =~ '\s'
-    endfunction "}}}
-    " <S-TAB>: completion back.
-    inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+        iunmap <C-g>
+        iunmap <C-l>
+        iunmap <C-q>
 
-    " <C-h>, <BS>: close popup and delete backword char.
-    inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-    inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-    " <C-y>: paste.
-    inoremap <expr><C-y>  pumvisible() ? neocomplete#close_popup() :  "\<C-r>\""
-    " <C-e>: close popup.
-    inoremap <expr><C-e>  pumvisible() ? neocomplete#cancel_popup() : "\<End>"
+        iunmap <CR>
 
-    " <C-n>: neocomplete.
-    inoremap <expr><C-n>  pumvisible() ? "\<C-n>" : "\<C-x>\<C-u>\<C-p>\<Down>"
-    " <C-p>: keyword completion.
-    inoremap <expr><C-p>  pumvisible() ? "\<C-p>" : "\<C-p>\<C-n>"
+        iunmap <TAB>
+        iunmap <S-TAB>
 
-    " <C-f>, <C-b>: page move.
-    inoremap <expr><C-f>  pumvisible() ? "\<PageDown>" : "\<Right>"
-    inoremap <expr><C-b>  pumvisible() ? "\<PageUp>"   : "\<Left>"
+        iunmap <C-h>
+        iunmap <BS>
+        iunmap <C-y>
+        iunmap <C-e>
 
-    " For cursor moving in insert mode(Not recommended)
-    "inoremap <expr><Left> neocomplete#close_popup() . "\<Left>"
-    "inoremap <expr><Right> neocomplete#close_popup() . "\<Right>"
-    "inoremap <expr><Up> neocomplete#close_popup() . "\<Up>"
-    "inoremap <expr><Down> neocomplete#close_popup() . "\<Down>"
-    " Or set this.
-    "let g:neocomplete#enable_cursor_hold_i = 1
+        iunmap <C-n>
+        iunmap <C-p>
 
-    " AutoComplPop like behavior.
-    "let g:neocomplete#enable_auto_select = 1
-
-    " Shell like behavior(not recommended).
-    "set completeopt&
-    "set completeopt+=longest
-    "let g:neocomplete#enable_auto_select = 1
-    "let g:neocomplete#disable_auto_complete = 1
-    "inoremap <expr><TAB> pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
-    "inoremap <expr><CR> neocomplete#smart_close_popup() . "\<CR>"
-
-    call neocomplete#custom#source('look', 'min_pattern_length', 4)
+        iunmap <C-f>
+        iunmap <C-b>
+    endfunction
 endif
 
 " Disable AutoComplPop.
@@ -1999,14 +2003,9 @@ if s:has_plugin('neobundle')
 endif
 
 if s:is_installed_neocomplcache
-    imap <C-k> <Plug>(neosnippet_expand_or_jump)
-    smap <C-k> <Plug>(neosnippet_expand_or_jump)
     inoremap <expr><C-g> neocomplcache#undo_completion()
     inoremap <expr><C-l> neocomplcache#complete_common_string()
     imap <C-q> <Plug>(neocomplcache_start_unite_quick_match)
-
-    " SuperTab like snippets behavior.
-    "imap <expr><TAB> neosnippet#expandable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
 
     " Recommended key-mappings.
     " <CR>: close popup and save indent.
@@ -2168,6 +2167,10 @@ endif
 " neosnippet:"{{{
 "
 let g:neosnippet#snippets_directory = $DOTVIM.'/.snip/'
+imap <C-k> <Plug>(neosnippet_expand_or_jump)
+smap <C-k> <Plug>(neosnippet_expand_or_jump)
+" SuperTab like snippets behavior.
+"imap <expr><TAB> neosnippet#expandable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
 "}}}
 "---------------------------------------------------------------------------
 " miosnippet:"{{{
