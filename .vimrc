@@ -1087,6 +1087,9 @@ function! s:onColorScheme()
     highlight TabLine     ctermfg=Black ctermbg=White guifg=Black   guibg=#dcdcdc gui=underline
     highlight TabLineFill ctermfg=White ctermbg=Black guifg=Black   guibg=#dcdcdc gui=underline
     highlight TabLineSel  term=bold     cterm=bold    ctermfg=White ctermbg=Blue  guifg=White guibg=Blue gui=bold
+
+    highlight DiffChange              ctermbg=55
+    highlight DiffText    cterm=bold  ctermbg=88
     "}}}
     " For completion menu "{{{
     highlight Pmenu       ctermfg=White ctermbg=DarkBlue  guifg=#0033ff guibg=#99cccc gui=none
