@@ -332,8 +332,6 @@ call add(s:plugins.opt, $GITHUB_COM.'digitaltoad/vim-jade')
 call add(s:plugins.opt, $GITHUB_COM.'hail2u/vim-css3-syntax')
 call add(s:plugins.opt, $GITHUB_COM.'fatih/vim-go')
 call add(s:plugins.opt, $GITHUB_COM.'t-yuki/vim-go-coverlay')
-call add(s:plugins.opt, $GITHUB_COM.'altercation/vim-colors-solarized')
-call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/Colour-Sampler-Pack')
 
 function! s:has_plugin(name)
     return globpath(&runtimepath, 'plugin/' . a:name . '.vim') !=# ''
@@ -512,11 +510,7 @@ endif
 "}}}
 
 " Color Scheme:"{{{
-try
-    colorscheme motus
-catch /E185/
-    colorscheme torte
-endtry
+colorscheme torte
 "}}}
 
 set number
@@ -770,18 +764,20 @@ function! s:onColorScheme()
     endif
     "}}}
     " Additional settings of Color "{{{
-    highlight Cursor      guifg=Black   guibg=Green   gui=bold
+    " highlight Cursor      guifg=Black   guibg=Green   gui=bold
     highlight Search      ctermfg=Black ctermbg=Red   cterm=bold  guifg=Black  guibg=Red  gui=bold
-    highlight StatusLine  ctermfg=White ctermbg=Blue guifg=white guibg=blue
+    " highlight StatusLine  ctermfg=White ctermbg=Blue guifg=blue guibg=white
     highlight Visual      cterm=reverse guifg=#404040 gui=bold
     highlight Folded      guifg=blue    guibg=darkgray
     " highlight Folded      guifg=blue    guibg=cadetblue
+    highlight Identifier  cterm=none ctermfg=14
 
     highlight TabLine     ctermfg=Black ctermbg=White guifg=Black   guibg=#dcdcdc gui=underline
-    highlight TabLineFill ctermfg=White ctermbg=Black guifg=Black   guibg=#dcdcdc gui=underline
+    highlight TabLineFill term=none     cterm=none    ctermfg=Black ctermbg=White guifg=Black   guibg=#dcdcdc gui=underline
     highlight TabLineSel  term=bold     cterm=bold    ctermfg=White ctermbg=Blue  guifg=White guibg=Blue gui=bold
 
     highlight DiffChange              ctermbg=55
+    highlight DiffAdd                 ctermbg=18
     highlight DiffText    cterm=bold  ctermbg=88
     "}}}
     " For completion menu "{{{
