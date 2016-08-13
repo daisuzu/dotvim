@@ -421,10 +421,13 @@ function! PackAddHandler(timer)
         " filetype plugin indent on
         " fugitive.vim requires do autocmd
         doautocmd BufReadPost
+        IndentGuidesEnable
     endif
 endfunction
 
 if has('vim_starting') && has('timers')
+    packadd vim-textobj-user
+    packadd vim-operator-user
     autocmd MyVimrcCmd VimEnter * call timer_start(1, 'PackAddHandler', {'repeat': len(s:plugins.opt)})
 endif
 
@@ -1661,7 +1664,6 @@ endtry
 "---------------------------------------------------------------------------
 " rainbowcyclone.vim:"{{{
 "
-if s:has_plugin('rainbowcyclone')
     nmap c/ <Plug>(rc_search_forward)
     nmap c? <Plug>(rc_search_backward)
     nmap c* <Plug>(rc_search_forward_with_cursor)
@@ -1670,7 +1672,6 @@ if s:has_plugin('rainbowcyclone')
     nmap cN <Plug>(rc_search_backward_with_last_pattern)
     " nmap <Esc><Esc> <Plug>(rc_reset):nohlsearch<CR>
     nnoremap <Esc><Esc> :<C-u>RCReset<CR>:nohlsearch<CR>
-endif
 "}}}
 "---------------------------------------------------------------------------
 " vim-textmanip:"{{{
@@ -1694,24 +1695,21 @@ let g:tcommentTextObjectInlineComment = ''
 "}}}
 "---------------------------------------------------------------------------
 " vim-altr:"{{{
-if s:has_plugin('altr')
+"
     nnoremap <silent> tf :<C-u>call altr#forward()<CR>
     nnoremap <silent> tb :<C-u>call altr#back()<CR>
-endif
-"
 "}}}
 "---------------------------------------------------------------------------
 " Unicode-RST-Table:"{{{
 "
 let g:no_rst_table_maps = 0
-if s:has_plugin('rst_table')
-    if has('python3')
-        noremap <silent> ,,c :python3 CreateTable()<CR>
-        noremap <silent> ,,f :python3 FixTable()<CR>
-    elseif has('python')
-        noremap <silent> ,,c :python CreateTable()<CR>
-        noremap <silent> ,,f :python FixTable()<CR>
-    endif
+
+if has('python3')
+    noremap <silent> ,,c :python3 CreateTable()<CR>
+    noremap <silent> ,,f :python3 FixTable()<CR>
+elseif has('python')
+    noremap <silent> ,,c :python CreateTable()<CR>
+    noremap <silent> ,,f :python FixTable()<CR>
 endif
 "}}}
 "---------------------------------------------------------------------------
