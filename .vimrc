@@ -639,10 +639,6 @@ try
                 \ 'autoload': {
                 \     'filetypes': ['c', 'cpp', ],
                 \ }}
-    NeoBundle $GITHUB_COM.'vim-scripts/CCTree.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'filetypes': ['c', 'cpp', ],
-                \ }}
     NeoBundle $GITHUB_COM.'vim-scripts/Source-Explorer-srcexpl.vim.git', {'lazy': 1,
                 \ 'autoload': {
                 \     'filetypes': ['c', 'cpp', ],
@@ -2586,19 +2582,6 @@ endif
 " tcommand_vim:"{{{
 "
 noremap <Leader>: :TCommand<CR>
-"}}}
-"---------------------------------------------------------------------------
-" CCTree.vim:"{{{
-"
-if s:has_plugin('neobundle')
-    let bundle = neobundle#get('CCTree')
-
-    function! bundle.hooks.on_source(bundle)
-        execute 'source ' . a:bundle.rtp . '/ftplugin/cctree.vim'
-    endfunction
-
-    unlet bundle
-endif
 "}}}
 "---------------------------------------------------------------------------
 " Source-Explorer-srcexpl.vim:"{{{
