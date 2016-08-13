@@ -835,6 +835,7 @@ set autoindent
 set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
 " for smartindent
 inoremap # X<C-H><C-V>#
+set completeopt=menuone,longest,preview
 " settings for Japanese folding
 set formatoptions+=mM
 " don't continue the comment line automatically
