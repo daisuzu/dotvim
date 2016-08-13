@@ -902,6 +902,14 @@ function! SwapColon()
     endif
 endfunction
 "}}}
+" TermGuiColors "{{{
+command! TermGuiColors call TermGuiColors()
+function! TermGuiColors()
+    execute "set t_8f=\e[38;2;%lu;%lu;%lum"
+    execute "set t_8b=\e[48;2;%lu;%lu;%lum"
+    set termguicolors
+endfunction
+"}}}
 " WinMerge keybind in vimdiff "{{{
 function! DiffGet() "{{{
     try
