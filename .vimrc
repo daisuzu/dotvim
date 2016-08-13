@@ -207,24 +207,15 @@ endif
 
 let s:plugins = {'start': [], 'opt': []}
 call add(s:plugins.opt, $GITHUB_COM.'mattn/webapi-vim')
-call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/cecutil')
-call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/tlib')
 call add(s:plugins.opt, $GITHUB_COM.'vim-jp/vimdoc-ja')
 call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-ref')
 call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-ft-help_fold')
 call add(s:plugins.opt, $GITHUB_COM.'Shougo/neosnippet')
 call add(s:plugins.opt, $GITHUB_COM.'Shougo/neosnippet-snippets')
 call add(s:plugins.opt, $GITHUB_COM.'daisuzu/miosnippet.vim')
-if !s:Android
-    call add(s:plugins.opt, $GITHUB_COM.'Rip-Rip/clang_complete')
-endif
-call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/taglist.vim')
-call add(s:plugins.opt, $GITHUB_COM.'abudden/taghighlight-automirror')
 call add(s:plugins.opt, $GITHUB_COM.'tpope/vim-fugitive')
 call add(s:plugins.opt, $GITHUB_COM.'gregsexton/gitv')
-call add(s:plugins.opt, $GITHUB_COM.'kablamo/vim-git-log')
 call add(s:plugins.opt, $GITHUB_COM.'int3/vim-extradite')
-call add(s:plugins.opt, $GITHUB_COM.'rhysd/git-messenger.vim')
 call add(s:plugins.opt, $GITHUB_COM.'mhinz/vim-signify')
 call add(s:plugins.opt, $GITHUB_COM.'Shougo/unite.vim')
 call add(s:plugins.opt, $GITHUB_COM.'Shougo/neomru.vim')
@@ -234,27 +225,17 @@ if !s:Android
 endif
 call add(s:plugins.opt, $GITHUB_COM.'ujihisa/unite-colorscheme')
 call add(s:plugins.opt, $GITHUB_COM.'ujihisa/unite-font')
-call add(s:plugins.opt, $GITHUB_COM.'ujihisa/quicklearn')
 call add(s:plugins.opt, $GITHUB_COM.'sgur/unite-qf')
 call add(s:plugins.opt, $GITHUB_COM.'osyo-manga/unite-quickfix')
 call add(s:plugins.opt, $GITHUB_COM.'Shougo/unite-outline')
 call add(s:plugins.opt, $GITHUB_COM.'h1mesuke/vim-alignta')
 call add(s:plugins.opt, $GITHUB_COM.'tsukkee/unite-help')
-if !s:Android
-    call add(s:plugins.opt, $GITHUB_COM.'tsukkee/unite-tag')
-endif
 call add(s:plugins.opt, $GITHUB_COM.'tacroe/unite-mark')
 if !s:Android
     call add(s:plugins.opt, $GITHUB_COM.'sgur/unite-everything')
 endif
 call add(s:plugins.opt, $GITHUB_COM.'zhaocai/unite-scriptnames')
 call add(s:plugins.opt, $GITHUB_COM.'pasela/unite-webcolorname')
-call add(s:plugins.opt, $GITHUB_COM.'daisuzu/unite-grep_launcher')
-if !s:Android
-    call add(s:plugins.opt, $GITHUB_COM.'daisuzu/unite-gtags')
-endif
-call add(s:plugins.opt, $GITHUB_COM.'ujihisa/unite-haskellimport')
-call add(s:plugins.opt, $GITHUB_COM.'eagletmt/unite-haddock')
 call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-unite-history')
 call add(s:plugins.opt, $GITHUB_COM.'Shougo/unite-ssh')
 call add(s:plugins.opt, $GITHUB_COM.'kana/vim-textobj-user')
@@ -285,7 +266,6 @@ if !s:Android
     call add(s:plugins.opt, $GITHUB_COM.'nathanaelkane/vim-indent-guides')
 endif
 call add(s:plugins.opt, $GITHUB_COM.'daisuzu/rainbowcyclone.vim')
-call add(s:plugins.opt, $GITHUB_COM.'Lokaltog/vim-easymotion')
 call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/matchparenpp')
 call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/matchit.zip')
 call add(s:plugins.opt, $GITHUB_COM.'tpope/vim-surround')
@@ -293,21 +273,16 @@ call add(s:plugins.opt, $GITHUB_COM.'t9md/vim-textmanip')
 call add(s:plugins.opt, $GITHUB_COM.'tomtom/tcomment_vim')
 call add(s:plugins.opt, $GITHUB_COM.'kana/vim-niceblock')
 call add(s:plugins.opt, $GITHUB_COM.'kana/vim-altr')
-call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/DrawIt')
 call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/Unicode-RST-Tables')
 call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/sequence')
 call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-visualstar')
-call add(s:plugins.opt, $GITHUB_COM.'othree/eregex.vim')
 call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-quickrun')
 call add(s:plugins.opt, $GITHUB_COM.'osyo-manga/vim-watchdogs')
 call add(s:plugins.opt, $GITHUB_COM.'osyo-manga/shabadou.vim')
 call add(s:plugins.opt, $GITHUB_COM.'daisuzu/quickrun-hook-sphinx')
 call add(s:plugins.opt, $GITHUB_COM.'daisuzu/unite-notmuch')
-call add(s:plugins.opt, $GITHUB_COM.'daisuzu/autorepeat.vim')
 call add(s:plugins.opt, $GITHUB_COM.'daisuzu/translategoogle.vim')
 call add(s:plugins.opt, $GITHUB_COM.'rhysd/vim-grammarous')
-call add(s:plugins.opt, $GITHUB_COM.'mattn/ideone-vim')
-call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/project.tar.gz')
 call add(s:plugins.opt, $GITHUB_COM.'Shougo/vimproc.vim')
 if !s:Android
     call add(s:plugins.opt, $GITHUB_COM.'Shougo/vinarise')
@@ -318,66 +293,37 @@ endif
 call add(s:plugins.opt, $GITHUB_COM.'Shougo/vimfiler')
 call add(s:plugins.opt, $GITHUB_COM.'Shougo/vimshell')
 call add(s:plugins.opt, $GITHUB_COM.'ujihisa/vimshell-ssh')
-if !s:Android
-    call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-logcat')
-endif
 call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-prettyprint')
 call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-editvar')
 call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-showtime')
-call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-themis')
 call add(s:plugins.opt, $GITHUB_COM.'tyru/open-browser.vim')
 call add(s:plugins.opt, $GITHUB_COM.'yuratomo/w3m.vim')
-if !s:Android
-    call add(s:plugins.opt, $GITHUB_COM.'sjl/splice.vim')
-endif
 if !s:Android
     call add(s:plugins.opt, $GITHUB_COM.'sjl/gundo.vim')
 endif
 call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/copypath.vim')
 call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/DirDiff.vim')
 call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/ShowMultiBase')
-call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/ttoc')
 call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/wokmarks.vim')
 call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/sudo.vim')
 call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/Align')
-call add(s:plugins.opt, $GITHUB_COM.'kana/vim-submode')
-call add(s:plugins.opt, $GITHUB_COM.'itchyny/thumbnail.vim')
-call add(s:plugins.opt, $GITHUB_COM.'itchyny/calendar.vim')
 call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-scall')
 call add(s:plugins.opt, $GITHUB_COM.'mattn/sonictemplate-vim')
 call add(s:plugins.opt, $GITHUB_COM.'LeafCage/vimhelpgenerator')
 call add(s:plugins.opt, $GITHUB_COM.'t9md/vim-choosewin')
-call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-ambicmd')
 call add(s:plugins.opt, $GITHUB_COM.'tyru/vim-altercmd')
-call add(s:plugins.opt, $GITHUB_COM.'tomtom/tcommand_vim')
-call add(s:plugins.opt, $GITHUB_COM.'mbadran/headlights')
-call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/c.vim')
-call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/Source-Explorer-srcexpl.vim')
-call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/trinity.vim')
-call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/cscope-menu')
-call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/gtags.vim')
-call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/DoxygenToolkit.vim')
 call add(s:plugins.opt, $GITHUB_COM.'alfredodeza/pytest.vim')
 call add(s:plugins.opt, $GITHUB_COM.'klen/python-mode')
 call add(s:plugins.opt, $GITHUB_COM.'davidhalter/jedi-vim')
-call add(s:plugins.opt, $GITHUB_COM.'lambdalisue/vim-pyenv')
 call add(s:plugins.opt, $GITHUB_COM.'vim-perl/vim-perl')
 call add(s:plugins.opt, $GITHUB_COM.'c9s/perlomni.vim')
 call add(s:plugins.opt, $GITHUB_COM.'pangloss/vim-javascript')
 call add(s:plugins.opt, $GITHUB_COM.'marijnh/tern_for_vim')
-call add(s:plugins.opt, $GITHUB_COM.'kana/vim-filetype-haskell')
-call add(s:plugins.opt, $GITHUB_COM.'lukerandall/haskellmode-vim')
-call add(s:plugins.opt, $GITHUB_COM.'Twinside/vim-syntax-haskell-cabal')
-call add(s:plugins.opt, $GITHUB_COM.'eagletmt/ghcmod-vim')
-call add(s:plugins.opt, $GITHUB_COM.'dag/vim2hs')
 call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-ft-clojure')
 call add(s:plugins.opt, $GITHUB_COM.'tpope/vim-fireplace')
 call add(s:plugins.opt, $GITHUB_COM.'tpope/vim-classpath')
-call add(s:plugins.opt, $GITHUB_COM.'Omnisharp/omnisharp-vim')
 call add(s:plugins.opt, $GITHUB_COM.'OrangeT/vim-csharp')
 call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/csv.vim')
-call add(s:plugins.opt, $GITHUB_COM.'mattn/vdbi-vim')
-call add(s:plugins.opt, $GITHUB_COM.'daisuzu/dbext.vim')
 call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/SQLUtilities')
 call add(s:plugins.opt, $GITHUB_COM.'timcharper/textile.vim')
 call add(s:plugins.opt, $GITHUB_COM.'mattn/emmet-vim')
@@ -1075,173 +1021,6 @@ onoremap <silent> ]l :call NextIndent(0, 1, 0, 1)<cr>
 onoremap <silent> [L :call NextIndent(1, 0, 1, 1)<cr>
 onoremap <silent> ]L :call NextIndent(1, 1, 1, 1)<cr>
 "}}}
-" cscope_maps.vim "{{{
-" http://cscope.sourceforge.net/cscope_vim_tutorial.html
-"
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" CSCOPE settings for vim
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"
-" This file contains some boilerplate settings for vim's cscope interface,
-" plus some keyboard mappings that I've found useful.
-"
-" USAGE:
-" -- vim 6:     Stick this file in your ~/.vim/plugin directory (or in a
-"               'plugin' directory in some other directory that is in your
-"               'runtimepath'.
-"
-" -- vim 5:     Stick this file somewhere and 'source cscope.vim' it from
-"               your ~/.vimrc file (or cut and paste it into your .vimrc).
-"
-" NOTE:
-" These key maps use multiple keystrokes (2 or 3 keys).  If you find that vim
-" keeps timing you out before you can complete them, try changing your timeout
-" settings, as explained below.
-"
-" Happy cscoping,
-"
-" Jason Duell       jduell@alumni.princeton.edu     2002/3/7
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-
-" This tests to see if vim was configured with the '--enable-cscope' option
-" when it was compiled.  If it wasn't, time to recompile vim...
-if has("cscope")
-
-    """"""""""""" Standard cscope/vim boilerplate
-
-    " use both cscope and ctag for 'ctrl-]', ':ta', and 'vim -t'
-    set cscopetag
-
-    " check cscope for definition of a symbol before checking ctags: set to 1
-    " if you want the reverse search order.
-    set csto=0
-
-    " add any cscope database in current directory
-    if filereadable("cscope.out")
-        cs add cscope.out
-    " else add the database pointed to by environment variable
-    elseif $CSCOPE_DB != ""
-        cs add $CSCOPE_DB
-    endif
-
-    " show msg when any other cscope db added
-    set cscopeverbose
-
-
-    """"""""""""" My cscope/vim key mappings
-    "
-    " The following maps all invoke one of the following cscope search types:
-    "
-    "   's'   symbol: find all references to the token under cursor
-    "   'g'   global: find global definition(s) of the token under cursor
-    "   'c'   calls:  find all calls to the function name under cursor
-    "   't'   text:   find all instances of the text under cursor
-    "   'e'   egrep:  egrep search for the word under cursor
-    "   'f'   file:   open the filename under cursor
-    "   'i'   includes: find files that include the filename under cursor
-    "   'd'   called: find functions that function under cursor calls
-    "
-    " Below are three sets of the maps: one set that just jumps to your
-    " search result, one that splits the existing vim window horizontally and
-    " diplays your search result in the new window, and one that does the same
-    " thing, but does a vertical split instead (vim 6 only).
-    "
-    " I've used CTRL-\ and CTRL-@ as the starting keys for these maps, as it's
-    " unlikely that you need their default mappings (CTRL-\'s default use is
-    " as part of CTRL-\ CTRL-N typemap, which basically just does the same
-    " thing as hitting 'escape': CTRL-@ doesn't seem to have any default use).
-    " If you don't like using 'CTRL-@' or CTRL-\, , you can change some or all
-    " of these maps to use other keys.  One likely candidate is 'CTRL-_'
-    " (which also maps to CTRL-/, which is easier to type).  By default it is
-    " used to switch between Hebrew and English keyboard mode.
-    "
-    " All of the maps involving the <cfile> macro use '^<cfile>$': this is so
-    " that searches over '#include <time.h>" return only references to
-    " 'time.h', and not 'sys/time.h', etc. (by default cscope will return all
-    " files that contain 'time.h' as part of their name).
-
-
-    " To do the first type of search, hit 'CTRL-\', followed by one of the
-    " cscope search types above (s,g,c,t,e,f,i,d).  The result of your cscope
-    " search will be displayed in the current window.  You can use CTRL-T to
-    " go back to where you were before the search.
-    "
-
-    nnoremap <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
-    nnoremap <C-\>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
-    nnoremap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>
-
-
-    " Using 'CTRL-spacebar' (intepreted as CTRL-@ by vim) then a search type
-    " makes the vim window split horizontally, with search result displayed in
-    " the new window.
-    "
-    " (Note: earlier versions of vim may not have the :scs command, but it
-    " can be simulated roughly via:
-    "    nmap <C-@>s <C-W><C-S> :cs find s <C-R>=expand("<cword>")<CR><CR>
-
-    nnoremap <C-@>s :scs find s <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <C-@>g :scs find g <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <C-@>c :scs find c <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <C-@>t :scs find t <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <C-@>e :scs find e <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <C-@>f :scs find f <C-R>=expand("<cfile>")<CR><CR>
-    nnoremap <C-@>i :scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
-    nnoremap <C-@>d :scs find d <C-R>=expand("<cword>")<CR><CR>
-
-
-    " Hitting CTRL-space *twice* before the search type does a vertical
-    " split instead of a horizontal one (vim 6 and up only)
-    "
-    " (Note: you may wish to put a 'set splitright' in your .vimrc
-    " if you prefer the new window on the right instead of the left
-
-    nnoremap <C-@><C-@>s :vert scs find s <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <C-@><C-@>g :vert scs find g <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <C-@><C-@>c :vert scs find c <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <C-@><C-@>t :vert scs find t <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <C-@><C-@>e :vert scs find e <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <C-@><C-@>f :vert scs find f <C-R>=expand("<cfile>")<CR><CR>
-    nnoremap <C-@><C-@>i :vert scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
-    nnoremap <C-@><C-@>d :vert scs find d <C-R>=expand("<cword>")<CR><CR>
-
-
-    """"""""""""" key map timeouts
-    "
-    " By default Vim will only wait 1 second for each keystroke in a mapping.
-    " You may find that too short with the above typemaps.  If so, you should
-    " either turn off mapping timeouts via 'notimeout'.
-    "
-    "set notimeout
-    "
-    " Or, you can keep timeouts, by uncommenting the timeoutlen line below,
-    " with your own personal favorite value (in milliseconds):
-    "
-    "set timeoutlen=4000
-    "
-    " Either way, since mapping timeout settings by default also set the
-    " timeouts for multicharacter 'keys codes' (like <F1>), you should also
-    " set ttimeout and ttimeoutlen: otherwise, you will experience strange
-    " delays as vim waits for a keystroke after you hit ESC (it will be
-    " waiting to see if the ESC is actually part of a key code like <F1>).
-    "
-    "set ttimeout
-    "
-    " personally, I find a tenth of a second to work well for key code
-    " timeouts. If you experience problems and have a slow terminal or network
-    " connection, set it higher.  If you don't set ttimeoutlen, the value for
-    " timeoutlent (default: 1000 = 1 second, which is sluggish) is used.
-    "
-    "set ttimeoutlen=100
-
-endif
-"}}}
 " FullScreenToggle() "{{{
 command! FullScreenToggle call FullScreenToggle()
 function! FullScreenToggle()
@@ -1549,44 +1328,6 @@ endif
 " miosnippet:"{{{
 "
 imap <C-]> <Plug>(miosnippet_generate)
-"}}}
-"---------------------------------------------------------------------------
-" clang_complete:"{{{
-"
-let g:clang_complete_auto = 0
-let g:clang_auto_select = 0
-let g:clang_use_library = 1
-
-" if s:MSWindows
-"     let g:clang_exec = '"C:/GnuWin32/bin/clang.exe'
-"     let g:clang_user_options =
-"                 \ '-I C:/boost_1_47_0 '.
-"                 \ '-fms-extensions -fmsc-version=1500 -fgnu-runtime '.
-"                 \ '-D__MSVCRT_VERSION__=0x800 -D_WIN32_WINNT=0x0500 '.
-"                 \ '2> NUL || exit 0"'
-" endif
-"}}}
-"---------------------------------------------------------------------------
-" taghighlight:"{{{
-"
-function! s:recallReadTypesCmd()
-    for ft in keys(g:rt_cmd_registered)
-        execute 'autocmd MyVimrcCmd FileType ' . ft . ' silent! ReadTypes'
-    endfor
-endfunction
-
-if exists('g:rt_cmd_registered')
-    call s:recallReadTypesCmd()
-else
-    let g:rt_cmd_registered = {}
-endif
-
-function! s:registerReadTypesCmd(ft)
-    if !get(g:rt_cmd_registered, a:ft)
-        execute 'autocmd MyVimrcCmd FileType ' . a:ft . ' silent! ReadTypes'
-        let g:rt_cmd_registered[a:ft] = 1
-    endif
-endfunction
 "}}}
 "---------------------------------------------------------------------------
 " vim-fugitive:"{{{
@@ -1978,13 +1719,6 @@ if s:has_plugin('rst_table')
 endif
 "}}}
 "---------------------------------------------------------------------------
-" eregex.vim:"{{{
-"
-let g:eregex_default_enable = 0
-nnoremap ,/ :<C-u>M/
-nnoremap ,? :<C-u>M?
-"}}}
-"---------------------------------------------------------------------------
 " vim-quickrun:"{{{
 "
 nmap <Leader>r <Plug>(quickrun)
@@ -2112,23 +1846,6 @@ if s:has_plugin('vim-watchdogs')
 endif
 "}}}
 "---------------------------------------------------------------------------
-" autorepeat.vim:"{{{
-"
-nmap <Space>. <Plug>(autorepeat)
-"}}}
-"---------------------------------------------------------------------------
-" ideone-vim:"{{{
-"
-let g:ideone_put_url_to_clipboard_after_post = 0
-let g:ideone_open_buffer_after_post = 1
-"}}}
-"---------------------------------------------------------------------------
-" project.tar.gz:"{{{
-"
-let g:proj_flags = "imstc"
-nmap <silent> <Leader>P <Plug>ToggleProject
-"}}}
-"---------------------------------------------------------------------------
 " vimfiler:"{{{
 "
 nnoremap [vimfiler] <Nop>
@@ -2178,41 +1895,6 @@ function! s:vimshell_settings()
 endfunction
 "}}}
 "---------------------------------------------------------------------------
-" vim-submode:"{{{
-"
-if s:has_plugin('submode')
-    call submode#enter_with('undo/redo', 'n', '', 'g-', 'g-')
-    call submode#enter_with('undo/redo', 'n', '', 'g+', 'g+')
-    call submode#map('undo/redo', 'n', '', '-', 'g-')
-    call submode#map('undo/redo', 'n', '', '+', 'g+')
-
-    call submode#enter_with('winsize', 'n', '', '<C-w>>', '<C-w>>')
-    call submode#enter_with('winsize', 'n', '', '<C-w><', '<C-w><')
-    call submode#enter_with('winsize', 'n', '', '<C-w>+', '<C-w>+')
-    call submode#enter_with('winsize', 'n', '', '<C-w>-', '<C-w>-')
-    call submode#map('winsize', 'n', '', '>', '<C-w>>')
-    call submode#map('winsize', 'n', '', '<', '<C-w><')
-    call submode#map('winsize', 'n', '', '+', '<C-w>+')
-    call submode#map('winsize', 'n', '', '-', '<C-w>-')
-
-    call submode#enter_with('winmove', 'n', '', '<C-w>w', '<C-w>w')
-    call submode#enter_with('winmove', 'n', '', '<C-w>j', '<C-w>j')
-    call submode#enter_with('winmove', 'n', '', '<C-w>k', '<C-w>k')
-    call submode#enter_with('winmove', 'n', '', '<C-w>h', '<C-w>h')
-    call submode#enter_with('winmove', 'n', '', '<C-w>l', '<C-w>l')
-    call submode#map('winmove', 'n', '', 'w', '<C-w>w')
-    call submode#map('winmove', 'n', '', 'j', '<C-w>j')
-    call submode#map('winmove', 'n', '', 'k', '<C-w>k')
-    call submode#map('winmove', 'n', '', 'h', '<C-w>h')
-    call submode#map('winmove', 'n', '', 'l', '<C-w>l')
-
-    call submode#enter_with('changetab', 'n', '', 'gt', 'gt')
-    call submode#enter_with('changetab', 'n', '', 'gT', 'gT')
-    call submode#map('changetab', 'n', '', 't', 'gt')
-    call submode#map('changetab', 'n', '', 'T', 'gT')
-endif
-"}}}
-"---------------------------------------------------------------------------
 " vim-scall:"{{{
 "
 let g:scall_function_name = 'S'
@@ -2233,77 +1915,6 @@ let g:vimhelpgenerator_defaultlanguage = 'en'
 nmap <Leader>- <Plug>(choosewin)
 let g:choosewin_overlay_enable = 1
 let g:choosewin_overlay_clear_multibyte = 1
-"}}}
-"---------------------------------------------------------------------------
-" vim-ambicmd:"{{{
-"
-if s:has_plugin('ambicmd')
-    cnoremap <expr> <Space> ambicmd#expand("\<Space>")
-    cnoremap <expr> <CR> ambicmd#expand("\<CR>")
-    " cnoremap <expr> <C-f> ambicmd#expand("\<Right>")
-
-    autocmd MyVimrcCmd CmdwinEnter * call s:init_cmdwin_ambicmd()
-    function! s:init_cmdwin_ambicmd()
-        inoremap <buffer> <expr> <Space> ambicmd#expand("\<Space>")
-        inoremap <buffer> <expr> <CR> ambicmd#expand("\<CR>")
-    endfunction
-endif
-"}}}
-"---------------------------------------------------------------------------
-" tcommand_vim:"{{{
-"
-noremap <Leader>: :TCommand<CR>
-"}}}
-"---------------------------------------------------------------------------
-" Source-Explorer-srcexpl.vim:"{{{
-"
-" // The switch of the Source Explorer                                         "
-" nmap <F8> :SrcExplToggle<CR>
-"                                                                              "
-" // Set the height of Source Explorer window                                  "
- let g:SrcExpl_winHeight = 8
-"                                                                              "
-" // Set 100 ms for refreshing the Source Explorer                             "
- let g:SrcExpl_refreshTime = 100
-"                                                                              "
-" // Set "Enter" key to jump into the exact definition context                 "
- let g:SrcExpl_jumpKey = "<ENTER>"
-"                                                                              "
-" // Set "Space" key for back from the definition context                      "
- let g:SrcExpl_gobackKey = "<SPACE>"
-"                                                                              "
-" // In order to Avoid conflicts, the Source Explorer should know what plugins "
-" // are using buffers. And you need add their bufname into the list below     "
-" // according to the command ":buffers!"                                      "
- let g:SrcExpl_pluginList = [
-         \ "__Tag_List__",
-         \ "_NERD_tree_",
-         \ "Source_Explorer"
-     \ ]
-"                                                                              "
-" // Enable/Disable the local definition searching, and note that this is not  "
-" // guaranteed to work, the Source Explorer doesn't check the syntax for now. "
-" // It only searches for a match with the keyword according to command 'gd'   "
- let g:SrcExpl_searchLocalDef = 1
-"                                                                              "
-" // Do not let the Source Explorer update the tags file when opening          "
- let g:SrcExpl_isUpdateTags = 0
-"                                                                              "
-" // Use 'Exuberant Ctags' with '--sort=foldcase -R .' or '-L cscope.files' to "
-" //  create/update a tags file                                                "
- let g:SrcExpl_updateTagsCmd = "ctags --sort=foldcase -R ."
-"                                                                              "
-" // Set "<F12>" key for updating the tags file artificially                   "
-" let g:SrcExpl_updateTagsKey = "<F12>"
-"}}}
-"---------------------------------------------------------------------------
-" gtags.vim:"{{{
-"
-nnoremap <Leader>gs :<C-u>Gtags -s <C-R>=expand("<cword>")<CR><CR>
-nnoremap <Leader>gg :<C-u>Gtags -g <C-R>=expand("<cword>")<CR><CR>
-nnoremap <Leader>gf :<C-u>Gtags -f <C-R>=expand("<cfile>")<CR><CR>
-nnoremap <Leader>gr :<C-u>Gtags -r <C-R>=expand("<cword>")<CR><CR>
-nnoremap <Leader>gd :<C-u>Gtags -d <C-R>=expand("<cword>")<CR><CR>
 "}}}
 "---------------------------------------------------------------------------
 " python-mode:"{{{
@@ -2330,11 +1941,6 @@ let g:jedi#smart_auto_mappings = 0
 let g:jedi#rename_command = '<Leader>jr'
 "}}}
 "---------------------------------------------------------------------------
-" perl-support.vim:"{{{
-"
-let g:Perl_Debugger = "perl"
-"}}}
-"---------------------------------------------------------------------------
 " perlomni.vim:"{{{
 "
 if has('vim_starting')
@@ -2345,31 +1951,6 @@ endif
 " tern_for_vim:"{{{
 "
 autocmd MyVimrcCmd FileType javascript setlocal omnifunc=tern#Complete
-"}}}
-"---------------------------------------------------------------------------
-" haskellmode-vim:"{{{
-"
-if s:MSWindows
-    let g:haddock_browser = "C:/Program\ Files/Mozilla\ Firefox/firefox.exe"
-else
-    let g:haddock_browser = "/usr/bin/firefox"
-endif
-"}}}
-"---------------------------------------------------------------------------
-" vim2hs:"{{{
-"
-vmap <silent> ios <Plug>InnerOffside
-onoremap <silent> ios :normal vios<CR>
-"}}}
-"---------------------------------------------------------------------------
-" omnisharp-vim:"{{{
-"
-let g:OmniSharp_start_without_solution = 1
-"}}}
-"---------------------------------------------------------------------------
-" dbext.vim:"{{{
-"
-let g:dbext_default_history_file = $DOTVIM.'/dbext_sql_history.txt'
 "}}}
 "---------------------------------------------------------------------------
 " SQLUtilities:"{{{
