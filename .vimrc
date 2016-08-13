@@ -196,6 +196,97 @@ endif
 "
 " filetype off
 
+function! s:has_plugin(name)
+    return globpath(&runtimepath, 'plugin/' . a:name . '.vim') !=# ''
+                \ || globpath(&runtimepath, 'autoload/' . a:name . '.vim') !=# ''
+endfunction
+
+function! s:mkdir_if_not_exists(path)
+    if !isdirectory(a:path)
+        call mkdir(a:path, 'p')
+    endif
+endfunction
+
+function! s:create_helptags(path)
+    if isdirectory(a:path)
+        execute 'helptags ' . a:path
+    endif
+endfunction
+
+function! InstallPackPlugins()
+    for key in keys(s:plugins)
+        let dir = expand($PACKPATH . '/' . key)
+        call s:mkdir_if_not_exists(dir)
+
+        for url in s:plugins[key]
+            let dst = expand(dir . '/' . split(url, '/')[-1])
+            if isdirectory(dst)
+                " plugin is already installed
+                continue
+            endif
+
+            echo 'installing: ' . dst
+            let cmd = printf('git clone --recursive %s %s', url, dst)
+            call system(cmd)
+            call s:create_helptags(expand(dst . '/doc/'))
+        endfor
+    endfor
+endfunction
+
+function! UpdateHelpTags()
+    for key in keys(s:plugins)
+        let dir = expand($PACKPATH . '/' . key)
+
+        for url in s:plugins[key]
+            let dst = expand(dir . '/' . split(url, '/')[-1])
+            if !isdirectory(dst)
+                " plugin is not installed
+                continue
+            endif
+
+            echo 'helptags: ' . dst
+            call s:create_helptags(expand(dst . '/doc/'))
+        endfor
+    endfor
+endfunction
+
+function! UpdatePackPlugins()
+    topleft split
+    edit `='[update plugins]'`
+
+    let s:pidx = 0
+    call timer_start(100, 'PluginUpdateHandler', {'repeat': len(s:plugins.opt)})
+endfunction
+
+function! PluginUpdateHandler(timer)
+    let dir = expand($PACKPATH . '/' . 'opt')
+    let url = s:plugins.opt[s:pidx]
+    let dst = expand(dir . '/' . split(url, '/')[-1])
+
+    let cmd = printf('git -C %s pull --ff --ff-only', dst)
+    call job_start(cmd, {'out_io': 'buffer', 'out_name': '[update plugins]'})
+
+    let s:pidx += 1
+endfunction
+
+let s:pidx = 0
+function! PackAddHandler(timer)
+    let plugin_name = split(s:plugins.opt[s:pidx], '/')[-1]
+
+    let plugin_path = expand($PACKPATH . '/opt/' . plugin_name)
+    if isdirectory(plugin_path)
+        execute 'packadd ' . plugin_name
+    endif
+
+    let s:pidx += 1
+    if s:pidx == len(s:plugins.opt)
+        " for filetype plugin
+        " filetype plugin indent on
+        " fugitive.vim requires do autocmd
+        doautocmd BufReadPost
+    endif
+endfunction
+
 "---------------------------------------------------------------------------
 " neobundle.vim:"{{{
 "
@@ -1729,12 +1820,6 @@ function! s:ginger(text)
 endfunction
 
 command! -nargs=+ Ginger call s:ginger(<q-args>)
-"}}}
-" s:has_plugin(name) "{{{
-function! s:has_plugin(name)
-    return globpath(&runtimepath, 'plugin/' . a:name . '.vim') !=# ''
-                \ || globpath(&runtimepath, 'autoload/' . a:name . '.vim') !=# ''
-endfunction
 "}}}
 "}}}
 
