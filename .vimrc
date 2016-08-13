@@ -194,7 +194,200 @@ endif
 "---------------------------------------------------------------------------
 " Load Plugins:"{{{
 "
-" filetype off
+let $PACKPATH = $DOTVIM . '/pack/Bundle'
+if !exists('$GIT_PROTOCOL')
+    let $GIT_PROTOCOL = 'https'
+endif
+if s:Android
+    let $GITHUB_COM = $GIT_PROTOCOL.'://207.97.227.239/'
+else
+    let $GITHUB_COM = $GIT_PROTOCOL.'://github.com/'
+endif
+" let $BITBUCKET_ORG = 'https://bitbucket.org/'
+
+let s:plugins = {'start': [], 'opt': []}
+call add(s:plugins.opt, $GITHUB_COM.'mattn/webapi-vim')
+call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/cecutil')
+call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/tlib')
+call add(s:plugins.opt, $GITHUB_COM.'vim-jp/vimdoc-ja')
+call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-ref')
+call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-ft-help_fold')
+call add(s:plugins.opt, $GITHUB_COM.'Shougo/neosnippet')
+call add(s:plugins.opt, $GITHUB_COM.'Shougo/neosnippet-snippets')
+call add(s:plugins.opt, $GITHUB_COM.'daisuzu/miosnippet.vim')
+if !s:Android
+    call add(s:plugins.opt, $GITHUB_COM.'Rip-Rip/clang_complete')
+endif
+call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/taglist.vim')
+call add(s:plugins.opt, $GITHUB_COM.'abudden/taghighlight-automirror')
+call add(s:plugins.opt, $GITHUB_COM.'tpope/vim-fugitive')
+call add(s:plugins.opt, $GITHUB_COM.'gregsexton/gitv')
+call add(s:plugins.opt, $GITHUB_COM.'kablamo/vim-git-log')
+call add(s:plugins.opt, $GITHUB_COM.'int3/vim-extradite')
+call add(s:plugins.opt, $GITHUB_COM.'rhysd/git-messenger.vim')
+call add(s:plugins.opt, $GITHUB_COM.'mhinz/vim-signify')
+call add(s:plugins.opt, $GITHUB_COM.'Shougo/unite.vim')
+call add(s:plugins.opt, $GITHUB_COM.'Shougo/neomru.vim')
+call add(s:plugins.opt, $GITHUB_COM.'Shougo/neoyank.vim')
+if !s:Android
+    call add(s:plugins.opt, $GITHUB_COM.'Shougo/unite-build')
+endif
+call add(s:plugins.opt, $GITHUB_COM.'ujihisa/unite-colorscheme')
+call add(s:plugins.opt, $GITHUB_COM.'ujihisa/unite-font')
+call add(s:plugins.opt, $GITHUB_COM.'ujihisa/quicklearn')
+call add(s:plugins.opt, $GITHUB_COM.'sgur/unite-qf')
+call add(s:plugins.opt, $GITHUB_COM.'osyo-manga/unite-quickfix')
+call add(s:plugins.opt, $GITHUB_COM.'Shougo/unite-outline')
+call add(s:plugins.opt, $GITHUB_COM.'h1mesuke/vim-alignta')
+call add(s:plugins.opt, $GITHUB_COM.'tsukkee/unite-help')
+if !s:Android
+    call add(s:plugins.opt, $GITHUB_COM.'tsukkee/unite-tag')
+endif
+call add(s:plugins.opt, $GITHUB_COM.'tacroe/unite-mark')
+if !s:Android
+    call add(s:plugins.opt, $GITHUB_COM.'sgur/unite-everything')
+endif
+call add(s:plugins.opt, $GITHUB_COM.'zhaocai/unite-scriptnames')
+call add(s:plugins.opt, $GITHUB_COM.'pasela/unite-webcolorname')
+call add(s:plugins.opt, $GITHUB_COM.'daisuzu/unite-grep_launcher')
+if !s:Android
+    call add(s:plugins.opt, $GITHUB_COM.'daisuzu/unite-gtags')
+endif
+call add(s:plugins.opt, $GITHUB_COM.'ujihisa/unite-haskellimport')
+call add(s:plugins.opt, $GITHUB_COM.'eagletmt/unite-haddock')
+call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-unite-history')
+call add(s:plugins.opt, $GITHUB_COM.'Shougo/unite-ssh')
+call add(s:plugins.opt, $GITHUB_COM.'kana/vim-textobj-user')
+call add(s:plugins.opt, $GITHUB_COM.'kana/vim-textobj-indent')
+call add(s:plugins.opt, $GITHUB_COM.'kana/vim-textobj-syntax')
+call add(s:plugins.opt, $GITHUB_COM.'kana/vim-textobj-line')
+call add(s:plugins.opt, $GITHUB_COM.'kana/vim-textobj-fold')
+call add(s:plugins.opt, $GITHUB_COM.'kana/vim-textobj-entire')
+call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-textobj-between')
+call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-textobj-comment')
+call add(s:plugins.opt, $GITHUB_COM.'h1mesuke/textobj-wiw')
+call add(s:plugins.opt, $GITHUB_COM.'vimtaku/vim-textobj-sigil')
+call add(s:plugins.opt, $GITHUB_COM.'sgur/vim-textobj-parameter')
+call add(s:plugins.opt, $GITHUB_COM.'terryma/vim-expand-region')
+call add(s:plugins.opt, $GITHUB_COM.'kana/vim-operator-user')
+call add(s:plugins.opt, $GITHUB_COM.'kana/vim-operator-replace')
+call add(s:plugins.opt, $GITHUB_COM.'tyru/operator-camelize.vim')
+call add(s:plugins.opt, $GITHUB_COM.'tyru/operator-reverse.vim')
+call add(s:plugins.opt, $GITHUB_COM.'emonkak/vim-operator-sort')
+call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-qfreplace')
+call add(s:plugins.opt, $GITHUB_COM.'dannyob/quickfixstatus')
+call add(s:plugins.opt, $GITHUB_COM.'jceb/vim-hier')
+call add(s:plugins.opt, $GITHUB_COM.'fuenor/qfixhowm')
+if !s:Android
+    call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-fontzoom')
+endif
+if !s:Android
+    call add(s:plugins.opt, $GITHUB_COM.'nathanaelkane/vim-indent-guides')
+endif
+call add(s:plugins.opt, $GITHUB_COM.'daisuzu/rainbowcyclone.vim')
+call add(s:plugins.opt, $GITHUB_COM.'Lokaltog/vim-easymotion')
+call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/matchparenpp')
+call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/matchit.zip')
+call add(s:plugins.opt, $GITHUB_COM.'tpope/vim-surround')
+call add(s:plugins.opt, $GITHUB_COM.'t9md/vim-textmanip')
+call add(s:plugins.opt, $GITHUB_COM.'tomtom/tcomment_vim')
+call add(s:plugins.opt, $GITHUB_COM.'kana/vim-niceblock')
+call add(s:plugins.opt, $GITHUB_COM.'kana/vim-altr')
+call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/DrawIt')
+call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/Unicode-RST-Tables')
+call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/sequence')
+call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-visualstar')
+call add(s:plugins.opt, $GITHUB_COM.'othree/eregex.vim')
+call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-quickrun')
+call add(s:plugins.opt, $GITHUB_COM.'osyo-manga/vim-watchdogs')
+call add(s:plugins.opt, $GITHUB_COM.'osyo-manga/shabadou.vim')
+call add(s:plugins.opt, $GITHUB_COM.'daisuzu/quickrun-hook-sphinx')
+call add(s:plugins.opt, $GITHUB_COM.'daisuzu/unite-notmuch')
+call add(s:plugins.opt, $GITHUB_COM.'daisuzu/autorepeat.vim')
+call add(s:plugins.opt, $GITHUB_COM.'daisuzu/translategoogle.vim')
+call add(s:plugins.opt, $GITHUB_COM.'rhysd/vim-grammarous')
+call add(s:plugins.opt, $GITHUB_COM.'mattn/ideone-vim')
+call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/project.tar.gz')
+call add(s:plugins.opt, $GITHUB_COM.'Shougo/vimproc.vim')
+if !s:Android
+    call add(s:plugins.opt, $GITHUB_COM.'Shougo/vinarise')
+endif
+if !s:Android
+    call add(s:plugins.opt, $GITHUB_COM.'s-yukikaze/vinarise-plugin-peanalysis')
+endif
+call add(s:plugins.opt, $GITHUB_COM.'Shougo/vimfiler')
+call add(s:plugins.opt, $GITHUB_COM.'Shougo/vimshell')
+call add(s:plugins.opt, $GITHUB_COM.'ujihisa/vimshell-ssh')
+if !s:Android
+    call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-logcat')
+endif
+call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-prettyprint')
+call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-editvar')
+call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-showtime')
+call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-themis')
+call add(s:plugins.opt, $GITHUB_COM.'tyru/open-browser.vim')
+call add(s:plugins.opt, $GITHUB_COM.'yuratomo/w3m.vim')
+if !s:Android
+    call add(s:plugins.opt, $GITHUB_COM.'sjl/splice.vim')
+endif
+if !s:Android
+    call add(s:plugins.opt, $GITHUB_COM.'sjl/gundo.vim')
+endif
+call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/copypath.vim')
+call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/DirDiff.vim')
+call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/ShowMultiBase')
+call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/ttoc')
+call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/wokmarks.vim')
+call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/sudo.vim')
+call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/Align')
+call add(s:plugins.opt, $GITHUB_COM.'kana/vim-submode')
+call add(s:plugins.opt, $GITHUB_COM.'itchyny/thumbnail.vim')
+call add(s:plugins.opt, $GITHUB_COM.'itchyny/calendar.vim')
+call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-scall')
+call add(s:plugins.opt, $GITHUB_COM.'mattn/sonictemplate-vim')
+call add(s:plugins.opt, $GITHUB_COM.'LeafCage/vimhelpgenerator')
+call add(s:plugins.opt, $GITHUB_COM.'t9md/vim-choosewin')
+call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-ambicmd')
+call add(s:plugins.opt, $GITHUB_COM.'tyru/vim-altercmd')
+call add(s:plugins.opt, $GITHUB_COM.'tomtom/tcommand_vim')
+call add(s:plugins.opt, $GITHUB_COM.'mbadran/headlights')
+call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/c.vim')
+call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/Source-Explorer-srcexpl.vim')
+call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/trinity.vim')
+call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/cscope-menu')
+call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/gtags.vim')
+call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/DoxygenToolkit.vim')
+call add(s:plugins.opt, $GITHUB_COM.'alfredodeza/pytest.vim')
+call add(s:plugins.opt, $GITHUB_COM.'klen/python-mode')
+call add(s:plugins.opt, $GITHUB_COM.'davidhalter/jedi-vim')
+call add(s:plugins.opt, $GITHUB_COM.'lambdalisue/vim-pyenv')
+call add(s:plugins.opt, $GITHUB_COM.'vim-perl/vim-perl')
+call add(s:plugins.opt, $GITHUB_COM.'c9s/perlomni.vim')
+call add(s:plugins.opt, $GITHUB_COM.'pangloss/vim-javascript')
+call add(s:plugins.opt, $GITHUB_COM.'marijnh/tern_for_vim')
+call add(s:plugins.opt, $GITHUB_COM.'kana/vim-filetype-haskell')
+call add(s:plugins.opt, $GITHUB_COM.'lukerandall/haskellmode-vim')
+call add(s:plugins.opt, $GITHUB_COM.'Twinside/vim-syntax-haskell-cabal')
+call add(s:plugins.opt, $GITHUB_COM.'eagletmt/ghcmod-vim')
+call add(s:plugins.opt, $GITHUB_COM.'dag/vim2hs')
+call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-ft-clojure')
+call add(s:plugins.opt, $GITHUB_COM.'tpope/vim-fireplace')
+call add(s:plugins.opt, $GITHUB_COM.'tpope/vim-classpath')
+call add(s:plugins.opt, $GITHUB_COM.'Omnisharp/omnisharp-vim')
+call add(s:plugins.opt, $GITHUB_COM.'OrangeT/vim-csharp')
+call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/csv.vim')
+call add(s:plugins.opt, $GITHUB_COM.'mattn/vdbi-vim')
+call add(s:plugins.opt, $GITHUB_COM.'daisuzu/dbext.vim')
+call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/SQLUtilities')
+call add(s:plugins.opt, $GITHUB_COM.'timcharper/textile.vim')
+call add(s:plugins.opt, $GITHUB_COM.'mattn/emmet-vim')
+call add(s:plugins.opt, $GITHUB_COM.'slim-template/vim-slim')
+call add(s:plugins.opt, $GITHUB_COM.'digitaltoad/vim-jade')
+call add(s:plugins.opt, $GITHUB_COM.'hail2u/vim-css3-syntax')
+call add(s:plugins.opt, $GITHUB_COM.'fatih/vim-go')
+call add(s:plugins.opt, $GITHUB_COM.'t-yuki/vim-go-coverlay')
+call add(s:plugins.opt, $GITHUB_COM.'altercation/vim-colors-solarized')
+call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/Colour-Sampler-Pack')
 
 function! s:has_plugin(name)
     return globpath(&runtimepath, 'plugin/' . a:name . '.vim') !=# ''
@@ -287,517 +480,9 @@ function! PackAddHandler(timer)
     endif
 endfunction
 
-"---------------------------------------------------------------------------
-" neobundle.vim:"{{{
-"
-if has('vim_starting')
-    set runtimepath+=$DOTVIM/Bundle/neobundle.vim/
+if has('vim_starting') && has('timers')
+    autocmd MyVimrcCmd VimEnter * call timer_start(1, 'PackAddHandler', {'repeat': len(s:plugins.opt)})
 endif
-
-if !exists('$GIT_PROTOCOL')
-    let $GIT_PROTOCOL = 'https'
-endif
-if s:Android
-    let $GITHUB_COM = $GIT_PROTOCOL.'://207.97.227.239/'
-else
-    let $GITHUB_COM = $GIT_PROTOCOL.'://github.com/'
-endif
-
-let $BITBUCKET_ORG = 'https://bitbucket.org/'
-
-command! -nargs=* MyNeoBundle
-            \ call MyNeoBundle(substitute(<q-args>, '\s"[^"]\+$', '', ''))
-function! MyNeoBundle(arg)
-    let args = split(a:arg)
-    if len(args) < 1
-        return
-    endif
-
-    if eval(args[0])
-        execute 'NeoBundle ' . join(args[1:])
-    endif
-endfunction
-
-try
-    call neobundle#begin($DOTVIM . '/Bundle/')
-
-    " plugin management
-    NeoBundleFetch $GITHUB_COM.'Shougo/neobundle.vim.git'
-
-    " runtime for other plugins
-    NeoBundle $GITHUB_COM.'mattn/webapi-vim.git'
-    NeoBundle $GITHUB_COM.'vim-scripts/cecutil.git'
-    NeoBundle $GITHUB_COM.'vim-scripts/tlib.git'
-
-    " doc
-    NeoBundle $GITHUB_COM.'vim-jp/vimdoc-ja.git'
-    NeoBundle $GITHUB_COM.'thinca/vim-ref.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'commands': [{'name': 'Ref',
-                \                   'complete': 'customlist,ref#complete',}],
-                \ }}
-    NeoBundle $GITHUB_COM.'thinca/vim-ft-help_fold.git'
-
-    " completion
-    NeoBundle $GITHUB_COM.'Shougo/neosnippet.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'insert': 1,
-                \     'filetypes': 'snippet',
-                \ }}
-    NeoBundle $GITHUB_COM.'Shougo/neosnippet-snippets.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'insert': 1,
-                \     'filetypes': 'snippet',
-                \ }}
-    NeoBundle $GITHUB_COM.'daisuzu/miosnippet.vim.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'insert': 1,
-                \ }}
-    MyNeoBundle !s:Android $GITHUB_COM.'Rip-Rip/clang_complete.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'filetypes': ['c', 'cpp', ],
-                \ }}
-
-    " ctags
-    NeoBundle $GITHUB_COM.'vim-scripts/taglist.vim.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'filetypes': ['c', 'cpp', 'python', 'perl', 'javascript', ],
-                \ }}
-    if executable('hg')
-        NeoBundle $BITBUCKET_ORG.'abudden/taghighlight', {'lazy': 1,
-                    \ 'autoload' : {
-                    \     'filetypes': ['c', 'cpp', 'python', 'perl', 'javascript', ],
-                    \ },
-                    \ 'type': 'hg'}
-    endif
-
-    " vcs
-    NeoBundle $GITHUB_COM.'tpope/vim-fugitive.git'
-    NeoBundle $GITHUB_COM.'gregsexton/gitv.git'
-    NeoBundle $GITHUB_COM.'kablamo/vim-git-log.git'
-    NeoBundle $GITHUB_COM.'int3/vim-extradite.git'
-    NeoBundle $GITHUB_COM.'rhysd/git-messenger.vim.git'
-    NeoBundle $GITHUB_COM.'mhinz/vim-signify.git'
-
-    " unite
-    NeoBundle $GITHUB_COM.'Shougo/unite.vim.git', {'lazy': 1,
-                \ 'depends': [$GITHUB_COM.'Shougo/vimfiler.git',
-                \             $GITHUB_COM.'Shougo/vimshell.git',
-                \            ],
-                \ 'autoload': {
-                \     'commands': [{'name': 'Unite',
-                \                   'complete': 'customlist,unite#complete_source'},
-                \                   'UniteWithBufferDir',
-                \                   'UniteWithCurrentDir',
-                \                   'UniteWithCursorWord',
-                \                   'UniteWithInput'],
-                \ }}
-    NeoBundle $GITHUB_COM.'Shougo/neomru.vim.git'
-    NeoBundle $GITHUB_COM.'Shougo/neoyank.vim.git'
-    MyNeoBundle !s:Android $GITHUB_COM.'Shougo/unite-build.git'
-    NeoBundle $GITHUB_COM.'ujihisa/unite-colorscheme.git'
-    NeoBundle $GITHUB_COM.'ujihisa/unite-font.git'
-    NeoBundleLazy $GITHUB_COM.'ujihisa/quicklearn.git'
-    NeoBundle $GITHUB_COM.'sgur/unite-qf.git'
-    NeoBundle $GITHUB_COM.'osyo-manga/unite-quickfix.git'
-    NeoBundle $GITHUB_COM.'Shougo/unite-outline.git'
-    NeoBundle $GITHUB_COM.'h1mesuke/vim-alignta.git'
-    NeoBundle $GITHUB_COM.'tsukkee/unite-help.git'
-    MyNeoBundle !s:Android $GITHUB_COM.'tsukkee/unite-tag.git'
-    NeoBundle $GITHUB_COM.'tacroe/unite-mark.git'
-    MyNeoBundle !s:Android $GITHUB_COM.'sgur/unite-everything.git'
-    NeoBundle $GITHUB_COM.'zhaocai/unite-scriptnames.git'
-    NeoBundle $GITHUB_COM.'pasela/unite-webcolorname.git'
-    NeoBundle $GITHUB_COM.'daisuzu/unite-grep_launcher.git'
-    MyNeoBundle !s:Android $GITHUB_COM.'daisuzu/unite-gtags.git'
-    NeoBundle $GITHUB_COM.'ujihisa/unite-haskellimport.git'
-    NeoBundle $GITHUB_COM.'eagletmt/unite-haddock.git'
-    NeoBundle $GITHUB_COM.'thinca/vim-unite-history.git'
-    NeoBundle $GITHUB_COM.'Shougo/unite-ssh.git'
-
-    " textobj
-    NeoBundle $GITHUB_COM.'kana/vim-textobj-user.git'
-    NeoBundle $GITHUB_COM.'kana/vim-textobj-indent.git'
-    NeoBundle $GITHUB_COM.'kana/vim-textobj-syntax.git'
-    NeoBundle $GITHUB_COM.'kana/vim-textobj-line.git'
-    NeoBundle $GITHUB_COM.'kana/vim-textobj-fold.git'
-    NeoBundle $GITHUB_COM.'kana/vim-textobj-entire.git'
-    NeoBundle $GITHUB_COM.'thinca/vim-textobj-between.git'
-    NeoBundle $GITHUB_COM.'thinca/vim-textobj-comment.git'
-    NeoBundle $GITHUB_COM.'h1mesuke/textobj-wiw.git'
-    NeoBundle $GITHUB_COM.'vimtaku/vim-textobj-sigil.git'
-    NeoBundle $GITHUB_COM.'sgur/vim-textobj-parameter.git'
-    NeoBundle $GITHUB_COM.'terryma/vim-expand-region.git'
-
-    " operator
-    NeoBundle $GITHUB_COM.'kana/vim-operator-user.git'
-    NeoBundle $GITHUB_COM.'kana/vim-operator-replace.git'
-    NeoBundle $GITHUB_COM.'tyru/operator-camelize.vim.git'
-    NeoBundle $GITHUB_COM.'tyru/operator-reverse.vim.git'
-    NeoBundle $GITHUB_COM.'emonkak/vim-operator-sort.git'
-
-    " quickfix
-    NeoBundle $GITHUB_COM.'thinca/vim-qfreplace.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'filetypes': ['quickfix', 'qf', 'unite', ],
-                \ }}
-    NeoBundleLazy  $GITHUB_COM.'dannyob/quickfixstatus.git'
-    NeoBundleLazy $GITHUB_COM.'jceb/vim-hier.git'
-    NeoBundle $GITHUB_COM.'fuenor/qfixhowm.git'
-
-    " appearance
-    MyNeoBundle !s:Android $GITHUB_COM.'thinca/vim-fontzoom.git', {'lazy': 1,
-                \ 'gui': 1,
-                \ 'autoload': {
-                \     'mappings': [
-                \                 ['n', '<Plug>(fontzoom-larger)'],
-                \                 ['n', '<Plug>(fontzoom-smaller)']],
-                \ }}
-    MyNeoBundle !s:Android $GITHUB_COM.'nathanaelkane/vim-indent-guides.git'
-    NeoBundle $GITHUB_COM.'daisuzu/rainbowcyclone.vim.git'
-
-    " cursor movement
-    NeoBundle $GITHUB_COM.'Lokaltog/vim-easymotion.git'
-    NeoBundle $GITHUB_COM.'vim-scripts/matchparenpp.git'
-    NeoBundle $GITHUB_COM.'vim-scripts/matchit.zip.git'
-
-    " editing
-    NeoBundle $GITHUB_COM.'tpope/vim-surround.git'
-    NeoBundle $GITHUB_COM.'t9md/vim-textmanip.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'mappings': [
-                \                 ['x', '<Plug>(textmanip-move-up)'],
-                \                 ['x', '<Plug>(textmanip-move-down)'],
-                \                 ['x', '<Plug>(textmanip-move-right)'],
-                \                 ['x', '<Plug>(textmanip-move-left)'],
-                \                 ['nx', '<Plug>(textmanip-duplicate-down)'],
-                \                 ['nx', '<Plug>(textmanip-duplicate-up)']],
-                \ }}
-    NeoBundle $GITHUB_COM.'tomtom/tcomment_vim.git'
-    NeoBundle $GITHUB_COM.'kana/vim-niceblock.git'
-    NeoBundle $GITHUB_COM.'kana/vim-altr.git'
-    NeoBundle $GITHUB_COM.'vim-scripts/DrawIt.git'
-    NeoBundle $GITHUB_COM.'vim-scripts/Unicode-RST-Tables.git'
-    NeoBundle $GITHUB_COM.'vim-scripts/sequence.git'
-
-    " search
-    NeoBundle $GITHUB_COM.'thinca/vim-visualstar.git'
-    " NeoBundle $GITHUB_COM.'othree/eregex.vim.git'
-
-    " quickrun
-    NeoBundle $GITHUB_COM.'thinca/vim-quickrun.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'commands': [{'name': 'QuickRun',
-                \                   'complete': 'customlist,quickrun#complete',}],
-                \     'mappings': ['nxo', '<Plug>(quickrun)'],
-                \ }}
-    NeoBundle $GITHUB_COM.'osyo-manga/vim-watchdogs.git', {'lazy': 1,
-                \ 'depends': [$GITHUB_COM.'thinca/vim-quickrun.git',
-                \             $GITHUB_COM.'osyo-manga/shabadou.vim.git',
-                \             $GITHUB_COM.'dannyob/quickfixstatus.git',
-                \             $GITHUB_COM.'jceb/vim-hier.git',
-                \            ],
-                \ 'autoload': {
-                \     'commands': [{'name': 'WatchdogsRun',
-                \                   'complete': 'customlist,quickrun#complete',},
-                \                   'WatchdogsRunSilent'],
-                \ }}
-    NeoBundleLazy $GITHUB_COM.'osyo-manga/shabadou.vim.git'
-    NeoBundle $GITHUB_COM.'daisuzu/quickrun-hook-sphinx.git'
-
-    " utility
-    NeoBundle $GITHUB_COM.'daisuzu/unite-notmuch.git'
-    NeoBundle $GITHUB_COM.'daisuzu/autorepeat.vim.git'
-    NeoBundle $GITHUB_COM.'daisuzu/translategoogle.vim.git'
-    NeoBundle $GITHUB_COM.'rhysd/vim-grammarous.git'
-    NeoBundle $GITHUB_COM.'mattn/ideone-vim.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'commands': 'Ideone',
-                \ }}
-
-    NeoBundle $GITHUB_COM.'vim-scripts/project.tar.gz.git'
-    let vimproc_updcmd = has('win64') ?
-                \ 'tools\\update-dll-mingw 64' : 'tools\\update-dll-mingw 32'
-    execute "NeoBundle '" . $GITHUB_COM . "Shougo/vimproc.vim.git'," . string({
-                \ 'build': {
-                \     'windows': vimproc_updcmd,
-                \     'cygwin': 'make -f make_cygwin.mak',
-                \     'mac': 'make -f make_mac.mak',
-                \     'unix': 'make -f make_unix.mak',
-                \    },
-                \ })
-    MyNeoBundle !s:Android $GITHUB_COM.'Shougo/vinarise.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'commands': 'Vinarise',
-                \ }}
-    MyNeoBundle !s:Android $GITHUB_COM.'s-yukikaze/vinarise-plugin-peanalysis.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'commands': 'Vinarise',
-                \ }}
-    NeoBundle $GITHUB_COM.'Shougo/vimfiler.git', {'lazy': 1,
-                \ 'depends': $GITHUB_COM.'Shougo/unite.vim.git',
-                \ 'autoload': {
-                \     'commands': [{'name': 'VimFiler',
-                \                   'complete': 'customlist,vimfiler#complete' },
-                \                   'VimFilerExplorer',
-                \                   'VimFilerSimple',
-                \                   'VimFilerBufferDir',
-                \                   'VimFilerCurrentDir',
-                \                   'VimFilerDouble',
-                \                   'Edit', 'Read', 'Source', 'Write'],
-                \     'mappings': ['<Plug>(vimfiler_switch)'],
-                \ }}
-    NeoBundle $GITHUB_COM.'Shougo/vimshell.git', {'lazy': 1,
-                \ 'autoload' : {
-                \     'commands': [{'name': 'VimShell',
-                \                   'complete': 'customlist,vimshell#complete'},
-                \                   'VimShellExecute',
-                \                   'VimShellInteractive',
-                \                   'VimShellTerminal',
-                \                   'VimShellPop'],
-                \     'mappings': ['<Plug>(vimshell_switch)'],
-                \ }}
-    NeoBundle $GITHUB_COM.'ujihisa/vimshell-ssh.git'
-    MyNeoBundle !s:Android $GITHUB_COM.'thinca/vim-logcat.git', {'lazy': 1,
-                \ 'depends': $GITHUB_COM.'Shougo/vimshell.git',
-                \ 'autoload': {
-                \     'commands': 'Logcat',
-                \ }}
-    NeoBundle $GITHUB_COM.'thinca/vim-prettyprint.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'commands': [{'name': 'PP',
-                \                   'complete': 'expression'},
-                \                   'PrettyPrint',
-                \                   'PP'],
-                \ }}
-    NeoBundle $GITHUB_COM.'thinca/vim-editvar.git', {'lazy': 1,
-                \ 'depends': $GITHUB_COM.'thinca/vim-prettyprint.git',
-                \ 'autoload': {
-                \     'commands': [{'name': 'Editvar',
-                \                   'complete': 'var'}],
-                \ }}
-    NeoBundle $GITHUB_COM.'thinca/vim-showtime.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'commands': 'ShowtimeStart',
-                \ }}
-    NeoBundle $GITHUB_COM.'thinca/vim-themis.git'
-    NeoBundle $GITHUB_COM.'tyru/open-browser.vim.git'
-    NeoBundle $GITHUB_COM.'yuratomo/w3m.vim.git'
-    MyNeoBundle !s:Android $GITHUB_COM.'sjl/splice.vim.git'
-    MyNeoBundle !s:Android $GITHUB_COM.'sjl/gundo.vim.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'commands': 'GundoToggle',
-                \ }}
-    NeoBundle $GITHUB_COM.'vim-scripts/copypath.vim.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'commands': ['CopyPath', 'CopyFileName', ],
-                \ }}
-    NeoBundle $GITHUB_COM.'vim-scripts/DirDiff.vim.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'commands': 'DirDiff',
-                \ }}
-    NeoBundle $GITHUB_COM.'vim-scripts/ShowMultiBase.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'commands': 'ShowMultiBase',
-                \ }}
-    NeoBundle $GITHUB_COM.'vim-scripts/ttoc.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'commands': 'TToC',
-                \ }}
-    NeoBundle $GITHUB_COM.'vim-scripts/wokmarks.vim.git'
-    NeoBundle $GITHUB_COM.'vim-scripts/sudo.vim.git'
-    NeoBundle $GITHUB_COM.'vim-scripts/Align.git'
-    NeoBundle $GITHUB_COM.'kana/vim-submode.git'
-    NeoBundle $GITHUB_COM.'itchyny/thumbnail.vim.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'commands': 'Thumbnail',
-                \ }}
-    NeoBundle $GITHUB_COM.'itchyny/calendar.vim.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'commands': 'Calendar',
-                \ }}
-    NeoBundle $GITHUB_COM.'thinca/vim-scall.git'
-    NeoBundle $GITHUB_COM.'mattn/sonictemplate-vim.git'
-    NeoBundle $GITHUB_COM.'LeafCage/vimhelpgenerator.git'
-    NeoBundle $GITHUB_COM.'t9md/vim-choosewin.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'mappings': ['<Plug>(choosewin)'],
-                \ }}
-
-    " command extension
-    NeoBundle $GITHUB_COM.'thinca/vim-ambicmd.git'
-    NeoBundle $GITHUB_COM.'tyru/vim-altercmd.git'
-    NeoBundle $GITHUB_COM.'tomtom/tcommand_vim.git', {'lazy': 1,
-                \ 'depends': $GITHUB_COM.'vim-scripts/tlib.git',
-                \ 'autoload': {
-                \     'commands': 'TCommand',
-                \ }}
-    NeoBundleLazy $GITHUB_COM.'mbadran/headlights.git'
-
-    " C/C++
-    NeoBundle $GITHUB_COM.'vim-scripts/c.vim.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'filetypes': ['c', 'cpp', ],
-                \ }}
-    NeoBundle $GITHUB_COM.'vim-scripts/Source-Explorer-srcexpl.vim.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'filetypes': ['c', 'cpp', ],
-                \ }}
-    NeoBundle $GITHUB_COM.'vim-scripts/trinity.vim.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'filetypes': ['c', 'cpp', ],
-                \ }}
-    NeoBundle $GITHUB_COM.'vim-scripts/cscope-menu.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'filetypes': ['c', 'cpp', ],
-                \ }}
-    NeoBundle $GITHUB_COM.'vim-scripts/gtags.vim.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'filetypes': ['c', 'cpp', ],
-                \ }}
-    NeoBundle $GITHUB_COM.'vim-scripts/DoxygenToolkit.vim.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'filetypes': ['c', 'cpp', ],
-                \ }}
-
-    " Python
-    NeoBundle $GITHUB_COM.'alfredodeza/pytest.vim.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'filetypes': ['python', ],
-                \ }}
-    NeoBundle $GITHUB_COM.'klen/python-mode.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'filetypes': ['python', ],
-                \ }}
-    NeoBundle $GITHUB_COM.'davidhalter/jedi-vim.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'filetypes': ['python', ],
-                \ }}
-    NeoBundle $GITHUB_COM.'lambdalisue/vim-pyenv', {'lazy': 1,
-                \ 'depends': ['davidhalter/jedi-vim.git'],
-                \ 'autoload': {
-                \   'filetypes': ['python', 'python3'],
-                \ }}
-
-    " Perl
-    NeoBundle $GITHUB_COM.'vim-perl/vim-perl.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'filetypes': ['perl', ],
-                \ }}
-    NeoBundle $GITHUB_COM.'c9s/perlomni.vim.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'filetypes': ['perl', ],
-                \ }}
-
-    " JavaScript
-    NeoBundle $GITHUB_COM.'pangloss/vim-javascript.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'filetypes': ['javascript', ],
-                \ }}
-    if executable('npm')
-        NeoBundle $GITHUB_COM.'marijnh/tern_for_vim.git', {'lazy': 1,
-                    \ 'build': {
-                    \     'others': 'npm install',
-                    \  },
-                    \ 'autoload': {
-                    \     'filetypes': ['javascript', ],
-                    \ }}
-    endif
-
-    " Haskell
-    NeoBundle $GITHUB_COM.'kana/vim-filetype-haskell.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'filetypes': ['haskell', ],
-                \ }}
-    NeoBundle $GITHUB_COM.'lukerandall/haskellmode-vim.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'filetypes': ['haskell', ],
-                \ }}
-    NeoBundle $GITHUB_COM.'Twinside/vim-syntax-haskell-cabal.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'filetypes': ['haskell', ],
-                \ }}
-    NeoBundle $GITHUB_COM.'eagletmt/ghcmod-vim.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'filetypes': ['haskell', ],
-                \ }}
-    NeoBundle $GITHUB_COM.'dag/vim2hs.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'filetypes': ['haskell', ],
-                \ }}
-
-    " Clojure
-    NeoBundle $GITHUB_COM.'thinca/vim-ft-clojure.git'
-    NeoBundle $GITHUB_COM.'tpope/vim-fireplace.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'filetypes': ['clojure', ],
-                \ }}
-    NeoBundle $GITHUB_COM.'tpope/vim-classpath.git'
-
-    " C#
-    NeoBundle $GITHUB_COM.'Omnisharp/omnisharp-vim.git', {'lazy': 1,
-                \  'autoload': {
-                \       'filetypes': ['cs']
-                \  },
-                \  'build': {
-                \     'windows': 'MSBuild.exe server/OmniSharp.sln /p:Platform="Any CPU"',
-                \     'mac': 'xbuild server/OmniSharp.sln',
-                \     'unix': 'xbuild server/OmniSharp.sln',
-                \ }}
-    NeoBundle $GITHUB_COM.'OrangeT/vim-csharp.git', {'lazy': 1,
-                \  'autoload': {
-                \       'filetypes': ['cs']
-                \  }}
-
-    " CSV
-    NeoBundle $GITHUB_COM.'vim-scripts/csv.vim.git'
-
-    " SQL
-    NeoBundle $GITHUB_COM.'mattn/vdbi-vim.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'commands': 'VDBI',
-                \ }}
-    NeoBundle $GITHUB_COM.'daisuzu/dbext.vim.git', {'lazy': 1,
-                \ 'rev': 'Fix/SyntaxBroken',
-                \ 'autoload': {
-                \     'filetypes': ['sql', ],
-                \ }}
-    NeoBundle $GITHUB_COM.'vim-scripts/SQLUtilities.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'commands': ['SQLUFormatter',
-                \                  'SQLUFormatStmts'],
-                \ }}
-
-    " textile
-    NeoBundle $GITHUB_COM.'timcharper/textile.vim.git'
-
-    " html/css
-    NeoBundle $GITHUB_COM.'mattn/emmet-vim.git'
-    NeoBundle $GITHUB_COM.'slim-template/vim-slim.git'
-    NeoBundle $GITHUB_COM.'digitaltoad/vim-jade.git'
-    NeoBundle $GITHUB_COM.'hail2u/vim-css3-syntax.git'
-
-    " go
-    NeoBundle $GITHUB_COM.'fatih/vim-go.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'filetypes': ['go', ],
-                \ }}
-
-    NeoBundle $GITHUB_COM.'t-yuki/vim-go-coverlay.git', {'lazy': 1,
-                \ 'autoload': {
-                \     'filetypes': ['go', ],
-                \ }}
-
-
-    " colorscheme
-    NeoBundle $GITHUB_COM.'altercation/vim-colors-solarized.git'
-    NeoBundle $GITHUB_COM.'vim-scripts/Colour-Sampler-Pack.git'
-
-    call neobundle#end()
-catch /E117/
-
-endtry
-"}}}
 
 filetype plugin indent on
 "}}}
@@ -1946,9 +1631,6 @@ nnoremap <silent> [unite]l  :<C-u>Unite line<CR>
 nnoremap <silent> [unite]m  :<C-u>Unite mark -no-quit<CR>
 nnoremap <silent> [unite]n  :<C-u>Unite notmuch -no-quit -keep-focus<CR>
 nnoremap <silent> [unite]o  :<C-u>Unite outline<CR>
-nnoremap <silent> [unite]pi :<C-u>Unite neobundle/install<CR>
-nnoremap <silent> [unite]pu :<C-u>Unite neobundle/update<CR>
-nnoremap <silent> [unite]pl :<C-u>Unite neobundle<CR>
 nnoremap <silent> [unite]r  :<C-u>Unite -buffer-name=register register<CR>
 nnoremap <silent> [unite]s  :<C-u>Unite scriptnames<CR>
 nnoremap <silent> [unite]t  :<C-u>Unite buffer_tab tab buffer<CR>
@@ -2425,19 +2107,8 @@ let g:quickrun_config['diag/blockdiag'] = {
             \ }
 "}}}
 
-if s:has_plugin('neobundle')
-    let bundle = neobundle#get('vim-quickrun')
-
-    function! bundle.hooks.on_source(bundle)
-        NeoBundleSource quicklearn
-    endfunction
-
-    let bundle = neobundle#get('vim-watchdogs')
-    function! bundle.hooks.on_source(bundle)
-        call watchdogs#setup(g:quickrun_config)
-    endfunction
-
-    unlet bundle
+if s:has_plugin('vim-watchdogs')
+    call watchdogs#setup(g:quickrun_config)
 endif
 "}}}
 "---------------------------------------------------------------------------
@@ -2667,7 +2338,7 @@ let g:Perl_Debugger = "perl"
 " perlomni.vim:"{{{
 "
 if has('vim_starting')
-    let $PATH = $DOTVIM . '/Bundle/perlomni.vim/bin:' . $PATH
+    let $PATH = $PACKPATH. '/opt/perlomni.vim/bin:' . $PATH
 endif
 "}}}
 "---------------------------------------------------------------------------
