@@ -516,7 +516,9 @@ endif
 colorscheme torte
 "}}}
 
-set number
+set nonumber
+nnoremap <Space>on :<C-u>setlocal number! number?<CR>
+
 set showmatch
 set laststatus=2
 set cmdheight=2
