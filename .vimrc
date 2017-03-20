@@ -218,26 +218,6 @@ call add(s:plugins.opt, $GITHUB_COM.'gregsexton/gitv')
 call add(s:plugins.opt, $GITHUB_COM.'int3/vim-extradite')
 call add(s:plugins.opt, $GITHUB_COM.'mhinz/vim-signify')
 call add(s:plugins.opt, $GITHUB_COM.'Shougo/unite.vim')
-call add(s:plugins.opt, $GITHUB_COM.'Shougo/neomru.vim')
-call add(s:plugins.opt, $GITHUB_COM.'Shougo/neoyank.vim')
-if !s:Android
-    call add(s:plugins.opt, $GITHUB_COM.'Shougo/unite-build')
-endif
-call add(s:plugins.opt, $GITHUB_COM.'ujihisa/unite-colorscheme')
-call add(s:plugins.opt, $GITHUB_COM.'ujihisa/unite-font')
-call add(s:plugins.opt, $GITHUB_COM.'sgur/unite-qf')
-call add(s:plugins.opt, $GITHUB_COM.'osyo-manga/unite-quickfix')
-call add(s:plugins.opt, $GITHUB_COM.'Shougo/unite-outline')
-call add(s:plugins.opt, $GITHUB_COM.'h1mesuke/vim-alignta')
-call add(s:plugins.opt, $GITHUB_COM.'tsukkee/unite-help')
-call add(s:plugins.opt, $GITHUB_COM.'tacroe/unite-mark')
-if !s:Android
-    call add(s:plugins.opt, $GITHUB_COM.'sgur/unite-everything')
-endif
-call add(s:plugins.opt, $GITHUB_COM.'zhaocai/unite-scriptnames')
-call add(s:plugins.opt, $GITHUB_COM.'pasela/unite-webcolorname')
-call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-unite-history')
-call add(s:plugins.opt, $GITHUB_COM.'Shougo/unite-ssh')
 call add(s:plugins.opt, $GITHUB_COM.'kana/vim-textobj-user')
 call add(s:plugins.opt, $GITHUB_COM.'kana/vim-textobj-indent')
 call add(s:plugins.opt, $GITHUB_COM.'kana/vim-textobj-syntax')
@@ -307,6 +287,7 @@ call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/ShowMultiBase')
 call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/wokmarks.vim')
 call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/sudo.vim')
 call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/Align')
+call add(s:plugins.opt, $GITHUB_COM.'h1mesuke/vim-alignta')
 call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-scall')
 call add(s:plugins.opt, $GITHUB_COM.'mattn/sonictemplate-vim')
 call add(s:plugins.opt, $GITHUB_COM.'LeafCage/vimhelpgenerator')
@@ -1396,30 +1377,6 @@ nmap <leader>gk <plug>(signify-prev-hunk)
 "---------------------------------------------------------------------------
 " unite.vim:"{{{
 "
-" The prefix key.
-nnoremap [unite] <Nop>
-nmap <Space>f [unite]
-
-nnoremap <silent> [unite]a  :<C-u>Unite -prompt=#\  buffer bookmark neomru/file file<CR>
-nnoremap <silent> [unite]b  :<C-u>UniteWithBufferDir -buffer-name=files -prompt=%\  buffer bookmark neomru/file file<CR>
-nnoremap <silent> [unite]c  :<C-u>UniteWithCurrentDir -buffer-name=files buffer bookmark neomru/file file<CR>
-nnoremap <silent> [unite]e  :<C-u>Unite -buffer-name=files everything<CR>
-nnoremap <silent> [unite]f  :<C-u>Unite source<CR>
-nnoremap <expr>   [unite]g  ':<C-u>Unite grep:*::' . expand("<cword>")
-nnoremap <silent> [unite]h  :<C-u>UniteWithCursorWord help<CR>
-nnoremap <silent> [unite]l  :<C-u>Unite line<CR>
-nnoremap <silent> [unite]m  :<C-u>Unite mark -no-quit<CR>
-nnoremap <silent> [unite]n  :<C-u>Unite notmuch -no-quit -keep-focus<CR>
-nnoremap <silent> [unite]o  :<C-u>Unite outline<CR>
-nnoremap <silent> [unite]r  :<C-u>Unite -buffer-name=register register<CR>
-nnoremap <silent> [unite]s  :<C-u>Unite scriptnames<CR>
-nnoremap <silent> [unite]t  :<C-u>Unite buffer_tab tab buffer<CR>
-nnoremap <silent> [unite]w  :<C-u>Unite window<CR>
-nnoremap <silent> [unite]y  :<C-u>Unite history/yank<CR>
-nnoremap <silent> [unite]:  :<C-u>Unite history/command<CR>
-nnoremap <silent> [unite];  :<C-u>Unite history/command<CR>
-nnoremap <silent> [unite]/  :<C-u>Unite history/search<CR>
-
 let g:unite_kind_file_cd_command = 'TabpageCD'
 let g:unite_kind_file_lcd_command = 'TabpageCD'
 
@@ -1451,12 +1408,6 @@ let g:unite_data_directory = $DOTVIM.'/.unite'
 " highlight UniteCursor   guifg=black     guibg=lightblue  gui=bold
 let g:unite_cursor_line_highlight = 'UniteCursor'
 let g:unite_abbr_highlight = 'UniteAbbr'
-"}}}
-"---------------------------------------------------------------------------
-" neomru.vim:"{{{
-"
-let g:neomru#file_mru_path = $DOTVIM.'/.neomru/file'
-let g:neomru#directory_mru_path = $DOTVIM.'/.neomru/directory'
 "}}}
 "---------------------------------------------------------------------------
 " textobj-user:"{{{
