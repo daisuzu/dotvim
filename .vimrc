@@ -176,7 +176,7 @@ endif
 "---------------------------------------------------------------------------
 " MSWIN:"{{{
 "
-if exists("g:skip_loading_mswin") && g:skip_loading_mswin
+if exists('g:skip_loading_mswin') && g:skip_loading_mswin
     if (1 && filereadable($VIMRUNTIME . '/mswin.vim')) && !s:Android
         source $VIMRUNTIME/mswin.vim
     endif
@@ -547,7 +547,7 @@ set cmdheight=2
 
 " Tabline settings "{{{
 function! s:is_modified(n) "{{{
-    return getbufvar(a:n, "&modified") == 1 ? "+" : ""
+    return getbufvar(a:n, '&modified') == 1 ? '+' : ''
 endfunction "}}}
 function! s:tabpage_label(n) "{{{
     let title = gettabwinvar(a:n, 0, 'title')
@@ -571,7 +571,7 @@ function! MakeTabLine() "{{{
     let titles =map(range(1, tabpagenr('$')), 's:tabpage_label(v:val)')
     let sep = ' | '
     let tabpages = join(titles, sep) . sep . '%#TabLineFill#%T'
-    let info = fnamemodify(getcwd(),"~:") . ' '
+    let info = fnamemodify(getcwd(), '~:') . ' '
     return tabpages . '%=' . info
 endfunction "}}}
 set guioptions-=e
@@ -579,7 +579,7 @@ set tabline=%!MakeTabLine()
 "}}}
 
 " Visualization of the full-width space and the blank at the end of the line "{{{
-if has("syntax")
+if has('syntax')
     syntax on
 
     " for POD bug
@@ -1130,7 +1130,7 @@ function! s:split(cmd, name)
         silent execute a:cmd
         let w:name = a:name
     else
-        silent execute winnr . "wincmd w"
+        silent execute winnr . 'wincmd w'
     endif
 endfunction
 
@@ -1260,7 +1260,7 @@ function! s:ginger(text)
                 \ 'text': a:text}).content)
     let i = 0
     for rs in res['LightGingerTheTextResult']
-        let [from, to] = [rs["From"], rs["To"]]
+        let [from, to] = [rs['From'], rs['To']]
         if i < from
             echon a:text[i : from-1]
         endif
@@ -1296,7 +1296,7 @@ autocmd MyVimrcCmd FileType vim,help setlocal keywordprg=:help
 let g:ref_cache_dir = $DOTVIM.'/.vim_ref_cache'
 
 " Python
-let g:ref_pydoc_cmd = "python -m pydoc"
+let g:ref_pydoc_cmd = 'python -m pydoc'
 
 " webdict
 let g:ref_source_webdict_sites = {
@@ -1448,8 +1448,8 @@ let g:loaded_textobj_parameter = 1
 if s:has_plugin('textobj/user')
     call textobj#user#plugin('parameter', {
                 \     '-': {
-                \         'select-i': "ip",  '*select-i-function*': 'textobj#parameter#select_i',
-                \         'select-a': "ap",  '*select-a-function*': 'textobj#parameter#select_a',
+                \         'select-i': 'ip',  '*select-i-function*': 'textobj#parameter#select_i',
+                \         'select-a': 'ap',  '*select-a-function*': 'textobj#parameter#select_a',
                 \     }
                 \ })
 endif
@@ -1531,8 +1531,8 @@ map <Leader>s <Plug>(operator-sort)
 " vim-hier:"{{{
 "
 " To highlight with a undercurl in quickfix error
-execute "highlight qf_error_ucurl gui=undercurl guisp=Red"
-let g:hier_highlight_group_qf = "qf_error_ucurl"
+execute 'highlight qf_error_ucurl gui=undercurl guisp=Red'
+let g:hier_highlight_group_qf = 'qf_error_ucurl'
 
 function! ResetHierAutocmd()
     try
@@ -1907,7 +1907,7 @@ let g:pymode_lint_on_write = 1
 let g:pymode_lint_cwindow = 0
 let g:pymode_lint_message = 1
 let g:pymode_lint_signs = 1
-let g:pydoc = "python -m pydoc"
+let g:pydoc = 'python -m pydoc'
 let g:pymode_rope = 0
 let g:pymode_folding = 0
 let g:pymode_run = 0
@@ -1943,7 +1943,7 @@ let g:sqlutil_align_comma = 1
 "---------------------------------------------------------------------------
 " vim-go:"{{{
 "
-let g:go_snippet_engine = "neosnippet"
+let g:go_snippet_engine = 'neosnippet'
 let g:go_textobj_enabled = 0
 
 autocmd MyVimrcCmd FileType go nmap <leader>b <Plug>(go-build)
