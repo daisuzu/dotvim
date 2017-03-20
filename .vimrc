@@ -478,9 +478,14 @@ set tags+=tags;
 set tags+=./**/tags
 "}}}
 " grep "{{{
-set grepprg=grep\ -nH
-"set grepprg=ack.pl\ -a
-" autocmd MyVimrcCmd QuickfixCmdPost make,grep,grepadd,vimgrep,vimgrepadd,helpgrep copen
+if executable('jvgrep')
+    set grepprg=jvgrep\ -n\ --no-color
+else
+    set grepprg=grep\ -nH
+endif
+command! -nargs=+ Sgrep silent grep! <args>
+nnoremap <Space>sg :<C-u>Sgrep <cword> %<CR>
+autocmd MyVimrcCmd QuickfixCmdPre make,grep,grepadd,vimgrep,vimgrepadd,helpgrep copen
 "}}}
 autocmd MyVimrcCmd InsertLeave * if &paste | set nopaste | endif
 nnoremap <Space>op :<C-u>set paste! paste?<CR>
@@ -1645,8 +1650,6 @@ let MyGrep_DefaultSearchWord = 1
 let MyGrep_MenuBar = 3
 
 let g:QFixWin_EnableMode = 1
-
-autocmd MyVimrcCmd QuickfixCmdPre make,grep,grepadd,vimgrep,vimgrepadd,helpgrep copen
 "}}}
 "---------------------------------------------------------------------------
 " vim-fontzoom:"{{{
