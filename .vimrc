@@ -884,6 +884,31 @@ function! s:ChangeCurrentDir(directory, bang)
 endfunction "}}}
 nnoremap <silent> <Space>cd :<C-u>TCD<CR>
 
+" Files "{{{
+cabbrev %% %:p:h
+
+command! -bar ToScratch setlocal buftype=nofile bufhidden=hide noswapfile
+command! -bar ToScratchForFiles ToScratch | setlocal iskeyword+=.
+
+command! -bar ModsNew execute '<mods> new'
+
+if executable('files')
+    let s:files_cmd = 'files -a'
+    let s:files_opts = ''
+elseif s:MSWindows
+    let s:files_cmd = 'dir'
+    let s:files_opts = '/b /s /a-d'
+else
+    let s:files_cmd = 'find '
+    let s:files_opts = '-type f'
+endif
+command! -bar -nargs=1 -complete=dir Files <mods> ModsNew | ToScratchForFiles | execute 'r! ' . s:files_cmd . ' "<args>" ' . s:files_opts
+
+command! FilesBuffer <mods> Files %:p:h
+command! FilesCurrent <mods> Files .
+command! MRU <mods> ModsNew | ToScratchForFiles | call append(0, filter(v:oldfiles, 'filereadable(expand(v:val))')) | normal gg
+command! ScriptNames <mods> ModsNew | ToScratchForFiles | call append(0, split(execute('scriptnames'), '\n'))
+"}}}
 " Occur "{{{
 command! Occur execute 'vimgrep /' . @/ . '/ %'
 command! StarOccur execute 'vimgrep /' . expand('<cword>') . '/ %'
