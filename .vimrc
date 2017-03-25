@@ -371,6 +371,7 @@ endfunction
 function! UpdatePackPlugins()
     topleft split
     edit `='[update plugins]'`
+    setlocal buftype=nofile
 
     let s:pidx = 0
     call timer_start(100, 'PluginUpdateHandler', {'repeat': len(s:plugins.opt)})
