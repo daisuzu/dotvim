@@ -1715,6 +1715,7 @@ endif
 
 let g:quickrun_config['_'] = {
             \     'outputter/buffer/split' : ':botright 8sp',
+            \     'runner' : 'job',
             \ }
 let g:quickrun_config['watchdogs_checker/_'] = {
             \     'hook/close_unite_quickfix/enable_hook_loaded' : 1,
@@ -1726,8 +1727,7 @@ let g:quickrun_config['watchdogs_checker/_'] = {
             \     'outputter' : 'multi:buffer:quickfix',
             \     'hook/inu/enable' : 1,
             \     'hook/inu/wait' : 20,
-            \     'runner' : 'vimproc',
-            \     'runner/vimproc/updatetime' : 40,
+            \     'runner' : 'job',
             \ }
 
 " settings for lightweight markup language "{{{
