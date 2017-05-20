@@ -894,6 +894,8 @@ function! SpExe(cmd) abort
     return split(execute(a:cmd), '\n')
 endfunction
 command! ScriptNames <mods> ModsNew | ToScratchForFiles | call append(0, SpExe('scriptnames')) | normal gg
+command! Buffers <mods> ModsNew | ToScratchForFiles | call append(0, SpExe('buffers')) | normal gg
+command! Ls <mods> ModsNew | ToScratchForFiles | call append(0, SpExe('ls')) | normal gg
 "}}}
 " Occur "{{{
 command! Occur execute 'vimgrep /' . @/ . '/ %'
