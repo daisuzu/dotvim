@@ -1667,7 +1667,7 @@ endtry
     nmap cn <Plug>(rc_search_forward_with_last_pattern)
     nmap cN <Plug>(rc_search_backward_with_last_pattern)
     " nmap <Esc><Esc> <Plug>(rc_reset):nohlsearch<CR>
-    nnoremap <Esc><Esc> :<C-u>RCReset<CR>:nohlsearch<CR>
+    " nnoremap <Esc><Esc> :<C-u>RCReset<CR>:nohlsearch<CR>
 "}}}
 "---------------------------------------------------------------------------
 " vim-textmanip:"{{{
