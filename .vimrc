@@ -889,7 +889,11 @@ command! -bar -nargs=1 -complete=dir Files <mods> ModsNew | ToScratchForFiles | 
 command! FilesBuffer <mods> Files %:p:h
 command! FilesCurrent <mods> Files .
 command! MRU <mods> ModsNew | ToScratchForFiles | call append(0, filter(v:oldfiles, 'filereadable(expand(v:val))')) | normal gg
-command! ScriptNames <mods> ModsNew | ToScratchForFiles | call append(0, split(execute('scriptnames'), '\n'))
+
+function! SpExe(cmd) abort
+    return split(execute(a:cmd), '\n')
+endfunction
+command! ScriptNames <mods> ModsNew | ToScratchForFiles | call append(0, SpExe('scriptnames')) | normal gg
 "}}}
 " Occur "{{{
 command! Occur execute 'vimgrep /' . @/ . '/ %'
