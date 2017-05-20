@@ -872,7 +872,7 @@ cabbrev %% %:p:h
 command! -bar ToScratch setlocal buftype=nofile bufhidden=hide noswapfile
 command! -bar ToScratchForFiles ToScratch | setlocal iskeyword+=.
 
-command! -bar ModsNew execute '<mods> new'
+command! -bar -nargs=? ModsNew execute '<mods> new' | if '<args>' ==# 'Files:.' | edit `='[Files:' . fnamemodify(getcwd(), ':p:h') . ']'` | elseif len('<args>') | edit [<args>] | endif
 
 if executable('files')
     let s:files_cmd = 'files -a'
@@ -884,18 +884,18 @@ else
     let s:files_cmd = 'find '
     let s:files_opts = '-type f'
 endif
-command! -bar -nargs=1 -complete=dir Files <mods> ModsNew | ToScratchForFiles | execute 'r! ' . s:files_cmd . ' "<args>" ' . s:files_opts
+command! -bar -nargs=1 -complete=dir Files <mods> ModsNew Files:<args> | ToScratchForFiles | execute 'r! ' . s:files_cmd . ' "<args>" ' . s:files_opts
 
 command! FilesBuffer <mods> Files %:p:h
 command! FilesCurrent <mods> Files .
-command! MRU <mods> ModsNew | ToScratchForFiles | call append(0, filter(v:oldfiles, 'filereadable(expand(v:val))')) | normal gg
+command! MRU <mods> ModsNew MRU | ToScratchForFiles | call append(0, filter(v:oldfiles, 'filereadable(expand(v:val))')) | normal gg
 
 function! SpExe(cmd) abort
     return split(execute(a:cmd), '\n')
 endfunction
-command! ScriptNames <mods> ModsNew | ToScratchForFiles | call append(0, SpExe('scriptnames')) | normal gg
-command! Buffers <mods> ModsNew | ToScratchForFiles | call append(0, SpExe('buffers')) | normal gg
-command! Ls <mods> ModsNew | ToScratchForFiles | call append(0, SpExe('ls')) | normal gg
+command! ScriptNames <mods> ModsNew ScriptNames | ToScratchForFiles | call append(0, SpExe('scriptnames')) | normal gg
+command! Buffers <mods> ModsNew Buffers | ToScratchForFiles | call append(0, SpExe('buffers')) | normal gg
+command! Ls <mods> ModsNew Buffers | ToScratchForFiles | call append(0, SpExe('ls')) | normal gg
 "}}}
 " Occur "{{{
 command! Occur execute 'vimgrep /' . @/ . '/ %'
