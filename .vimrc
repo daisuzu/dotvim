@@ -1451,15 +1451,7 @@ xmap im <Plug>(textobj-wiw-i)
 "---------------------------------------------------------------------------
 " textobj-parameter:"{{{
 "
-let g:loaded_textobj_parameter = 1
-if s:has_plugin('textobj/user')
-    call textobj#user#plugin('parameter', {
-                \     '-': {
-                \         'select-i': 'ip',  '*select-i-function*': 'textobj#parameter#select_i',
-                \         'select-a': 'ap',  '*select-a-function*': 'textobj#parameter#select_a',
-                \     }
-                \ })
-endif
+let g:vim_textobj_parameter_mapping = 'a'
 "}}}
 "---------------------------------------------------------------------------
 " expand-region:"{{{
@@ -2043,23 +2035,17 @@ xnoremap ad a"
 onoremap id i"
 xnoremap id i"
 
-" (Round bracket)
-onoremap ar a)
-xnoremap ar a)
-onoremap ir i)
-xnoremap ir i)
-
 " {Curly bracket}
 onoremap ac a}
 xnoremap ac a}
 onoremap ic i}
 xnoremap ic i}
 
-" <Angle bracket>
-onoremap aa a>
-xnoremap aa a>
-onoremap ia i>
-xnoremap ia i>
+" <aNgle bracket>
+onoremap an a>
+xnoremap an a>
+onoremap in i>
+xnoremap in i>
 
 " [sqUare bracket]
 onoremap au a]
