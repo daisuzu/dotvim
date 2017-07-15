@@ -273,6 +273,7 @@ endif
 call add(s:plugins.opt, $GITHUB_COM.'Shougo/vimfiler')
 call add(s:plugins.opt, $GITHUB_COM.'Shougo/vimshell')
 call add(s:plugins.opt, $GITHUB_COM.'ujihisa/vimshell-ssh')
+call add(s:plugins.opt, $GITHUB_COM.'daisuzu/tree.vim')
 call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-prettyprint')
 call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-editvar')
 call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-showtime')
@@ -1868,6 +1869,38 @@ function! s:vimshell_settings()
     inoremap <silent><expr><buffer> <Up> unite#sources#vimshell_history#start_complete(!0)
     inoremap <silent><expr><buffer> <Down> unite#sources#vimshell_history#start_complete(!0)
 endfunction
+"}}}
+"---------------------------------------------------------------------------
+" tree.vim:"{{{
+"
+function! TreeResize()
+    augroup TreeCmd
+        autocmd!
+        autocmd BufEnter <buffer> vertical resize 32
+        autocmd BufLeave <buffer> vertical resize 32
+    augroup END
+    doautocmd TreeCmd BufEnter
+endfunction
+
+nnoremap <silent> <Space>vf :<C-u>execute 'vertical '. v:count .'Tree' <Bar> call TreeResize()<CR>
+
+function! GoToFileVertical()
+    let file = fnameescape(expand('<cfile>'))
+
+    let winlist = filter(range(1, winnr('$')), 'bufnr("%") != winbufnr(v:val) && getwinvar(v:val, "&previewwindow") != 1')
+    if len(winlist) > 1
+        let choose = choosewin#start(winlist)
+        if len(choose) == 0
+            return
+        endif
+        let winlist[0] = choose[1]
+    endif
+
+    execute winlist[0] . 'wincmd w'
+    execute 'edit ' . file
+endfunction
+
+nnoremap <silent> <C-w>e :<C-u>call GoToFileVertical()<CR>
 "}}}
 "---------------------------------------------------------------------------
 " vim-scall:"{{{
