@@ -1830,20 +1830,11 @@ endif
 "---------------------------------------------------------------------------
 " vimfiler:"{{{
 "
-nnoremap [vimfiler] <Nop>
-nmap <Space>v [vimfiler]
-
-nnoremap <silent> [vimfiler]b :<C-u>VimFilerBufferDir<CR>
-nnoremap <silent> [vimfiler]c :<C-u>VimFilerCurrentDir<CR>
-nnoremap <silent> [vimfiler]d :<C-u>VimFilerDouble<CR>
-nnoremap <silent> [vimfiler]f :<C-u>VimFilerSimple -no-quit -winwidth=32<CR>
-nnoremap <silent> [vimfiler]s :<C-u>VimShell<CR>
-
 " Edit file by tabedit.
 let g:vimfiler_edit_action = 'open'
 let g:vimfiler_split_action = 'tabopen'
 
-let g:vimfiler_as_default_explorer = 1
+let g:vimfiler_as_default_explorer = 0
 
 if s:MSWindows
     let g:unite_kind_file_use_trashbox = 1
@@ -1862,6 +1853,8 @@ let g:vimfiler_execute_file_list={
 "---------------------------------------------------------------------------
 " vimshell:"{{{
 "
+nnoremap <silent> <Space>vs :<C-u>VimShell<CR>
+
 let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
 let g:vimshell_prompt = '% '
 let g:vimshell_interactive_encodings = {'git': 'utf-8'}
