@@ -313,7 +313,6 @@ call add(s:plugins.opt, $GITHUB_COM.'slim-template/vim-slim')
 call add(s:plugins.opt, $GITHUB_COM.'digitaltoad/vim-jade')
 call add(s:plugins.opt, $GITHUB_COM.'hail2u/vim-css3-syntax')
 call add(s:plugins.opt, $GITHUB_COM.'fatih/vim-go')
-call add(s:plugins.opt, $GITHUB_COM.'t-yuki/vim-go-coverlay')
 
 function! s:has_plugin(name)
     return globpath(&runtimepath, 'plugin/' . a:name . '.vim') !=# ''
@@ -1981,12 +1980,6 @@ function! s:go_import_commands()
     command! -buffer -nargs=1 -complete=customlist,go#package#Complete Import GoImport <args>
     command! -buffer -nargs=* -complete=customlist,go#package#Complete ImportAs GoImportAs <args>
 endfunction
-"}}}
-"---------------------------------------------------------------------------
-" vim-go-coverlay:"{{{
-"
-autocmd MyVimrcCmd FileType go nmap <leader>c <Plug>(go-coverlay)
-autocmd MyVimrcCmd FileType go nmap <leader>C <Plug>(go-clearlay)
 "}}}
 "}}}
 
