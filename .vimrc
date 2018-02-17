@@ -286,9 +286,6 @@ call add(s:plugins.opt, $GITHUB_COM.'vim-perl/vim-perl')
 call add(s:plugins.opt, $GITHUB_COM.'c9s/perlomni.vim')
 call add(s:plugins.opt, $GITHUB_COM.'pangloss/vim-javascript')
 call add(s:plugins.opt, $GITHUB_COM.'marijnh/tern_for_vim')
-call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-ft-clojure')
-call add(s:plugins.opt, $GITHUB_COM.'tpope/vim-fireplace')
-call add(s:plugins.opt, $GITHUB_COM.'tpope/vim-classpath')
 call add(s:plugins.opt, $GITHUB_COM.'OrangeT/vim-csharp')
 call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/csv.vim')
 call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/SQLUtilities')
@@ -1980,12 +1977,6 @@ function! MyFileTypeHelp() "{{{
     endif
 endfunction "}}}
 autocmd MyVimrcCmd FileType showtime IndentGuidesDisable
-autocmd MyVimrcCmd FileType clojure call MyFileTypeClojure()
-function! MyFileTypeClojure() "{{{
-    setl tabstop=2
-    setl softtabstop=2
-    setl shiftwidth=2
-endfunction "}}}
 "}}}
 
 "---------------------------------------------------------------------------

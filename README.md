@@ -26,9 +26,6 @@ Some plugin needs these Programming languages.
 
 * Node.js [https://nodejs.org]
 
-* Clojure [http://clojure.org]
-* leiningen [https://github.com/technomancy/leiningen]
-
 * Go [https://golang.org]
 
 
