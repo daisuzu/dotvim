@@ -254,7 +254,6 @@ call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-quickrun')
 call add(s:plugins.opt, $GITHUB_COM.'osyo-manga/vim-watchdogs')
 call add(s:plugins.opt, $GITHUB_COM.'osyo-manga/shabadou.vim')
 call add(s:plugins.opt, $GITHUB_COM.'daisuzu/quickrun-hook-sphinx')
-call add(s:plugins.opt, $GITHUB_COM.'daisuzu/translategoogle.vim')
 call add(s:plugins.opt, $GITHUB_COM.'rhysd/vim-grammarous')
 call add(s:plugins.opt, $GITHUB_COM.'Shougo/vimproc.vim')
 if !s:Android
