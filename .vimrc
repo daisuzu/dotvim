@@ -352,9 +352,9 @@ function! PackAddHandler(timer)
     let s:pidx += 1
     if s:pidx == len(s:plugins.opt)
         " for filetype plugin
-        " filetype plugin indent on
+        doautocmd FileType
         " fugitive.vim requires do autocmd
-        doautocmd BufReadPost
+        doautocmd fugitive BufReadPost
         IndentGuidesEnable
     endif
 endfunction
