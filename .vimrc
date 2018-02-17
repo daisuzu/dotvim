@@ -270,8 +270,6 @@ endif
 if !s:Android
     call add(s:plugins.opt, $GITHUB_COM.'s-yukikaze/vinarise-plugin-peanalysis')
 endif
-call add(s:plugins.opt, $GITHUB_COM.'Shougo/vimshell')
-call add(s:plugins.opt, $GITHUB_COM.'ujihisa/vimshell-ssh')
 call add(s:plugins.opt, $GITHUB_COM.'daisuzu/tree.vim')
 call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-prettyprint')
 call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-editvar')
@@ -1823,25 +1821,6 @@ let g:quickrun_config['diag/blockdiag'] = {
 if s:has_plugin('vim-watchdogs')
     call watchdogs#setup(g:quickrun_config)
 endif
-"}}}
-"---------------------------------------------------------------------------
-" vimshell:"{{{
-"
-nnoremap <silent> <Space>vs :<C-u>VimShell<CR>
-
-let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
-let g:vimshell_prompt = '% '
-let g:vimshell_interactive_encodings = {'git': 'utf-8'}
-let g:vimshell_data_directory = $DOTVIM.'/.vimshell'
-let g:vimshell_vimshrc_path = $DOTVIM.'/.vimshell/.vimshrc'
-let g:vimshell_cd_command = 'TabpageCD'
-let g:vimshell_scrollback_limit = 50000
-
-autocmd MyVimrcCmd FileType vimshell call s:vimshell_settings()
-function! s:vimshell_settings()
-    inoremap <silent><expr><buffer> <Up> unite#sources#vimshell_history#start_complete(!0)
-    inoremap <silent><expr><buffer> <Down> unite#sources#vimshell_history#start_complete(!0)
-endfunction
 "}}}
 "---------------------------------------------------------------------------
 " tree.vim:"{{{
