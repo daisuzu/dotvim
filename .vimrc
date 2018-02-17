@@ -1109,25 +1109,6 @@ if executable('ctags')
     endfunction
 endif
 "}}}
-" Capture "{{{
-command!
-            \ -nargs=+ -complete=command
-            \ Capture
-            \ call s:cmd_capture(<q-args>)
-
-function! s:cmd_capture(q_args) "{{{
-    redir => output
-    silent execute a:q_args
-    redir END
-    let output = substitute(output, '^\n\+', '', '')
-
-    belowright new
-
-    silent file `=printf('[Capture: %s]', a:q_args)`
-    setlocal buftype=nofile bufhidden=unload noswapfile nobuflisted
-    call setline(1, split(output, '\n'))
-endfunction "}}}
-"}}}
 " ContinuousNumber "{{{
 nnoremap <silent> co :ContinuousNumber <C-a><CR>
 vnoremap <silent> co :ContinuousNumber <C-a><CR>
