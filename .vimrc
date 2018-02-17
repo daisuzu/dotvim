@@ -212,7 +212,6 @@ call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-ref')
 call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-ft-help_fold')
 call add(s:plugins.opt, $GITHUB_COM.'tpope/vim-fugitive')
 call add(s:plugins.opt, $GITHUB_COM.'gregsexton/gitv')
-call add(s:plugins.opt, $GITHUB_COM.'int3/vim-extradite')
 call add(s:plugins.opt, $GITHUB_COM.'mhinz/vim-signify')
 call add(s:plugins.opt, $GITHUB_COM.'kana/vim-textobj-user')
 call add(s:plugins.opt, $GITHUB_COM.'kana/vim-textobj-indent')
@@ -1325,7 +1324,6 @@ let g:ref_source_webdict_sites.default = 'alc'
 "
 nnoremap <Space>gd :<C-u>Gdiff<CR>
 nnoremap <Space>gs :<C-u>Gstatus<CR>
-nnoremap <Space>gl :<C-u>Extradite<CR>
 nnoremap <Space>ga :<C-u>Gwrite<CR>
 nnoremap <Space>gc :<C-u>Gcommit<CR>
 nnoremap <Space>gC :<C-u>Git commit --amend<CR>
