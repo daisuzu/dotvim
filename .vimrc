@@ -270,7 +270,6 @@ endif
 if !s:Android
     call add(s:plugins.opt, $GITHUB_COM.'s-yukikaze/vinarise-plugin-peanalysis')
 endif
-call add(s:plugins.opt, $GITHUB_COM.'Shougo/vimfiler')
 call add(s:plugins.opt, $GITHUB_COM.'Shougo/vimshell')
 call add(s:plugins.opt, $GITHUB_COM.'ujihisa/vimshell-ssh')
 call add(s:plugins.opt, $GITHUB_COM.'daisuzu/tree.vim')
@@ -589,8 +588,6 @@ if has('syntax')
     function! ActivateInvisibleIndicator()
         let bufname = bufname('%')
         if bufname =~? '\[unite\]'
-            return
-        elseif bufname =~? 'vimfiler:'
             return
         endif
 
@@ -1826,29 +1823,6 @@ let g:quickrun_config['diag/blockdiag'] = {
 if s:has_plugin('vim-watchdogs')
     call watchdogs#setup(g:quickrun_config)
 endif
-"}}}
-"---------------------------------------------------------------------------
-" vimfiler:"{{{
-"
-" Edit file by tabedit.
-let g:vimfiler_edit_action = 'open'
-let g:vimfiler_split_action = 'tabopen'
-
-let g:vimfiler_as_default_explorer = 0
-
-if s:MSWindows
-    let g:unite_kind_file_use_trashbox = 1
-endif
-
-" Enable file operation commands.
-let g:vimfiler_safe_mode_by_default = 0
-
-let g:vimfiler_data_directory = $DOTVIM.'/.vimfiler'
-
-let g:vimfiler_execute_file_list={
-            \     'txt': 'vim',
-            \     'vim': 'vim'
-            \ }
 "}}}
 "---------------------------------------------------------------------------
 " vimshell:"{{{
