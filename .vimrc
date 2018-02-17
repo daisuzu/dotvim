@@ -825,14 +825,12 @@ command! -bar -nargs=1 -complete=dir Files <mods> ModsNew Files:<args> | ToScrat
 
 command! FilesBuffer <mods> Files %:p:h
 command! FilesCurrent <mods> Files .
-command! MRU <mods> ModsNew MRU | ToScratchForFiles | call append(0, filter(v:oldfiles, 'filereadable(expand(v:val))')) | normal gg
+command! MRU <mods> ModsNew MRU | ToScratchForFiles | call setline(1, filter(v:oldfiles, 'filereadable(expand(v:val))'))
 
-function! SpExe(cmd) abort
-    return split(execute(a:cmd), '\n')
-endfunction
-command! ScriptNames <mods> ModsNew ScriptNames | ToScratchForFiles | call append(0, SpExe('scriptnames')) | normal gg
-command! Buffers <mods> ModsNew Buffers | ToScratchForFiles | call append(0, SpExe('buffers')) | normal gg
-command! Ls <mods> ModsNew Buffers | ToScratchForFiles | call append(0, SpExe('ls')) | normal gg
+" list results of given ex-cmd(e.g. :buffers, :scriptnames)
+command! -nargs=1 -complete=command L <mods> ModsNew <args> | ToScratchForFiles | call setline(1, split(execute(<q-args>), '\n'))
+command! ScriptNames <mods> L scriptnames
+command! Buffers <mods> L buffers
 "}}}
 " Occur "{{{
 command! Occur execute 'vimgrep /' . @/ . '/ %'
