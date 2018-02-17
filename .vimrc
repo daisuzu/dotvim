@@ -1757,19 +1757,6 @@ nnoremap X ^x
 
 noremap <Space>h ^
 noremap <Space>l $
-map <Space>n %
-
-" leave insertmode
-" inoremap <expr> j getline('.')[col('.') - 2] ==# 'j' ? "\<BS>\<ESC>" : 'j'
-inoremap jj <ESC>
-
-"paste
-inoremap <C-v> <C-r>+
-" swap <C-v> to <C-a>
-inoremap <C-a> <C-v>
-
-" insert blank in normal mode
-nnoremap <C-Space> i <Esc><Right>
 
 " improve replacement of twice the width of characters in linewise
 xnoremap <expr> r mode() ==# 'V' ? "\<C-v>0o$r" : "r"
@@ -1779,25 +1766,6 @@ nnoremap <Space>tn :<C-u>tabnew<CR>
 nnoremap <Space>tc :<C-u>tabclose<CR>
 nnoremap <Space>tC :<C-u>tabclose!<CR>
 nnoremap <Space>ts :<C-u>tabs<CR>
-
-" Window related mappings
-nnoremap <M-j> <C-w>j
-nnoremap <M-k> <C-w>k
-nnoremap <M-h> <C-w>h
-nnoremap <M-l> <C-w>l
-inoremap <M-j> <Esc><C-w>j
-inoremap <M-k> <Esc><C-w>k
-inoremap <M-h> <Esc><C-w>h
-inoremap <M-l> <Esc><C-w>l
-
-nnoremap <M-+> <C-w>+
-nnoremap <M--> <C-w>-
-nnoremap <M->> <C-w>>
-nnoremap <M-<> <C-w><
-inoremap <M-+> <Esc><C-w>+
-inoremap <M--> <Esc><C-w>-
-inoremap <M->> <Esc><C-w>>
-inoremap <M-<> <Esc><C-w><
 
 " Move to the position last edited
 nnoremap gb '[
@@ -1848,9 +1816,6 @@ cnoremap <C-b> <Left>
 
 cnoremap <Left> <Space><BS><Left>
 cnoremap <Right> <Space><BS><Right>
-
-" paste
-cnoremap <C-v> <C-r>+
 "}}}
 
 "---------------------------------------------------------------------------
