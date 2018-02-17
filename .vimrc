@@ -965,30 +965,6 @@ onoremap <silent> ]l :call NextIndent(0, 1, 0, 1)<cr>
 onoremap <silent> [L :call NextIndent(1, 0, 1, 1)<cr>
 onoremap <silent> ]L :call NextIndent(1, 1, 1, 1)<cr>
 "}}}
-" FullScreenToggle() "{{{
-command! FullScreenToggle call FullScreenToggle()
-function! FullScreenToggle()
-    if s:is_full_screen
-        call FullScreenOff()
-    else
-        call FullScreenOn()
-    endif
-endfunction
-
-let s:is_full_screen = 0
-function! FullScreenOn()
-    let s:columns = &columns
-    let s:lines = &lines
-    set columns=9999
-    set lines=999
-    let s:is_full_screen = 1
-endfunction
-function! FullScreenOff()
-    execute 'set columns=' . s:columns
-    execute 'set lines=' . s:lines
-    let s:is_full_screen = 0
-endfunction
-"}}}
 " Split and Go "{{{
 " USAGE:
 " [count]sag - Split the current window horizontally and, go to line [count].
