@@ -146,14 +146,6 @@ endif
 "}}}
 
 "---------------------------------------------------------------------------
-" Kaoriya:"{{{
-"
-if exists('g:no_vimrc_example') && g:no_vimrc_example == 1
-    silent! source $VIMRUNTIME/vimrc_example.vim
-endif
-"}}}
-
-"---------------------------------------------------------------------------
 " MacVim:"{{{
 "
 if has('gui_macvim')
@@ -170,23 +162,6 @@ if has('gui_macvim')
         set noimdisable
         set imdisableactivate
     endif
-endif
-"}}}
-
-"---------------------------------------------------------------------------
-" MSWIN:"{{{
-"
-if exists('g:skip_loading_mswin') && g:skip_loading_mswin
-    if (1 && filereadable($VIMRUNTIME . '/mswin.vim')) && !s:Android
-        source $VIMRUNTIME/mswin.vim
-    endif
-
-    " some textobj plugins doesn't work on selection=exclusive
-    set selection=inclusive
-
-    " Redefinition <C-A>:increment and <C-X>:decrement
-    noremap <C-i> <C-A>
-    noremap <M-i> <C-X>
 endif
 "}}}
 "}}}
@@ -210,14 +185,9 @@ call add(s:plugins.opt, $GITHUB_COM.'mattn/webapi-vim')
 call add(s:plugins.opt, $GITHUB_COM.'vim-jp/vimdoc-ja')
 call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-ref')
 call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-ft-help_fold')
-call add(s:plugins.opt, $GITHUB_COM.'Shougo/neosnippet')
-call add(s:plugins.opt, $GITHUB_COM.'Shougo/neosnippet-snippets')
-call add(s:plugins.opt, $GITHUB_COM.'daisuzu/miosnippet.vim')
 call add(s:plugins.opt, $GITHUB_COM.'tpope/vim-fugitive')
 call add(s:plugins.opt, $GITHUB_COM.'gregsexton/gitv')
-call add(s:plugins.opt, $GITHUB_COM.'int3/vim-extradite')
 call add(s:plugins.opt, $GITHUB_COM.'mhinz/vim-signify')
-call add(s:plugins.opt, $GITHUB_COM.'Shougo/unite.vim')
 call add(s:plugins.opt, $GITHUB_COM.'kana/vim-textobj-user')
 call add(s:plugins.opt, $GITHUB_COM.'kana/vim-textobj-indent')
 call add(s:plugins.opt, $GITHUB_COM.'kana/vim-textobj-syntax')
@@ -254,14 +224,11 @@ call add(s:plugins.opt, $GITHUB_COM.'tomtom/tcomment_vim')
 call add(s:plugins.opt, $GITHUB_COM.'kana/vim-niceblock')
 call add(s:plugins.opt, $GITHUB_COM.'kana/vim-altr')
 call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/Unicode-RST-Tables')
-call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/sequence')
 call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-visualstar')
 call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-quickrun')
 call add(s:plugins.opt, $GITHUB_COM.'osyo-manga/vim-watchdogs')
 call add(s:plugins.opt, $GITHUB_COM.'osyo-manga/shabadou.vim')
 call add(s:plugins.opt, $GITHUB_COM.'daisuzu/quickrun-hook-sphinx')
-call add(s:plugins.opt, $GITHUB_COM.'daisuzu/unite-notmuch')
-call add(s:plugins.opt, $GITHUB_COM.'daisuzu/translategoogle.vim')
 call add(s:plugins.opt, $GITHUB_COM.'rhysd/vim-grammarous')
 call add(s:plugins.opt, $GITHUB_COM.'Shougo/vimproc.vim')
 if !s:Android
@@ -270,9 +237,6 @@ endif
 if !s:Android
     call add(s:plugins.opt, $GITHUB_COM.'s-yukikaze/vinarise-plugin-peanalysis')
 endif
-call add(s:plugins.opt, $GITHUB_COM.'Shougo/vimfiler')
-call add(s:plugins.opt, $GITHUB_COM.'Shougo/vimshell')
-call add(s:plugins.opt, $GITHUB_COM.'ujihisa/vimshell-ssh')
 call add(s:plugins.opt, $GITHUB_COM.'daisuzu/tree.vim')
 call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-prettyprint')
 call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-editvar')
@@ -282,10 +246,6 @@ call add(s:plugins.opt, $GITHUB_COM.'yuratomo/w3m.vim')
 if !s:Android
     call add(s:plugins.opt, $GITHUB_COM.'sjl/gundo.vim')
 endif
-call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/copypath.vim')
-call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/DirDiff.vim')
-call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/ShowMultiBase')
-call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/wokmarks.vim')
 call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/sudo.vim')
 call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/Align')
 call add(s:plugins.opt, $GITHUB_COM.'h1mesuke/vim-alignta')
@@ -301,16 +261,8 @@ call add(s:plugins.opt, $GITHUB_COM.'vim-perl/vim-perl')
 call add(s:plugins.opt, $GITHUB_COM.'c9s/perlomni.vim')
 call add(s:plugins.opt, $GITHUB_COM.'pangloss/vim-javascript')
 call add(s:plugins.opt, $GITHUB_COM.'marijnh/tern_for_vim')
-call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-ft-clojure')
-call add(s:plugins.opt, $GITHUB_COM.'tpope/vim-fireplace')
-call add(s:plugins.opt, $GITHUB_COM.'tpope/vim-classpath')
-call add(s:plugins.opt, $GITHUB_COM.'OrangeT/vim-csharp')
-call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/csv.vim')
 call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/SQLUtilities')
-call add(s:plugins.opt, $GITHUB_COM.'timcharper/textile.vim')
 call add(s:plugins.opt, $GITHUB_COM.'mattn/emmet-vim')
-call add(s:plugins.opt, $GITHUB_COM.'slim-template/vim-slim')
-call add(s:plugins.opt, $GITHUB_COM.'digitaltoad/vim-jade')
 call add(s:plugins.opt, $GITHUB_COM.'hail2u/vim-css3-syntax')
 call add(s:plugins.opt, $GITHUB_COM.'fatih/vim-go')
 
@@ -400,9 +352,9 @@ function! PackAddHandler(timer)
     let s:pidx += 1
     if s:pidx == len(s:plugins.opt)
         " for filetype plugin
-        " filetype plugin indent on
+        doautocmd FileType
         " fugitive.vim requires do autocmd
-        doautocmd BufReadPost
+        doautocmd fugitive BufReadPost
         IndentGuidesEnable
     endif
 endfunction
@@ -587,13 +539,6 @@ if has('syntax')
     " syn sync fromstart
 
     function! ActivateInvisibleIndicator()
-        let bufname = bufname('%')
-        if bufname =~? '\[unite\]'
-            return
-        elseif bufname =~? 'vimfiler:'
-            return
-        endif
-
         syntax match InvisibleJISX0208Space "\%u3000" display containedin=ALL
         highlight InvisibleJISX0208Space term=underline ctermbg=Blue guibg=darkgray gui=underline
         syntax match InvisibleTrailedSpace "\s\+$" display containedin=ALL
@@ -778,10 +723,6 @@ function! s:onColorScheme()
     highlight PmenuSbar   ctermfg=White ctermbg=LightCyan guifg=#ffffff guibg=#848484 gui=none
     highlight PmenuThumb  ctermfg=White ctermbg=DarkGreen guifg=#ffffff guibg=#006699 gui=none
     "}}}
-    " For unite "{{{
-    highlight UniteAbbr   guifg=#80a0ff    gui=underline
-    highlight UniteCursor ctermbg=Blue     guifg=black     guibg=lightblue  gui=bold
-    "}}}
     " For indent-guides "{{{
     let cterm_colors = (&background == 'dark') ? ['darkgray', 'gray'] : ['lightgray', 'white']
     let gui_colors   = (&background == 'dark') ? ['grey15', 'grey30']  : ['grey70', 'grey85']
@@ -826,36 +767,32 @@ catch /E117/
 endtry
 
 " TabpageCD "{{{
-command! -bar -complete=dir -nargs=?
-            \ CD
-            \ TabpageCD <args>
-command! -bar -complete=dir -nargs=?
-            \ TabpageCD
+command! -bar -complete=dir -nargs=? TabpageCD
             \ execute 'cd' fnameescape(expand(<q-args>))
             \ | let t:cwd = getcwd()
 
 autocmd MyVimrcCmd TabEnter *
-            \   if exists('t:cwd') && !isdirectory(t:cwd)
-            \ |     unlet t:cwd
+            \   if exists('t:cwd')
+            \ |     execute 'cd' fnameescape(expand(t:cwd))
             \ | endif
-            \ | if !exists('t:cwd')
-            \ |     let t:cwd = getcwd()
-            \ | endif
-            \ | execute 'cd' fnameescape(expand(t:cwd))
+
+autocmd MyVimrcCmd TabLeave * let t:cwd = getcwd()
 
 " Exchange ':cd' to ':TabpageCD'.
 try
-    AlterCommand cd CD
+    AlterCommand cd TabpageCD
 catch /E492/
 
 endtry
 "}}}
 
 " CD to the directory of open files "{{{
-command! -nargs=? -complete=dir -bang TCD  call s:ChangeCurrentDir('<args>', '<bang>')
+command! -nargs=? -complete=dir -bang TCD call s:ChangeCurrentDir('<args>', '<bang>')
 function! s:ChangeCurrentDir(directory, bang)
     if a:directory == ''
-        TabpageCD %:p:h
+        if &buftype !=# 'terminal'
+            TabpageCD %:p:h
+        endif
     else
         execute 'TabpageCD' . a:directory
     endif
@@ -888,14 +825,12 @@ command! -bar -nargs=1 -complete=dir Files <mods> ModsNew Files:<args> | ToScrat
 
 command! FilesBuffer <mods> Files %:p:h
 command! FilesCurrent <mods> Files .
-command! MRU <mods> ModsNew MRU | ToScratchForFiles | call append(0, filter(v:oldfiles, 'filereadable(expand(v:val))')) | normal gg
+command! MRU <mods> ModsNew MRU | ToScratchForFiles | call setline(1, filter(v:oldfiles, 'filereadable(expand(v:val))'))
 
-function! SpExe(cmd) abort
-    return split(execute(a:cmd), '\n')
-endfunction
-command! ScriptNames <mods> ModsNew ScriptNames | ToScratchForFiles | call append(0, SpExe('scriptnames')) | normal gg
-command! Buffers <mods> ModsNew Buffers | ToScratchForFiles | call append(0, SpExe('buffers')) | normal gg
-command! Ls <mods> ModsNew Buffers | ToScratchForFiles | call append(0, SpExe('ls')) | normal gg
+" list results of given ex-cmd(e.g. :buffers, :scriptnames)
+command! -nargs=1 -complete=command L <mods> ModsNew <args> | ToScratchForFiles | call setline(1, split(execute(<q-args>), '\n'))
+command! ScriptNames <mods> L scriptnames
+command! Buffers <mods> L buffers
 "}}}
 " Occur "{{{
 command! Occur execute 'vimgrep /' . @/ . '/ %'
@@ -929,30 +864,6 @@ function! TermGuiColors()
     execute "set t_8b=\e[48;2;%lu;%lu;%lum"
     set termguicolors
 endfunction
-"}}}
-" WinMerge keybind in vimdiff "{{{
-function! DiffGet() "{{{
-    try
-        execute 'diffget'
-    catch/E101/
-        execute 'diffget //2'
-    endtry
-endfunction "}}}
-function! DiffPut() "{{{
-    try
-        execute 'diffput'
-    catch/E101/
-        execute 'diffget //3'
-    endtry
-endfunction "}}}
-function! SetDiffMap() "{{{
-    nnoremap <buffer> <F5> :<C-u>diffupdate<CR>
-    nnoremap <buffer> <A-Up> [c
-    nnoremap <buffer> <A-Down> ]c
-    nnoremap <buffer> <A-Right> :<C-u>call DiffGet()<CR>
-    nnoremap <buffer> <A-Left> :<C-u>call DiffPut()<CR>
-endfunction "}}}
-autocmd MyVimrcCmd FilterWritePost * call SetDiffMap()
 "}}}
 " Command-line window "{{{
 autocmd MyVimrcCmd CmdwinEnter * call s:init_cmdwin()
@@ -1047,30 +958,6 @@ onoremap <silent> [l :call NextIndent(0, 0, 0, 1)<cr>
 onoremap <silent> ]l :call NextIndent(0, 1, 0, 1)<cr>
 onoremap <silent> [L :call NextIndent(1, 0, 1, 1)<cr>
 onoremap <silent> ]L :call NextIndent(1, 1, 1, 1)<cr>
-"}}}
-" FullScreenToggle() "{{{
-command! FullScreenToggle call FullScreenToggle()
-function! FullScreenToggle()
-    if s:is_full_screen
-        call FullScreenOff()
-    else
-        call FullScreenOn()
-    endif
-endfunction
-
-let s:is_full_screen = 0
-function! FullScreenOn()
-    let s:columns = &columns
-    let s:lines = &lines
-    set columns=9999
-    set lines=999
-    let s:is_full_screen = 1
-endfunction
-function! FullScreenOff()
-    execute 'set columns=' . s:columns
-    execute 'set lines=' . s:lines
-    let s:is_full_screen = 0
-endfunction
 "}}}
 " Split and Go "{{{
 " USAGE:
@@ -1216,34 +1103,6 @@ if executable('ctags')
     endfunction
 endif
 "}}}
-" Capture "{{{
-command!
-            \ -nargs=+ -complete=command
-            \ Capture
-            \ call s:cmd_capture(<q-args>)
-
-function! s:cmd_capture(q_args) "{{{
-    redir => output
-    silent execute a:q_args
-    redir END
-    let output = substitute(output, '^\n\+', '', '')
-
-    belowright new
-
-    silent file `=printf('[Capture: %s]', a:q_args)`
-    setlocal buftype=nofile bufhidden=unload noswapfile nobuflisted
-    call setline(1, split(output, '\n'))
-endfunction "}}}
-"}}}
-" ContinuousNumber "{{{
-nnoremap <silent> co :ContinuousNumber <C-a><CR>
-vnoremap <silent> co :ContinuousNumber <C-a><CR>
-command! -count -nargs=1 ContinuousNumber let c = col('.')
-            \ | for n in range(1, <count>?<count>-line('.'):1)
-            \ |     exec 'normal! j' . n . <q-args>
-            \ |     call cursor('.', c)
-            \ | endfor
-"}}}
 " Overrides fileencoding "{{{
 command! -bang -bar -complete=file -nargs=? EncodeIso2022jp edit<bang> ++enc=iso-2022-jp <args>
 command! -bang -bar -complete=file -nargs=? EncodeCp932 edit<bang> ++enc=cp932 <args>
@@ -1340,28 +1199,10 @@ endfunction
 let g:ref_source_webdict_sites.default = 'alc'
 "}}}
 "---------------------------------------------------------------------------
-" neosnippet:"{{{
-"
-let g:neosnippet#snippets_directory = $DOTVIM.'/.snip/'
-imap <C-k> <Plug>(neosnippet_expand_or_jump)
-smap <C-k> <Plug>(neosnippet_expand_or_jump)
-" SuperTab like snippets behavior.
-"imap <expr><TAB> neosnippet#expandable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
-if has('conceal')
-    set conceallevel=2 concealcursor=i
-endif
-"}}}
-"---------------------------------------------------------------------------
-" miosnippet:"{{{
-"
-imap <C-]> <Plug>(miosnippet_generate)
-"}}}
-"---------------------------------------------------------------------------
 " vim-fugitive:"{{{
 "
 nnoremap <Space>gd :<C-u>Gdiff<CR>
 nnoremap <Space>gs :<C-u>Gstatus<CR>
-nnoremap <Space>gl :<C-u>Extradite<CR>
 nnoremap <Space>ga :<C-u>Gwrite<CR>
 nnoremap <Space>gc :<C-u>Gcommit<CR>
 nnoremap <Space>gC :<C-u>Git commit --amend<CR>
@@ -1380,41 +1221,6 @@ endif
 "
 nmap <leader>gj <plug>(signify-next-hunk)
 nmap <leader>gk <plug>(signify-prev-hunk)
-"}}}
-"---------------------------------------------------------------------------
-" unite.vim:"{{{
-"
-let g:unite_kind_file_cd_command = 'TabpageCD'
-let g:unite_kind_file_lcd_command = 'TabpageCD'
-
-" Start insert.
-let g:unite_enable_start_insert = 1
-
-autocmd MyVimrcCmd FileType unite call s:unite_my_settings()
-function! s:unite_my_settings() "{{{
-    " Overwrite settings.
-
-    nmap <buffer> <ESC> <Plug>(unite_exit)
-    imap <buffer> jj <Plug>(unite_insert_leave)
-    imap <buffer> <C-w> <Plug>(unite_delete_backward_path)
-    inoremap <buffer> <expr> <C-y> unite#do_action('insert')
-
-    " for unite-notmuch
-    let unite = unite#get_current_unite()
-    if index(unite.source_names, 'notmuch') > -1
-        nmap <buffer><expr> r unite#do_action('read')
-    endif
-
-endfunction "}}}
-
-let g:unite_source_grep_max_candidates = 50000
-
-let g:unite_data_directory = $DOTVIM.'/.unite'
-
-" highlight UniteAbbr     guifg=#80a0ff    gui=underline
-" highlight UniteCursor   guifg=black     guibg=lightblue  gui=bold
-let g:unite_cursor_line_highlight = 'UniteCursor'
-let g:unite_abbr_highlight = 'UniteAbbr'
 "}}}
 "---------------------------------------------------------------------------
 " textobj-user:"{{{
@@ -1716,9 +1522,6 @@ let g:quickrun_config['_'] = {
             \     'runner' : 'job',
             \ }
 let g:quickrun_config['watchdogs_checker/_'] = {
-            \     'hook/close_unite_quickfix/enable_hook_loaded' : 1,
-            \     'hook/unite_quickfix/enable_failure' : 1,
-            \     'hook/close_quickfix/enable_exit' : 1,
             \     'hook/close_buffer/enable_exit' : 1,
             \     'hook/close_buffer/enable_failure' : 1,
             \     'hook/close_buffer/enable_empty_data' : 1,
@@ -1828,48 +1631,6 @@ if s:has_plugin('vim-watchdogs')
 endif
 "}}}
 "---------------------------------------------------------------------------
-" vimfiler:"{{{
-"
-" Edit file by tabedit.
-let g:vimfiler_edit_action = 'open'
-let g:vimfiler_split_action = 'tabopen'
-
-let g:vimfiler_as_default_explorer = 0
-
-if s:MSWindows
-    let g:unite_kind_file_use_trashbox = 1
-endif
-
-" Enable file operation commands.
-let g:vimfiler_safe_mode_by_default = 0
-
-let g:vimfiler_data_directory = $DOTVIM.'/.vimfiler'
-
-let g:vimfiler_execute_file_list={
-            \     'txt': 'vim',
-            \     'vim': 'vim'
-            \ }
-"}}}
-"---------------------------------------------------------------------------
-" vimshell:"{{{
-"
-nnoremap <silent> <Space>vs :<C-u>VimShell<CR>
-
-let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
-let g:vimshell_prompt = '% '
-let g:vimshell_interactive_encodings = {'git': 'utf-8'}
-let g:vimshell_data_directory = $DOTVIM.'/.vimshell'
-let g:vimshell_vimshrc_path = $DOTVIM.'/.vimshell/.vimshrc'
-let g:vimshell_cd_command = 'TabpageCD'
-let g:vimshell_scrollback_limit = 50000
-
-autocmd MyVimrcCmd FileType vimshell call s:vimshell_settings()
-function! s:vimshell_settings()
-    inoremap <silent><expr><buffer> <Up> unite#sources#vimshell_history#start_complete(!0)
-    inoremap <silent><expr><buffer> <Down> unite#sources#vimshell_history#start_complete(!0)
-endfunction
-"}}}
-"---------------------------------------------------------------------------
 " tree.vim:"{{{
 "
 function! TreeResize()
@@ -1967,7 +1728,6 @@ let g:sqlutil_align_comma = 1
 "---------------------------------------------------------------------------
 " vim-go:"{{{
 "
-let g:go_snippet_engine = 'neosnippet'
 let g:go_textobj_enabled = 0
 
 autocmd MyVimrcCmd FileType go nmap <leader>b <Plug>(go-build)
@@ -1991,19 +1751,6 @@ nnoremap X ^x
 
 noremap <Space>h ^
 noremap <Space>l $
-map <Space>n %
-
-" leave insertmode
-" inoremap <expr> j getline('.')[col('.') - 2] ==# 'j' ? "\<BS>\<ESC>" : 'j'
-inoremap jj <ESC>
-
-"paste
-inoremap <C-v> <C-r>+
-" swap <C-v> to <C-a>
-inoremap <C-a> <C-v>
-
-" insert blank in normal mode
-nnoremap <C-Space> i <Esc><Right>
 
 " improve replacement of twice the width of characters in linewise
 xnoremap <expr> r mode() ==# 'V' ? "\<C-v>0o$r" : "r"
@@ -2013,25 +1760,6 @@ nnoremap <Space>tn :<C-u>tabnew<CR>
 nnoremap <Space>tc :<C-u>tabclose<CR>
 nnoremap <Space>tC :<C-u>tabclose!<CR>
 nnoremap <Space>ts :<C-u>tabs<CR>
-
-" Window related mappings
-nnoremap <M-j> <C-w>j
-nnoremap <M-k> <C-w>k
-nnoremap <M-h> <C-w>h
-nnoremap <M-l> <C-w>l
-inoremap <M-j> <Esc><C-w>j
-inoremap <M-k> <Esc><C-w>k
-inoremap <M-h> <Esc><C-w>h
-inoremap <M-l> <Esc><C-w>l
-
-nnoremap <M-+> <C-w>+
-nnoremap <M--> <C-w>-
-nnoremap <M->> <C-w>>
-nnoremap <M-<> <C-w><
-inoremap <M-+> <Esc><C-w>+
-inoremap <M--> <Esc><C-w>-
-inoremap <M->> <Esc><C-w>>
-inoremap <M-<> <Esc><C-w><
 
 " Move to the position last edited
 nnoremap gb '[
@@ -2082,9 +1810,6 @@ cnoremap <C-b> <Left>
 
 cnoremap <Left> <Space><BS><Left>
 cnoremap <Right> <Space><BS><Right>
-
-" paste
-cnoremap <C-v> <C-r>+
 "}}}
 
 "---------------------------------------------------------------------------
@@ -2105,12 +1830,6 @@ function! MyFileTypeHelp() "{{{
     endif
 endfunction "}}}
 autocmd MyVimrcCmd FileType showtime IndentGuidesDisable
-autocmd MyVimrcCmd FileType clojure call MyFileTypeClojure()
-function! MyFileTypeClojure() "{{{
-    setl tabstop=2
-    setl softtabstop=2
-    setl shiftwidth=2
-endfunction "}}}
 "}}}
 
 "---------------------------------------------------------------------------

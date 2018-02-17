@@ -26,9 +26,6 @@ Some plugin needs these Programming languages.
 
 * Node.js [https://nodejs.org]
 
-* Clojure [http://clojure.org]
-* leiningen [https://github.com/technomancy/leiningen]
-
 * Go [https://golang.org]
 
 
@@ -55,7 +52,6 @@ For processing markdown.
 
 If using Windows OS, these software extends command line processing.
 
-* Everything [http://www.voidtools.com]
 * MSYS2 or Cygwin [https://msys2.github.io] or [http://www.cygwin.com]
 * grep [http://gnuwin32.sourceforge.net/packages/grep.htm]
 * DiffUtils  [http://gnuwin32.sourceforge.net/packages/diffutils.htm]
