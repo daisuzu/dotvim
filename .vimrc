@@ -210,9 +210,6 @@ call add(s:plugins.opt, $GITHUB_COM.'mattn/webapi-vim')
 call add(s:plugins.opt, $GITHUB_COM.'vim-jp/vimdoc-ja')
 call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-ref')
 call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-ft-help_fold')
-call add(s:plugins.opt, $GITHUB_COM.'Shougo/neosnippet')
-call add(s:plugins.opt, $GITHUB_COM.'Shougo/neosnippet-snippets')
-call add(s:plugins.opt, $GITHUB_COM.'daisuzu/miosnippet.vim')
 call add(s:plugins.opt, $GITHUB_COM.'tpope/vim-fugitive')
 call add(s:plugins.opt, $GITHUB_COM.'gregsexton/gitv')
 call add(s:plugins.opt, $GITHUB_COM.'int3/vim-extradite')
@@ -1324,23 +1321,6 @@ endfunction
 let g:ref_source_webdict_sites.default = 'alc'
 "}}}
 "---------------------------------------------------------------------------
-" neosnippet:"{{{
-"
-let g:neosnippet#snippets_directory = $DOTVIM.'/.snip/'
-imap <C-k> <Plug>(neosnippet_expand_or_jump)
-smap <C-k> <Plug>(neosnippet_expand_or_jump)
-" SuperTab like snippets behavior.
-"imap <expr><TAB> neosnippet#expandable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
-if has('conceal')
-    set conceallevel=2 concealcursor=i
-endif
-"}}}
-"---------------------------------------------------------------------------
-" miosnippet:"{{{
-"
-imap <C-]> <Plug>(miosnippet_generate)
-"}}}
-"---------------------------------------------------------------------------
 " vim-fugitive:"{{{
 "
 nnoremap <Space>gd :<C-u>Gdiff<CR>
@@ -1871,7 +1851,6 @@ let g:sqlutil_align_comma = 1
 "---------------------------------------------------------------------------
 " vim-go:"{{{
 "
-let g:go_snippet_engine = 'neosnippet'
 let g:go_textobj_enabled = 0
 
 autocmd MyVimrcCmd FileType go nmap <leader>b <Plug>(go-build)
