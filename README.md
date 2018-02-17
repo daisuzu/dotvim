@@ -55,7 +55,6 @@ For processing markdown.
 
 If using Windows OS, these software extends command line processing.
 
-* Everything [http://www.voidtools.com]
 * MSYS2 or Cygwin [https://msys2.github.io] or [http://www.cygwin.com]
 * grep [http://gnuwin32.sourceforge.net/packages/grep.htm]
 * DiffUtils  [http://gnuwin32.sourceforge.net/packages/diffutils.htm]

@@ -217,7 +217,6 @@ call add(s:plugins.opt, $GITHUB_COM.'tpope/vim-fugitive')
 call add(s:plugins.opt, $GITHUB_COM.'gregsexton/gitv')
 call add(s:plugins.opt, $GITHUB_COM.'int3/vim-extradite')
 call add(s:plugins.opt, $GITHUB_COM.'mhinz/vim-signify')
-call add(s:plugins.opt, $GITHUB_COM.'Shougo/unite.vim')
 call add(s:plugins.opt, $GITHUB_COM.'kana/vim-textobj-user')
 call add(s:plugins.opt, $GITHUB_COM.'kana/vim-textobj-indent')
 call add(s:plugins.opt, $GITHUB_COM.'kana/vim-textobj-syntax')
@@ -260,7 +259,6 @@ call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-quickrun')
 call add(s:plugins.opt, $GITHUB_COM.'osyo-manga/vim-watchdogs')
 call add(s:plugins.opt, $GITHUB_COM.'osyo-manga/shabadou.vim')
 call add(s:plugins.opt, $GITHUB_COM.'daisuzu/quickrun-hook-sphinx')
-call add(s:plugins.opt, $GITHUB_COM.'daisuzu/unite-notmuch')
 call add(s:plugins.opt, $GITHUB_COM.'daisuzu/translategoogle.vim')
 call add(s:plugins.opt, $GITHUB_COM.'rhysd/vim-grammarous')
 call add(s:plugins.opt, $GITHUB_COM.'Shougo/vimproc.vim')
@@ -584,11 +582,6 @@ if has('syntax')
     " syn sync fromstart
 
     function! ActivateInvisibleIndicator()
-        let bufname = bufname('%')
-        if bufname =~? '\[unite\]'
-            return
-        endif
-
         syntax match InvisibleJISX0208Space "\%u3000" display containedin=ALL
         highlight InvisibleJISX0208Space term=underline ctermbg=Blue guibg=darkgray gui=underline
         syntax match InvisibleTrailedSpace "\s\+$" display containedin=ALL
@@ -772,10 +765,6 @@ function! s:onColorScheme()
     highlight PmenuSel    ctermfg=Black ctermbg=Cyan      guifg=#ccffff guibg=#006699 gui=none
     highlight PmenuSbar   ctermfg=White ctermbg=LightCyan guifg=#ffffff guibg=#848484 gui=none
     highlight PmenuThumb  ctermfg=White ctermbg=DarkGreen guifg=#ffffff guibg=#006699 gui=none
-    "}}}
-    " For unite "{{{
-    highlight UniteAbbr   guifg=#80a0ff    gui=underline
-    highlight UniteCursor ctermbg=Blue     guifg=black     guibg=lightblue  gui=bold
     "}}}
     " For indent-guides "{{{
     let cterm_colors = (&background == 'dark') ? ['darkgray', 'gray'] : ['lightgray', 'white']
@@ -1377,41 +1366,6 @@ nmap <leader>gj <plug>(signify-next-hunk)
 nmap <leader>gk <plug>(signify-prev-hunk)
 "}}}
 "---------------------------------------------------------------------------
-" unite.vim:"{{{
-"
-let g:unite_kind_file_cd_command = 'TabpageCD'
-let g:unite_kind_file_lcd_command = 'TabpageCD'
-
-" Start insert.
-let g:unite_enable_start_insert = 1
-
-autocmd MyVimrcCmd FileType unite call s:unite_my_settings()
-function! s:unite_my_settings() "{{{
-    " Overwrite settings.
-
-    nmap <buffer> <ESC> <Plug>(unite_exit)
-    imap <buffer> jj <Plug>(unite_insert_leave)
-    imap <buffer> <C-w> <Plug>(unite_delete_backward_path)
-    inoremap <buffer> <expr> <C-y> unite#do_action('insert')
-
-    " for unite-notmuch
-    let unite = unite#get_current_unite()
-    if index(unite.source_names, 'notmuch') > -1
-        nmap <buffer><expr> r unite#do_action('read')
-    endif
-
-endfunction "}}}
-
-let g:unite_source_grep_max_candidates = 50000
-
-let g:unite_data_directory = $DOTVIM.'/.unite'
-
-" highlight UniteAbbr     guifg=#80a0ff    gui=underline
-" highlight UniteCursor   guifg=black     guibg=lightblue  gui=bold
-let g:unite_cursor_line_highlight = 'UniteCursor'
-let g:unite_abbr_highlight = 'UniteAbbr'
-"}}}
-"---------------------------------------------------------------------------
 " textobj-user:"{{{
 "
 " textobj-ruledline "{{{
@@ -1711,9 +1665,6 @@ let g:quickrun_config['_'] = {
             \     'runner' : 'job',
             \ }
 let g:quickrun_config['watchdogs_checker/_'] = {
-            \     'hook/close_unite_quickfix/enable_hook_loaded' : 1,
-            \     'hook/unite_quickfix/enable_failure' : 1,
-            \     'hook/close_quickfix/enable_exit' : 1,
             \     'hook/close_buffer/enable_exit' : 1,
             \     'hook/close_buffer/enable_failure' : 1,
             \     'hook/close_buffer/enable_empty_data' : 1,
