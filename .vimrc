@@ -146,14 +146,6 @@ endif
 "}}}
 
 "---------------------------------------------------------------------------
-" Kaoriya:"{{{
-"
-if exists('g:no_vimrc_example') && g:no_vimrc_example == 1
-    silent! source $VIMRUNTIME/vimrc_example.vim
-endif
-"}}}
-
-"---------------------------------------------------------------------------
 " MacVim:"{{{
 "
 if has('gui_macvim')
