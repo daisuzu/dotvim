@@ -767,36 +767,32 @@ catch /E117/
 endtry
 
 " TabpageCD "{{{
-command! -bar -complete=dir -nargs=?
-            \ CD
-            \ TabpageCD <args>
-command! -bar -complete=dir -nargs=?
-            \ TabpageCD
+command! -bar -complete=dir -nargs=? TabpageCD
             \ execute 'cd' fnameescape(expand(<q-args>))
             \ | let t:cwd = getcwd()
 
 autocmd MyVimrcCmd TabEnter *
-            \   if exists('t:cwd') && !isdirectory(t:cwd)
-            \ |     unlet t:cwd
+            \   if exists('t:cwd')
+            \ |     execute 'cd' fnameescape(expand(t:cwd))
             \ | endif
-            \ | if !exists('t:cwd')
-            \ |     let t:cwd = getcwd()
-            \ | endif
-            \ | execute 'cd' fnameescape(expand(t:cwd))
+
+autocmd MyVimrcCmd TabLeave * let t:cwd = getcwd()
 
 " Exchange ':cd' to ':TabpageCD'.
 try
-    AlterCommand cd CD
+    AlterCommand cd TabpageCD
 catch /E492/
 
 endtry
 "}}}
 
 " CD to the directory of open files "{{{
-command! -nargs=? -complete=dir -bang TCD  call s:ChangeCurrentDir('<args>', '<bang>')
+command! -nargs=? -complete=dir -bang TCD call s:ChangeCurrentDir('<args>', '<bang>')
 function! s:ChangeCurrentDir(directory, bang)
     if a:directory == ''
-        TabpageCD %:p:h
+        if &buftype !=# 'terminal'
+            TabpageCD %:p:h
+        endif
     else
         execute 'TabpageCD' . a:directory
     endif
