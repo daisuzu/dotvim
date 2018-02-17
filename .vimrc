@@ -271,7 +271,6 @@ call add(s:plugins.opt, $GITHUB_COM.'yuratomo/w3m.vim')
 if !s:Android
     call add(s:plugins.opt, $GITHUB_COM.'sjl/gundo.vim')
 endif
-call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/wokmarks.vim')
 call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/sudo.vim')
 call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/Align')
 call add(s:plugins.opt, $GITHUB_COM.'h1mesuke/vim-alignta')
