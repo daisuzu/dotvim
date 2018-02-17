@@ -871,30 +871,6 @@ function! TermGuiColors()
     set termguicolors
 endfunction
 "}}}
-" WinMerge keybind in vimdiff "{{{
-function! DiffGet() "{{{
-    try
-        execute 'diffget'
-    catch/E101/
-        execute 'diffget //2'
-    endtry
-endfunction "}}}
-function! DiffPut() "{{{
-    try
-        execute 'diffput'
-    catch/E101/
-        execute 'diffget //3'
-    endtry
-endfunction "}}}
-function! SetDiffMap() "{{{
-    nnoremap <buffer> <F5> :<C-u>diffupdate<CR>
-    nnoremap <buffer> <A-Up> [c
-    nnoremap <buffer> <A-Down> ]c
-    nnoremap <buffer> <A-Right> :<C-u>call DiffGet()<CR>
-    nnoremap <buffer> <A-Left> :<C-u>call DiffPut()<CR>
-endfunction "}}}
-autocmd MyVimrcCmd FilterWritePost * call SetDiffMap()
-"}}}
 " Command-line window "{{{
 autocmd MyVimrcCmd CmdwinEnter * call s:init_cmdwin()
 function! s:init_cmdwin()
