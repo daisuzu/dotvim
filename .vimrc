@@ -809,7 +809,7 @@ cabbrev %% %:p:h
 command! -bar ToScratch setlocal buftype=nofile bufhidden=hide noswapfile
 command! -bar ToScratchForFiles ToScratch | setlocal iskeyword+=.
 
-command! -bar -nargs=? ModsNew execute '<mods> new' | if '<args>' ==# 'Files:.' | edit `='[Files:' . fnamemodify(getcwd(), ':p:h') . ']'` | elseif len('<args>') | edit [<args>] | endif
+command! -bar -nargs=? ModsNew <mods> new | if <q-args> ==# 'Files:.' | edit `='[Files:' . fnamemodify(getcwd(), ':p:h') . ']'` | elseif len(<q-args>) | edit [<args>] | endif
 
 if executable('files')
     let s:files_cmd = 'files -a'
