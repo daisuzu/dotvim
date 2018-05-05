@@ -1483,9 +1483,8 @@ nmap <M-D> <Plug>(textmanip-duplicate-up)
 "---------------------------------------------------------------------------
 " tcomment_vim:"{{{
 "
-let g:tcommentMapLeaderOp1 = ',c'
-let g:tcommentMapLeaderOp2 = ',C'
-let g:tcommentTextObjectInlineComment = ''
+let g:tcomment_opleader1 = ',c'
+let g:tcomment_textoject_inlinecomment = ''
 "}}}
 "---------------------------------------------------------------------------
 " vim-altr:"{{{
