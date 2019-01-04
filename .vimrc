@@ -355,6 +355,8 @@ function! PackAddHandler(timer)
         doautocmd FileType
         " fugitive.vim requires do autocmd
         doautocmd fugitive BufReadPost
+        " vim-signify requires do autocmd
+        doautocmd signify BufReadPost
         IndentGuidesEnable
     endif
 endfunction
@@ -731,7 +733,7 @@ function! s:onColorScheme()
     execute 'highlight IndentGuidesOdd  guibg=' . gui_colors[1] . ' guifg=' . gui_colors[0] . ' ctermbg=' . cterm_colors[1] . ' ctermfg=' . cterm_colors[0]
     "}}}
 
-    " For signfy "{{{
+    " For signify "{{{
     highlight SignifySignAdd    cterm=bold ctermbg=237  ctermfg=119 guifg=Black guibg=Green
     highlight SignifySignDelete cterm=bold ctermbg=237  ctermfg=167 guifg=Black guibg=Red
     highlight SignifySignChange cterm=bold ctermbg=237  ctermfg=227 guifg=Black guibg=Yellow
@@ -1215,12 +1217,6 @@ if s:MSWindows
     autocmd MyVimrcCmd FileType gitcommit setlocal fileencoding=utf-8
     autocmd MyVimrcCmd FileType gitcommit setlocal fileencodings=utf-8
 endif
-"}}}
-"---------------------------------------------------------------------------
-" vim-signify:"{{{
-"
-nmap <leader>gj <plug>(signify-next-hunk)
-nmap <leader>gk <plug>(signify-prev-hunk)
 "}}}
 "---------------------------------------------------------------------------
 " textobj-user:"{{{
