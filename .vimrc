@@ -549,8 +549,8 @@ if has('syntax')
         else
             highlight InvisibleTrailedSpace term=underline ctermbg=darkgray gui=undercurl guisp=darkorange
         endif
-        syntax match InvisibleTab "\t" display containedin=ALL
-        highlight InvisibleTab term=underline ctermbg=white gui=undercurl guisp=darkslategray
+        " syntax match InvisibleTab "\t" display containedin=ALL
+        " highlight InvisibleTab term=underline ctermbg=white gui=undercurl guisp=darkslategray
     endfunction
     call ActivateInvisibleIndicator()
     augroup invisible
