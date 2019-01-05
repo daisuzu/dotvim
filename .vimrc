@@ -1480,7 +1480,7 @@ nmap <M-D> <Plug>(textmanip-duplicate-up)
 " tcomment_vim:"{{{
 "
 let g:tcomment_opleader1 = ',c'
-let g:tcomment_textoject_inlinecomment = ''
+let g:tcomment_textobject_inlinecomment = ''
 "}}}
 "---------------------------------------------------------------------------
 " vim-altr:"{{{
