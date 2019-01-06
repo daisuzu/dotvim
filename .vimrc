@@ -265,6 +265,8 @@ call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/SQLUtilities')
 call add(s:plugins.opt, $GITHUB_COM.'mattn/emmet-vim')
 call add(s:plugins.opt, $GITHUB_COM.'hail2u/vim-css3-syntax')
 call add(s:plugins.opt, $GITHUB_COM.'fatih/vim-go')
+call add(s:plugins.opt, $GITHUB_COM.'prabirshrestha/async.vim')
+call add(s:plugins.opt, $GITHUB_COM.'prabirshrestha/vim-lsp')
 
 function! s:has_plugin(name)
     return globpath(&runtimepath, 'plugin/' . a:name . '.vim') !=# ''
@@ -357,6 +359,8 @@ function! PackAddHandler(timer)
         doautocmd fugitive BufReadPost
         " vim-signify requires do autocmd
         doautocmd signify BufReadPost
+        " vim-lsp requires do autocmd
+        doautocmd lsp_auto_enable VimEnter
         IndentGuidesEnable
     endif
 endfunction
@@ -1735,6 +1739,23 @@ function! s:go_import_commands()
     command! -buffer -nargs=1 -complete=customlist,go#package#Complete Import GoImport <args>
     command! -buffer -nargs=* -complete=customlist,go#package#Complete ImportAs GoImportAs <args>
 endfunction
+"}}}
+"---------------------------------------------------------------------------
+" vim-lsp:"{{{
+"
+let g:lsp_async_completion = 0
+
+if executable('golsp')
+    augroup LspGo
+        autocmd!
+        autocmd User lsp_setup call lsp#register_server({
+                    \     'name': 'golsp',
+                    \     'cmd': {server_info->['golsp']},
+                    \     'whitelist': ['go'],
+                    \ })
+        autocmd FileType go setlocal omnifunc=lsp#complete
+    augroup END
+endif
 "}}}
 "}}}
 
