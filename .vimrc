@@ -1745,12 +1745,12 @@ endfunction
 "
 let g:lsp_async_completion = 0
 
-if executable('golsp')
+if executable('gopls')
     augroup LspGo
         autocmd!
         autocmd User lsp_setup call lsp#register_server({
-                    \     'name': 'golsp',
-                    \     'cmd': {server_info->['golsp']},
+                    \     'name': 'gopls',
+                    \     'cmd': {server_info->['gopls']},
                     \     'whitelist': ['go'],
                     \ })
         autocmd FileType go setlocal omnifunc=lsp#complete
