@@ -1632,6 +1632,8 @@ endif
 "---------------------------------------------------------------------------
 " tree.vim:"{{{
 "
+set isfname+=@-@
+
 function! TreeResize()
     augroup TreeCmd
         autocmd!
