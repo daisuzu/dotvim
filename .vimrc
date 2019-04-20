@@ -316,7 +316,7 @@ function! UpdateHelpTags()
                 continue
             endif
 
-            echo 'helptags: ' . dst
+            echomsg 'helptags: ' . dst
             call s:create_helptags(expand(dst . '/doc/'))
         endfor
     endfor
@@ -340,6 +340,9 @@ function! PluginUpdateHandler(timer)
     call job_start(cmd, {'out_io': 'buffer', 'out_name': '[update plugins]'})
 
     let s:pidx += 1
+    if s:pidx == len(s:plugins.opt)
+        call UpdateHelpTags()
+    endif
 endfunction
 
 let s:pidx = 0
