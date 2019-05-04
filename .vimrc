@@ -478,6 +478,11 @@ set previewheight=12
 set winwidth=20
 
 set t_Co=256
+if &term =~# 'xterm'
+    let &t_SI = "\<Esc>[5 q"
+    let &t_SR = "\<Esc>[3 q"
+    let &t_EI = "\<Esc>[1 q"
+endif
 
 set nowrap
 nnoremap <Space>ow :<C-u>setlocal wrap! wrap?<CR>
