@@ -253,7 +253,6 @@ call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-scall')
 call add(s:plugins.opt, $GITHUB_COM.'mattn/sonictemplate-vim')
 call add(s:plugins.opt, $GITHUB_COM.'LeafCage/vimhelpgenerator')
 call add(s:plugins.opt, $GITHUB_COM.'t9md/vim-choosewin')
-call add(s:plugins.opt, $GITHUB_COM.'tyru/vim-altercmd')
 call add(s:plugins.opt, $GITHUB_COM.'alfredodeza/pytest.vim')
 call add(s:plugins.opt, $GITHUB_COM.'klen/python-mode')
 call add(s:plugins.opt, $GITHUB_COM.'davidhalter/jedi-vim')
@@ -774,41 +773,15 @@ nnoremap <ESC><ESC> :nohlsearch<CR>
 "---------------------------------------------------------------------------
 "  Utilities:"{{{
 "
-try
-    call altercmd#load()
-catch /E117/
-
-endtry
-
-" TabpageCD "{{{
-command! -bar -complete=dir -nargs=? TabpageCD
-            \ execute 'cd' fnameescape(expand(<q-args>))
-            \ | let t:cwd = getcwd()
-
-autocmd MyVimrcCmd TabEnter *
-            \   if exists('t:cwd')
-            \ |     execute 'cd' fnameescape(expand(t:cwd))
-            \ | endif
-
-autocmd MyVimrcCmd TabLeave * let t:cwd = getcwd()
-
-" Exchange ':cd' to ':TabpageCD'.
-try
-    AlterCommand cd TabpageCD
-catch /E492/
-
-endtry
-"}}}
-
-" CD to the directory of open files "{{{
+" :tcd to the directory of the current file or specified path "{{{
 command! -nargs=? -complete=dir -bang TCD call s:ChangeCurrentDir('<args>', '<bang>')
 function! s:ChangeCurrentDir(directory, bang)
     if a:directory == ''
         if &buftype !=# 'terminal'
-            TabpageCD %:p:h
+            tcd %:p:h
         endif
     else
-        execute 'TabpageCD' . a:directory
+        execute 'tcd' . a:directory
     endif
 
     if a:bang == ''
