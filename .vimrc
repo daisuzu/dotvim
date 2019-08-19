@@ -1712,6 +1712,7 @@ let g:sqlutil_align_comma = 1
 " vim-go:"{{{
 "
 let g:go_textobj_enabled = 0
+let g:go_def_mapping_enabled = 0
 
 autocmd MyVimrcCmd FileType go nmap <leader>b <Plug>(go-build)
 autocmd MyVimrcCmd FileType go nmap <leader>t <Plug>(go-test)
@@ -1729,6 +1730,14 @@ endfunction
 "
 let g:lsp_async_completion = 0
 
+function! MyLspConfig()
+    setlocal omnifunc=lsp#complete
+
+    nmap <buffer> gd <plug>(lsp-definition)
+    nmap <buffer> <C-]> <plug>(lsp-definition)
+    nnoremap <buffer> <silent> <C-W>] :<C-u>if !&modified \| split \| endif \| execute "normal \<plug>(lsp-definition)"<CR>
+endfunction
+
 if executable('gopls')
     augroup LspGo
         autocmd!
@@ -1737,7 +1746,7 @@ if executable('gopls')
                     \     'cmd': {server_info->['gopls']},
                     \     'whitelist': ['go'],
                     \ })
-        autocmd FileType go setlocal omnifunc=lsp#complete
+        autocmd FileType go call MyLspConfig()
     augroup END
 endif
 "}}}
