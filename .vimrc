@@ -420,8 +420,10 @@ set tags+=tags;
 set tags+=./**/tags
 "}}}
 " grep "{{{
+command! UseGitgrep set grepprg=git\ grep\ -n\ --no-color
+command! UseJvgrep set grepprg=jvgrep\ -n\ --no-color
 if executable('jvgrep')
-    set grepprg=jvgrep\ -n\ --no-color
+    :UseJvgrep
 else
     set grepprg=grep\ -nH
 endif
