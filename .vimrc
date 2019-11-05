@@ -360,7 +360,7 @@ function! PackAddHandler(timer)
         " fugitive.vim requires do autocmd
         doautocmd fugitive BufReadPost
         " vim-signify requires do autocmd
-        doautocmd signify BufReadPost
+        doautocmd signify BufEnter
         " vim-lsp requires do autocmd
         doautocmd lsp_auto_enable VimEnter
         IndentGuidesEnable
