@@ -1628,7 +1628,45 @@ function! TreeResize()
     doautocmd TreeCmd BufEnter
 endfunction
 
-nnoremap <silent> <Space>vf :<C-u>execute 'vertical '. v:count .'Tree' <Bar> call TreeResize()<CR>
+" https://github.com/daisuzu/go-tree
+if executable('go-tree')
+    nnoremap <silent> <Space>vf :<C-u>execute 'vertical '. v:count .'ATree' <Bar> call TreeResize()<CR>
+else
+    nnoremap <silent> <Space>vf :<C-u>execute 'vertical '. v:count .'Tree' <Bar> call TreeResize()<CR>
+endif
+
+command! -nargs=? -complete=dir -count -bang -bar ATree call s:async_tree(<q-args>, <count>, <bang>0, <q-mods>)
+
+function! s:async_tree(dir, depth, bang, mods) abort
+    let cmd = 'go-tree -V ' . g:tree_options
+    if a:bang
+        let cmd .= ' -a'
+    endif
+    if a:depth > 0
+        let cmd .= ' -L ' . a:depth
+    endif
+    let cmd .= ' ' . fnamemodify(a:dir !=# '' ? a:dir : '.', ':p:h')
+
+    execute a:mods . ' new'
+    setfiletype tree
+
+    let bufnr = bufnr('%')
+    call job_start(cmd, {
+                \   'out_io': 'buffer',
+                \   'out_buf': bufnr,
+                \   'exit_cb': {channel, msg -> s:goto_first(bufnr)},
+                \ })
+endfunction
+
+function! s:goto_first(bufnr)
+    if bufnr('%') != a:bufnr
+        return
+    endif
+    if line('.') != line('$')
+        return
+    endif
+    goto
+endfunction
 
 function! GoToFileVertical()
     let file = fnameescape(expand('<cfile>'))
