@@ -266,6 +266,7 @@ call add(s:plugins.opt, $GITHUB_COM.'hail2u/vim-css3-syntax')
 call add(s:plugins.opt, $GITHUB_COM.'fatih/vim-go')
 call add(s:plugins.opt, $GITHUB_COM.'prabirshrestha/async.vim')
 call add(s:plugins.opt, $GITHUB_COM.'prabirshrestha/vim-lsp')
+call add(s:plugins.opt, $GITHUB_COM.'mattn/vim-lsp-settings')
 
 function! s:has_plugin(name)
     return globpath(&runtimepath, 'plugin/' . a:name . '.vim') !=# ''
@@ -1731,26 +1732,70 @@ endfunction
 " vim-lsp:"{{{
 "
 let g:lsp_async_completion = 0
+let g:lsp_text_edit_enabled = 0
+let g:lsp_fold_enabled = 0
 
-function! MyLspConfig()
-    setlocal omnifunc=lsp#complete
+function! MyTagFunc(pattern, flags, info) abort
+    let l:ctx = {'result': []}
 
-    nmap <buffer> gd <plug>(lsp-definition)
-    nmap <buffer> <C-]> <plug>(lsp-definition)
-    nnoremap <buffer> <silent> <C-W>] :<C-u>if !&modified \| split \| endif \| execute "normal \<plug>(lsp-definition)"<CR>
+    if a:flags ==# 'c'
+        let l:method = 'textDocument/definition'
+        let l:servers = filter(lsp#get_whitelisted_servers(), 'lsp#capabilities#has_definition_provider(v:val)')
+        let l:ctx.pattern = a:pattern
+        let l:params = {
+            \   'textDocument': lsp#get_text_document_identifier(),
+            \   'position': lsp#get_position(),
+            \ }
+    else
+        let l:method= 'workspace/symbol'
+        let l:servers = filter(lsp#get_whitelisted_servers(), 'lsp#capabilities#has_workspace_symbol_provider(v:val)')
+        let l:params = {
+            \   'query': a:flags =~# 'i' ? substitute(a:pattern, '^\\<', '', '') : a:pattern,
+            \ }
+    endif
+
+    if len(l:servers) == 0
+        echoerr 'not supported: ' . l:method
+        return []
+    endif
+
+    for l:server in l:servers
+        call lsp#send_request(l:server, {
+            \ 'method': l:method,
+            \ 'params': l:params,
+            \ 'sync': 1,
+            \ 'on_notification': function('s:make_taglist', [l:ctx, l:method]),
+            \ })
+    endfor
+    return l:ctx.result
 endfunction
 
-if executable('gopls')
-    augroup LspGo
-        autocmd!
-        autocmd User lsp_setup call lsp#register_server({
-                    \     'name': 'gopls',
-                    \     'cmd': {server_info->['gopls']},
-                    \     'whitelist': ['go'],
-                    \ })
-        autocmd FileType go call MyLspConfig()
-    augroup END
-endif
+func s:make_taglist(ctx, method, data) abort
+    for result in a:data.response.result
+        if a:method ==# 'workspace/symbol'
+            let l:name = result.name
+            let l:location = result.location
+        else
+            let l:name = a:ctx.pattern
+            let l:location = result
+        endif
+        call add(a:ctx.result, {
+            \ 'name': l:name,
+            \ 'filename': lsp#utils#uri_to_path(l:location.uri),
+            \ 'cmd': string(l:location.range.start.line + 1),
+            \ })
+    endfor
+endfunction
+
+function! s:on_lsp_buffer_enabled() abort
+    setlocal omnifunc=lsp#complete
+    setlocal tagfunc=MyTagFunc
+endfunction
+
+augroup lsp_install
+    au!
+    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
 "}}}
 "}}}
 
