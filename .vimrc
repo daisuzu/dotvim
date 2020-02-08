@@ -1829,6 +1829,7 @@ endfunction
 function! s:on_lsp_buffer_enabled() abort
     setlocal omnifunc=lsp#complete
     setlocal tagfunc=MyTagFunc
+    nnoremap <silent> g] :<C-u>execute 'tselect ' . expand('<cword>') <CR>
 endfunction
 
 augroup lsp_install
