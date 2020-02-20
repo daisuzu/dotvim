@@ -1755,6 +1755,7 @@ let g:sqlutil_align_comma = 1
 let g:go_textobj_enabled = 0
 let g:go_def_mapping_enabled = 0
 let g:go_gopls_enabled = 0
+let g:go_code_completion_enabled = 0
 
 autocmd MyVimrcCmd FileType go nmap <leader>b <Plug>(go-build)
 autocmd MyVimrcCmd FileType go nmap <leader>t <Plug>(go-test)
