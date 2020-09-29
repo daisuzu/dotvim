@@ -1771,65 +1771,13 @@ endfunction
 "---------------------------------------------------------------------------
 " vim-lsp:"{{{
 "
-let g:lsp_async_completion = 0
-let g:lsp_text_edit_enabled = 0
 let g:lsp_fold_enabled = 0
-
-function! MyTagFunc(pattern, flags, info) abort
-    let l:ctx = {'result': []}
-
-    if a:flags ==# 'c'
-        let l:method = 'textDocument/definition'
-        let l:servers = filter(lsp#get_whitelisted_servers(), 'lsp#capabilities#has_definition_provider(v:val)')
-        let l:ctx.pattern = a:pattern
-        let l:params = {
-            \   'textDocument': lsp#get_text_document_identifier(),
-            \   'position': lsp#get_position(),
-            \ }
-    else
-        let l:method= 'workspace/symbol'
-        let l:servers = filter(lsp#get_whitelisted_servers(), 'lsp#capabilities#has_workspace_symbol_provider(v:val)')
-        let l:params = {
-            \   'query': a:flags =~# 'i' ? substitute(a:pattern, '^\\<', '', '') : a:pattern,
-            \ }
-    endif
-
-    if len(l:servers) == 0
-        echoerr 'not supported: ' . l:method
-        return []
-    endif
-
-    for l:server in l:servers
-        call lsp#send_request(l:server, {
-            \ 'method': l:method,
-            \ 'params': l:params,
-            \ 'sync': 1,
-            \ 'on_notification': function('s:make_taglist', [l:ctx, l:method]),
-            \ })
-    endfor
-    return l:ctx.result
-endfunction
-
-func s:make_taglist(ctx, method, data) abort
-    for result in a:data.response.result
-        if a:method ==# 'workspace/symbol'
-            let l:name = result.name
-            let l:location = result.location
-        else
-            let l:name = a:ctx.pattern
-            let l:location = result
-        endif
-        call add(a:ctx.result, {
-            \ 'name': l:name,
-            \ 'filename': lsp#utils#uri_to_path(l:location.uri),
-            \ 'cmd': string(l:location.range.start.line + 1),
-            \ })
-    endfor
-endfunction
+let g:lsp_diagnostics_echo_cursor = 1
+let g:lsp_tagfunc_source_methods = ['definition']
 
 function! s:on_lsp_buffer_enabled() abort
     setlocal omnifunc=lsp#complete
-    setlocal tagfunc=MyTagFunc
+    setlocal tagfunc=lsp#tagfunc
     nnoremap <silent> g] :<C-u>execute 'tselect ' . expand('<cword>') <CR>
 endfunction
 
@@ -1837,6 +1785,25 @@ augroup lsp_install
     au!
     autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 augroup END
+
+let g:lsp_settings = {
+      \  'gopls': {
+      \    'initialization_options': {
+      \      'diagnostics': v:true,
+      \      'matcher': 'fuzzy',
+      \      'completeUnimported': v:false,
+      \      'deepCompletion': v:false,
+      \      'usePlaceholders': v:false,
+      \      'symbolMatcher': 'fuzzy',
+      \      'symbolStyle': 'full',
+      \      'gofumpt': v:true,
+      \      'analyses': {'fillstruct': v:true},
+      \      'codelens': {'gc_details': v:true, 'test': v:true},
+      \    },
+      \    'allowlist': ['go', 'gomod'],
+      \  }
+      \}
+
 "}}}
 "}}}
 
