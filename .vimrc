@@ -264,7 +264,6 @@ call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/SQLUtilities')
 call add(s:plugins.opt, $GITHUB_COM.'mattn/emmet-vim')
 call add(s:plugins.opt, $GITHUB_COM.'hail2u/vim-css3-syntax')
 call add(s:plugins.opt, $GITHUB_COM.'fatih/vim-go')
-call add(s:plugins.opt, $GITHUB_COM.'prabirshrestha/async.vim')
 call add(s:plugins.opt, $GITHUB_COM.'prabirshrestha/vim-lsp')
 call add(s:plugins.opt, $GITHUB_COM.'mattn/vim-lsp-settings')
 
