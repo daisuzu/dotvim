@@ -360,10 +360,11 @@ function! PackAddHandler(timer)
         doautocmd FileType
         " fugitive.vim requires do autocmd
         doautocmd fugitive BufReadPost
-        " vim-signify requires do autocmd
-        doautocmd signify BufEnter
-        " vim-lsp requires do autocmd
-        doautocmd lsp_auto_enable VimEnter
+        " for vim-lsp
+        call lsp#enable()
+        " for vim-signify
+        SignifyEnable
+        " for vim-indent-guides
         IndentGuidesEnable
     endif
 endfunction
