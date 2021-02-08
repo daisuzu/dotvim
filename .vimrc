@@ -143,6 +143,8 @@ if !has('gui_macvim')
         exec cmd
     endfunction
 endif
+
+scriptencoding utf-8
 "}}}
 
 "---------------------------------------------------------------------------
