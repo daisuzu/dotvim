@@ -355,6 +355,7 @@ function! PackAddHandler(timer)
 
     let s:pidx += 1
     if s:pidx == len(s:plugins.opt)
+        packadd cfilter
         " for filetype plugin
         doautocmd FileType
         " fugitive.vim requires do autocmd
