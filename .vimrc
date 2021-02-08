@@ -1801,7 +1801,6 @@ let g:lsp_settings = {
       \      'analyses': {'fillstruct': v:true},
       \      'codelenses': {'gc_details': v:true, 'test': v:true},
       \    },
-      \    'allowlist': ['go', 'gomod'],
       \  }
       \}
 
