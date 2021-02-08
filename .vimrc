@@ -1799,7 +1799,7 @@ let g:lsp_settings = {
       \      'symbolStyle': 'full',
       \      'gofumpt': v:true,
       \      'analyses': {'fillstruct': v:true},
-      \      'codelens': {'gc_details': v:true, 'test': v:true},
+      \      'codelenses': {'gc_details': v:true, 'test': v:true},
       \    },
       \    'allowlist': ['go', 'gomod'],
       \  }
