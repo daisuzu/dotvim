@@ -1674,6 +1674,42 @@ let g:lsp_settings = {
       \  }
       \}
 
+command! AppendCallTree call s:append_tree(':LspCallHierarchyIncoming')
+command! AppendRefTree call s:append_tree(':LspReferences')
+
+augroup AppendTree
+    autocmd!
+augroup END
+
+function! s:append_tree(cmd) abort
+    autocmd AppendTree BufWinEnter quickfix let s:lsp_done = 1
+
+    copen
+    let l:pos = line('.')
+    let l:parent_tree = getqflist()
+    call setqflist([])
+    let l:level = count(l:parent_tree[l:pos-1].text, '⬅️  ')
+    wincmd p
+
+    let s:lsp_done = 0
+    execute a:cmd
+
+    let l:cnt = 0
+    while !s:lsp_done && l:cnt < 100
+        sleep 10m
+        let l:cnt += 1
+    endwhile
+
+    let l:child = getqflist()
+    if len(l:child) != 0
+        call extend(l:parent_tree, map(l:child, 'extend(v:val, {"text": repeat("⬅️  ", l:level+1) . v:val.text})'), l:pos)
+    endif
+
+    call setqflist(l:parent_tree)
+    execute 'cc ' . string(l:pos + 1)
+
+    autocmd! AppendTree
+endfunction
 "}}}
 "}}}
 
