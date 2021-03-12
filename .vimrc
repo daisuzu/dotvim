@@ -208,9 +208,6 @@ call add(s:plugins.opt, $GITHUB_COM.'tyru/operator-camelize.vim')
 call add(s:plugins.opt, $GITHUB_COM.'tyru/operator-reverse.vim')
 call add(s:plugins.opt, $GITHUB_COM.'emonkak/vim-operator-sort')
 call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-qfreplace')
-call add(s:plugins.opt, $GITHUB_COM.'dannyob/quickfixstatus')
-call add(s:plugins.opt, $GITHUB_COM.'jceb/vim-hier')
-call add(s:plugins.opt, $GITHUB_COM.'fuenor/qfixhowm')
 if !s:Android
     call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-fontzoom')
 endif
@@ -228,9 +225,6 @@ call add(s:plugins.opt, $GITHUB_COM.'kana/vim-altr')
 call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/Unicode-RST-Tables')
 call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-visualstar')
 call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-quickrun')
-call add(s:plugins.opt, $GITHUB_COM.'osyo-manga/vim-watchdogs')
-call add(s:plugins.opt, $GITHUB_COM.'osyo-manga/shabadou.vim')
-call add(s:plugins.opt, $GITHUB_COM.'daisuzu/quickrun-hook-sphinx')
 call add(s:plugins.opt, $GITHUB_COM.'rhysd/vim-grammarous')
 call add(s:plugins.opt, $GITHUB_COM.'Shougo/vimproc.vim')
 if !s:Android
@@ -1321,106 +1315,6 @@ map <Leader>rt <Plug>(operator-reverse-text)
 map <Leader>s <Plug>(operator-sort)
 "}}}
 "---------------------------------------------------------------------------
-" vim-hier:"{{{
-"
-" To highlight with a undercurl in quickfix error
-execute 'highlight qf_error_ucurl gui=undercurl guisp=Red'
-let g:hier_highlight_group_qf = 'qf_error_ucurl'
-
-function! ResetHierAutocmd()
-    try
-        autocmd! Hier
-    catch /E216/
-
-    endtry
-endfunction
-
-augroup MyHier
-    autocmd!
-    autocmd QuickFixCmdPre * call ResetHierAutocmd()
-augroup END
-"}}}
-"---------------------------------------------------------------------------
-" qfixhowm.vim:"{{{
-"
-let QFixHowm_Key = 'g'
-let QFixHowm_KeyB = ','
-
-let howm_dir = $DOTVIM.'/howm'
-let howm_filename = '%Y/%m/%Y-%m-%d-%H%M%S.howm'
-let howm_fileencoding = 'utf-8'
-let howm_fileformat = 'dos'
-"}}}
-"---------------------------------------------------------------------------
-" qfixmemo.vim:"{{{
-"
-let qfixmemo_dir = $DOTVIM.'/qfixmemo'
-let qfixmemo_filename = '%Y/%m/%Y-%m-%d-%H%M%S.txt'
-let qfixmemo_fileencoding = 'cp932'
-let qfixmemo_fileformat = 'dos'
-let qfixmemo_filetype = 'qfix_memo'
-"}}}
-"---------------------------------------------------------------------------
-" qfixmru.vim:"{{{
-"
-let QFixMRU_Filename = $DOTVIM.'/.qfixmru'
-let QFixMRU_IgnoreFile = ''
-let QFixMRU_RegisterFile = ''
-let QFixMRU_IgnoreTitle = ''
-let g:QFixMRU_Entries = 20
-let QFixMRU_EntryMax = 300
-"}}}
-"---------------------------------------------------------------------------
-" qfixgrep.vim:"{{{
-"
-let QFix_PreviewEnable = 0
-let QFix_HighSpeedPreview = 0
-let QFix_DefaultPreview = 0
-let QFix_PreviewExclude = '\.pdf$\|\.mp3$\|\.jpg$\|\.bmp$\|\.png$\|\.zip$\|\.rar$\|\.exe$\|\.dll$\|\.lnk$'
-
-let QFix_CopenCmd = ''
-let QFix_Height = 10
-let QFix_Width = 0
-let QFix_PreviewHeight = 12
-let QFix_WindowHeightMin = 0
-let QFix_PreviewOpenCmd = ''
-let QFix_PreviewWidth = 0
-
-let QFix_HeightFixMode = 0
-
-let QFix_CloseOnJump = 0
-let QFix_Edit = 'tab'
-
-let QFix_PreviewFtypeHighlight = 1
-let QFix_CursorLine = 1
-let QFix_PreviewCursorLine = 1
-"hi CursorLine guifg = NONE guibg = NONE gui = underline
-
-let QFix_Copen_winfixheight = 1
-let QFix_Copen_winfixwidth = 1
-let QFix_Preview_winfixheight = 1
-let QFix_Preview_winfixwidth = 1
-
-let MyGrep_ExcludeReg = '[~#]$\|\.bak$\|\.o$\|\.obj$\|\.exe$\|[/\\]tags$\|[/\\]svn[/\\]\|[/\\]\.git[/\\]\|[/\\]\.hg[/\\]'
-let mygrepprg = 'grep'
-let MyGrep_ShellEncoding = 'cp932'
-let MyGrep_Damemoji = 2
-let MyGrep_DamemojiReplaceReg = '(..)'
-let MyGrep_DamemojiReplace = '[]'
-let MyGrep_yagrep_opt = 0
-
-let MyGrepcmd_useropt = ''
-
-"let MyGrep_Key = 'g'
-"let MyGrep_KeyB = ','
-
-let MyGrep_DefaultSearchWord = 1
-
-let MyGrep_MenuBar = 3
-
-let g:QFixWin_EnableMode = 1
-"}}}
-"---------------------------------------------------------------------------
 " vim-fontzoom:"{{{
 "
 nmap + <Plug>(fontzoom-larger)
@@ -1508,15 +1402,6 @@ let g:quickrun_config['_'] = {
             \     'outputter/buffer/split' : ':botright 8sp',
             \     'runner' : 'job',
             \ }
-let g:quickrun_config['watchdogs_checker/_'] = {
-            \     'hook/close_buffer/enable_exit' : 1,
-            \     'hook/close_buffer/enable_failure' : 1,
-            \     'hook/close_buffer/enable_empty_data' : 1,
-            \     'outputter' : 'multi:buffer:quickfix',
-            \     'hook/inu/enable' : 1,
-            \     'hook/inu/wait' : 20,
-            \     'runner' : 'job',
-            \ }
 
 " settings for lightweight markup language "{{{
 let g:quickrun_config['markdown'] = {
@@ -1569,21 +1454,7 @@ let g:quickrun_config['textile/pandoc/docx'] = {
             \ }
 
 let g:quickrun_config['rst'] = {
-            \     'type': 'rst/sphinx'
-            \ }
-let g:quickrun_config['rst/sphinx'] = {
-            \     'command': 'make',
-            \     'outputter': 'quickfix',
-            \     'hook/sphinx_open/enable' : 1,
-            \     'hook/sphinx_html2pdf/enable' : 1,
-            \     'hook/sphinx_html2pdf/options': [
-            \         '-B 0',
-            \         '-L 0',
-            \         '-R 0',
-            \         '-T 0',
-            \     ],
-            \     'cmdopt': 'html',
-            \     'exec': '%c %o'
+            \     'type': 'rst/pandoc'
             \ }
 let g:quickrun_config['rst/pandoc'] = {
             \ 'input' : '%{expand("%")}',
@@ -1612,10 +1483,6 @@ let g:quickrun_config['diag/blockdiag'] = {
             \     'exec': '%c %s',
             \ }
 "}}}
-
-if s:has_plugin('vim-watchdogs')
-    call watchdogs#setup(g:quickrun_config)
-endif
 "}}}
 "---------------------------------------------------------------------------
 " tree.vim:"{{{
