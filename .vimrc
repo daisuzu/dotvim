@@ -1667,7 +1667,8 @@ let g:lsp_settings = {
       \      'symbolMatcher': 'fuzzy',
       \      'symbolStyle': 'full',
       \      'gofumpt': v:true,
-      \      'analyses': {'fillstruct': v:true},
+      \      'staticcheck': v:false,
+      \      'analyses': {'fillstruct': v:true, 'unusedwrite': v:true},
       \      'codelenses': {'gc_details': v:true, 'test': v:true},
       \    },
       \  }
