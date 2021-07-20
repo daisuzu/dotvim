@@ -1659,7 +1659,6 @@ augroup END
 let g:lsp_settings = {
       \  'gopls': {
       \    'initialization_options': {
-      \      'diagnostics': v:true,
       \      'matcher': 'fuzzy',
       \      'completeUnimported': v:false,
       \      'deepCompletion': v:false,
