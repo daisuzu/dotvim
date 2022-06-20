@@ -697,10 +697,11 @@ augroup MyVimrcCmd
     autocmd ColorScheme * call s:onColorScheme()
 augroup END
 function! s:onColorScheme()
+    " Color name: $VIMRUNTIME/colors/lists/default.vim
     " IME Color "{{{
     if has('multi_byte_ime') || has('xim')
         " Set the color of the cursor when the IME ON
-        highlight CursorIM guibg=Purple guifg=NONE
+        highlight CursorIM guibg=#a020f0 guifg=NONE
         " Default IME settings in search mode and insert mode
         set iminsert=0 imsearch=0
         if has('xim') && has('GUI_GTK')
@@ -710,25 +711,18 @@ function! s:onColorScheme()
 
     if has('multi_byte_ime')
         "    highlight Cursor guifg=NONE guibg=Green
-        highlight CursorIM guifg=NONE guibg=Purple
+        highlight CursorIM guifg=NONE guibg=#a020f0
     endif
     "}}}
     " Additional settings of Color "{{{
     " highlight Cursor      guifg=Black   guibg=Green   gui=bold
-    highlight Search      ctermfg=Black ctermbg=Red   cterm=bold  guifg=Black  guibg=Red  gui=bold
-    " highlight StatusLine  ctermfg=White ctermbg=Blue guifg=blue guibg=white
+    highlight Search      ctermfg=Black ctermbg=Red   cterm=bold  guifg=#000000  guibg=#ff0000  gui=bold
     highlight Visual      cterm=reverse guifg=#404040 gui=bold
     highlight Folded      guifg=blue    guibg=darkgray
-    " highlight Folded      guifg=blue    guibg=cadetblue
-    highlight Identifier  cterm=none ctermfg=14
 
-    highlight TabLine     ctermfg=Black ctermbg=White guifg=Black   guibg=#dcdcdc gui=underline
-    highlight TabLineFill term=none     cterm=none    ctermfg=Black ctermbg=White guifg=Black   guibg=#dcdcdc gui=underline
+    highlight TabLine     ctermfg=Black ctermbg=White guifg=#000000   guibg=#dcdcdc gui=underline
+    highlight TabLineFill term=none     cterm=none    ctermfg=Black ctermbg=White guifg=#000000   guibg=#dcdcdc gui=underline
     highlight TabLineSel  term=bold     cterm=bold    ctermfg=White ctermbg=Blue  guifg=White guibg=Blue gui=bold
-
-    highlight DiffChange              ctermbg=55
-    highlight DiffAdd                 ctermbg=18
-    highlight DiffText    cterm=bold  ctermbg=88
     "}}}
     " For completion menu "{{{
     highlight Pmenu       ctermfg=White ctermbg=DarkBlue  guifg=#0033ff guibg=#99cccc gui=none
@@ -738,16 +732,16 @@ function! s:onColorScheme()
     "}}}
     " For indent-guides "{{{
     let cterm_colors = (&background == 'dark') ? ['darkgray', 'gray'] : ['lightgray', 'white']
-    let gui_colors   = (&background == 'dark') ? ['grey15', 'grey30']  : ['grey70', 'grey85']
+    let gui_colors   = (&background == 'dark') ? ['#262626', '#4d4d4d']  : ['#b3b3b3', '#d9d9d9']
 
     execute 'highlight IndentGuidesEven guibg=' . gui_colors[0] . ' guifg=' . gui_colors[1] . ' ctermbg=' . cterm_colors[0] . ' ctermfg=' . cterm_colors[1]
     execute 'highlight IndentGuidesOdd  guibg=' . gui_colors[1] . ' guifg=' . gui_colors[0] . ' ctermbg=' . cterm_colors[1] . ' ctermfg=' . cterm_colors[0]
     "}}}
 
     " For signify "{{{
-    highlight SignifySignAdd    cterm=bold ctermbg=237  ctermfg=119 guifg=Black guibg=Green
-    highlight SignifySignDelete cterm=bold ctermbg=237  ctermfg=167 guifg=Black guibg=Red
-    highlight SignifySignChange cterm=bold ctermbg=237  ctermfg=227 guifg=Black guibg=Yellow
+    highlight SignifySignAdd    cterm=bold ctermbg=237  ctermfg=119 guifg=#000000 guibg=#00ff00
+    highlight SignifySignDelete cterm=bold ctermbg=237  ctermfg=167 guifg=#000000 guibg=#ff0000
+    highlight SignifySignChange cterm=bold ctermbg=237  ctermfg=227 guifg=#000000 guibg=#ffff00
     "}}}
 endfunction
 call s:onColorScheme()
