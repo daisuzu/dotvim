@@ -1670,6 +1670,8 @@ let g:lsp_settings = {
 
 command! AppendCallTree call s:append_tree(':LspCallHierarchyIncoming')
 command! AppendRefTree call s:append_tree(':LspReferences')
+command! AppendImplTree call s:append_tree(':LspImplementation')
+command! AppendCallTreeR call s:append_tree(':LspCallHierarchyOutgoing')
 
 augroup AppendTree
     autocmd!
