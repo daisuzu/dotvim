@@ -1643,6 +1643,7 @@ function! s:on_lsp_buffer_enabled() abort
     setlocal omnifunc=lsp#complete
     setlocal tagfunc=lsp#tagfunc
     nnoremap <silent> g] :<C-u>execute 'tselect ' . expand('<cword>') <CR>
+    autocmd! BufWritePre *.go call execute('LspDocumentFormatSync') | call execute('LspCodeActionSync source.organizeImports')
 endfunction
 
 augroup lsp_install
