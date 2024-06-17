@@ -262,6 +262,7 @@ call add(s:plugins.opt, $GITHUB_COM.'hail2u/vim-css3-syntax')
 call add(s:plugins.opt, $GITHUB_COM.'fatih/vim-go')
 call add(s:plugins.opt, $GITHUB_COM.'prabirshrestha/vim-lsp')
 call add(s:plugins.opt, $GITHUB_COM.'mattn/vim-lsp-settings')
+call add(s:plugins.opt, $GITHUB_COM.'github/copilot.vim')
 
 function! s:has_plugin(name)
     return globpath(&runtimepath, 'plugin/' . a:name . '.vim') !=# ''
@@ -1624,6 +1625,8 @@ let g:go_def_mapping_enabled = 0
 let g:go_gopls_enabled = 0
 let g:go_code_completion_enabled = 0
 let g:go_fmt_autosave = 0
+" let g:go_fmt_command = "goimports"
+let g:go_fmt_command = "gofmt"
 let g:go_imports_autosave = 0
 
 autocmd MyVimrcCmd FileType go nmap <leader>b <Plug>(go-build)
@@ -1636,12 +1639,15 @@ function! s:go_import_commands()
     command! -buffer -nargs=1 -complete=customlist,go#package#Complete Import GoImport <args>
     command! -buffer -nargs=* -complete=customlist,go#package#Complete ImportAs GoImportAs <args>
 endfunction
+
+command! -nargs=? HiCover let coverfile = empty(<q-args>) ? 'cover.out' : <q-args> | call go#coverage#Overlay(coverfile)
 "}}}
 "---------------------------------------------------------------------------
 " vim-lsp:"{{{
 "
 let g:lsp_fold_enabled = 0
 let g:lsp_diagnostics_echo_cursor = 1
+let g:lsp_diagnostics_virtual_text_enabled = 0
 let g:lsp_tagfunc_source_methods = ['definition']
 
 function! s:on_lsp_buffer_enabled() abort
@@ -1672,6 +1678,8 @@ let g:lsp_settings = {
       \    },
       \  }
       \}
+
+command! OrganizeImports LspCodeActionSync source.organizeImports
 
 command! AppendCallTree call s:append_tree(':LspCallHierarchyIncoming')
 command! AppendRefTree call s:append_tree(':LspReferences')
@@ -1711,6 +1719,14 @@ function! s:append_tree(cmd) abort
 
     autocmd! AppendTree
 endfunction
+
+function! SortCallHierarchy(i1, i2)
+    if a:i1.bufnr == a:i2.bufnr
+        return a:i1.lnum - a:i2.lnum
+    endif
+    return a:i1.bufnr - a:i2.bufnr
+endfunction
+
 "}}}
 "}}}
 
