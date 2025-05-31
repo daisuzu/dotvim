@@ -372,7 +372,16 @@ function! s:load_comment()
         execute 'source ' . filename
         return
     endif
-    " TODO: 読み込めなかった場合のフォールバック
+    " comment.vimが読み込めなかったら手動でロード
+    packadd comment
+    nmap  <silent> ,c  gc
+    nmap  <silent> ,c  gc
+    nmap  <silent> ,cc gcc
+    " 上書きされたマッピングを戻す
+    onoremap ac a}
+    xnoremap ac a}
+    onoremap ic i}
+    xnoremap ic i}
 endfunction
 
 if has('vim_starting') && has('timers')
