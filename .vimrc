@@ -219,7 +219,6 @@ call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/matchparenpp')
 call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/matchit.zip')
 call add(s:plugins.opt, $GITHUB_COM.'tpope/vim-surround')
 call add(s:plugins.opt, $GITHUB_COM.'t9md/vim-textmanip')
-call add(s:plugins.opt, $GITHUB_COM.'tomtom/tcomment_vim')
 call add(s:plugins.opt, $GITHUB_COM.'kana/vim-niceblock')
 call add(s:plugins.opt, $GITHUB_COM.'kana/vim-altr')
 call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/Unicode-RST-Tables')
@@ -353,6 +352,7 @@ function! PackAddHandler(timer)
     let s:pidx += 1
     if s:pidx == len(s:plugins.opt)
         packadd cfilter
+        call s:load_comment()
         " for filetype plugin
         doautocmd FileType
         " fugitive.vim requires do autocmd
@@ -364,6 +364,15 @@ function! PackAddHandler(timer)
         " for vim-indent-guides
         IndentGuidesEnable
     endif
+endfunction
+
+function! s:load_comment()
+    let filename = fnamemodify($MYVIMRC, ':p:h') . '/comment.vim'
+    if filereadable(filename)
+        execute 'source ' . filename
+        return
+    endif
+    " TODO: 読み込めなかった場合のフォールバック
 endfunction
 
 if has('vim_starting') && has('timers')
@@ -1360,12 +1369,6 @@ xmap <M-d> <Plug>(textmanip-duplicate-down)
 nmap <M-d> <Plug>(textmanip-duplicate-down)
 xmap <M-D> <Plug>(textmanip-duplicate-up)
 nmap <M-D> <Plug>(textmanip-duplicate-up)
-"}}}
-"---------------------------------------------------------------------------
-" tcomment_vim:"{{{
-"
-let g:tcomment_opleader1 = ',c'
-let g:tcomment_textobject_inlinecomment = ''
 "}}}
 "---------------------------------------------------------------------------
 " vim-altr:"{{{
