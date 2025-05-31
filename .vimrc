@@ -1127,6 +1127,7 @@ command! -nargs=+ Ginger call s:ginger(<q-args>)
 "}}}
 " Qf2Loc"{{{
 command! Qf2Loc call setloclist(0, getqflist())
+command! Loc2Qf call setqflist(getloclist(0))
 "}}}
 "}}}
 
