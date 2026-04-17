@@ -248,13 +248,8 @@ call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-scall')
 call add(s:plugins.opt, $GITHUB_COM.'mattn/sonictemplate-vim')
 call add(s:plugins.opt, $GITHUB_COM.'LeafCage/vimhelpgenerator')
 call add(s:plugins.opt, $GITHUB_COM.'t9md/vim-choosewin')
-call add(s:plugins.opt, $GITHUB_COM.'alfredodeza/pytest.vim')
-call add(s:plugins.opt, $GITHUB_COM.'klen/python-mode')
-call add(s:plugins.opt, $GITHUB_COM.'davidhalter/jedi-vim')
 call add(s:plugins.opt, $GITHUB_COM.'vim-perl/vim-perl')
-call add(s:plugins.opt, $GITHUB_COM.'c9s/perlomni.vim')
 call add(s:plugins.opt, $GITHUB_COM.'pangloss/vim-javascript')
-call add(s:plugins.opt, $GITHUB_COM.'marijnh/tern_for_vim')
 call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/SQLUtilities')
 call add(s:plugins.opt, $GITHUB_COM.'mattn/emmet-vim')
 call add(s:plugins.opt, $GITHUB_COM.'hail2u/vim-css3-syntax')
@@ -342,6 +337,10 @@ endfunction
 
 let s:pidx = 0
 function! PackAddHandler(timer)
+    if s:pidx == 0
+        autocmd! MyVimrcCmd VimEnter
+    endif
+
     let plugin_name = split(s:plugins.opt[s:pidx], '/')[-1]
 
     let plugin_path = expand($PACKPATH . '/opt/' . plugin_name)
@@ -355,14 +354,7 @@ function! PackAddHandler(timer)
         call s:load_comment()
         " for filetype plugin
         doautocmd FileType
-        " fugitive.vim requires do autocmd
-        doautocmd fugitive BufReadPost
-        " for vim-lsp
-        call lsp#enable()
-        " for vim-signify
-        SignifyEnable
-        " for vim-indent-guides
-        IndentGuidesEnable
+        doautocmd VimEnter
     endif
 endfunction
 
@@ -1590,42 +1582,6 @@ let g:choosewin_overlay_enable = 1
 let g:choosewin_overlay_clear_multibyte = 1
 "}}}
 "---------------------------------------------------------------------------
-" python-mode:"{{{
-"
-let g:pymode_lint_on_fly = 1
-let g:pymode_lint_on_write = 1
-let g:pymode_lint_cwindow = 0
-let g:pymode_lint_message = 1
-let g:pymode_lint_signs = 1
-let g:pydoc = 'python -m pydoc'
-let g:pymode_rope = 0
-let g:pymode_folding = 0
-let g:pymode_run = 0
-let g:pymode_trim_whitespaces = 0
-"}}}
-"---------------------------------------------------------------------------
-" jedi-vim:"{{{
-"
-autocmd MyVimrcCmd FileType python setlocal omnifunc=jedi#completions
-" let g:jedi#popup_on_dot = 0
-let g:jedi#completions_enabled = 0
-let g:jedi#auto_vim_configuration = 0
-let g:jedi#smart_auto_mappings = 0
-let g:jedi#rename_command = '<Leader>jr'
-"}}}
-"---------------------------------------------------------------------------
-" perlomni.vim:"{{{
-"
-if has('vim_starting')
-    let $PATH = $PACKPATH. '/opt/perlomni.vim/bin:' . $PATH
-endif
-"}}}
-"---------------------------------------------------------------------------
-" tern_for_vim:"{{{
-"
-autocmd MyVimrcCmd FileType javascript setlocal omnifunc=tern#Complete
-"}}}
-"---------------------------------------------------------------------------
 " SQLUtilities:"{{{
 "
 let g:sqlutil_align_comma = 1
@@ -1641,6 +1597,7 @@ let g:go_fmt_autosave = 0
 " let g:go_fmt_command = "goimports"
 let g:go_fmt_command = "gofmt"
 let g:go_imports_autosave = 0
+let g:go_template_autocreate = 0
 
 autocmd MyVimrcCmd FileType go nmap <leader>b <Plug>(go-build)
 autocmd MyVimrcCmd FileType go nmap <leader>t <Plug>(go-test)
