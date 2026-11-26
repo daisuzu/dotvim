@@ -8,7 +8,6 @@ augroup MyVimrcCmd
 augroup END
 
 let s:MSWindows = has('win95') + has('win16') + has('win32') + has('win64')
-let s:Android = !s:MSWindows && executable('uname') ? system('uname -m')=~#'armv7l' : 0
 
 if !exists('$DOTVIM')
     if s:MSWindows
@@ -172,91 +171,56 @@ endif
 " Load Plugins:"{{{
 "
 let $PACKPATH = $DOTVIM . '/pack/Bundle'
-if !exists('$GIT_PROTOCOL')
-    let $GIT_PROTOCOL = 'https'
-endif
-if s:Android
-    let $GITHUB_COM = $GIT_PROTOCOL.'://207.97.227.239/'
-else
-    let $GITHUB_COM = $GIT_PROTOCOL.'://github.com/'
-endif
-" let $BITBUCKET_ORG = 'https://bitbucket.org/'
 
 let s:plugins = {'start': [], 'opt': []}
-call add(s:plugins.opt, $GITHUB_COM.'mattn/webapi-vim')
-call add(s:plugins.opt, $GITHUB_COM.'vim-jp/vimdoc-ja')
-call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-ref')
-call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-ft-help_fold')
-call add(s:plugins.opt, $GITHUB_COM.'tpope/vim-fugitive')
-call add(s:plugins.opt, $GITHUB_COM.'gregsexton/gitv')
-call add(s:plugins.opt, $GITHUB_COM.'mhinz/vim-signify')
-call add(s:plugins.opt, $GITHUB_COM.'kana/vim-textobj-user')
-call add(s:plugins.opt, $GITHUB_COM.'kana/vim-textobj-indent')
-call add(s:plugins.opt, $GITHUB_COM.'kana/vim-textobj-syntax')
-call add(s:plugins.opt, $GITHUB_COM.'kana/vim-textobj-line')
-call add(s:plugins.opt, $GITHUB_COM.'kana/vim-textobj-fold')
-call add(s:plugins.opt, $GITHUB_COM.'kana/vim-textobj-entire')
-call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-textobj-between')
-call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-textobj-comment')
-call add(s:plugins.opt, $GITHUB_COM.'h1mesuke/textobj-wiw')
-call add(s:plugins.opt, $GITHUB_COM.'vimtaku/vim-textobj-sigil')
-call add(s:plugins.opt, $GITHUB_COM.'sgur/vim-textobj-parameter')
-call add(s:plugins.opt, $GITHUB_COM.'terryma/vim-expand-region')
-call add(s:plugins.opt, $GITHUB_COM.'kana/vim-operator-user')
-call add(s:plugins.opt, $GITHUB_COM.'kana/vim-operator-replace')
-call add(s:plugins.opt, $GITHUB_COM.'tyru/operator-camelize.vim')
-call add(s:plugins.opt, $GITHUB_COM.'tyru/operator-reverse.vim')
-call add(s:plugins.opt, $GITHUB_COM.'emonkak/vim-operator-sort')
-call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-qfreplace')
-if !s:Android
-    call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-fontzoom')
-endif
-if !s:Android
-    call add(s:plugins.opt, $GITHUB_COM.'nathanaelkane/vim-indent-guides')
-endif
-call add(s:plugins.opt, $GITHUB_COM.'daisuzu/rainbowcyclone.vim')
-call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/matchparenpp')
-call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/matchit.zip')
-call add(s:plugins.opt, $GITHUB_COM.'tpope/vim-surround')
-call add(s:plugins.opt, $GITHUB_COM.'t9md/vim-textmanip')
-call add(s:plugins.opt, $GITHUB_COM.'kana/vim-niceblock')
-call add(s:plugins.opt, $GITHUB_COM.'kana/vim-altr')
-call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/Unicode-RST-Tables')
-call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-visualstar')
-call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-quickrun')
-call add(s:plugins.opt, $GITHUB_COM.'rhysd/vim-grammarous')
-call add(s:plugins.opt, $GITHUB_COM.'Shougo/vimproc.vim')
-if !s:Android
-    call add(s:plugins.opt, $GITHUB_COM.'Shougo/vinarise')
-endif
-if !s:Android
-    call add(s:plugins.opt, $GITHUB_COM.'s-yukikaze/vinarise-plugin-peanalysis')
-endif
-call add(s:plugins.opt, $GITHUB_COM.'daisuzu/tree.vim')
-call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-prettyprint')
-call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-editvar')
-call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-showtime')
-call add(s:plugins.opt, $GITHUB_COM.'tyru/open-browser.vim')
-call add(s:plugins.opt, $GITHUB_COM.'yuratomo/w3m.vim')
-if !s:Android
-    call add(s:plugins.opt, $GITHUB_COM.'sjl/gundo.vim')
-endif
-call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/sudo.vim')
-call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/Align')
-call add(s:plugins.opt, $GITHUB_COM.'h1mesuke/vim-alignta')
-call add(s:plugins.opt, $GITHUB_COM.'thinca/vim-scall')
-call add(s:plugins.opt, $GITHUB_COM.'mattn/sonictemplate-vim')
-call add(s:plugins.opt, $GITHUB_COM.'LeafCage/vimhelpgenerator')
-call add(s:plugins.opt, $GITHUB_COM.'t9md/vim-choosewin')
-call add(s:plugins.opt, $GITHUB_COM.'vim-perl/vim-perl')
-call add(s:plugins.opt, $GITHUB_COM.'pangloss/vim-javascript')
-call add(s:plugins.opt, $GITHUB_COM.'vim-scripts/SQLUtilities')
-call add(s:plugins.opt, $GITHUB_COM.'mattn/emmet-vim')
-call add(s:plugins.opt, $GITHUB_COM.'hail2u/vim-css3-syntax')
-call add(s:plugins.opt, $GITHUB_COM.'fatih/vim-go')
-call add(s:plugins.opt, $GITHUB_COM.'prabirshrestha/vim-lsp')
-call add(s:plugins.opt, $GITHUB_COM.'mattn/vim-lsp-settings')
-call add(s:plugins.opt, $GITHUB_COM.'github/copilot.vim')
+call add(s:plugins.opt, 'https://github.com/vim-jp/vimdoc-ja')
+call add(s:plugins.opt, 'https://github.com/tpope/vim-fugitive')
+call add(s:plugins.opt, 'https://github.com/gregsexton/gitv')
+call add(s:plugins.opt, 'https://github.com/mhinz/vim-signify')
+call add(s:plugins.opt, 'https://github.com/kana/vim-textobj-user')
+call add(s:plugins.opt, 'https://github.com/kana/vim-textobj-indent')
+call add(s:plugins.opt, 'https://github.com/kana/vim-textobj-syntax')
+call add(s:plugins.opt, 'https://github.com/kana/vim-textobj-line')
+call add(s:plugins.opt, 'https://github.com/kana/vim-textobj-fold')
+call add(s:plugins.opt, 'https://github.com/kana/vim-textobj-entire')
+call add(s:plugins.opt, 'https://github.com/thinca/vim-textobj-between')
+call add(s:plugins.opt, 'https://github.com/thinca/vim-textobj-comment')
+call add(s:plugins.opt, 'https://github.com/h1mesuke/textobj-wiw')
+call add(s:plugins.opt, 'https://github.com/vimtaku/vim-textobj-sigil')
+call add(s:plugins.opt, 'https://github.com/sgur/vim-textobj-parameter')
+call add(s:plugins.opt, 'https://github.com/terryma/vim-expand-region')
+call add(s:plugins.opt, 'https://github.com/kana/vim-operator-user')
+call add(s:plugins.opt, 'https://github.com/kana/vim-operator-replace')
+call add(s:plugins.opt, 'https://github.com/tyru/operator-camelize.vim')
+call add(s:plugins.opt, 'https://github.com/tyru/operator-reverse.vim')
+call add(s:plugins.opt, 'https://github.com/emonkak/vim-operator-sort')
+call add(s:plugins.opt, 'https://github.com/thinca/vim-qfreplace')
+call add(s:plugins.opt, 'https://github.com/nathanaelkane/vim-indent-guides')
+call add(s:plugins.opt, 'https://github.com/daisuzu/rainbowcyclone.vim')
+call add(s:plugins.opt, 'https://github.com/vim-scripts/matchparenpp')
+call add(s:plugins.opt, 'https://github.com/tpope/vim-surround')
+call add(s:plugins.opt, 'https://github.com/t9md/vim-textmanip')
+call add(s:plugins.opt, 'https://github.com/kana/vim-niceblock')
+call add(s:plugins.opt, 'https://github.com/kana/vim-altr')
+call add(s:plugins.opt, 'https://github.com/vim-scripts/Unicode-RST-Tables')
+call add(s:plugins.opt, 'https://github.com/thinca/vim-visualstar')
+call add(s:plugins.opt, 'https://github.com/thinca/vim-quickrun')
+call add(s:plugins.opt, 'https://github.com/Shougo/vinarise')
+call add(s:plugins.opt, 'https://github.com/s-yukikaze/vinarise-plugin-peanalysis')
+call add(s:plugins.opt, 'https://github.com/daisuzu/tree.vim')
+call add(s:plugins.opt, 'https://github.com/thinca/vim-prettyprint')
+call add(s:plugins.opt, 'https://github.com/thinca/vim-editvar')
+call add(s:plugins.opt, 'https://github.com/thinca/vim-showtime')
+call add(s:plugins.opt, 'https://github.com/tyru/open-browser.vim')
+call add(s:plugins.opt, 'https://github.com/vim-scripts/Align')
+call add(s:plugins.opt, 'https://github.com/h1mesuke/vim-alignta')
+call add(s:plugins.opt, 'https://github.com/thinca/vim-scall')
+call add(s:plugins.opt, 'https://github.com/mattn/sonictemplate-vim')
+call add(s:plugins.opt, 'https://github.com/t9md/vim-choosewin')
+call add(s:plugins.opt, 'https://github.com/fatih/vim-go')
+call add(s:plugins.opt, 'https://github.com/prabirshrestha/vim-lsp')
+call add(s:plugins.opt, 'https://github.com/mattn/vim-lsp-settings')
+call add(s:plugins.opt, 'https://github.com/github/copilot.vim')
 
 function! s:has_plugin(name)
     return globpath(&runtimepath, 'plugin/' . a:name . '.vim') !=# ''
@@ -318,6 +282,7 @@ function! UpdatePackPlugins()
     setlocal buftype=nofile
 
     let s:pidx = 0
+    let s:update_done = 0
     call timer_start(100, 'PluginUpdateHandler', {'repeat': len(s:plugins.opt)})
 endfunction
 
@@ -326,12 +291,20 @@ function! PluginUpdateHandler(timer)
     let url = s:plugins.opt[s:pidx]
     let dst = expand(dir . '/' . split(url, '/')[-1])
 
-    let cmd = printf('git -C %s pull --ff --ff-only', dst)
-    call job_start(cmd, {'out_io': 'buffer', 'out_name': '[update plugins]'})
+    let cmd = printf('git -C %s pull --ff-only', dst)
+    call job_start(cmd, {
+                \ 'out_io': 'buffer', 'out_name': '[update plugins]',
+                \ 'exit_cb': function('s:on_update_exit'),
+                \ })
 
     let s:pidx += 1
-    if s:pidx == len(s:plugins.opt)
+endfunction
+
+function! s:on_update_exit(job, status) abort
+    let s:update_done += 1
+    if s:update_done == len(s:plugins.opt)
         call UpdateHelpTags()
+        echomsg 'UpdatePackPlugins: done'
     endif
 endfunction
 
@@ -351,6 +324,7 @@ function! PackAddHandler(timer)
     let s:pidx += 1
     if s:pidx == len(s:plugins.opt)
         packadd cfilter
+        packadd matchit
         call s:load_comment()
         " for filetype plugin
         doautocmd FileType
@@ -364,12 +338,12 @@ function! s:load_comment()
         execute 'source ' . filename
         return
     endif
-    " comment.vimが読み込めなかったら手動でロード
+    " fall back to loading the comment package if comment.vim is not readable
     packadd comment
     nmap  <silent> ,c  gc
-    nmap  <silent> ,c  gc
+    xmap  <silent> ,c  gc
     nmap  <silent> ,cc gcc
-    " 上書きされたマッピングを戻す
+    " restore text object mappings overridden by the comment package
     onoremap ac a}
     xnoremap ac a}
     onoremap ic i}
@@ -406,6 +380,8 @@ set shiftwidth=4
 set smarttab
 set expandtab
 set backspace=indent,eol,start
+set ttimeout
+set ttimeoutlen=50
 set whichwrap=b,s,<,>,[,]
 set wildmenu
 set virtualedit+=block
@@ -418,15 +394,14 @@ set completeopt=menuone,longest
 " settings for Japanese folding
 set formatoptions+=mM
 " don't continue the comment line automatically
-set formatoptions-=ro
-autocmd MyVimrcCmd FileType * setlocal formatoptions-=ro
+set formatoptions-=r formatoptions-=o
+autocmd MyVimrcCmd FileType * setlocal formatoptions-=r formatoptions-=o
 " settings for Japanese formatting
 let format_allow_over_tw = 1
 set nrformats=alpha,hex
 " tags "{{{
 set tags=./tags
 set tags+=tags;
-set tags+=./**/tags
 "}}}
 " grep "{{{
 command! UseGitgrep set grepprg=git\ grep\ -n\ --no-color
@@ -483,7 +458,7 @@ set cmdheight=2
 set showcmd
 set title
 set showtabline=2
-set display=uhex
+set display=truncate,uhex
 set previewheight=12
 set winwidth=20
 
@@ -519,8 +494,6 @@ if has('gui_running')
     " Window height
     set lines=40
 endif
-" Command-line height
-set cmdheight=2
 
 " Tabline settings "{{{
 function! s:is_modified(n) "{{{
@@ -577,7 +550,8 @@ if has('syntax')
     call ActivateInvisibleIndicator()
     augroup invisible
         autocmd! invisible
-        autocmd BufNew,BufRead * call ActivateInvisibleIndicator()
+        autocmd BufNew,BufRead,Syntax * call ActivateInvisibleIndicator()
+        autocmd ColorScheme * call ActivateInvisibleIndicator()
     augroup END
 endif
 "}}}
@@ -818,7 +792,7 @@ command! -bar -nargs=1 -complete=dir Files <mods> ModsNew Files:<args> | ToScrat
 
 command! FilesBuffer <mods> Files %:p:h
 command! FilesCurrent <mods> Files .
-command! MRU <mods> ModsNew MRU | ToScratchForFiles | call setline(1, filter(v:oldfiles, 'filereadable(expand(v:val))'))
+command! MRU <mods> ModsNew MRU | ToScratchForFiles | call setline(1, filter(copy(v:oldfiles), 'filereadable(expand(v:val))'))
 
 " list results of given ex-cmd(e.g. :buffers, :scriptnames)
 command! -nargs=1 -complete=command L <mods> ModsNew <args> | ToScratchForFiles | call setline(1, split(execute(<q-args>), '\n'))
@@ -1108,36 +1082,12 @@ command! -bang -bar -complete=file -nargs=? EncodeJis  EncodeIso2022jp<bang> <ar
 command! -bang -bar -complete=file -nargs=? EncodeSjis  EncodeCp932<bang> <args>
 command! -bang -bar -complete=file -nargs=? EncodeUnicode EncodeUtf16<bang> <args>
 "}}}
-" ginger "{{{
-let s:endpoint = 'http://services.gingersoftware.com/Ginger/correct/json/GingerTheText'
-let s:apikey = '6ae0c3a0-afdc-4532-a810-82ded0054236'
-function! s:ginger(text)
-    let res = webapi#json#decode(webapi#http#get(s:endpoint, {
-                \ 'lang': 'US',
-                \ 'clientVersion': '2.0',
-                \ 'apiKey': s:apikey,
-                \ 'text': a:text}).content)
-    let i = 0
-    for rs in res['LightGingerTheTextResult']
-        let [from, to] = [rs['From'], rs['To']]
-        if i < from
-            echon a:text[i : from-1]
-        endif
-        echohl ErrorMsg
-        echon a:text[from : to]
-        echohl None
-        let i = to + 1
-    endfor
-    if i < len(a:text)
-        echon a:text[i :]
-    endif
-endfunction
-
-command! -nargs=+ Ginger call s:ginger(<q-args>)
-"}}}
 " Qf2Loc"{{{
 command! Qf2Loc call setloclist(0, getqflist())
 command! Loc2Qf call setqflist(getloclist(0))
+"}}}
+" SudoWrite"{{{
+command! SudoWrite execute 'write !sudo tee ' . shellescape(expand('%:p'), 1) . ' > /dev/null' | edit!
 "}}}
 "}}}
 
@@ -1152,58 +1102,14 @@ let g:html_dynamic_folds = 1
 "let g:html_hover_unfold = 1
 "}}}
 "---------------------------------------------------------------------------
-" vim-ref:"{{{
-"
-autocmd MyVimrcCmd FileType vim,help setlocal keywordprg=:help
-
-let g:ref_cache_dir = $DOTVIM.'/.vim_ref_cache'
-
-" Python
-let g:ref_pydoc_cmd = 'python -m pydoc'
-
-" webdict
-let g:ref_source_webdict_sites = {
-            \     'wikipedia:ja': {
-            \         'url': 'http://ja.wikipedia.org/wiki/%s',
-            \         'keyword_encoding': 'utf-8',
-            \         'cache': '0',
-            \     },
-            \     'wikipedia:en': {
-            \         'url': 'http://en.wikipedia.org/wiki/%s',
-            \         'keyword_encoding': 'utf-8',
-            \         'cache': '0',
-            \     },
-            \     'wiktionary': {
-            \         'url': 'http://ja.wiktionary.org/wiki/%s',
-            \         'keyword_encoding': 'utf-8',
-            \         'cache': '0',
-            \     },
-            \     'alc': {
-            \         'url': 'http://eow.alc.co.jp/%s',
-            \         'keyword_encoding': 'utf-8',
-            \         'cache': '0',
-            \     },
-            \ }
-
-function! g:ref_source_webdict_sites.wiktionary.filter(output)
-    return join(split(a:output, "\n")[18:], "\n")
-endfunction
-
-function! g:ref_source_webdict_sites.alc.filter(output)
-    return join(split(a:output, "\n")[38:], "\n")
-endfunction
-
-let g:ref_source_webdict_sites.default = 'alc'
-"}}}
-"---------------------------------------------------------------------------
 " vim-fugitive:"{{{
 "
-nnoremap <Space>gd :<C-u>Gdiff<CR>
-nnoremap <Space>gs :<C-u>Gstatus<CR>
+nnoremap <Space>gd :<C-u>Gdiffsplit<CR>
+nnoremap <Space>gs :<C-u>Git<CR>
 nnoremap <Space>ga :<C-u>Gwrite<CR>
-nnoremap <Space>gc :<C-u>Gcommit<CR>
-nnoremap <Space>gC :<C-u>Git commit --amend<CR>
-nnoremap <Space>gb :<C-u>Gblame<CR>
+nnoremap <Space>gc :<C-u>Git commit -v<CR>
+nnoremap <Space>gC :<C-u>Git commit --amend -v<CR>
+nnoremap <Space>gb :<C-u>Git blame<CR>
 nnoremap <Space>gv :<C-u>Gitv<CR>
 nnoremap <Space>gV :<C-u>Gitv!<CR>
 
@@ -1253,8 +1159,8 @@ let g:vim_textobj_parameter_mapping = 'a'
 "---------------------------------------------------------------------------
 " expand-region:"{{{
 "
-vmap + <Plug>(expand_region_expand)
-vmap - <Plug>(expand_region_shrink)
+xmap + <Plug>(expand_region_expand)
+xmap - <Plug>(expand_region_shrink)
 "}}}
 "---------------------------------------------------------------------------
 " operator-user:"{{{
@@ -1303,8 +1209,10 @@ endif
 "---------------------------------------------------------------------------
 " operator-replace:"{{{
 "
-map  _ <Plug>(operator-replace)
-vmap p <Plug>(operator-replace)
+nmap _ <Plug>(operator-replace)
+xmap _ <Plug>(operator-replace)
+omap _ <Plug>(operator-replace)
+xmap p <Plug>(operator-replace)
 "}}}
 "---------------------------------------------------------------------------
 " operator-camelize:"{{{
@@ -1324,12 +1232,6 @@ map <Leader>rt <Plug>(operator-reverse-text)
 map <Leader>s <Plug>(operator-sort)
 "}}}
 "---------------------------------------------------------------------------
-" vim-fontzoom:"{{{
-"
-nmap + <Plug>(fontzoom-larger)
-nmap - <Plug>(fontzoom-smaller)
-"}}}
-"---------------------------------------------------------------------------
 " vim-indent-guides:"{{{
 "
 " let g:indent_guides_indent_levels = 30
@@ -1339,12 +1241,6 @@ let g:indent_guides_guide_size = 1
 let g:indent_guides_start_level = 2
 " let g:indent_guides_space_guides = 0
 let g:indent_guides_enable_on_vim_startup = 1
-
-try
-    IndentGuidesEnable
-catch /E492/
-
-endtry
 "}}}
 "---------------------------------------------------------------------------
 " rainbowcyclone.vim:"{{{
@@ -1568,11 +1464,10 @@ let g:scall_function_name = 'S'
 " sonictemplate-vim:"{{{
 "
 let g:sonictemplate_vim_template_dir = expand($DOTVIM . '/.template')
-"}}}
-"---------------------------------------------------------------------------
-" vimhelpgenerator:"{{{
-"
-let g:vimhelpgenerator_defaultlanguage = 'en'
+" use only :Template command (don't define <C-y> mappings)
+let g:sonictemplate_key = ''
+let g:sonictemplate_intelligent_key = ''
+let g:sonictemplate_postfix_key = ''
 "}}}
 "---------------------------------------------------------------------------
 " vim-choosewin:"{{{
@@ -1580,11 +1475,6 @@ let g:vimhelpgenerator_defaultlanguage = 'en'
 nmap <Leader>- <Plug>(choosewin)
 let g:choosewin_overlay_enable = 1
 let g:choosewin_overlay_clear_multibyte = 1
-"}}}
-"---------------------------------------------------------------------------
-" SQLUtilities:"{{{
-"
-let g:sqlutil_align_comma = 1
 "}}}
 "---------------------------------------------------------------------------
 " vim-go:"{{{
@@ -1599,8 +1489,6 @@ let g:go_fmt_command = "gofmt"
 let g:go_imports_autosave = 0
 let g:go_template_autocreate = 0
 
-autocmd MyVimrcCmd FileType go nmap <leader>b <Plug>(go-build)
-autocmd MyVimrcCmd FileType go nmap <leader>t <Plug>(go-test)
 autocmd MyVimrcCmd FileType go call s:go_import_commands()
 
 " same as vim-go-extra
@@ -1623,8 +1511,14 @@ let g:lsp_tagfunc_source_methods = ['definition']
 function! s:on_lsp_buffer_enabled() abort
     setlocal omnifunc=lsp#complete
     setlocal tagfunc=lsp#tagfunc
-    nnoremap <silent> g] :<C-u>execute 'tselect ' . expand('<cword>') <CR>
-    autocmd! BufWritePre *.go call execute('LspDocumentFormatSync') | call execute('LspCodeActionSync source.organizeImports')
+    nnoremap <buffer> <silent> g] :<C-u>execute 'tselect ' . expand('<cword>') <CR>
+    if index(['go', 'proto'], &filetype) >= 0
+        augroup lsp_format_on_save
+            autocmd! * <buffer>
+            autocmd BufWritePre <buffer> LspDocumentFormatSync
+            autocmd BufWritePre <buffer> LspCodeActionSync source.organizeImports
+        augroup END
+    endif
 endfunction
 
 augroup lsp_install

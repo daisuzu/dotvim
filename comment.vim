@@ -1,6 +1,6 @@
 vim9script
 
-# comment.vimのautoloadだけ使う
+# use only the autoload part of the comment package
 set runtimepath+=$VIMRUNTIME/pack/dist/opt/comment
 import autoload 'comment.vim'
 nnoremap <silent> <expr> ,c comment.Toggle()

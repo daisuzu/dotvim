@@ -5,16 +5,13 @@ You can setup the environment in the following steps.
 Preparation
 -----------
 1. Install `Git`
-2. Install `GCC` or `Microsoft Visual C++`
 
 Setup
 -----
 1. clone this repository from https://github.com/daisuzu/dotvim
 2. copy `.vimrc` to `$HOME/.vim` or `$VIM`
 3. run `vim -c "call InstallPackPlugins() | qall!"`
-4. cd to path to `vimproc`
-5. run `make -f make_YOUR-ARCHITECTURE.mak`
-6. install following softwares as necessary
+4. install following softwares as necessary
 
 Useful Softwares
 ----------------
