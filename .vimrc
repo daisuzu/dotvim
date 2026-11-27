@@ -77,7 +77,6 @@ let $PACKPATH = $DOTVIM . '/pack/Bundle'
 let s:plugins = {'start': [], 'opt': []}
 call add(s:plugins.opt, 'https://github.com/vim-jp/vimdoc-ja')
 call add(s:plugins.opt, 'https://github.com/tpope/vim-fugitive')
-call add(s:plugins.opt, 'https://github.com/gregsexton/gitv')
 call add(s:plugins.opt, 'https://github.com/mhinz/vim-signify')
 call add(s:plugins.opt, 'https://github.com/kana/vim-textobj-user')
 call add(s:plugins.opt, 'https://github.com/kana/vim-textobj-indent')
@@ -114,12 +113,9 @@ call add(s:plugins.opt, 'https://github.com/thinca/vim-prettyprint')
 call add(s:plugins.opt, 'https://github.com/thinca/vim-editvar')
 call add(s:plugins.opt, 'https://github.com/thinca/vim-showtime')
 call add(s:plugins.opt, 'https://github.com/tyru/open-browser.vim')
-call add(s:plugins.opt, 'https://github.com/vim-scripts/Align')
-call add(s:plugins.opt, 'https://github.com/h1mesuke/vim-alignta')
 call add(s:plugins.opt, 'https://github.com/thinca/vim-scall')
 call add(s:plugins.opt, 'https://github.com/mattn/sonictemplate-vim')
 call add(s:plugins.opt, 'https://github.com/t9md/vim-choosewin')
-call add(s:plugins.opt, 'https://github.com/fatih/vim-go')
 call add(s:plugins.opt, 'https://github.com/prabirshrestha/vim-lsp')
 call add(s:plugins.opt, 'https://github.com/mattn/vim-lsp-settings')
 call add(s:plugins.opt, 'https://github.com/github/copilot.vim')
@@ -991,6 +987,198 @@ command! Loc2Qf call setqflist(getloclist(0))
 " SudoWrite"{{{
 command! SudoWrite execute 'write !sudo tee ' . shellescape(expand('%:p'), 1) . ' > /dev/null' | edit!
 "}}}
+" Align"{{{
+" :[range]Align[!] [{pattern} ...]
+function! s:align(line1, line2, first, ...) abort
+    let pat = a:0 ? '\%(' . join(a:000, '\|') . '\)' : '\s\+'
+    let rows = []
+    for [i, line] in items(getline(a:line1, a:line2))
+        let str = trim(line)
+        let seps = matchstrlist([str], pat)->filter({_, m -> m.text !=# ''})
+        if empty(seps)
+            continue
+        endif
+        let fields = []
+        let start = 0
+        for m in a:first ? seps[:0] : seps
+            let fields += [str->strpart(start, m.byteidx - start)->trim(), trim(m.text)]
+            let start = m.byteidx + strlen(m.text)
+        endfor
+        call add(rows, [a:line1 + i, fields->add(str->strpart(start)->trim())])
+    endfor
+    if empty(rows)
+        return
+    endif
+    " use the indent of the first aligned line for all lines
+    let indent = getline(rows[0][0])->matchstr('^\s*')
+    let widths = repeat([0], rows->mapnew({_, r -> len(r[1])})->max())
+    for [lnum, fields] in rows
+        for [c, f] in items(fields)
+            let widths[c] = max([widths[c], strdisplaywidth(f)])
+        endfor
+    endfor
+    " skip columns that are empty in every line (e.g. whitespace separators)
+    let cols = range(len(widths))->filter({_, c -> widths[c] > 0})
+    for [lnum, fields] in rows
+        let cells = cols->mapnew({_, c -> printf('%-*S', widths[c], get(fields, c, ''))})
+        call setline(lnum, trim(indent . join(cells), '', 2))
+    endfor
+endfunction
+command! -range -bang -nargs=* Align call s:align(<line1>, <line2>, <bang>0, <f-args>)
+"}}}
+" GitLog"{{{
+" :GitLog[!] [{git-log-args}]
+function! s:git_log(file, args) abort
+    let top = systemlist('git -C ' . shellescape(expand('%:p:h')) . ' rev-parse --show-toplevel')
+    if v:shell_error
+        echohl ErrorMsg | echomsg 'GitLog: ' . join(top) | echohl None
+        return
+    endif
+    let show = {'dir': top[0], 'path': a:file ? expand('%:p') : '', 'paths': {}, 'buf': -1, 'hash': ''}
+    let git = ['git', '-C', show.dir, '-c', 'core.quotePath=false']
+    let follow = empty(show.path) ? [] : ['--follow', '--', show.path]
+    " colored only to tell the refs from a subject starting with (
+    let raw = systemlist(join(map(git + ['lg', '--color=always'] + a:args + follow, 'shellescape(v:val)')))
+    if v:shell_error
+        echohl ErrorMsg | echomsg 'GitLog: ' . join(raw) | echohl None
+        return
+    endif
+    if !empty(show.path)
+        " the paths of the file in each commit, to show the diff before a rename
+        let hash = ''
+        for line in systemlist(join(map(git + ['log'] + a:args + ['--format=%x09%h', '--name-status'] + follow, 'shellescape(v:val)')))
+            if line =~# '^\t'
+                let hash = line[1 :]
+            elseif line =~# '\t'
+                let show.paths[hash] = split(line, '\t')[1 :]
+            endif
+        endfor
+    endif
+    let lines = map(copy(raw), {_, l -> substitute(l, '\e\[[0-9;]*m', '', 'g')})
+    tabnew
+    setlocal buftype=nofile bufhidden=wipe noswapfile nowrap
+    call setline(1, lines)
+    " highlight the format of `git lg`
+    syntax match gitLogHash /^[*|\/\\_ .-]*\zs\x\{7,}/ nextgroup=gitLogDate skipwhite
+    syntax match gitLogDate /\[[^]]*\]/ contained
+    syntax match gitLogRelDate /(\%(\d\+ \a\+,\? \)\+ago)\ze <[^>]*>$/
+    syntax match gitLogAuthor /<[^>]*>$/
+    highlight default link gitLogHash Identifier
+    highlight default link gitLogDate Constant
+    highlight default link gitLogRefs Special
+    highlight default link gitLogRelDate Comment
+    highlight default link gitLogAuthor Type
+    " the refs are colored inside the parens, a subject is not
+    call prop_type_add('gitLogRefs', {'bufnr': bufnr(), 'highlight': 'gitLogRefs'})
+    for [i, l] in items(raw)
+        let p = match(l, '(\e\[')
+        if p >= 0
+            let col = strlen(substitute(l[: p], '\e\[[0-9;]*m', '', 'g'))
+            let end = matchend(lines[i], '([^)]*)', col - 1)
+            call prop_add(i + 1, col, {'type': 'gitLogRefs', 'length': end - col + 1})
+        endif
+    endfor
+    let b:git_log = show
+    nnoremap <buffer> <silent> <CR> :<C-u>call <SID>git_log_show()<CR>
+    nnoremap <buffer> <silent> q :<C-u>tabclose<CR>
+    call s:git_log_show()
+endfunction
+
+function! s:git_log_show() abort
+    let show = b:git_log
+    let hash = getline('.')->matchstr('^[*|/\\_ .-]*\zs\x\{7,}')
+    if empty(hash) || hash ==# show.hash && bufwinid(show.buf) >= 0
+        return
+    endif
+    if bufwinid(show.buf) < 0
+        " (re)open the diff window, e.g. after it was closed or replaced by gf
+        execute winnr('l') != winnr() ? 'wincmd l | enew' : 'rightbelow vnew'
+        setlocal buftype=nofile bufhidden=wipe noswapfile syntax=git
+        " fold each file by text, not by syntax (git.vim syncs only 50 lines back)
+        setlocal foldmethod=expr foldtext=s:git_log_foldtext()
+        let &l:foldexpr = "getline(v:lnum) =~# '^diff ' ? '>1' : '='"
+        " gf on a/{file} or b/{file} opens {file} in the work tree
+        let &l:includeexpr = "substitute(v:fname, '^[ab]/', '', '')"
+        let &l:path = escape(show.dir, ' ,')
+        let show.buf = bufnr()
+        wincmd p
+    endif
+    let show.hash = hash
+    let paths = empty(show.path) ? [] : ['--'] + get(show.paths, hash, [show.path])
+    let cmd = ['git', '-C', show.dir, '-c', 'core.quotePath=false', 'show', '--no-color', hash] + paths
+    call deletebufline(show.buf, 1, '$')
+    call setbufline(show.buf, 1, systemlist(join(map(cmd, 'shellescape(v:val)'))))
+    call win_execute(bufwinid(show.buf), 'normal! gg')
+endfunction
+function! s:git_log_foldtext() abort
+    let lines = getline(v:foldstart, v:foldend)
+    let file = lines[0]->matchstr(' b/\zs.*$')
+    if match(lines, '^Binary files ') >= 0
+        return 'Binary: ' . file
+    endif
+    " count only after the first hunk header to skip the ---/+++ lines
+    let start = match(lines, '^@@')
+    let body = start < 0 ? [] : lines[start :]
+    let add = len(filter(copy(body), 'v:val =~# "^+"'))
+    let del = len(filter(copy(body), 'v:val =~# "^-"'))
+    return printf('+-- %3d+ %3d- %s', add, del, file)
+endfunction
+command! -bang -nargs=* GitLog call s:git_log(<bang>0, [<f-args>])
+"}}}
+" GoHiCover"{{{
+function! s:go_hi_cover(profile) abort
+    let profile = empty(a:profile) ? 'cover.out' : a:profile
+    let gomod = findfile('go.mod', expand('%:p:h') . ';')
+    if !filereadable(profile) || empty(gomod)
+        echohl ErrorMsg | echomsg 'GoHiCover: ' . profile . ' or go.mod not found' | echohl None
+        return
+    endif
+    let module = readfile(gomod)->filter({_, l -> l =~# '^module\s'})->get(0, '')->matchstr('^module\s\+\zs\S\+')
+    " the current file as written in the profile: {module}/{path from go.mod}
+    let target = module . '/' . expand('%:p')[len(fnamemodify(gomod, ':p:h')) + 1 :]
+    " a block can appear more than once (e.g. -coverpkg), so keep the max count
+    let blocks = {}
+    for line in readfile(profile)[1:]
+        " {file}:{startline}.{startcol},{endline}.{endcol} {numstmt} {count}
+        let m = matchlist(line, '^\(.\+\):\(\d\+\.\d\+,\d\+\.\d\+\) \d\+ \(\d\+\)$')
+        if !empty(m) && m[1] ==# target
+            let blocks[m[2]] = max([get(blocks, m[2], 0), str2nr(m[3])])
+        endif
+    endfor
+    let pos = {'goCoverageCovered': [], 'goCoverageUncover': []}
+    for [block, cnt] in items(blocks)
+        let [sl, sc, el, ec] = split(block, '[.,]')->map('str2nr(v:val)')
+        let p = pos[cnt > 0 ? 'goCoverageCovered' : 'goCoverageUncover']
+        if sl == el
+            call add(p, [sl, sc, ec - sc])
+            continue
+        endif
+        call extend(p, [[sl, sc, strlen(getline(sl)) - sc + 1]] + range(sl + 1, el - 1))
+        if ec > 1
+            call add(p, [el, 1, ec - 1])
+        endif
+    endfor
+    call s:go_hi_cover_clear()
+    highlight default link goCoverageNormalText Comment
+    highlight default goCoverageCovered ctermfg=green guifg=#A6E22E
+    highlight default goCoverageUncover ctermfg=red guifg=#F92672
+    let w:go_hi_cover = [matchadd('goCoverageNormalText', '.\+', 1)]
+    for [group, p] in items(pos)->filter({_, v -> !empty(v[1])})
+        call add(w:go_hi_cover, matchaddpos(group, p, 2))
+    endfor
+    autocmd! MyVimrcCmd BufWinLeave <buffer>
+    autocmd MyVimrcCmd BufWinLeave <buffer> ++once call s:go_hi_cover_clear()
+endfunction
+
+function! s:go_hi_cover_clear() abort
+    for id in get(w:, 'go_hi_cover', [])
+        silent! call matchdelete(id)
+    endfor
+    let w:go_hi_cover = []
+endfunction
+command! -nargs=? -complete=file GoHiCover call s:go_hi_cover(<q-args>)
+command! -bar GoHiCoverClear call s:go_hi_cover_clear()
+"}}}
 "}}}
 
 "---------------------------------------------------------------------------
@@ -1012,8 +1200,8 @@ nnoremap <Space>ga :<C-u>Gwrite<CR>
 nnoremap <Space>gc :<C-u>Git commit -v<CR>
 nnoremap <Space>gC :<C-u>Git commit --amend -v<CR>
 nnoremap <Space>gb :<C-u>Git blame<CR>
-nnoremap <Space>gv :<C-u>Gitv<CR>
-nnoremap <Space>gV :<C-u>Gitv!<CR>
+nnoremap <Space>gv :<C-u>GitLog<CR>
+nnoremap <Space>gV :<C-u>GitLog!<CR>
 
 if s:MSWindows
     autocmd MyVimrcCmd FileType gitcommit setlocal encoding=utf-8
@@ -1377,30 +1565,6 @@ let g:sonictemplate_postfix_key = ''
 nmap <Leader>- <Plug>(choosewin)
 let g:choosewin_overlay_enable = 1
 let g:choosewin_overlay_clear_multibyte = 1
-"}}}
-"---------------------------------------------------------------------------
-" vim-go:"{{{
-"
-let g:go_textobj_enabled = 0
-let g:go_def_mapping_enabled = 0
-let g:go_gopls_enabled = 0
-let g:go_code_completion_enabled = 0
-let g:go_fmt_autosave = 0
-" let g:go_fmt_command = "goimports"
-let g:go_fmt_command = "gofmt"
-let g:go_imports_autosave = 0
-let g:go_template_autocreate = 0
-
-autocmd MyVimrcCmd FileType go call s:go_import_commands()
-
-" same as vim-go-extra
-function! s:go_import_commands()
-    command! -buffer -nargs=? -complete=customlist,go#package#Complete Drop GoDrop <args>
-    command! -buffer -nargs=1 -complete=customlist,go#package#Complete Import GoImport <args>
-    command! -buffer -nargs=* -complete=customlist,go#package#Complete ImportAs GoImportAs <args>
-endfunction
-
-command! -nargs=? HiCover let coverfile = empty(<q-args>) ? 'cover.out' : <q-args> | call go#coverage#Overlay(coverfile)
 "}}}
 "---------------------------------------------------------------------------
 " vim-lsp:"{{{
